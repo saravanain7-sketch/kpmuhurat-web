@@ -14,3 +14,6 @@ Then open the Pages URL shown by GitHub.
 Use Chrome on Android to open the published HTTPS URL. From Chrome's menu choose **Add to Home screen** or **Install app** if offered.
 
 This is a static browser reconstruction. It is not the original Windows executable/source code, and exact calculation equivalence still requires regression validation against KPMuhurat V1.5.11.
+
+## 0.7.1 fix
+Event rules are embedded in index.html, so the event dropdown does not depend on a separate JSON fetch.
