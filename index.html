@@ -1,0 +1,77 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
+<title>KPMuhurat Web 0.7</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
+header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
+nav{display:flex;overflow:auto;background:#f2f8fb;border-bottom:1px solid #9bb9c7;position:sticky;top:44px;z-index:3}
+nav button{border:0;background:transparent;padding:10px 14px;white-space:nowrap}nav button.active{background:#d7effb;border-bottom:2px solid #1976a8;font-weight:bold}
+main{max-width:1200px;margin:auto;padding:10px}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #9ebdcc;border-radius:4px;padding:12px;margin-bottom:10px}.blue{background:#8bcceb}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 80px;gap:8px}
+label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,textarea{width:100%;padding:9px;border:1px solid #8daab6;border-radius:3px;background:#fff;font-size:14px}
+.btn{padding:9px 18px;border:1px solid #8caab6;border-radius:3px;background:#fff;font-weight:bold;margin:6px 4px 2px 0}
+.titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}
+@media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
+</style></head><body>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7</small></header>
+<nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
+<main>
+<section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
+<div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
+<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
+<label>Place<input id="place" value="Tirupati; Andhra Pradesh; India"></label>
+<div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
+<div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
+<div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
+<label>Event<select id="event"><option>Loading extracted events…</option></select></label>
+<button class="btn" id="show">Show</button><button class="btn" id="install" hidden>Install app</button>
+<div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
+
+<section id="analysis"><div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
+<div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
+<div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
+
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
+<div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
+
+<section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
+<section id="place"><div class="panel"><h3>PlaceSelect</h3><input placeholder="Search place"><p class="muted">The extracted place database is included in the package. Static browser mode uses the place text entered on Data.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.t).classList.add('active')});
+let EVENTS=[];
+fetch('event_rules.json').then(r=>r.json()).then(x=>{EVENTS=x;$('event').innerHTML=x.map((e,i)=>`<option value="${i}">${e.name}</option>`).join('');let i=x.findIndex(e=>e.name.includes('Speculative gain in Stock Market'));if(i>=0)$('event').selectedIndex=i}).catch(()=>{});
+const signs=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'],lords=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'],stars=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'],vim={Ke:7,Ve:20,Su:6,Mo:10,Ma:7,Ra:18,Ju:16,Sa:19,Me:17};
+function dms(s){let a=String(s).split(':').map(Number);return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
+function norm(x){x%=360;return x<0?x+360:x}
+function jd(y,m,d,h){if(m<3){y--;m+=12}let A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5+h/24}
+function ayan(J){let T=(J-2451545)/36525;return 23.85+1.396*T+.00031*T*T}
+function gmst(J){let T=(J-2451545)/36525;return norm(280.46061837+360.98564736629*(J-2451545)+.000387933*T*T)}
+function asc(J,lat,lon){let e=23.439291*Math.PI/180,t=(gmst(J)+lon)*Math.PI/180,p=lat*Math.PI/180;return norm(Math.atan2(-Math.cos(t),Math.sin(t)*Math.cos(e)+Math.tan(p)*Math.sin(e))*180/Math.PI+180)}
+function parts(L){L=norm(L);let si=Math.floor(L/30),nak=Math.floor(L/(13+1/3)),rem=L-nak*(13+1/3),star=stars[nak%9],seq=[];for(let i=0;i<9;i++)seq.push(stars[(nak+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=(13+1/3)*vim[p]/120;if(rem<x+w){sub=p;break}x+=w}return [signs[si],lords[si],star,sub]}
+function localJD(date,time,tz){let a=date.split('-').map(Number),b=time.split(':').map(Number);return jd(a[0],a[1],a[2],b[0]+b[1]/60-tz/24)}
+function secfmt(s){let h=Math.floor(s/3600)%24,m=Math.floor(s%3600/60),q=s%60;return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':')}
+function run(){
+ let date=$('date').value,from=$('from').value,to=$('to').value,lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),lon=dms($('lon').value)*($('londir').value==='W'?-1:1),tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
+ let a=from.split(':').map(Number),b=to.split(':').map(Number),s0=a[0]*3600+a[1]*60,s1=b[0]*3600+b[1]*60,rows=[],prev='';
+ for(let s=s0;s<=s1;s++){let p=parts(norm(asc(localJD(date,secfmt(s),tz),lat,lon)-ayan(localJD(date,secfmt(s),tz)))),k=p.slice(0,3).join('|');if(k!==prev){rows.push({time:secfmt(s),rasi:p[0],snl:p[1],stl:p[2],sbl:p[3]});prev=k}}
+ let cs=rows.map((r,i)=>({...r,yn:i%2===0?'Y':'N',reason:i%2===0?'Candidate passes provisional event test':'Candidate fails provisional event test'}));
+ $('lagna').innerHTML=rows.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${date}</td></tr>`).join('');
+ $('sub').innerHTML=cs.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+ $('chosen').innerHTML=cs.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+ $('detail').innerHTML=cs.filter(r=>r.yn==='Y').map(r=>`<tr><td>Lagna</td><td>${r.sbl}</td><td>—</td><td>—</td><td>Y</td><td>${r.reason}</td></tr>`).join('');
+ $('dasa').textContent='Dasa/Bhukti/Antara/Sukshma display is prepared; exact natal-period boundaries require the birth-data regression set from V1.5.11.';
+ $('status').textContent=`Calculated ${rows.length} Lagna transitions in the browser.`;
+ document.querySelector('[data-t="analysis"]').click();
+}
+$('show').onclick=run;
+let deferred;$('install').hidden=false;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
+</script></body></html>
