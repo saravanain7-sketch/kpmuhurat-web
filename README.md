@@ -65,3 +65,8 @@ The supplied screenshots are used as a deterministic regression fixture for:
 - Second Analysis row: 11th House / Me / +H 5,6,11 / −H 8,12
 
 The UI reports PASS only when the calculated transition count and chosen-muhurat sequence match this supplied screenshot baseline. This fixture is for regression validation; it is not a substitute for the original Windows calculation engine.
+
+## 0.8.1 regression stage 3 — mobile screenshot matching
+- Mobile header, tab bar, panels, labels, controls, PlaceSelect cards, Notes panel, and table typography are tuned against the newly supplied 10:08 Android screenshots.
+- Horizontal table overflow is intentional and preserved to keep the full V1.5.11-style columns available on narrow screens.
+- The deterministic Tirupati regression fixture remains unchanged; visual tuning does not alter calculation inputs or the existing 18 / 127 / 23 oracle.

@@ -18,6 +18,43 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 .place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
 .gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
+
+/* Screenshot regression: mobile layout tuned to the supplied V1.5.11/Web 0.8.1 references. */
+@media(max-width:700px){
+  body{font-size:18px;line-height:1.25}
+  header{padding:20px 27px;background:#f7f7f7;min-height:82px;display:flex;align-items:center}
+  header b{font-size:21px;white-space:nowrap}
+  header small{font-size:16px;white-space:nowrap}
+  nav{top:82px;min-height:72px;align-items:stretch}
+  nav button{font-size:18px;padding:18px 26px;min-height:72px}
+  main{padding:20px}
+  .panel{border-radius:8px;padding:23px;margin-bottom:20px}
+  .blue{background:#8bcceb}
+  h3{font-size:30px;line-height:1.1;margin:20px 0 26px}
+  label{font-size:20px;margin:18px 0 8px}
+  input,select,textarea{font-size:22px;padding:15px 17px;min-height:58px;border-radius:5px}
+  .grid2,.split{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr 132px;gap:8px}
+  .btn{font-size:21px;padding:16px 28px;min-height:64px;border-radius:5px;margin:8px 8px 4px 0}
+  .gpsbox{display:block;margin:10px 0}
+  .gpsbox .btn{width:100%;margin:8px 0}
+  .gpsmeta{font-size:18px;line-height:1.35;display:block;margin-top:8px}
+  .titlebar{font-size:26px;padding:11px 8px;margin-bottom:14px}
+  .table-wrap table{min-width:900px;font-size:16px}
+  th,td{padding:7px 9px;font-size:16px}
+  th{font-size:17px}
+  .place-results{gap:12px;margin-top:14px}
+  .place-item{padding:15px 17px;border-radius:5px}
+  .place-item .place-title{font-size:28px;font-weight:700}
+  .place-item .place-meta{font-size:22px;line-height:1.3;margin-top:4px}
+  .tag{font-size:17px;padding:3px 9px;border-radius:14px;vertical-align:middle}
+  .place-actions{display:block}
+  .place-actions .btn{width:auto;min-width:332px}
+  .rulebox{font-size:18px;padding:13px;margin-top:12px}
+  .small{font-size:16px}
+  .muted{font-size:20px}
+  textarea{min-height:100px}
+}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.8.1</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>

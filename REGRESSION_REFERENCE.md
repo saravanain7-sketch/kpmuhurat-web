@@ -63,3 +63,11 @@ This build uses the supplied V1.5.11 screenshots as the regression reference.
 21:47:09 Ma Sa Ra
 
 The fixture is an oracle for this supplied regression case. It is not a claim that the reconstructed browser engine is the original V1.5.11 executable.
+
+## Stage 3 visual reference
+Additional supplied Android screenshots at 10:08 are now treated as the mobile visual regression reference for:
+- PlaceSelect list/card spacing and typography, including Tirupati through Delhi.
+- Notes baseline panel and Notes textarea.
+- Results chosen-muhurat table typography/scroll behavior.
+- Analysis table typography/scroll behavior.
+- Data event-form spacing, control heights, GPS button, and blue panel proportions.
