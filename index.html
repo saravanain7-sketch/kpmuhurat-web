@@ -333,7 +333,7 @@ function locateTransition(date,lo,hi,lat,lon,tz,prevKey,keyFn){
   // Locate the first instant at which keyFn changes from prevKey.
   for(let i=0;i<45;i++){
     const mid=(lo+hi)/2;
-    const k=keyFn(jdFromInput(date,mid,tz),lat,lon);
+    const k=keyFn(jdFromInput(date,secfmt(mid),tz),lat,lon);
     if(k===prevKey) lo=mid; else hi=mid;
   }
   return hi;
