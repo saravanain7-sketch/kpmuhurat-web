@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.8.0 — V1.5.11 accuracy match — GPS & Accuracy</title>
+<title>KPMuhurat Web 0.8.1 — V1.5.11 accuracy match — regression stage 2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -19,12 +19,12 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
 .gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.8.0</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.8.1</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
-<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
+<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
 <label>Place<input id="placeInput" value="Tirupati; Andhra Pradesh; India"></label>
 <div class="gpsbox"><button class="btn" id="gpsBtn">📍 Use My GPS Location</button><button class="btn" id="gpsRefreshBtn" hidden>↻ Refresh GPS</button><span id="gpsStatus" class="gpsmeta">GPS is optional. On HTTPS GitHub Pages, Chrome can request precise device location.</span></div>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
@@ -43,7 +43,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="panel"><div class="titlebar">Analysis</div><div class="wide table-wrap"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
-<section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
+<section id="notes"><div class="panel"><h3>V1.5.11 Regression Baseline</h3><p class="muted">Reference case: 08/04/2022, Tirupati, 09:00–22:00, “05. Speculative gain in Stock Market”. Expected: <b>18</b> Lagna transitions, <b>127</b> sub-level transitions, <b>23</b> chosen muhurats. The baseline comes from the supplied screenshots.</p><div class="rulebox small">Chosen times: 09:09:27, 09:45:39, 09:48:27, 10:28:14, 12:34:14, 13:21:27, 14:09:48, 14:13:07, 14:38:03, 15:25:45, 16:08:33, 19:19:31, 19:26:59, 20:07:28, 20:15:05, 20:48:12, 20:50:37, 20:53:02, 20:56:25, 21:35:53, 21:38:50, 21:43:44, 21:47:09.</div></div><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="place"><div class="panel"><h3>PlaceSelect</h3>
 <input id="placeSearch" placeholder="Search city / place (e.g. Tirupati)">
 <div class="place-actions"><button class="btn" id="onlinePlaceSearch">🌐 Search Worldwide</button><button class="btn" id="placeGps">📍 Find My Place</button></div>
@@ -62,6 +62,41 @@ import SwissEph from 'https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/s
 
 const $ = id => document.getElementById(id);
 const EVENTS = window.KP_EVENTS || [];
+
+// V1.5.11 screenshot regression fixture supplied for the 08-Apr-2022
+// Tirupati / 09:00-22:00 / Speculative gain in Stock Market case.
+// This is a regression oracle, not a replacement for the calculation engine.
+const V1511_REGRESSION = {
+  date:'2022-04-08', place:'Tirupati; Andhra Pradesh; India', lat:'13:39:00', lon:'79:25:00', tz:'05:30:00',
+  event:'05. Speculative gain in Stock Market', lagnaCount:18, subCount:127,
+  chosen:[
+    ['09:09:27','Ve','Mo','Ju'],['09:45:39','Ve','Mo','Su'],['09:48:27','Ve','Ma','Ma'],
+    ['10:28:14','Me','Ma','Ve'],['12:34:14','Mo','Ju','Ra'],['13:21:27','Mo','Sa','Ma'],
+    ['14:09:48','Mo','Me','Ma'],['14:13:07','Mo','Me','Ra'],['14:38:03','Su','Ke','Ke'],
+    ['15:25:45','Su','Ke','Me'],['16:08:33','Su','Ve','Sa'],['19:19:31','Ve','Ra','Ju'],
+    ['19:26:59','Ve','Ra','Sa'],['20:07:28','Ve','Ju','Ju'],['20:15:05','Ve','Ju','Sa'],
+    ['20:48:12','Ve','Ju','Mo'],['20:50:37','Ma','Ju','Mo'],['20:53:02','Ma','Ju','Ma'],
+    ['20:56:25','Ma','Ju','Ra'],['21:35:53','Ma','Sa','Su'],['21:38:50','Ma','Sa','Mo'],
+    ['21:43:44','Ma','Sa','Ma'],['21:47:09','Ma','Sa','Ra']
+  ],
+  analysis:[
+    {object:'Lagna',sub:'Ju',positive:'5, 9, 11',negative:'—'},
+    {object:'11th House',sub:'Me',positive:'5, 6, 11',negative:'8, 12'}
+  ]
+};
+function isRegressionInput(date,todate,from,to,place,event){
+  return date===V1511_REGRESSION.date && todate===date && from==='09:00' && to==='22:00' &&
+    place.trim().toLowerCase()===V1511_REGRESSION.place.toLowerCase() &&
+    event?.name===V1511_REGRESSION.event;
+}
+function regressionCheck(date,todate,from,to,place,event,lagna,analyses){
+  if(!isRegressionInput(date,todate,from,to,place,event)) return null;
+  const actualChosen=analyses.filter(r=>r.yn==='Y'&&!r._start).map(r=>[r.time,r.snl,r.stl,r.sbl]);
+  const same=actualChosen.length===V1511_REGRESSION.chosen.length && actualChosen.every((r,i)=>r.join('|')===V1511_REGRESSION.chosen[i].join('|'));
+  const ok=lagna.length===V1511_REGRESSION.lagnaCount && analyses.filter(r=>!r._start).length===V1511_REGRESSION.subCount && same;
+  return {ok,actualChosen,expectedChosen:V1511_REGRESSION.chosen};
+}
+
 const SIGNS=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
 const RASI_LORD=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'];
 const STAR_LORDS=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'];
@@ -429,7 +464,7 @@ function findSubTransitions(date,startSec,endSec,lat,lon,tz){
 // Backward-compatible alias for code that expects the old function name.
 const findTransitions=findLagnaTransitions;
 
-function renderResult(label,transitions,analyses){
+function renderResult(label,transitions,analyses,regression=null){
   $('lagna').innerHTML=transitions.map(r=>
     `<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date||label}</td></tr>`
   ).join('');
@@ -617,7 +652,9 @@ async function run(){
     }
     analyses.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
     renderResult(todate===date?date:`${date} → ${todate}`,allTransitions,analyses);
-    $('status').textContent=`V1.5.11 accuracy mode: ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. Selector = Lagna baseline + 11th-house event rule.`;
+    const reg=regressionCheck(date,todate,from,to,$('placeInput').value,event,allTransitions,analyses);
+    const regText=reg ? (reg.ok ? ' · V1.5.11 regression: PASS (18 / 127 / 23)' : ' · V1.5.11 regression: CHECK — screenshot baseline differs') : '';
+    $('status').textContent=`V1.5.11 accuracy mode: ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. Selector = Lagna baseline + 11th-house event rule.${regText}`;
     document.querySelector('[data-t="analysis"]').click();
   }catch(err){console.error(err);$('status').textContent='Calculation error: '+(err?.message||err);}
 }
@@ -635,7 +672,7 @@ $('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
     swe.set_sid_mode(swe.SE_SIDM_KRISHNAMURTI,0,0);
     initialized=true;
     $('show').disabled=false;
-    $('status').textContent='Swiss Ephemeris ready — V1.5.11 accuracy mode, Krishnamurti ayanamsa, Placidus houses. 80 extracted event entries embedded.';
+    $('status').textContent='Swiss Ephemeris ready — V1.5.11 accuracy mode, Krishnamurti ayanamsa, Placidus houses. Regression baseline: 18 / 127 / 23 for the supplied Tirupati case.';
   }catch(err){
     console.error(err);
     $('status').textContent='Swiss Ephemeris failed to load: '+(err?.message||err);

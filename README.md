@@ -1,4 +1,4 @@
-# KPMuhurat Web 0.7.3 — GPS & Accuracy Edition
+# KPMuhurat Web 0.8.1 — V1.5.11 Accuracy Regression Edition
 
 Browser reconstruction of **KP Muhurat V1.5.11** for GitHub Pages.
 
@@ -45,8 +45,23 @@ The browser engine uses Swiss Ephemeris with Krishnamurti ayanamsa and Placidus 
 The event-rule data are extracted from the original MSI, but the original Windows source code is not included. Exact parity of every significator/CSL/Y-N edge case still requires regression testing against the Windows application.
 
 
-## 0.8.0 — V1.5.11 accuracy matching
+## 0.8.1 — V1.5.11 screenshot regression stage 2
 - House ownership is chart-relative (from cusp sign lords), matching the original UI's notation.
 - Lagna/11th-house Y/N uses the complete CSL → Star Lord → Sub Lord chain, including conjunctions and node sign-lord representation.
 - Muhurat selection uses the V1.5.11 pattern: Lagna baseline rule plus the event's 11th-house rule; the 5th-house event rule remains available for event analysis but does not gate the primary selector, consistent with the supplied V1.5.11 comparison screenshot.
 - The 08-Apr-2022 Tirupati stock-market regression now targets the sub-level boundaries at 09:00, 09:01:22, 09:09:27, 09:16:41, 09:25:20, 09:33:08, 09:36:22, 09:45:39, 09:48:27 and 09:51:43, with 09:45:39 and 09:48:27 expected to qualify under this reconstructed V1.5.11 logic.
+
+
+### 0.8.1 regression baseline
+The supplied screenshots are used as a deterministic regression fixture for:
+- Date: 08-Apr-2022
+- Place: Tirupati; Andhra Pradesh; India
+- Time: 09:00–22:00
+- Event: 05. Speculative gain in Stock Market
+- Expected Lagna transitions: 18
+- Expected sub-level transitions: 127
+- Expected chosen muhurats: 23
+- First Analysis row: Lagna / Ju / +H 5,9,11 / −H —
+- Second Analysis row: 11th House / Me / +H 5,6,11 / −H 8,12
+
+The UI reports PASS only when the calculated transition count and chosen-muhurat sequence match this supplied screenshot baseline. This fixture is for regression validation; it is not a substitute for the original Windows calculation engine.
