@@ -354,7 +354,7 @@ function findLagnaTransitions(date,startSec,endSec,lat,lon,tz){
     const key=[cur.rasi,cur.snl,cur.stl].join('|');
     if(key!==prevKey){
       const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
-      const at=ascKey(jdFromInput(date,exact,tz),lat,lon);
+      const at=ascKey(jdFromInput(date,secfmt(exact),tz),lat,lon);
       rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
       prevKey=key; prev=cur;
     }
@@ -377,7 +377,7 @@ function findSubTransitions(date,startSec,endSec,lat,lon,tz){
     const key=[cur.rasi,cur.snl,cur.stl,cur.sbl].join('|');
     if(key!==prevKey){
       const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
-      const at=ascKey(jdFromInput(date,exact,tz),lat,lon);
+      const at=ascKey(jdFromInput(date,secfmt(exact),tz),lat,lon);
       rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
       prevKey=key; prev=cur;
     }
