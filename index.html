@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.7.3</title>
+<title>KPMuhurat Web 0.7.3 — GPS & Accuracy</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,6 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 .place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
+.gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.3</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
@@ -25,6 +26,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
 <label>Place<input id="placeInput" value="Tirupati; Andhra Pradesh; India"></label>
+<div class="gpsbox"><button class="btn" id="gpsBtn">📍 Use My GPS Location</button><button class="btn" id="gpsRefreshBtn" hidden>↻ Refresh GPS</button><span id="gpsStatus" class="gpsmeta">GPS is optional. On HTTPS GitHub Pages, Chrome can request precise device location.</span></div>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -33,21 +35,22 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="analysis"><div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
-<div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
-<div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
+<div class="split"><div class="wide table-wrap"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
+<div class="wide table-wrap"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
-<div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="wide table-wrap"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Analysis</div><div class="wide table-wrap"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="place"><div class="panel"><h3>PlaceSelect</h3>
 <input id="placeSearch" placeholder="Search city / place (e.g. Tirupati)">
+<div class="place-actions"><button class="btn" id="onlinePlaceSearch">🌐 Search Worldwide</button><button class="btn" id="placeGps">📍 Find My Place</button></div>
 <div id="placeResults" class="place-results"></div>
-<p class="muted">PlaceSelect uses an embedded browser-safe city list. You can always enter coordinates manually on the Data tab. The original MSI contains a much larger place database; this static build does not claim to contain every original record.</p>
+<div class="panel online"><b>Place database / GPS accuracy</b><p class="muted">The original V1.5.11 extraction report records 97,875 place rows. This GitHub Pages build keeps the embedded core list and adds explicit worldwide online place search plus GPS coordinates, so you are not limited to the small built-in list. GPS latitude/longitude are used directly by the Swiss Ephemeris calculation.</p><p class="small muted">For exact V1.5.11 database parity, the original extracted place database file itself must be supplied; the current reconstruction package does not contain that 97,875-row database file.</p></div>
 </div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p><b>Accuracy mode:</b> Krishnamurti ayanamsa + Placidus houses + Swiss Ephemeris. The <b>Use My GPS Location</b> button requests high-accuracy device coordinates and uses them directly in the chart calculation.</p><p><b>PlaceSelect:</b> the embedded list is retained, and <b>Search Worldwide</b> can find additional places online. The original MSI extraction report records 97,875 places; exact database parity requires the original extracted database file.</p><p class="muted">This remains a reconstruction, not the original Windows source/binary. Calculation equivalence should be regression-tested against V1.5.11.</p></div></section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
@@ -348,28 +351,24 @@ function findTransitions(date,startSec,endSec,lat,lon,tz){
   return rows;
 }
 
-function renderResult(date,transitions,analyses){
+function renderResult(label,transitions,analyses){
   $('lagna').innerHTML=transitions.map(r=>
-    `<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${date}</td></tr>`
+    `<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date||label}</td></tr>`
   ).join('');
-
   $('sub').innerHTML=analyses.map(r=>
     `<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`
   ).join('');
-
-  const chosenRows=analyses.filter(r=>r.yn==='Y');
+  const chosenRows=analyses.filter(r=>r.yn==='Y'&&!r._start);
   $('chosen').innerHTML=chosenRows.length ? chosenRows.map(r=>
-    `<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`
+    `<tr class="good"><td>${r.date||label}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`
   ).join('') : `<tr><td colspan="7" class="muted">No qualifying muhurat found in the selected interval.</td></tr>`;
-
-  const first=analyses.find(r=>r.yn==='Y')||analyses[0];
+  const first=chosenRows[0]||analyses[0];
   if(first){
     const active=first.rules.filter(x=>x.object===1||x.object===11);
     $('detail').innerHTML=active.map(r=>
       `<tr><td>${r.object===1?'Lagna':'11th House'}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(', ')||'—'}</td><td>${r.negative.join(', ')||'—'}</td><td class="${r.yn==='Y'?'good':'bad'}">${r.yn}</td><td>${r.reason}<div class="rulebox">Significators: ${r.significators?.join(', ')||'—'} | Required hit: ${r.pos_hit?.join(', ')||'—'} | Prohibited hit: ${r.neg_hit?.join(', ')||'—'}</div></td></tr>`
     ).join('');
   }else $('detail').innerHTML='';
-
   const p=first?.periods;
   $('dasa').textContent=p
     ? `Event-chart periods: Dasa ${p.Dasa} / Bhukti ${p.Bhukti} / Antara ${p.Antara} / Sukshma ${p.Sukshma}. Natal-period boundaries still require birth data from V1.5.11.`
@@ -408,46 +407,135 @@ function renderPlaces(q=''){
 $('placeSearch')?.addEventListener('input',e=>renderPlaces(e.target.value));
 renderPlaces();
 
+
+function pad2(n){return String(Math.trunc(n)).padStart(2,'0');}
+function degToDms(value, isLat){
+  const sign=value<0?(isLat?'S':'W'):(isLat?'N':'E');
+  let x=Math.abs(value), d=Math.floor(x), m=Math.floor((x-d)*60), sec=Math.round((((x-d)*60)-m)*60);
+  if(sec>=60){sec=0;m++;} if(m>=60){m=0;d++;}
+  return {value:`${d}:${pad2(m)}:${pad2(sec)}`,dir:sign};
+}
+function offsetMinutesForDate(dateStr){
+  // Uses the device's timezone, including DST where applicable. This is the
+  // correct default when GPS and the phone's automatic timezone refer to the
+  // same place. User can still edit the TZ manually.
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const dt=new Date(Date.UTC(y,m-1,d,12,0,0));
+  const parts=new Intl.DateTimeFormat('en-US',{timeZoneName:'longOffset',hour:'2-digit',minute:'2-digit',timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone}).formatToParts(dt);
+  const z=parts.find(x=>x.type==='timeZoneName')?.value||'GMT+05:30';
+  const mm=z.match(/GMT([+-])(\d{2}):(\d{2})/);
+  if(!mm) return 330;
+  return (mm[1]==='-'?-1:1)*(Number(mm[2])*60+Number(mm[3]));
+}
+function setTimezoneFromDevice(dateStr){
+  const mins=offsetMinutesForDate(dateStr), sign=mins<0?'West of UT':'East of UT', a=Math.abs(mins), h=Math.floor(a/60), m=a%60;
+  $('tz').value=`${pad2(h)}:${pad2(m)}:00`; $('tzdir').value=sign;
+}
+function gpsStatus(text, cls=''){const el=$('gpsStatus');if(!el)return;el.className='gpsmeta '+cls;el.textContent=text;}
+async function reverseGeocode(lat,lon){
+  try{
+    const u=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&zoom=18&addressdetails=1`;
+    const r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok) throw new Error('Reverse geocoding unavailable');
+    return await r.json();
+  }catch(e){return null;}
+}
+async function setTimezoneFromGps(latitude,longitude){
+  try{
+    const u=`https://timeapi.io/api/Time/current/coordinate?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`;
+    const r=await fetch(u,{headers:{'Accept':'application/json'}});
+    if(!r.ok) throw new Error('timezone lookup failed');
+    const d=await r.json();
+    const off=d.currentUtcOffset||d.utcOffset||d.timeZoneOffset||d.offset;
+    if(typeof off==='string'){
+      const mm=off.match(/([+-])(\d{2}):?(\d{2})?/);
+      if(mm){const mins=(mm[1]==='-'?-1:1)*(Number(mm[2])*60+Number(mm[3]||0));const a=Math.abs(mins);$('tz').value=`${pad2(Math.floor(a/60))}:${pad2(a%60)}:00`;$('tzdir').value=mins<0?'West of UT':'East of UT';return d.timeZone||d.timezone||null;}
+    }
+    return d.timeZone||d.timezone||null;
+  }catch(e){setTimezoneFromDevice($('date').value);return null;}
+}
+async function applyGpsPosition(pos){
+  const {latitude,longitude,accuracy}=pos.coords;
+  const la=degToDms(latitude,true), lo=degToDms(longitude,false);
+  $('lat').value=la.value; $('latdir').value=la.dir; $('lon').value=lo.value; $('londir').value=lo.dir;
+  const acc=Math.round(accuracy||0);
+  gpsStatus(`GPS locked: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} · accuracy ±${acc} m · resolving timezone…`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
+  $('gpsRefreshBtn').hidden=false;
+  const zone=await setTimezoneFromGps(latitude,longitude);
+  gpsStatus(`GPS locked: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} · accuracy ±${acc} m · ${zone||'device timezone'} · UTC ${$('tzdir').value==='West of UT'?'-':''}${$('tz').value}`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
+  reverseGeocode(latitude,longitude).then(data=>{
+    if(data){
+      const a=data.address||{};
+      const name=a.city||a.town||a.village||a.municipality||a.county||'Current location';
+      const state=a.state||''; const country=a.country||'';
+      $('placeInput').value=[name,state,country].filter(Boolean).join('; ');
+      gpsStatus(`GPS locked: ±${acc} m · ${[name,state,country].filter(Boolean).join(', ')} · ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
+    }
+  });
+}
+function getGps(){
+  if(!('geolocation' in navigator)){gpsStatus('This browser does not provide GPS/geolocation. Enter coordinates manually.','gps-bad');return;}
+  gpsStatus('Requesting precise device location…','gps-warn');
+  navigator.geolocation.getCurrentPosition(applyGpsPosition,err=>{
+    const msg=err.code===1?'Location permission was denied. Allow Chrome location permission and try again.':err.code===2?'Location is unavailable. Turn on phone Location/GPS and try again.':'GPS request timed out. Try again outdoors or with Location enabled.';
+    gpsStatus(msg,'gps-bad');
+  },{enableHighAccuracy:true,maximumAge:0,timeout:20000});
+}
+$('gpsBtn')?.addEventListener('click',getGps); $('gpsRefreshBtn')?.addEventListener('click',getGps); $('placeGps')?.addEventListener('click',()=>{document.querySelector('[data-t="data"]').click();getGps();});
+
+let onlineTimer=null;
+async function onlinePlaceSearch(){
+  const q=$('placeSearch')?.value.trim(); if(!q||q.length<2){renderPlaces(q);return;}
+  const box=$('placeResults'); box.innerHTML='<div class="empty">Searching worldwide places…</div>';
+  try{
+    const u=`https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=20&q=${encodeURIComponent(q)}`;
+    const r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok) throw new Error('Online place search unavailable');
+    const rows=await r.json();
+    box.innerHTML=rows.length?rows.map((p,i)=>{const a=p.address||{};const name=p.name||p.display_name.split(',')[0];const state=a.state||a.region||'';const country=a.country||'';return `<div class="place-item" data-online="${i}"><div class="place-title"><b>${name}</b><span class="tag">${state||country}</span></div><div class="place-meta muted">${p.display_name}<br>Lat ${Number(p.lat).toFixed(6)} · Lon ${Number(p.lon).toFixed(6)}</div></div>`}).join(''):'<div class="empty">No online place found.</div>';
+    [...box.querySelectorAll('[data-online]')].forEach(el=>el.onclick=()=>{
+      const p=rows[Number(el.dataset.online)]; const a=p.address||{}; const name=p.name||p.display_name.split(',')[0];
+      $('placeInput').value=[name,a.state||a.region||'',a.country||''].filter(Boolean).join('; ');
+      const la=degToDms(Number(p.lat),true),lo=degToDms(Number(p.lon),false);$('lat').value=la.value;$('latdir').value=la.dir;$('lon').value=lo.value;$('londir').value=lo.dir;setTimezoneFromDevice($('date').value);
+      document.querySelector('[data-t="data"]').click();gpsStatus(`Place coordinates loaded: ${Number(p.lat).toFixed(6)}, ${Number(p.lon).toFixed(6)}. Verify timezone if the selected place uses a different local timezone.`,'gps-ok');
+    });
+  }catch(e){box.innerHTML='<div class="empty">Online search failed. The embedded city list is still available.</div>';}
+}
+$('onlinePlaceSearch')?.addEventListener('click',onlinePlaceSearch);
+$('placeSearch')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();onlinePlaceSearch();}});
+
 async function run(){
   if(!initialized){$('status').textContent='Calculation engine is still loading. Please wait a moment.';return;}
   try{
-    const date=$('date').value,from=$('from').value,to=$('to').value;
+    const date=$('date').value,todate=$('todate').value,from=$('from').value,to=$('to').value;
+    if(!date||!todate) throw new Error('Please select both Date and To date.');
+    if(todate<date) throw new Error('To date cannot be earlier than Date.');
     const lat=dms($('lat').value)*($('latdir').value==='S'?-1:1);
     const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
     const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
-    const [fh,fm,fs=0]=from.split(':').map(Number);
-    const [th,tm,ts=0]=to.split(':').map(Number);
-    let s0=fh*3600+fm*60+fs, s1=th*3600+tm*60+ts;
-    if(s1<s0) s1+=24*3600;
+    const [fh,fm,fs=0]=from.split(':').map(Number),[th,tm,ts=0]=to.split(':').map(Number);
+    const dayStart=fh*3600+fm*60+fs,dayEnd=th*3600+tm*60+ts;
     const event=EVENTS[Number($('event').value)]||EVENTS[0];
-
-    $('status').textContent='Calculating Lagna transitions and KP significators…';
-    await new Promise(requestAnimationFrame);
-
-    const transitions=findTransitions(date,s0,s1,lat,lon,tz);
-    const points=[s0,...transitions.map(r=>{
-      const [h,m,s]=r.time.split(':').map(Number); return h*3600+m*60+s;
-    })];
-    const unique=[...new Set(points)].filter(x=>x>=s0&&x<=s1).sort((a,b)=>a-b);
-    const analyses=[];
-    for(const sec of unique){
-      const jd=jdFromInput(date,secfmt(sec),tz);
-      const periods=vimPeriods(jd);
-      const a=analyzeTime(jd,lat,lon,event,periods);
-      const cp=a.chart.ascendant;
-      analyses.push({
-        time:secfmt(sec),snl:cp[1],stl:cp[2],sbl:cp[3],yn:a.yn,reason:a.reason,
-        rules:a.rules,periods:a.periods
-      });
+    $('status').textContent='Calculating exact Lagna transitions and KP significators…'; await new Promise(requestAnimationFrame);
+    const allTransitions=[], analyses=[];
+    const [yy0,mm0,dd0]=date.split('-').map(Number),[yy1,mm1,dd1]=todate.split('-').map(Number);
+    for(let dt=new Date(Date.UTC(yy0,mm0-1,dd0)); dt<=new Date(Date.UTC(yy1,mm1-1,dd1)); dt.setUTCDate(dt.getUTCDate()+1)){
+      const ds=dt.toISOString().slice(0,10); const isFirst=ds===date,isLast=ds===todate;
+      const s0=isFirst?dayStart:0, s1=isLast?dayEnd:24*3600-1;
+      if(s1<s0) continue;
+      const transitions=findTransitions(ds,s0,s1,lat,lon,tz);
+      for(const tr of transitions){
+        tr.date=ds; allTransitions.push(tr);
+        const jd=jdFromInput(ds,tr.time,tz), periods=vimPeriods(jd), a=analyzeTime(jd,lat,lon,event,periods), cp=a.chart.ascendant;
+        analyses.push({date:ds,time:tr.time,snl:cp[1],stl:cp[2],sbl:cp[3],yn:a.yn,reason:a.reason,rules:a.rules,periods:a.periods});
+      }
+      // Evaluate the exact start point too, as the original selector can have a valid row before a transition.
+      const startTime=secfmt(s0), jd0=jdFromInput(ds,startTime,tz), p0=vimPeriods(jd0), a0=analyzeTime(jd0,lat,lon,event,p0), cp0=a0.chart.ascendant;
+      analyses.push({date:ds,time:startTime,snl:cp0[1],stl:cp0[2],sbl:cp0[3],yn:a0.yn,reason:a0.reason,rules:a0.rules,periods:a0.periods,_start:true});
     }
-
-    renderResult(date,transitions,analyses);
-    $('status').textContent=`Calculated ${transitions.length} Lagna transitions with Swiss Ephemeris + extracted event rules. Chosen Muhurats include Y rows only.`;
+    analyses.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+    renderResult(todate===date?date:`${date} → ${todate}`,allTransitions,analyses);
+    $('status').textContent=`Calculated ${allTransitions.length} Lagna transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. GPS coordinates are used directly when supplied.`;
     document.querySelector('[data-t="analysis"]').click();
-  }catch(err){
-    console.error(err);
-    $('status').textContent='Calculation error: '+(err?.message||err);
-  }
+  }catch(err){console.error(err);$('status').textContent='Calculation error: '+(err?.message||err);}
 }
 $('show').onclick=run;
 
@@ -463,7 +551,7 @@ $('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
     swe.set_sid_mode(swe.SE_SIDM_KRISHNAMURTI,0,0);
     initialized=true;
     $('show').disabled=false;
-    $('status').textContent='Swiss Ephemeris ready — Krishnamurti ayanamsa, Placidus houses. 80 extracted event entries embedded.';
+    $('status').textContent='Swiss Ephemeris ready — Krishnamurti ayanamsa, Placidus houses. GPS button available for high-accuracy coordinates. 80 extracted event entries embedded.';
   }catch(err){
     console.error(err);
     $('status').textContent='Swiss Ephemeris failed to load: '+(err?.message||err);

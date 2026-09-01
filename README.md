@@ -1,21 +1,45 @@
-# KPMuhurat Web 0.7.3
+# KPMuhurat Web 0.7.3 — GPS & Accuracy Edition
 
-Browser-hosted reconstruction of the extracted KPMuhurat V1.5.11 resources for GitHub Pages.
+Browser reconstruction of **KP Muhurat V1.5.11** for GitHub Pages.
 
-## 0.7.3 changes
-- Chosen Muhurats now contain **Y rows only**; N rows remain in Analysis.
-- Added a functional embedded PlaceSelect city search with automatic coordinate/time-zone fill.
-- Improved rule-detail output with significators, required-house hits and prohibited-house hits.
-- Fixed the empty positive-hit test in the rule evaluator.
-- Preserved the embedded extracted event rules (80 entries).
-- Kept Krishnamurti ayanamsa and Placidus house calculation.
-- Improved mobile table usability while retaining horizontal scrolling for wide tables.
+## What is improved in this build
 
-## Important
-The source extraction report identifies the original MSI resources, including the place database and calculation/analysis assemblies. This web package is a reconstruction, not the original source/binary. Exact equivalence with Windows KPMuhurat V1.5.11 still requires regression testing against known Windows results.
+- **High-accuracy GPS** button using the browser Geolocation API.
+- GPS latitude/longitude are used directly by the Swiss Ephemeris chart calculation.
+- GPS accuracy (metres) is displayed so the user can decide whether to recapture.
+- Best-effort coordinate-based timezone lookup, with device-timezone fallback.
+- Reverse geocoding to label the current place.
+- **Worldwide PlaceSelect search** in addition to the embedded core city list.
+- Mobile tables remain horizontally scrollable instead of cutting off the Reason/Analysis columns.
+- Date → To date is now processed across multiple days; first/last-day time limits are respected.
+- Existing **Krishnamurti ayanamsa + Placidus houses + Swiss Ephemeris** calculation path is retained.
+- The extracted 80 event entries remain embedded in `index.html`.
 
 ## GitHub Pages
-Upload the files to the repository root and publish `main` → `/ (root)`. Keep `index.html` at the repository root.
 
-## 0.7.3 fix
-The PlaceSelect tab uses a unique input ID (`placeInput`) so the navigation target `section#place` is no longer shadowed by the Data-tab Place field. This fixes the blank PlaceSelect screen on mobile Chrome.
+Upload the **contents** of this folder to the repository root and enable:
+
+GitHub → Settings → Pages → Deploy from branch → `main` → `/ (root)`.
+
+The site must be HTTPS for browser geolocation to work normally.
+
+## GPS use
+
+Tap **Use My GPS Location** and allow Chrome's location permission. The app does **not** request location automatically. The coordinates are inserted into the Latitude/Longitude fields and then used in the calculation.
+
+When online, the build also uses:
+
+- OpenStreetMap Nominatim for reverse/place search.
+- TimeAPI.io for coordinate timezone lookup, with a device timezone fallback.
+
+If you do not want those online lookups, you can still enter coordinates and timezone manually.
+
+## Original place database status
+
+The extraction report for the original MSI records **97,875 place rows**, but the current reconstruction package does not contain the original extracted SQLite place database file. Therefore this build does **not** claim byte-for-byte place-database parity. Instead, it retains the embedded city list and adds worldwide online place search plus GPS coordinates.
+
+## Calculation accuracy status
+
+The browser engine uses Swiss Ephemeris with Krishnamurti ayanamsa and Placidus houses. The current 2026-09-01 Coimbatore transition timings have been regression-checked against the supplied V1.5.11-style screenshots.
+
+The event-rule data are extracted from the original MSI, but the original Windows source code is not included. Exact parity of every significator/CSL/Y-N edge case still requires regression testing against the Windows application.
