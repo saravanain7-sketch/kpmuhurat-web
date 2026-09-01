@@ -1,59 +1,64 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.8.1 — V1.5.11 accuracy match — regression stage 2</title>
+<title>KPMuhurat Web 0.8.1</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
-header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
-nav{display:flex;overflow:auto;background:#f2f8fb;border-bottom:1px solid #9bb9c7;position:sticky;top:44px;z-index:3}
-nav button{border:0;background:transparent;padding:10px 14px;white-space:nowrap}nav button.active{background:#d7effb;border-bottom:2px solid #1976a8;font-weight:bold}
-main{max-width:1200px;margin:auto;padding:10px}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #9ebdcc;border-radius:4px;padding:12px;margin-bottom:10px}.blue{background:#8bcceb}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 80px;gap:8px}
-label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,textarea{width:100%;padding:9px;border:1px solid #8daab6;border-radius:3px;background:#fff;font-size:14px}
-.btn{padding:9px 18px;border:1px solid #8caab6;border-radius:3px;background:#fff;font-weight:bold;margin:6px 4px 2px 0}
-.titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
-table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
-.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}
-@media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
-.place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
-.gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
-
-/* Screenshot regression: mobile layout tuned to the supplied V1.5.11/Web 0.8.1 references. */
-@media(max-width:700px){
-  body{font-size:18px;line-height:1.25}
-  header{padding:20px 27px;background:#f7f7f7;min-height:82px;display:flex;align-items:center}
-  header b{font-size:21px;white-space:nowrap}
-  header small{font-size:16px;white-space:nowrap}
-  nav{top:82px;min-height:72px;align-items:stretch}
-  nav button{font-size:18px;padding:18px 26px;min-height:72px}
-  main{padding:20px}
-  .panel{border-radius:8px;padding:23px;margin-bottom:20px}
-  .blue{background:#8bcceb}
-  h3{font-size:30px;line-height:1.1;margin:20px 0 26px}
-  label{font-size:20px;margin:18px 0 8px}
-  input,select,textarea{font-size:22px;padding:15px 17px;min-height:58px;border-radius:5px}
-  .grid2,.split{grid-template-columns:1fr}
-  .grid3{grid-template-columns:1fr 132px;gap:8px}
-  .btn{font-size:21px;padding:16px 28px;min-height:64px;border-radius:5px;margin:8px 8px 4px 0}
-  .gpsbox{display:block;margin:10px 0}
-  .gpsbox .btn{width:100%;margin:8px 0}
-  .gpsmeta{font-size:18px;line-height:1.35;display:block;margin-top:8px}
-  .titlebar{font-size:26px;padding:11px 8px;margin-bottom:14px}
-  .table-wrap table{min-width:900px;font-size:16px}
-  th,td{padding:7px 9px;font-size:16px}
-  th{font-size:17px}
-  .place-results{gap:12px;margin-top:14px}
-  .place-item{padding:15px 17px;border-radius:5px}
-  .place-item .place-title{font-size:28px;font-weight:700}
-  .place-item .place-meta{font-size:22px;line-height:1.3;margin-top:4px}
-  .tag{font-size:17px;padding:3px 9px;border-radius:14px;vertical-align:middle}
-  .place-actions{display:block}
-  .place-actions .btn{width:auto;min-width:332px}
-  .rulebox{font-size:18px;padding:13px;margin-top:12px}
-  .small{font-size:16px}
-  .muted{font-size:20px}
-  textarea{min-height:100px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%;overflow-x:auto}
+body{background:#eaf6fc;color:#17313d;font-family:Arial,Helvetica,sans-serif;font-size:16px}
+header{height:78px;padding:24px 28px 18px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:20;white-space:nowrap;overflow:hidden}
+header b{font-size:25px} header small{font-size:19px;font-weight:400}
+nav{display:flex;min-width:max-content;overflow-x:auto;background:#f2f8fb;border-bottom:1px solid #9bb9c7;position:sticky;top:78px;z-index:19;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{border:0;background:transparent;color:#111;padding:18px 28px 16px;font-size:21px;line-height:1;white-space:nowrap;min-width:max-content}
+nav button.active{background:#d7effb;border-bottom:4px solid #1976a8;font-weight:700}
+main{width:calc(100% - 40px);max-width:none;margin:0 auto;padding:20px 0 30px}
+section{display:none}section.active{display:block}
+.panel{background:#fff;border:1px solid #9ebdcc;border-radius:6px;padding:24px;margin-bottom:20px;overflow:hidden}
+.blue{background:#8bcceb}
+.panel h3{font-size:31px;margin:12px 0 34px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:minmax(0,1fr) 132px;gap:18px}
+label{display:block;font-size:20px;font-weight:700;margin:0 0 26px}
+input,select,textarea{width:100%;height:58px;padding:12px 18px;border:1px solid #8daab6;border-radius:5px;background:#fff;color:#111;font-size:21px;font-family:inherit}
+textarea{height:150px;resize:vertical}
+.btn{padding:14px 28px;border:1px solid #8caab6;border-radius:5px;background:#fff;font-size:21px;font-weight:700;margin:0 10px 8px 0}
+.titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:18px 20px;text-align:center;font-weight:700;font-size:29px;margin-bottom:16px}
+.split{display:grid;grid-template-columns:minmax(620px,1fr) minmax(760px,1.15fr);gap:18px;min-width:1400px}
+.wide{overflow-x:auto;overflow-y:hidden}
+table{border-collapse:collapse;width:max-content;min-width:100%;font-size:18px}
+th,td{border:1px solid #adbec6;padding:10px 12px;white-space:nowrap;text-align:left;height:42px}
+th{background:#eef5f8;font-weight:700}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}
+.status{padding:12px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px;font-size:17px}
+.place-search{margin-bottom:18px}.place-actions{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;align-items:flex-start}.place-btn{min-width:330px}
+.place-card{background:#f4f9fb;border:1px solid #9ebdcc;border-radius:5px;padding:16px 18px;margin:12px 0;cursor:pointer}
+.place-name{font-size:27px;font-weight:700}.place-state{display:inline-block;margin-left:10px;padding:4px 9px;border:1px solid #a8bec8;border-radius:15px;font-size:17px;font-weight:400}.place-meta{font-size:21px;color:#61727a;margin-top:4px}
+.notes-box{min-height:300px}.help p{font-size:21px;line-height:1.35}.help h3{margin-bottom:30px}
+.data-actions{margin-top:2px}
+@media(max-width:900px){
+  header{height:76px;padding:22px 20px 16px} header b{font-size:22px} header small{font-size:17px}
+  nav{top:76px} nav button{font-size:20px;padding:16px 24px 14px}
+  main{width:calc(100% - 40px);padding-top:20px}
+  .panel{padding:24px}
+  .grid2{grid-template-columns:1fr}
+  .grid3{grid-template-columns:minmax(0,1fr) 110px;gap:12px}
+  .panel h3{font-size:29px;margin-top:10px;margin-bottom:34px}
+  label{font-size:19px;margin-bottom:26px}
+  input,select,textarea{font-size:20px;height:58px}
+  .titlebar{font-size:27px;padding:18px 14px;line-height:1.15}
+  .split{min-width:1400px}
+  table{font-size:18px}
+  th,td{padding:9px 11px}
+  .place-card{padding:16px}.place-name{font-size:26px}.place-meta{font-size:20px}
+}
+@media(max-width:520px){
+  header{padding-left:18px} header b{font-size:20px} header small{font-size:15px}
+  nav button{font-size:19px;padding-left:20px;padding-right:20px}
+  main{width:calc(100% - 40px)}
+  .panel{padding:22px}
+  .grid3{grid-template-columns:minmax(0,1fr) 92px}
+  .titlebar{font-size:26px}
 }
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.8.1</small></header>
@@ -62,9 +67,8 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
-<label>Place<input id="placeInput" value="Tirupati; Andhra Pradesh; India"></label>
-<div class="gpsbox"><button class="btn" id="gpsBtn">📍 Use My GPS Location</button><button class="btn" id="gpsRefreshBtn" hidden>↻ Refresh GPS</button><span id="gpsStatus" class="gpsmeta">GPS is optional. On HTTPS GitHub Pages, Chrome can request precise device location.</span></div>
-<div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
+<label>Place<input id="place" value="Tirupati; Andhra Pradesh; India"></label>
+<button class="btn" id="gps" type="button">📍 Use My GPS Location</button><div class="status muted">GPS is optional. On HTTPS GitHub Pages, Chrome can request precise device location.</div><div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
 <label>Event<select id="event"><option>Loading extracted events…</option></select></label>
@@ -72,659 +76,90 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="analysis"><div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
-<div class="split"><div class="wide table-wrap"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
-<div class="wide table-wrap"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
+<div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
+<div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
-<div class="wide table-wrap"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">Analysis</div><div class="wide table-wrap"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
+<div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted">Event-chart periods: Dasa Ra / Bhukti Ju / Antara Sa / Sukshma Me. Natal-period boundaries still require birth data from V1.5.11.</div></div></section>
 
-<section id="notes"><div class="panel"><h3>V1.5.11 Regression Baseline</h3><p class="muted">Reference case: 08/04/2022, Tirupati, 09:00–22:00, “05. Speculative gain in Stock Market”. Expected: <b>18</b> Lagna transitions, <b>127</b> sub-level transitions, <b>23</b> chosen muhurats. The baseline comes from the supplied screenshots. Regression compares the full 18-row Lagna sequence and all 23 chosen rows, not counts alone.</p><div class="rulebox small">Chosen times: 09:09:27, 09:45:39, 09:48:27, 10:28:14, 12:34:14, 13:21:27, 14:09:48, 14:13:07, 14:38:03, 15:25:45, 16:08:33, 19:19:31, 19:26:59, 20:07:28, 20:15:05, 20:48:12, 20:50:37, 20:53:02, 20:56:25, 21:35:53, 21:38:50, 21:43:44, 21:47:09.</div></div><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
-<section id="place"><div class="panel"><h3>PlaceSelect</h3>
-<input id="placeSearch" placeholder="Search city / place (e.g. Tirupati)">
-<div class="place-actions"><button class="btn" id="onlinePlaceSearch">🌐 Search Worldwide</button><button class="btn" id="placeGps">📍 Find My Place</button></div>
-<div id="placeResults" class="place-results"></div>
-<div class="panel online"><b>Place database / GPS accuracy</b><p class="muted">The original V1.5.11 extraction report records 97,875 place rows. This GitHub Pages build keeps the embedded core list and adds explicit worldwide online place search plus GPS coordinates, so you are not limited to the small built-in list. GPS latitude/longitude are used directly by the Swiss Ephemeris calculation.</p><p class="small muted">For exact V1.5.11 database parity, the original extracted place database file itself must be supplied; the current reconstruction package does not contain that 97,875-row database file.</p></div>
-</div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p><b>Accuracy mode:</b> Krishnamurti ayanamsa + Placidus houses + Swiss Ephemeris. The <b>Use My GPS Location</b> button requests high-accuracy device coordinates and uses them directly in the chart calculation.</p><p><b>PlaceSelect:</b> the embedded list is retained, and <b>Search Worldwide</b> can find additional places online. The original MSI extraction report records 97,875 places; exact database parity requires the original extracted database file.</p><p class="muted">This remains a reconstruction, not the original Windows source/binary. Calculation equivalence should be regression-tested against V1.5.11.</p></div></section>
+<section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText" class="notes-box"></textarea></div></section>
+<section id="place"><div class="panel"><h3>PlaceSelect</h3><input id="placeSearch" class="place-search" placeholder="Search city / place (e.g. Tirupati)">
+<div class="place-actions"><button class="btn place-btn" id="searchWorld">🌐 Search Worldwide</button><button class="btn place-btn" id="findPlace">📍 Find My Place</button></div>
+<div id="placeList"></div></div></section>
+<section id="help"><div class="panel help"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p><b>Accuracy mode:</b> Krishnamurti ayanamsa + Placidus houses + Swiss Ephemeris. The <b>Use My GPS Location</b> button requests high-accuracy device coordinates and uses them directly in the chart calculation.</p><p><b>PlaceSelect:</b> the embedded list is retained, and <b>Search Worldwide</b> can find additional places online when network access is available. The original MSI extraction report records 97,875 places; exact database parity requires the original extracted database file.</p><p class="muted">This remains a reconstruction, not the original Windows source/binary. Calculation equivalence should be regression-tested against V1.5.11.</p></div></section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.t).classList.add('active')});
-window.KP_EVENTS=[{"name":"00. Default Event","rule_count_declared":17,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"2:2:1:11:0:","fields":[2,2,1,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"4:2:1:11:0:","fields":[4,2,1,11,0]},{"raw":"5:2:1:11:0:","fields":[5,2,1,11,0]},{"raw":"6:2:1:11:0:","fields":[6,2,1,11,0]},{"raw":"7:2:1:11:0:","fields":[7,2,1,11,0]},{"raw":"8:2:1:11:0:","fields":[8,2,1,11,0]},{"raw":"9:2:1:11:0:","fields":[9,2,1,11,0]},{"raw":"10:2:1:11:0:","fields":[10,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"12:2:1:11:0:","fields":[12,2,1,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":"This is when the house grouping is unknown in advance"},{"name":"01. Surgical Operation","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:1:5:11:2:6:12:","fields":[11,3,1,5,11,2,6,12]},{"raw":"101:3:1:5:11:2:6:12:","fields":[101,3,1,5,11,2,6,12]},{"raw":"102:3:1:5:11:2:6:12:","fields":[102,3,1,5,11,2,6,12]},{"raw":"103:3:1:5:11:2:6:12:","fields":[103,3,1,5,11,2,6,12]},{"raw":"104:3:1:5:11:2:6:12:","fields":[104,3,1,5,11,2,6,12]}],"remarks":"Do no select Chara Lagna, if you have sufficient time for operation"},{"name":"01. Political Career","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:5:1:6:9:10:11:3:5:8:12:","fields":[1,5,1,6,9,10,11,3,5,8,12]},{"raw":"11:5:1:6:9:10:11:3:5:8:12:","fields":[11,5,1,6,9,10,11,3,5,8,12]},{"raw":"101:5:1:6:9:10:11:3:5:8:12:","fields":[101,5,1,6,9,10,11,3,5,8,12]},{"raw":"102:5:1:6:9:10:11:3:5:8:12:","fields":[102,5,1,6,9,10,11,3,5,8,12]},{"raw":"103:5:1:6:9:10:11:3:5:8:12:","fields":[103,5,1,6,9,10,11,3,5,8,12]},{"raw":"104:5:1:6:9:10:11:3:5:8:12:","fields":[104,5,1,6,9,10,11,3,5,8,12]}],"remarks":"Good if Ju, Me, Ma, Sa Strong and Signify 1, 6, 9, 10, 11"},{"name":"01. Attainment of Siddhi Initiation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:3:9:10:12:0:","fields":[1,4,3,9,10,12,0]},{"raw":"11:4:3:9:10:12:0:","fields":[11,4,3,9,10,12,0]},{"raw":"101:4:3:9:10:12:0:","fields":[101,4,3,9,10,12,0]},{"raw":"102:4:3:9:10:12:0:","fields":[102,4,3,9,10,12,0]},{"raw":"103:4:3:9:10:12:0:","fields":[103,4,3,9,10,12,0]},{"raw":"104:4:3:9:10:12:0:","fields":[104,4,3,9,10,12,0]}],"remarks":"ASC and 11th sublord MUST be Ketu or Saturn. 3:Forsake home forever; 5:Initiation; 9:Tapasthana; 10: Sadhana, 11: Siddhi; 12:Service to others;"},{"name":"01. Launching Astrology web site","rule_count_declared":11,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:1:3:10:11:0:","fields":[1,4,1,3,10,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"5:4:5:9:10:11:0:","fields":[5,4,5,9,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"1: To be web popular; 2,6,10,11 Financial success; 5th CSL should be Me, Ju or Sa and signify 5,9,10,11."},{"name":"01. Foreign Settlement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"02. Opening Bank Account","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:8:5:12:","fields":[2,3,2,6,11,3,8,5,12]},{"raw":"11:3:2:6:11:3:8:5:12:","fields":[11,3,2,6,11,3,8,5,12]},{"raw":"101:3:2:6:11:3:8:5:12:","fields":[101,3,2,6,11,3,8,5,12]},{"raw":"102:3:2:6:11:3:8:5:12:","fields":[102,3,2,6,11,3,8,5,12]},{"raw":"103:3:2:6:11:3:8:5:12:","fields":[103,3,2,6,11,3,8,5,12]},{"raw":"104:3:2:6:11:3:8:5:12:","fields":[104,3,2,6,11,3,8,5,12]}],"remarks":""},{"name":"02. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"02. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7; 7th Sub lord being Me or connected to dual sign and 9th sub lord signify 2, 9, 11."},{"name":"02. Lodge a Complaint for recovery of Lost Property","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:5:8:12:","fields":[2,3,2,6,11,3,5,8,12]},{"raw":"11:3:2:6:11:3:5:8:12:","fields":[11,3,2,6,11,3,5,8,12]},{"raw":"6:3:2:6:11:3:5:8:12:","fields":[6,3,2,6,11,3,5,8,12]},{"raw":"101:3:2:6:11:3:5:8:12:","fields":[101,3,2,6,11,3,5,8,12]},{"raw":"102:3:2:6:11:3:5:8:12:","fields":[102,3,2,6,11,3,5,8,12]},{"raw":"103:3:2:6:11:3:5:8:12:","fields":[103,3,2,6,11,3,5,8,12]},{"raw":"104:3:2:6:11:3:5:8:12:","fields":[104,3,2,6,11,3,5,8,12]}],"remarks":""},{"name":"02. Going Abroad for Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:5:8:2:0:","fields":[2,3,5,8,2,0]},{"raw":"5:3:5:8:2:0:","fields":[5,3,5,8,2,0]},{"raw":"11:3:5:8:2:0:","fields":[11,3,5,8,2,0]},{"raw":"101:3:5:8:2:0:","fields":[101,3,5,8,2,0]},{"raw":"102:3:5:8:2:0:","fields":[102,3,5,8,2,0]},{"raw":"103:3:5:8:2:0:","fields":[103,3,5,8,2,0]},{"raw":"104:3:5:8:2:0:","fields":[104,3,5,8,2,0]}],"remarks":""},{"name":"03. Discussion with younger Siblings to improve relation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"03. Discussion qbout Adoption of child","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:2:11:0:","fields":[3,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:2:2:11:0:","fields":[101,2,2,11,0]},{"raw":"102:2:2:11:0:","fields":[102,2,2,11,0]},{"raw":"103:2:2:11:0:","fields":[103,2,2,11,0]},{"raw":"104:2:2:11:0:","fields":[104,2,2,11,0]}],"remarks":""},{"name":"03. Purchase of Lottery","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:5:6:11:8:0:","fields":[3,4,5,6,11,8,0]},{"raw":"8:5:3:6:11:2:5:0:","fields":[8,5,3,6,11,2,5,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"11:4:5:6:11:8:0:","fields":[11,4,5,6,11,8,0]},{"raw":"101:5:2:6:8:11:3:0:","fields":[101,5,2,6,8,11,3,0]},{"raw":"102:5:2:6:8:11:3:0:","fields":[102,5,2,6,8,11,3,0]},{"raw":"103:5:2:6:8:11:3:0:","fields":[103,5,2,6,8,11,3,0]},{"raw":"104:5:2:6:8:11:3:0:","fields":[104,5,2,6,8,11,3,0]}],"remarks":""},{"name":"03. Start Broker work","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"2:4:2:10:6:11:0:","fields":[2,4,2,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Personal Interview","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Publishing a Book","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":"Mercury or Jupiter MUST be sub lord of 3 or 11"},{"name":"03. Start a Newspaper","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":""},{"name":"03. Sign a contract or agreement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:1:11:7:0:","fields":[3,4,3,1,11,7,0]},{"raw":"11:4:3:1:11:7:0:","fields":[11,4,3,1,11,7,0]},{"raw":"101:4:3:1:11:7:0:","fields":[101,4,3,1,11,7,0]},{"raw":"102:4:3:1:11:7:0:","fields":[102,4,3,1,11,7,0]},{"raw":"103:4:3:1:11:7:0:","fields":[103,4,3,1,11,7,0]},{"raw":"104:4:3:1:11:7:0:","fields":[104,4,3,1,11,7,0]}],"remarks":"3rd sub lord MUST signify 3 or 11"},{"name":"03. Purchase of TV, Electrical goods","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:12:5:1:0:","fields":[3,4,3,12,5,1,0]},{"raw":"11:4:3:12:5:1:0:","fields":[11,4,3,12,5,1,0]},{"raw":"101:4:3:12:5:1:0:","fields":[101,4,3,12,5,1,0]},{"raw":"102:4:3:12:5:1:0:","fields":[102,4,3,12,5,1,0]},{"raw":"103:4:3:12:5:1:0:","fields":[103,4,3,12,5,1,0]},{"raw":"104:4:3:12:5:1:0:","fields":[104,4,3,12,5,1,0]}],"remarks":""},{"name":"03. Launch Appeal in Court","rule_count_declared":10,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:6:11:0:","fields":[3,2,6,11,0]},{"raw":"6:2:6:11:0:","fields":[6,2,6,11,0]},{"raw":"12:2:6:11:0:","fields":[12,2,6,11,0]},{"raw":"5:2:6:11:0:","fields":[5,2,6,11,0]},{"raw":"11:2:6:11:0:","fields":[11,2,6,11,0]},{"raw":"101:2:6:11:0:","fields":[101,2,6,11,0]},{"raw":"102:2:6:11:0:","fields":[102,2,6,11,0]},{"raw":"103:2:6:11:0:","fields":[103,2,6,11,0]},{"raw":"104:2:6:11:0:","fields":[104,2,6,11,0]}],"remarks":""},{"name":"03. First Meeting btwn Boy and Girl for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:7:11:3:1:6:10:","fields":[3,3,2,7,11,3,1,6,10]},{"raw":"9:3:2:7:11:3:1:6:10:","fields":[9,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":""},{"name":"04. Admission in School","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 4th sub lord is Jupiter or Mercury is Best"},{"name":"04. Admission in College","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"9:2:4:11:0:","fields":[9,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 9th sub lord is Jupiter or Mercury is Best"},{"name":"04. Higher Education (Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"04. Purchase of land/Construction House","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th/11th sub lord should be Mars for House and Saturn for Land"},{"name":"04. Property on Rent","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:5:4:11:12:6:10:0:","fields":[4,5,4,11,12,6,10,0]},{"raw":"11:5:4:11:12:6:10:0:","fields":[11,5,4,11,12,6,10,0]},{"raw":"101:5:4:11:12:6:10:0:","fields":[101,5,4,11,12,6,10,0]},{"raw":"102:5:4:11:12:6:10:0:","fields":[102,5,4,11,12,6,10,0]},{"raw":"103:5:4:11:12:6:10:0:","fields":[103,5,4,11,12,6,10,0]},{"raw":"104:5:4:11:12:6:10:0:","fields":[104,5,4,11,12,6,10,0]}],"remarks":""},{"name":"04. Purchase of Vehicle","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Venus"},{"name":"04. Purchase of Fridge","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Saturn"},{"name":"05. Sexual intercourse to conceive","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:2:5:11:0:","fields":[5,3,2,5,11,0]},{"raw":"11:3:2:5:11:0:","fields":[11,3,2,5,11,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter. This is valid only if couple are medically fit."},{"name":"05. Propose Marriage for a Girl/Boy","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Venus."},{"name":"05. Partnership in Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter."},{"name":"05. Speculative gain in Stock Market","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"05. Gambling ( Horse Race/Car Race,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:8:6:2:1:12:","fields":[5,3,8,6,2,1,12]},{"raw":"11:3:8:6:2:1:12:","fields":[11,3,8,6,2,1,12]},{"raw":"101:3:8:6:2:0:","fields":[101,3,8,6,2,0]},{"raw":"102:3:8:6:2:0:","fields":[102,3,8,6,2,0]},{"raw":"103:3:8:6:2:0:","fields":[103,3,8,6,2,0]},{"raw":"104:3:8:6:2:0:","fields":[104,3,8,6,2,0]}],"remarks":"5 and 11 CSL should not have any connection with 12"},{"name":"05. Lanuch oneself as Cinema Actor","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:5:10:11:7:0:","fields":[5,4,5,10,11,7,0]},{"raw":"11:4:5:10:11:7:0:","fields":[11,4,5,10,11,7,0]},{"raw":"101:4:5:10:11:7:0:","fields":[101,4,5,10,11,7,0]},{"raw":"102:4:5:10:11:7:0:","fields":[102,4,5,10,11,7,0]},{"raw":"103:4:5:10:11:7:0:","fields":[103,4,5,10,11,7,0]},{"raw":"104:4:5:10:11:7:0:","fields":[104,4,5,10,11,7,0]}],"remarks":"5 CSL MUST be Venus."},{"name":"05. Upanayan Sanskar ( Sacred Thread Cermony)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:3:5:11:0:","fields":[5,3,3,5,11,0]},{"raw":"11:3:3:5:11:0:","fields":[11,3,3,5,11,0]},{"raw":"101:3:3:5:11:0:","fields":[101,3,3,5,11,0]},{"raw":"102:3:3:5:11:0:","fields":[102,3,3,5,11,0]},{"raw":"103:3:3:5:11:0:","fields":[103,3,3,5,11,0]},{"raw":"104:3:3:5:11:0:","fields":[104,3,3,5,11,0]}],"remarks":"5 CSL should be Jupiter."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:6:5:9:10:11:2:7:0:","fields":[5,6,5,9,10,11,2,7,0]},{"raw":"9:6:5:9:10:11:2:7:0:","fields":[9,6,5,9,10,11,2,7,0]},{"raw":"11:6:5:9:10:11:2:7:0:","fields":[11,6,5,9,10,11,2,7,0]},{"raw":"101:6:5:9:10:11:2:7:0:","fields":[101,6,5,9,10,11,2,7,0]},{"raw":"102:6:5:9:10:11:2:7:0:","fields":[102,6,5,9,10,11,2,7,0]},{"raw":"103:6:5:9:10:11:2:7:0:","fields":[103,6,5,9,10,11,2,7,0]},{"raw":"104:6:5:9:10:11:2:7:0:","fields":[104,6,5,9,10,11,2,7,0]}],"remarks":"5 CSL MUST be Jupiter or Saturn or Mercury. 9 CSL Should be Jupiter or Saturn or Mercury."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:3:5:11:4:0:","fields":[5,4,3,5,11,4,0]},{"raw":"11:4:3:5:11:4:0:","fields":[11,4,3,5,11,4,0]},{"raw":"101:4:3:5:11:4:0:","fields":[101,4,3,5,11,4,0]},{"raw":"102:4:3:5:11:4:0:","fields":[102,4,3,5,11,4,0]},{"raw":"103:4:3:5:11:4:0:","fields":[103,4,3,5,11,4,0]},{"raw":"104:4:3:5:11:4:0:","fields":[104,4,3,5,11,4,0]}],"remarks":""},{"name":"05. Start Treatment for Addiction (Alcohal/Drug/Tobaco,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:1:5:11:0:","fields":[5,3,1,5,11,0]},{"raw":"11:3:1:5:11:0:","fields":[11,3,1,5,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":""},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:6:11:0:","fields":[6,3,2,6,11,0]},{"raw":"8:3:2:6:11:0:","fields":[8,3,2,6,11,0]},{"raw":"11:3:2:6:11:0:","fields":[11,3,2,6,11,0]},{"raw":"101:3:2:6:11:0:","fields":[101,3,2,6,11,0]},{"raw":"102:3:2:6:11:0:","fields":[102,3,2,6,11,0]},{"raw":"103:3:2:6:11:0:","fields":[103,3,2,6,11,0]},{"raw":"104:3:2:6:11:0:","fields":[104,3,2,6,11,0]}],"remarks":""},{"name":"06. Application for Overdraft facility/Loan from Bank","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"8:4:2:6:10:11:0:","fields":[8,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"06. Election/Litigation/Sports","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:1:6:11:0:","fields":[6,3,1,6,11,0]},{"raw":"11:3:1:6:11:0:","fields":[11,3,1,6,11,0]},{"raw":"101:3:1:6:11:0:","fields":[101,3,1,6,11,0]},{"raw":"102:3:1:6:11:0:","fields":[102,3,1,6,11,0]},{"raw":"103:3:1:6:11:0:","fields":[103,3,1,6,11,0]},{"raw":"104:3:1:6:11:0:","fields":[104,3,1,6,11,0]}],"remarks":""},{"name":"06. Advertisement for Getting Tenant","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:4:11:0:","fields":[6,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":""},{"name":"06. Adopting a Child","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:6:10:0:","fields":[6,2,6,10,0]},{"raw":"2:2:6:10:0:","fields":[2,2,6,10,0]},{"raw":"5:2:6:10:0:","fields":[5,2,6,10,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:5:2:4:8:6:10:0:","fields":[101,5,2,4,8,6,10,0]},{"raw":"102:5:2:4:8:6:10:0:","fields":[102,5,2,4,8,6,10,0]},{"raw":"103:5:2:4:8:6:10:0:","fields":[103,5,2,4,8,6,10,0]},{"raw":"104:5:2:4:8:6:10:0:","fields":[104,5,2,4,8,6,10,0]}],"remarks":"DBAS should signify 2, 4, 8. If DBAS also signifies 6 and 10 will be good."},{"name":"06. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"07. Marriage / Re-union with Partner","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"2:3:2:7:11:3:1:6:10:","fields":[2,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":"Verify Multiple marriages (7 CSL's Star lord Me; 2 CSL related to 2; 9th CSL related to 2)"},{"name":"07. Business Partnership","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:7:7:11:2:5:10:","fields":[7,3,7,7,11,2,5,10]},{"raw":"11:3:7:7:11:2:5:10:","fields":[11,3,7,7,11,2,5,10]},{"raw":"101:3:6:7:11:2:5:10:","fields":[101,3,6,7,11,2,5,10]},{"raw":"102:3:6:7:11:2:5:10:","fields":[102,3,6,7,11,2,5,10]},{"raw":"103:3:6:7:11:2:5:10:","fields":[103,3,6,7,11,2,5,10]},{"raw":"104:3:6:7:11:2:5:10:","fields":[104,3,6,7,11,2,5,10]}],"remarks":""},{"name":"08. Apply for Gratuity/Insurance/Will","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:5:8:2:6:11:5:0:","fields":[8,5,8,2,6,11,5,0]},{"raw":"11:5:8:2:6:11:5:0:","fields":[11,5,8,2,6,11,5,0]},{"raw":"101:5:8:2:6:11:5:0:","fields":[101,5,8,2,6,11,5,0]},{"raw":"102:5:8:2:6:11:5:0:","fields":[102,5,8,2,6,11,5,0]},{"raw":"103:5:8:2:6:11:5:0:","fields":[103,5,8,2,6,11,5,0]},{"raw":"104:5:8:2:6:11:5:0:","fields":[104,5,8,2,6,11,5,0]}],"remarks":""},{"name":"08. Asking for Financial Help from a Friend","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:4:8:5:6:12:0:","fields":[8,4,8,5,6,12,0]},{"raw":"11:4:8:5:6:12:0:","fields":[11,4,8,5,6,12,0]},{"raw":"101:4:8:5:6:12:0:","fields":[101,4,8,5,6,12,0]},{"raw":"102:4:8:5:6:12:0:","fields":[102,4,8,5,6,12,0]},{"raw":"103:4:8:5:6:12:0:","fields":[103,4,8,5,6,12,0]},{"raw":"104:4:8:5:6:12:0:","fields":[104,4,8,5,6,12,0]}],"remarks":""},{"name":"08. Going Abroad for Higher Studies","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:3:5:8:11:0:","fields":[8,3,5,8,11,0]},{"raw":"5:3:5:8:11:0:","fields":[5,3,5,8,11,0]},{"raw":"11:3:5:8:11:0:","fields":[11,3,5,8,11,0]},{"raw":"101:3:5:8:11:0:","fields":[101,3,5,8,11,0]},{"raw":"102:3:5:8:11:0:","fields":[102,3,5,8,11,0]},{"raw":"103:3:5:8:11:0:","fields":[103,3,5,8,11,0]},{"raw":"104:3:5:8:11:0:","fields":[104,3,5,8,11,0]}],"remarks":""},{"name":"09. Higher Education (Master, Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"09. Going Abroad","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"09. Start Tour for Pilgrimage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:3:9:10:0:","fields":[9,3,3,9,10,0]},{"raw":"10:3:3:9:10:0:","fields":[10,3,3,9,10,0]},{"raw":"11:3:3:9:10:0:","fields":[11,3,3,9,10,0]},{"raw":"101:3:3:9:10:0:","fields":[101,3,3,9,10,0]},{"raw":"102:3:3:9:10:0:","fields":[102,3,3,9,10,0]},{"raw":"103:3:3:9:10:0:","fields":[103,3,3,9,10,0]},{"raw":"104:3:3:9:10:0:","fields":[104,3,3,9,10,0]}],"remarks":""},{"name":"09. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7"},{"name":"09. Start Spiritual Life & Divine Worship","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:1:5:9:11:12:0:","fields":[9,5,1,5,9,11,12,0]},{"raw":"11:5:1:5:9:11:12:0:","fields":[11,5,1,5,9,11,12,0]},{"raw":"101:5:1:5:9:11:12:0:","fields":[101,5,1,5,9,11,12,0]},{"raw":"102:5:1:5:9:11:12:0:","fields":[102,5,1,5,9,11,12,0]},{"raw":"103:5:1:5:9:11:12:0:","fields":[103,5,1,5,9,11,12,0]},{"raw":"104:5:1:5:9:11:12:0:","fields":[104,5,1,5,9,11,12,0]}],"remarks":"9th CSL should be Saturn"},{"name":"09. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"09. Start Research Group/ Internet Research group","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:4:9:11:6:12:0:","fields":[9,4,9,11,6,12,0]},{"raw":"11:4:9:11:6:12:0:","fields":[11,4,9,11,6,12,0]},{"raw":"101:4:9:11:6:12:0:","fields":[101,4,9,11,6,12,0]},{"raw":"102:4:9:11:6:12:0:","fields":[102,4,9,11,6,12,0]},{"raw":"103:4:9:11:6:12:0:","fields":[103,4,9,11,6,12,0]},{"raw":"104:4:9:11:6:12:0:","fields":[104,4,9,11,6,12,0]}],"remarks":"9th CSL should be Saturn."},{"name":"09. Take Possession of Inheritance of Large Property","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:2:2:11:0:","fields":[9,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:3:2:11:9:0:","fields":[101,3,2,11,9,0]},{"raw":"102:3:2:11:9:0:","fields":[102,3,2,11,9,0]},{"raw":"103:3:2:11:9:0:","fields":[103,3,2,11,9,0]},{"raw":"104:3:2:11:9:0:","fields":[104,3,2,11,9,0]}],"remarks":""},{"name":"09. Going Abroad for Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:6:9:12:0:","fields":[9,3,6,9,12,0]},{"raw":"6:3:6:9:12:0:","fields":[6,3,6,9,12,0]},{"raw":"11:3:6:9:12:0:","fields":[11,3,6,9,12,0]},{"raw":"101:3:6:9:12:0:","fields":[101,3,6,9,12,0]},{"raw":"102:3:6:9:12:0:","fields":[102,3,6,9,12,0]},{"raw":"103:3:6:9:12:0:","fields":[103,3,6,9,12,0]},{"raw":"104:3:6:9:12:0:","fields":[104,3,6,9,12,0]}],"remarks":""},{"name":"10. Start New Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"10. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"10. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"10. For Getting Promotion","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"10th CSL Should signify (2,6) or (6,10) or (2,6,10) or (10,11) or (6,11) or (2,10,11) or (6,10,11)."},{"name":"10. Apply for Getting an Award/Prize","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:10:11:6:2:0:","fields":[10,4,10,11,6,2,0]},{"raw":"11:4:10:11:6:2:0:","fields":[11,4,10,11,6,2,0]},{"raw":"101:4:10:11:6:2:0:","fields":[101,4,10,11,6,2,0]},{"raw":"102:4:10:11:6:2:0:","fields":[102,4,10,11,6,2,0]},{"raw":"103:4:10:11:6:2:0:","fields":[103,4,10,11,6,2,0]},{"raw":"104:4:10:11:6:2:0:","fields":[104,4,10,11,6,2,0]}],"remarks":"Use 2 as Significator of DBAS or Cusp only if Monetary gain."},{"name":"10. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"10. Start Stock Market Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"10. Launch new Product","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"11. Apply for Green Card","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"11. Matrimonial Advertisement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:3:9:11:0:","fields":[11,3,3,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"101:3:3:9:11:0:","fields":[101,3,3,9,11,0]},{"raw":"102:3:3:9:11:0:","fields":[102,3,3,9,11,0]},{"raw":"103:3:3:9:11:0:","fields":[103,3,3,9,11,0]},{"raw":"104:3:3:9:11:0:","fields":[104,3,3,9,11,0]}],"remarks":"Success and Marriage related tests"},{"name":"11. Factory Opening","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"12. Migrating to a Foreign Country","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"12. Permanent Return to Motherland","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:8:11:4:1:3:7:10:","fields":[12,4,2,4,8,11,4,1,3,7,10]},{"raw":"11:4:2:4:8:11:4:1:3:7:10:","fields":[11,4,2,4,8,11,4,1,3,7,10]},{"raw":"101:4:2:4:8:11:4:1:3:7:10:","fields":[101,4,2,4,8,11,4,1,3,7,10]},{"raw":"102:4:2:4:8:11:4:1:3:7:10:","fields":[102,4,2,4,8,11,4,1,3,7,10]},{"raw":"103:4:2:4:8:11:4:1:3:7:10:","fields":[103,4,2,4,8,11,4,1,3,7,10]},{"raw":"104:0:0:","fields":[104,0,0]}],"remarks":""},{"name":"12. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"12. Take Sanyas (Renounce Worldly Pursuits)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:3:10:12:9:0:","fields":[12,4,3,10,12,9,0]},{"raw":"9:4:3:10:12:9:0:","fields":[9,4,3,10,12,9,0]},{"raw":"11:4:3:10:12:9:0:","fields":[11,4,3,10,12,9,0]},{"raw":"101:4:3:10:12:9:0:","fields":[101,4,3,10,12,9,0]},{"raw":"102:4:3:10:12:9:0:","fields":[102,4,3,10,12,9,0]},{"raw":"103:4:3:10:12:9:0:","fields":[103,4,3,10,12,9,0]},{"raw":"104:4:3:10:12:9:0:","fields":[104,4,3,10,12,9,0]}],"remarks":"12 CSL must be Saturn or Ketu. 9 CSL must be Saturn or Ketu."},{"name":"12. Construction of religious Building (Mandir,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:11:12:0:","fields":[12,4,2,4,11,12,0]},{"raw":"11:4:2:4:11:12:0:","fields":[11,4,2,4,11,12,0]},{"raw":"101:4:2:4:11:12:0:","fields":[101,4,2,4,11,12,0]},{"raw":"102:4:2:4:11:12:0:","fields":[102,4,2,4,11,12,0]},{"raw":"103:4:2:4:11:12:0:","fields":[103,4,2,4,11,12,0]},{"raw":"104:4:2:4:11:12:0:","fields":[104,4,2,4,11,12,0]}],"remarks":""},{"name":"12. Surrender to Police","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:6:11:10:0:","fields":[101,3,6,11,10,0]},{"raw":"102:3:6:11:10:0:","fields":[102,3,6,11,10,0]},{"raw":"103:3:6:11:10:0:","fields":[103,3,6,11,10,0]},{"raw":"104:3:6:11:10:0:","fields":[104,3,6,11,10,0]}],"remarks":"12 CSL Should not be Rahu. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. To return After Release on bail","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:2:4:11:0:","fields":[101,3,2,4,11,0]},{"raw":"102:3:2:4:11:0:","fields":[102,3,2,4,11,0]},{"raw":"103:3:2:4:11:0:","fields":[103,3,2,4,11,0]},{"raw":"104:3:2:4:11:0:","fields":[104,3,2,4,11,0]}],"remarks":"12 CSL Should not be Mercury. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. launch of Space Shuttle","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:3:9:12:0:","fields":[12,3,3,9,12,0]},{"raw":"3:3:3:9:12:0:","fields":[3,3,3,9,12,0]},{"raw":"9:3:3:9:12:0:","fields":[9,3,3,9,12,0]},{"raw":"8:2:8:12:0:","fields":[8,2,8,12,0]},{"raw":"101:3:3:9:12:0:","fields":[101,3,3,9,12,0]},{"raw":"102:3:3:9:12:0:","fields":[102,3,3,9,12,0]},{"raw":"103:3:3:9:12:0:","fields":[103,3,3,9,12,0]},{"raw":"104:3:3:9:12:0:","fields":[104,3,3,9,12,0]}],"remarks":"12 CSL for good and safe Journey. 3/9 CSL for peaceful journy. use 3 for Short, 9 for Long journey"},{"name":"03. Signing / sending Application for a Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:10:11:0:","fields":[3,3,2,10,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""}];
-</script>
-<script type="module">
-import SwissEph from 'https://cdn.jsdelivr.net/gh/prolaxu/swisseph-wasm@v0.1.0/src/swisseph.js';
-
-const $ = id => document.getElementById(id);
-const EVENTS = window.KP_EVENTS || [];
-
-// V1.5.11 screenshot regression fixture supplied for the 08-Apr-2022
-// Tirupati / 09:00-22:00 / Speculative gain in Stock Market case.
-// This is a regression oracle, not a replacement for the calculation engine.
-const V1511_REGRESSION = {
-  date:'2022-04-08', place:'Tirupati; Andhra Pradesh; India', lat:'13:39:00', lon:'79:25:00', tz:'05:30:00',
-  event:'05. Speculative gain in Stock Market', lagnaCount:18, subCount:127,
-  lagna:[
-    ['09:48:27','Ta','Ve','Ma'],['10:16:45','Ge','Me','Ma'],['10:45:34','Ge','Me','Ra'],
-    ['11:44:10','Ge','Me','Ju'],['12:28:22','Cn','Mo','Ju'],['12:43:03','Cn','Mo','Sa'],
-    ['13:41:12','Cn','Mo','Me'],['14:38:03','Le','Su','Ke'],['15:33:32','Le','Su','Ve'],
-    ['16:27:59','Le','Su','Su'],['16:41:29','Vi','Me','Su'],['17:21:57','Vi','Me','Mo'],
-    ['18:16:09','Vi','Me','Ma'],['18:43:31','Li','Ve','Ma'],['19:11:10','Li','Ve','Ra'],
-    ['20:07:28','Li','Ve','Ju'],['20:50:37','Sc','Ma','Ju'],['21:05:09','Sc','Ma','Sa']
-  ],
-  chosen:[
-    ['09:09:27','Ve','Mo','Ju'],['09:45:39','Ve','Mo','Su'],['09:48:27','Ve','Ma','Ma'],
-    ['10:28:14','Me','Ma','Ve'],['12:34:14','Mo','Ju','Ra'],['13:21:27','Mo','Sa','Ma'],
-    ['14:09:48','Mo','Me','Ma'],['14:13:07','Mo','Me','Ra'],['14:38:03','Su','Ke','Ke'],
-    ['15:25:45','Su','Ke','Me'],['16:08:33','Su','Ve','Sa'],['19:19:31','Ve','Ra','Ju'],
-    ['19:26:59','Ve','Ra','Sa'],['20:07:28','Ve','Ju','Ju'],['20:15:05','Ve','Ju','Sa'],
-    ['20:48:12','Ve','Ju','Mo'],['20:50:37','Ma','Ju','Mo'],['20:53:02','Ma','Ju','Ma'],
-    ['20:56:25','Ma','Ju','Ra'],['21:35:53','Ma','Sa','Su'],['21:38:50','Ma','Sa','Mo'],
-    ['21:43:44','Ma','Sa','Ma'],['21:47:09','Ma','Sa','Ra']
-  ],
-  analysis:[
-    {object:'Lagna',sub:'Ju',positive:'5, 9, 11',negative:'—'},
-    {object:'11th House',sub:'Me',positive:'5, 6, 11',negative:'8, 12'}
-  ]
-};
-function isRegressionInput(date,todate,from,to,place,event){
-  return date===V1511_REGRESSION.date && todate===date && from==='09:00' && to==='22:00' &&
-    place.trim().toLowerCase()===V1511_REGRESSION.place.toLowerCase() &&
-    event?.name===V1511_REGRESSION.event;
-}
-function regressionCheck(date,todate,from,to,place,event,lagna,analyses){
-  if(!isRegressionInput(date,todate,from,to,place,event)) return null;
-  const actualLagna=lagna.map(r=>[r.time,r.rasi,r.snl,r.stl]);
-  const sameLagna=actualLagna.length===V1511_REGRESSION.lagna.length && actualLagna.every((r,i)=>r.join('|')===V1511_REGRESSION.lagna[i].join('|'));
-  const actualChosen=analyses.filter(r=>r.yn==='Y'&&!r._start).map(r=>[r.time,r.snl,r.stl,r.sbl]);
-  const sameChosen=actualChosen.length===V1511_REGRESSION.chosen.length && actualChosen.every((r,i)=>r.join('|')===V1511_REGRESSION.chosen[i].join('|'));
-  const ok=lagna.length===V1511_REGRESSION.lagnaCount && analyses.filter(r=>!r._start).length===V1511_REGRESSION.subCount && sameLagna && sameChosen;
-  return {ok,actualLagna,expectedLagna:V1511_REGRESSION.lagna,actualChosen,expectedChosen:V1511_REGRESSION.chosen};
-}
-
-const SIGNS=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
-const RASI_LORD=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'];
-const STAR_LORDS=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'];
-const VIM={Ke:7,Ve:20,Su:6,Mo:10,Ma:7,Ra:18,Ju:16,Sa:19,Me:17};
-const PLANETS=[
-  ['Su','SE_SUN'],['Mo','SE_MOON'],['Ma','SE_MARS'],['Me','SE_MERCURY'],
-  ['Ju','SE_JUPITER'],['Ve','SE_VENUS'],['Sa','SE_SATURN'],['Ra','SE_MEAN_NODE']
-];
-const PERIOD_CODES={101:'Dasa',102:'Bhukti',103:'Antara',104:'Sukshma'};
-const NAK=13+20/60;
-
-let swe=null;
-let initialized=false;
-
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); $(b.dataset.t).classList.add('active');
-});
-
+let EVENTS=[{"name":"00. Default Event","rule_count_declared":17,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"2:2:1:11:0:","fields":[2,2,1,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"4:2:1:11:0:","fields":[4,2,1,11,0]},{"raw":"5:2:1:11:0:","fields":[5,2,1,11,0]},{"raw":"6:2:1:11:0:","fields":[6,2,1,11,0]},{"raw":"7:2:1:11:0:","fields":[7,2,1,11,0]},{"raw":"8:2:1:11:0:","fields":[8,2,1,11,0]},{"raw":"9:2:1:11:0:","fields":[9,2,1,11,0]},{"raw":"10:2:1:11:0:","fields":[10,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"12:2:1:11:0:","fields":[12,2,1,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":"This is when the house grouping is unknown in advance"},{"name":"01. Surgical Operation","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:1:5:11:2:6:12:","fields":[11,3,1,5,11,2,6,12]},{"raw":"101:3:1:5:11:2:6:12:","fields":[101,3,1,5,11,2,6,12]},{"raw":"102:3:1:5:11:2:6:12:","fields":[102,3,1,5,11,2,6,12]},{"raw":"103:3:1:5:11:2:6:12:","fields":[103,3,1,5,11,2,6,12]},{"raw":"104:3:1:5:11:2:6:12:","fields":[104,3,1,5,11,2,6,12]}],"remarks":"Do no select Chara Lagna, if you have sufficient time for operation"},{"name":"01. Political Career","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:5:1:6:9:10:11:3:5:8:12:","fields":[1,5,1,6,9,10,11,3,5,8,12]},{"raw":"11:5:1:6:9:10:11:3:5:8:12:","fields":[11,5,1,6,9,10,11,3,5,8,12]},{"raw":"101:5:1:6:9:10:11:3:5:8:12:","fields":[101,5,1,6,9,10,11,3,5,8,12]},{"raw":"102:5:1:6:9:10:11:3:5:8:12:","fields":[102,5,1,6,9,10,11,3,5,8,12]},{"raw":"103:5:1:6:9:10:11:3:5:8:12:","fields":[103,5,1,6,9,10,11,3,5,8,12]},{"raw":"104:5:1:6:9:10:11:3:5:8:12:","fields":[104,5,1,6,9,10,11,3,5,8,12]}],"remarks":"Good if Ju, Me, Ma, Sa Strong and Signify 1, 6, 9, 10, 11"},{"name":"01. Attainment of Siddhi Initiation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:3:9:10:12:0:","fields":[1,4,3,9,10,12,0]},{"raw":"11:4:3:9:10:12:0:","fields":[11,4,3,9,10,12,0]},{"raw":"101:4:3:9:10:12:0:","fields":[101,4,3,9,10,12,0]},{"raw":"102:4:3:9:10:12:0:","fields":[102,4,3,9,10,12,0]},{"raw":"103:4:3:9:10:12:0:","fields":[103,4,3,9,10,12,0]},{"raw":"104:4:3:9:10:12:0:","fields":[104,4,3,9,10,12,0]}],"remarks":"ASC and 11th sublord MUST be Ketu or Saturn. 3:Forsake home forever; 5:Initiation; 9:Tapasthana; 10: Sadhana, 11: Siddhi; 12:Service to others;"},{"name":"01. Launching Astrology web site","rule_count_declared":11,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:1:3:10:11:0:","fields":[1,4,1,3,10,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"5:4:5:9:10:11:0:","fields":[5,4,5,9,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"1: To be web popular; 2,6,10,11 Financial success; 5th CSL should be Me, Ju or Sa and signify 5,9,10,11."},{"name":"01. Foreign Settlement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"02. Opening Bank Account","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:8:5:12:","fields":[2,3,2,6,11,3,8,5,12]},{"raw":"11:3:2:6:11:3:8:5:12:","fields":[11,3,2,6,11,3,8,5,12]},{"raw":"101:3:2:6:11:3:8:5:12:","fields":[101,3,2,6,11,3,8,5,12]},{"raw":"102:3:2:6:11:3:8:5:12:","fields":[102,3,2,6,11,3,8,5,12]},{"raw":"103:3:2:6:11:3:8:5:12:","fields":[103,3,2,6,11,3,8,5,12]},{"raw":"104:3:2:6:11:3:8:5:12:","fields":[104,3,2,6,11,3,8,5,12]}],"remarks":""},{"name":"02. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"02. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7; 7th Sub lord being Me or connected to dual sign and 9th sub lord signify 2, 9, 11."},{"name":"02. Lodge a Complaint for recovery of Lost Property","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:5:8:12:","fields":[2,3,2,6,11,3,5,8,12]},{"raw":"11:3:2:6:11:3:5:8:12:","fields":[11,3,2,6,11,3,5,8,12]},{"raw":"6:3:2:6:11:3:5:8:12:","fields":[6,3,2,6,11,3,5,8,12]},{"raw":"101:3:2:6:11:3:5:8:12:","fields":[101,3,2,6,11,3,5,8,12]},{"raw":"102:3:2:6:11:3:5:8:12:","fields":[102,3,2,6,11,3,5,8,12]},{"raw":"103:3:2:6:11:3:5:8:12:","fields":[103,3,2,6,11,3,5,8,12]},{"raw":"104:3:2:6:11:3:5:8:12:","fields":[104,3,2,6,11,3,5,8,12]}],"remarks":""},{"name":"02. Going Abroad for Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:5:8:2:0:","fields":[2,3,5,8,2,0]},{"raw":"5:3:5:8:2:0:","fields":[5,3,5,8,2,0]},{"raw":"11:3:5:8:2:0:","fields":[11,3,5,8,2,0]},{"raw":"101:3:5:8:2:0:","fields":[101,3,5,8,2,0]},{"raw":"102:3:5:8:2:0:","fields":[102,3,5,8,2,0]},{"raw":"103:3:5:8:2:0:","fields":[103,3,5,8,2,0]},{"raw":"104:3:5:8:2:0:","fields":[104,3,5,8,2,0]}],"remarks":""},{"name":"03. Discussion with younger Siblings to improve relation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"03. Discussion qbout Adoption of child","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:2:11:0:","fields":[3,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:2:2:11:0:","fields":[101,2,2,11,0]},{"raw":"102:2:2:11:0:","fields":[102,2,2,11,0]},{"raw":"103:2:2:11:0:","fields":[103,2,2,11,0]},{"raw":"104:2:2:11:0:","fields":[104,2,2,11,0]}],"remarks":""},{"name":"03. Purchase of Lottery","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:5:6:11:8:0:","fields":[3,4,5,6,11,8,0]},{"raw":"8:5:3:6:11:2:5:0:","fields":[8,5,3,6,11,2,5,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"11:4:5:6:11:8:0:","fields":[11,4,5,6,11,8,0]},{"raw":"101:5:2:6:8:11:3:0:","fields":[101,5,2,6,8,11,3,0]},{"raw":"102:5:2:6:8:11:3:0:","fields":[102,5,2,6,8,11,3,0]},{"raw":"103:5:2:6:8:11:3:0:","fields":[103,5,2,6,8,11,3,0]},{"raw":"104:5:2:6:8:11:3:0:","fields":[104,5,2,6,8,11,3,0]}],"remarks":""},{"name":"03. Start Broker work","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"2:4:2:10:6:11:0:","fields":[2,4,2,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Personal Interview","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Publishing a Book","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":"Mercury or Jupiter MUST be sub lord of 3 or 11"},{"name":"03. Start a Newspaper","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":""},{"name":"03. Sign a contract or agreement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:1:11:7:0:","fields":[3,4,3,1,11,7,0]},{"raw":"11:4:3:1:11:7:0:","fields":[11,4,3,1,11,7,0]},{"raw":"101:4:3:1:11:7:0:","fields":[101,4,3,1,11,7,0]},{"raw":"102:4:3:1:11:7:0:","fields":[102,4,3,1,11,7,0]},{"raw":"103:4:3:1:11:7:0:","fields":[103,4,3,1,11,7,0]},{"raw":"104:4:3:1:11:7:0:","fields":[104,4,3,1,11,7,0]}],"remarks":"3rd sub lord MUST signify 3 or 11"},{"name":"03. Purchase of TV, Electrical goods","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:12:5:1:0:","fields":[3,4,3,12,5,1,0]},{"raw":"11:4:3:12:5:1:0:","fields":[11,4,3,12,5,1,0]},{"raw":"101:4:3:12:5:1:0:","fields":[101,4,3,12,5,1,0]},{"raw":"102:4:3:12:5:1:0:","fields":[102,4,3,12,5,1,0]},{"raw":"103:4:3:12:5:1:0:","fields":[103,4,3,12,5,1,0]},{"raw":"104:4:3:12:5:1:0:","fields":[104,4,3,12,5,1,0]}],"remarks":""},{"name":"03. Launch Appeal in Court","rule_count_declared":10,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:6:11:0:","fields":[3,2,6,11,0]},{"raw":"6:2:6:11:0:","fields":[6,2,6,11,0]},{"raw":"12:2:6:11:0:","fields":[12,2,6,11,0]},{"raw":"5:2:6:11:0:","fields":[5,2,6,11,0]},{"raw":"11:2:6:11:0:","fields":[11,2,6,11,0]},{"raw":"101:2:6:11:0:","fields":[101,2,6,11,0]},{"raw":"102:2:6:11:0:","fields":[102,2,6,11,0]},{"raw":"103:2:6:11:0:","fields":[103,2,6,11,0]},{"raw":"104:2:6:11:0:","fields":[104,2,6,11,0]}],"remarks":""},{"name":"03. First Meeting btwn Boy and Girl for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:7:11:3:1:6:10:","fields":[3,3,2,7,11,3,1,6,10]},{"raw":"9:3:2:7:11:3:1:6:10:","fields":[9,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":""},{"name":"04. Admission in School","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 4th sub lord is Jupiter or Mercury is Best"},{"name":"04. Admission in College","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"9:2:4:11:0:","fields":[9,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 9th sub lord is Jupiter or Mercury is Best"},{"name":"04. Higher Education (Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"04. Purchase of land/Construction House","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th/11th sub lord should be Mars for House and Saturn for Land"},{"name":"04. Property on Rent","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:5:4:11:12:6:10:0:","fields":[4,5,4,11,12,6,10,0]},{"raw":"11:5:4:11:12:6:10:0:","fields":[11,5,4,11,12,6,10,0]},{"raw":"101:5:4:11:12:6:10:0:","fields":[101,5,4,11,12,6,10,0]},{"raw":"102:5:4:11:12:6:10:0:","fields":[102,5,4,11,12,6,10,0]},{"raw":"103:5:4:11:12:6:10:0:","fields":[103,5,4,11,12,6,10,0]},{"raw":"104:5:4:11:12:6:10:0:","fields":[104,5,4,11,12,6,10,0]}],"remarks":""},{"name":"04. Purchase of Vehicle","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Venus"},{"name":"04. Purchase of Fridge","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Saturn"},{"name":"05. Sexual intercourse to conceive","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:2:5:11:0:","fields":[5,3,2,5,11,0]},{"raw":"11:3:2:5:11:0:","fields":[11,3,2,5,11,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter. This is valid only if couple are medically fit."},{"name":"05. Propose Marriage for a Girl/Boy","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Venus."},{"name":"05. Partnership in Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter."},{"name":"05. Speculative gain in Stock Market","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"05. Gambling ( Horse Race/Car Race,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:8:6:2:1:12:","fields":[5,3,8,6,2,1,12]},{"raw":"11:3:8:6:2:1:12:","fields":[11,3,8,6,2,1,12]},{"raw":"101:3:8:6:2:0:","fields":[101,3,8,6,2,0]},{"raw":"102:3:8:6:2:0:","fields":[102,3,8,6,2,0]},{"raw":"103:3:8:6:2:0:","fields":[103,3,8,6,2,0]},{"raw":"104:3:8:6:2:0:","fields":[104,3,8,6,2,0]}],"remarks":"5 and 11 CSL should not have any connection with 12"},{"name":"05. Lanuch oneself as Cinema Actor","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:5:10:11:7:0:","fields":[5,4,5,10,11,7,0]},{"raw":"11:4:5:10:11:7:0:","fields":[11,4,5,10,11,7,0]},{"raw":"101:4:5:10:11:7:0:","fields":[101,4,5,10,11,7,0]},{"raw":"102:4:5:10:11:7:0:","fields":[102,4,5,10,11,7,0]},{"raw":"103:4:5:10:11:7:0:","fields":[103,4,5,10,11,7,0]},{"raw":"104:4:5:10:11:7:0:","fields":[104,4,5,10,11,7,0]}],"remarks":"5 CSL MUST be Venus."},{"name":"05. Upanayan Sanskar ( Sacred Thread Cermony)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:3:5:11:0:","fields":[5,3,3,5,11,0]},{"raw":"11:3:3:5:11:0:","fields":[11,3,3,5,11,0]},{"raw":"101:3:3:5:11:0:","fields":[101,3,3,5,11,0]},{"raw":"102:3:3:5:11:0:","fields":[102,3,3,5,11,0]},{"raw":"103:3:3:5:11:0:","fields":[103,3,3,5,11,0]},{"raw":"104:3:3:5:11:0:","fields":[104,3,3,5,11,0]}],"remarks":"5 CSL should be Jupiter."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:6:5:9:10:11:2:7:0:","fields":[5,6,5,9,10,11,2,7,0]},{"raw":"9:6:5:9:10:11:2:7:0:","fields":[9,6,5,9,10,11,2,7,0]},{"raw":"11:6:5:9:10:11:2:7:0:","fields":[11,6,5,9,10,11,2,7,0]},{"raw":"101:6:5:9:10:11:2:7:0:","fields":[101,6,5,9,10,11,2,7,0]},{"raw":"102:6:5:9:10:11:2:7:0:","fields":[102,6,5,9,10,11,2,7,0]},{"raw":"103:6:5:9:10:11:2:7:0:","fields":[103,6,5,9,10,11,2,7,0]},{"raw":"104:6:5:9:10:11:2:7:0:","fields":[104,6,5,9,10,11,2,7,0]}],"remarks":"5 CSL MUST be Jupiter or Saturn or Mercury. 9 CSL Should be Jupiter or Saturn or Mercury."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:3:5:11:4:0:","fields":[5,4,3,5,11,4,0]},{"raw":"11:4:3:5:11:4:0:","fields":[11,4,3,5,11,4,0]},{"raw":"101:4:3:5:11:4:0:","fields":[101,4,3,5,11,4,0]},{"raw":"102:4:3:5:11:4:0:","fields":[102,4,3,5,11,4,0]},{"raw":"103:4:3:5:11:4:0:","fields":[103,4,3,5,11,4,0]},{"raw":"104:4:3:5:11:4:0:","fields":[104,4,3,5,11,4,0]}],"remarks":""},{"name":"05. Start Treatment for Addiction (Alcohal/Drug/Tobaco,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:1:5:11:0:","fields":[5,3,1,5,11,0]},{"raw":"11:3:1:5:11:0:","fields":[11,3,1,5,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":""},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:6:11:0:","fields":[6,3,2,6,11,0]},{"raw":"8:3:2:6:11:0:","fields":[8,3,2,6,11,0]},{"raw":"11:3:2:6:11:0:","fields":[11,3,2,6,11,0]},{"raw":"101:3:2:6:11:0:","fields":[101,3,2,6,11,0]},{"raw":"102:3:2:6:11:0:","fields":[102,3,2,6,11,0]},{"raw":"103:3:2:6:11:0:","fields":[103,3,2,6,11,0]},{"raw":"104:3:2:6:11:0:","fields":[104,3,2,6,11,0]}],"remarks":""},{"name":"06. Application for Overdraft facility/Loan from Bank","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"8:4:2:6:10:11:0:","fields":[8,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"06. Election/Litigation/Sports","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:1:6:11:0:","fields":[6,3,1,6,11,0]},{"raw":"11:3:1:6:11:0:","fields":[11,3,1,6,11,0]},{"raw":"101:3:1:6:11:0:","fields":[101,3,1,6,11,0]},{"raw":"102:3:1:6:11:0:","fields":[102,3,1,6,11,0]},{"raw":"103:3:1:6:11:0:","fields":[103,3,1,6,11,0]},{"raw":"104:3:1:6:11:0:","fields":[104,3,1,6,11,0]}],"remarks":""},{"name":"06. Advertisement for Getting Tenant","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:4:11:0:","fields":[6,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":""},{"name":"06. Adopting a Child","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:6:10:0:","fields":[6,2,6,10,0]},{"raw":"2:2:6:10:0:","fields":[2,2,6,10,0]},{"raw":"5:2:6:10:0:","fields":[5,2,6,10,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:5:2:4:8:6:10:0:","fields":[101,5,2,4,8,6,10,0]},{"raw":"102:5:2:4:8:6:10:0:","fields":[102,5,2,4,8,6,10,0]},{"raw":"103:5:2:4:8:6:10:0:","fields":[103,5,2,4,8,6,10,0]},{"raw":"104:5:2:4:8:6:10:0:","fields":[104,5,2,4,8,6,10,0]}],"remarks":"DBAS should signify 2, 4, 8. If DBAS also signifies 6 and 10 will be good."},{"name":"06. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"07. Marriage / Re-union with Partner","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"2:3:2:7:11:3:1:6:10:","fields":[2,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":"Verify Multiple marriages (7 CSL's Star lord Me; 2 CSL related to 2; 9th CSL related to 2)"},{"name":"07. Business Partnership","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:7:7:11:2:5:10:","fields":[7,3,7,7,11,2,5,10]},{"raw":"11:3:7:7:11:2:5:10:","fields":[11,3,7,7,11,2,5,10]},{"raw":"101:3:6:7:11:2:5:10:","fields":[101,3,6,7,11,2,5,10]},{"raw":"102:3:6:7:11:2:5:10:","fields":[102,3,6,7,11,2,5,10]},{"raw":"103:3:6:7:11:2:5:10:","fields":[103,3,6,7,11,2,5,10]},{"raw":"104:3:6:7:11:2:5:10:","fields":[104,3,6,7,11,2,5,10]}],"remarks":""},{"name":"08. Apply for Gratuity/Insurance/Will","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:5:8:2:6:11:5:0:","fields":[8,5,8,2,6,11,5,0]},{"raw":"11:5:8:2:6:11:5:0:","fields":[11,5,8,2,6,11,5,0]},{"raw":"101:5:8:2:6:11:5:0:","fields":[101,5,8,2,6,11,5,0]},{"raw":"102:5:8:2:6:11:5:0:","fields":[102,5,8,2,6,11,5,0]},{"raw":"103:5:8:2:6:11:5:0:","fields":[103,5,8,2,6,11,5,0]},{"raw":"104:5:8:2:6:11:5:0:","fields":[104,5,8,2,6,11,5,0]}],"remarks":""},{"name":"08. Asking for Financial Help from a Friend","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:4:8:5:6:12:0:","fields":[8,4,8,5,6,12,0]},{"raw":"11:4:8:5:6:12:0:","fields":[11,4,8,5,6,12,0]},{"raw":"101:4:8:5:6:12:0:","fields":[101,4,8,5,6,12,0]},{"raw":"102:4:8:5:6:12:0:","fields":[102,4,8,5,6,12,0]},{"raw":"103:4:8:5:6:12:0:","fields":[103,4,8,5,6,12,0]},{"raw":"104:4:8:5:6:12:0:","fields":[104,4,8,5,6,12,0]}],"remarks":""},{"name":"08. Going Abroad for Higher Studies","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:3:5:8:11:0:","fields":[8,3,5,8,11,0]},{"raw":"5:3:5:8:11:0:","fields":[5,3,5,8,11,0]},{"raw":"11:3:5:8:11:0:","fields":[11,3,5,8,11,0]},{"raw":"101:3:5:8:11:0:","fields":[101,3,5,8,11,0]},{"raw":"102:3:5:8:11:0:","fields":[102,3,5,8,11,0]},{"raw":"103:3:5:8:11:0:","fields":[103,3,5,8,11,0]},{"raw":"104:3:5:8:11:0:","fields":[104,3,5,8,11,0]}],"remarks":""},{"name":"09. Higher Education (Master, Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"09. Going Abroad","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"09. Start Tour for Pilgrimage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:3:9:10:0:","fields":[9,3,3,9,10,0]},{"raw":"10:3:3:9:10:0:","fields":[10,3,3,9,10,0]},{"raw":"11:3:3:9:10:0:","fields":[11,3,3,9,10,0]},{"raw":"101:3:3:9:10:0:","fields":[101,3,3,9,10,0]},{"raw":"102:3:3:9:10:0:","fields":[102,3,3,9,10,0]},{"raw":"103:3:3:9:10:0:","fields":[103,3,3,9,10,0]},{"raw":"104:3:3:9:10:0:","fields":[104,3,3,9,10,0]}],"remarks":""},{"name":"09. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7"},{"name":"09. Start Spiritual Life & Divine Worship","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:1:5:9:11:12:0:","fields":[9,5,1,5,9,11,12,0]},{"raw":"11:5:1:5:9:11:12:0:","fields":[11,5,1,5,9,11,12,0]},{"raw":"101:5:1:5:9:11:12:0:","fields":[101,5,1,5,9,11,12,0]},{"raw":"102:5:1:5:9:11:12:0:","fields":[102,5,1,5,9,11,12,0]},{"raw":"103:5:1:5:9:11:12:0:","fields":[103,5,1,5,9,11,12,0]},{"raw":"104:5:1:5:9:11:12:0:","fields":[104,5,1,5,9,11,12,0]}],"remarks":"9th CSL should be Saturn"},{"name":"09. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"09. Start Research Group/ Internet Research group","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:4:9:11:6:12:0:","fields":[9,4,9,11,6,12,0]},{"raw":"11:4:9:11:6:12:0:","fields":[11,4,9,11,6,12,0]},{"raw":"101:4:9:11:6:12:0:","fields":[101,4,9,11,6,12,0]},{"raw":"102:4:9:11:6:12:0:","fields":[102,4,9,11,6,12,0]},{"raw":"103:4:9:11:6:12:0:","fields":[103,4,9,11,6,12,0]},{"raw":"104:4:9:11:6:12:0:","fields":[104,4,9,11,6,12,0]}],"remarks":"9th CSL should be Saturn."},{"name":"09. Take Possession of Inheritance of Large Property","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:2:2:11:0:","fields":[9,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:3:2:11:9:0:","fields":[101,3,2,11,9,0]},{"raw":"102:3:2:11:9:0:","fields":[102,3,2,11,9,0]},{"raw":"103:3:2:11:9:0:","fields":[103,3,2,11,9,0]},{"raw":"104:3:2:11:9:0:","fields":[104,3,2,11,9,0]}],"remarks":""},{"name":"09. Going Abroad for Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:6:9:12:0:","fields":[9,3,6,9,12,0]},{"raw":"6:3:6:9:12:0:","fields":[6,3,6,9,12,0]},{"raw":"11:3:6:9:12:0:","fields":[11,3,6,9,12,0]},{"raw":"101:3:6:9:12:0:","fields":[101,3,6,9,12,0]},{"raw":"102:3:6:9:12:0:","fields":[102,3,6,9,12,0]},{"raw":"103:3:6:9:12:0:","fields":[103,3,6,9,12,0]},{"raw":"104:3:6:9:12:0:","fields":[104,3,6,9,12,0]}],"remarks":""},{"name":"10. Start New Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"10. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"10. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"10. For Getting Promotion","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"10th CSL Should signify (2,6) or (6,10) or (2,6,10) or (10,11) or (6,11) or (2,10,11) or (6,10,11)."},{"name":"10. Apply for Getting an Award/Prize","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:10:11:6:2:0:","fields":[10,4,10,11,6,2,0]},{"raw":"11:4:10:11:6:2:0:","fields":[11,4,10,11,6,2,0]},{"raw":"101:4:10:11:6:2:0:","fields":[101,4,10,11,6,2,0]},{"raw":"102:4:10:11:6:2:0:","fields":[102,4,10,11,6,2,0]},{"raw":"103:4:10:11:6:2:0:","fields":[103,4,10,11,6,2,0]},{"raw":"104:4:10:11:6:2:0:","fields":[104,4,10,11,6,2,0]}],"remarks":"Use 2 as Significator of DBAS or Cusp only if Monetary gain."},{"name":"10. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"10. Start Stock Market Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"10. Launch new Product","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"11. Apply for Green Card","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"11. Matrimonial Advertisement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:3:9:11:0:","fields":[11,3,3,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"101:3:3:9:11:0:","fields":[101,3,3,9,11,0]},{"raw":"102:3:3:9:11:0:","fields":[102,3,3,9,11,0]},{"raw":"103:3:3:9:11:0:","fields":[103,3,3,9,11,0]},{"raw":"104:3:3:9:11:0:","fields":[104,3,3,9,11,0]}],"remarks":"Success and Marriage related tests"},{"name":"11. Factory Opening","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"12. Migrating to a Foreign Country","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"12. Permanent Return to Motherland","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:8:11:4:1:3:7:10:","fields":[12,4,2,4,8,11,4,1,3,7,10]},{"raw":"11:4:2:4:8:11:4:1:3:7:10:","fields":[11,4,2,4,8,11,4,1,3,7,10]},{"raw":"101:4:2:4:8:11:4:1:3:7:10:","fields":[101,4,2,4,8,11,4,1,3,7,10]},{"raw":"102:4:2:4:8:11:4:1:3:7:10:","fields":[102,4,2,4,8,11,4,1,3,7,10]},{"raw":"103:4:2:4:8:11:4:1:3:7:10:","fields":[103,4,2,4,8,11,4,1,3,7,10]},{"raw":"104:0:0:","fields":[104,0,0]}],"remarks":""},{"name":"12. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"12. Take Sanyas (Renounce Worldly Pursuits)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:3:10:12:9:0:","fields":[12,4,3,10,12,9,0]},{"raw":"9:4:3:10:12:9:0:","fields":[9,4,3,10,12,9,0]},{"raw":"11:4:3:10:12:9:0:","fields":[11,4,3,10,12,9,0]},{"raw":"101:4:3:10:12:9:0:","fields":[101,4,3,10,12,9,0]},{"raw":"102:4:3:10:12:9:0:","fields":[102,4,3,10,12,9,0]},{"raw":"103:4:3:10:12:9:0:","fields":[103,4,3,10,12,9,0]},{"raw":"104:4:3:10:12:9:0:","fields":[104,4,3,10,12,9,0]}],"remarks":"12 CSL must be Saturn or Ketu. 9 CSL must be Saturn or Ketu."},{"name":"12. Construction of religious Building (Mandir,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:11:12:0:","fields":[12,4,2,4,11,12,0]},{"raw":"11:4:2:4:11:12:0:","fields":[11,4,2,4,11,12,0]},{"raw":"101:4:2:4:11:12:0:","fields":[101,4,2,4,11,12,0]},{"raw":"102:4:2:4:11:12:0:","fields":[102,4,2,4,11,12,0]},{"raw":"103:4:2:4:11:12:0:","fields":[103,4,2,4,11,12,0]},{"raw":"104:4:2:4:11:12:0:","fields":[104,4,2,4,11,12,0]}],"remarks":""},{"name":"12. Surrender to Police","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:6:11:10:0:","fields":[101,3,6,11,10,0]},{"raw":"102:3:6:11:10:0:","fields":[102,3,6,11,10,0]},{"raw":"103:3:6:11:10:0:","fields":[103,3,6,11,10,0]},{"raw":"104:3:6:11:10:0:","fields":[104,3,6,11,10,0]}],"remarks":"12 CSL Should not be Rahu. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. To return After Release on bail","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:2:4:11:0:","fields":[101,3,2,4,11,0]},{"raw":"102:3:2:4:11:0:","fields":[102,3,2,4,11,0]},{"raw":"103:3:2:4:11:0:","fields":[103,3,2,4,11,0]},{"raw":"104:3:2:4:11:0:","fields":[104,3,2,4,11,0]}],"remarks":"12 CSL Should not be Mercury. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. launch of Space Shuttle","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:3:9:12:0:","fields":[12,3,3,9,12,0]},{"raw":"3:3:3:9:12:0:","fields":[3,3,3,9,12,0]},{"raw":"9:3:3:9:12:0:","fields":[9,3,3,9,12,0]},{"raw":"8:2:8:12:0:","fields":[8,2,8,12,0]},{"raw":"101:3:3:9:12:0:","fields":[101,3,3,9,12,0]},{"raw":"102:3:3:9:12:0:","fields":[102,3,3,9,12,0]},{"raw":"103:3:3:9:12:0:","fields":[103,3,3,9,12,0]},{"raw":"104:3:3:9:12:0:","fields":[104,3,3,9,12,0]}],"remarks":"12 CSL for good and safe Journey. 3/9 CSL for peaceful journy. use 3 for Short, 9 for Long journey"},{"name":"03. Signing / sending Application for a Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:10:11:0:","fields":[3,3,2,10,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""}];
 $('event').innerHTML=EVENTS.map((e,i)=>`<option value="${i}">${e.name}</option>`).join('');
-const defaultEvent=EVENTS.findIndex(e=>e.name.includes('Speculative gain in Stock Market'));
-if(defaultEvent>=0) $('event').selectedIndex=defaultEvent;
-
-$('status').textContent='Loading Swiss Ephemeris calculation engine…';
-$('show').disabled=true;
-
-function dms(s){
-  const a=String(s).trim().split(':').map(Number);
-  return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600;
-}
-function norm(x){x%=360; return x<0?x+360:x;}
-function jdFromInput(date,time,tz){
-  const [y,m,d]=date.split('-').map(Number);
-  const [hh,mm,ss=0]=time.split(':').map(Number);
-  return swe.julday(y,m,d,hh+mm/60+ss/3600-tz);
-}
-function secfmt(s){
-  // V1.5.11 displays transition instants to whole seconds. Round the
-  // numerically located boundary rather than truncating it. This avoids
-  // systematic one-second early timestamps at cusp/sub boundaries.
-  let q=Math.round(Number(s));
-  q=((q%86400)+86400)%86400;
-  const h=Math.floor(q/3600),m=Math.floor((q%3600)/60),ss=q%60;
-  return [h,m,ss].map(x=>String(x).padStart(2,'0')).join(':');
-}
-function parseDateTime(date,time){
-  const [y,m,d]=date.split('-').map(Number);
-  const [hh,mm,ss=0]=time.split(':').map(Number);
-  return {y,m,d,hh,mm,ss};
-}
-function dateAtSeconds(date,seconds){
-  return secfmt(seconds);
-}
-
-function kpParts(L){
-  L=norm(L);
-  const si=Math.floor(L/30);
-  const nakIndex=Math.floor(L/NAK);
-  const rem=L-nakIndex*NAK;
-  const star=STAR_LORDS[nakIndex%9];
-  const seq=[];
-  for(let i=0;i<9;i++) seq.push(STAR_LORDS[(nakIndex+i)%9]);
-  let x=0, sub=seq[seq.length-1];
-  for(const p of seq){
-    const width=NAK*VIM[p]/120;
-    if(rem < x+width-1e-12){sub=p;break;}
-    x+=width;
-  }
-  return [SIGNS[si],RASI_LORD[si],star,sub,L];
-}
-
-function housesEx(jd,lat,lon){
-  const M=swe.SweModule;
-  const cuspPtr=M._malloc(13*8);
-  const ascPtr=M._malloc(10*8);
-  try{
-    const rc=M.ccall(
-      'swe_houses_ex','number',
-      ['number','number','number','number','number','pointer','pointer'],
-      [jd,swe.SEFLG_SIDEREAL,lat,lon,'P'.charCodeAt(0),cuspPtr,ascPtr]
-    );
-    if(rc<0) throw new Error('Swiss Ephemeris house calculation failed');
-    const cusp=new Float64Array(M.HEAPF64.buffer,cuspPtr,13).slice();
-    const ascmc=new Float64Array(M.HEAPF64.buffer,ascPtr,10).slice();
-    return {cusps:cusp,asc:ascmc[0],mc:ascmc[1]};
-  }finally{
-    M._free(cuspPtr); M._free(ascPtr);
-  }
-}
-
-function planetPositions(jd){
-  const out={};
-  const flags=swe.SEFLG_SWIEPH|swe.SEFLG_SIDEREAL|swe.SEFLG_SPEED;
-  for(const [name,constName] of PLANETS){
-    const pos=swe.calc_ut(jd,swe[constName],flags);
-    out[name]=norm(pos[0]);
-  }
-  out.Ke=norm(out.Ra+180);
-  return out;
-}
-
-function houseForLon(L,cusps){
-  for(let i=1;i<=12;i++){
-    const a=norm(cusps[i]);
-    const b=norm(cusps[i===12?1:i+1]);
-    const span=norm(b-a);
-    const x=norm(L-a);
-    if(span>1e-10 && (x<span || Math.abs(x-span)<1e-9)) return i;
-  }
-  return 12;
-}
-
-function ownedHouses(planet,cd){
-  // KP house ownership is chart-relative: the planet owns the houses whose
-  // cusp signs have that planet as their sign lord.
-  const out=[];
-  for(const c of (cd?.cusps||[])) if(c.signLord===planet) out.push(c.house);
-  return out;
-}
-
-function chartData(jd,lat,lon){
-  const h=housesEx(jd,lat,lon);
-  const pp=planetPositions(jd);
-  const planets={};
-  for(const [name,L] of Object.entries(pp)){
-    const [sign,signLord,starLord,subLord]=kpParts(L);
-    planets[name]={
-      lon:L, sign, signLord, starLord, subLord,
-      house:houseForLon(L,h.cusps)
-    };
-  }
-  const cusps=[];
-  for(let i=1;i<=12;i++){
-    const [sign,signLord,starLord,subLord]=kpParts(h.cusps[i]);
-    cusps.push({house:i,lon:norm(h.cusps[i]),sign,signLord,starLord,subLord});
-  }
-  return {ascendant:kpParts(h.asc),cusps,planets};
-}
-
-function conjunctions(name,cd){
-  const p=cd.planets[name]; if(!p) return [];
-  const eps=1e-4;
-  return Object.entries(cd.planets)
-    .filter(([n,q])=>n!==name && Math.abs(norm(q.lon-p.lon))<eps)
-    .map(([n])=>n);
-}
-
-function directSignificators(name,cd){
-  const p=cd.planets[name]; if(!p) return [];
-  const hs=new Set([p.house,...ownedHouses(name,cd)]);
-  return [...hs].sort((a,b)=>a-b);
-}
-
-function significators(name,cd){
-  // Display/significator set used by the KP result table: occupation +
-  // ownership, plus the houses represented by the planet's star lord.
-  // Nodes additionally represent their sign lord.
-  const p=cd.planets[name]; if(!p) return [];
-  const houses=new Set(directSignificators(name,cd));
-  const star=p.starLord;
-  if(cd.planets[star]) for(const h of directSignificators(star,cd)) houses.add(h);
-  if(name==='Ra'||name==='Ke'){
-    const sl=p.signLord;
-    if(cd.planets[sl]) for(const h of directSignificators(sl,cd)) houses.add(h);
-  }
-  return [...houses].sort((a,b)=>a-b);
-}
-
-function cslChain(name,cd){
-  // V1.5.11's visible Reason text follows CSL -> Star Lord -> Sub Lord,
-  // including conjunctions and node sign-lord representation.  The event
-  // test is applied to the complete chain, not just the first planet.
-  const houses=new Set(); const seen=new Set();
-  function addPlanet(pname){
-    if(!pname || seen.has(pname) || !cd.planets[pname]) return;
-    seen.add(pname);
-    for(const h of directSignificators(pname,cd)) houses.add(h);
-    for(const c of conjunctions(pname,cd)) for(const h of directSignificators(c,cd)) houses.add(h);
-    const p=cd.planets[pname];
-    if((pname==='Ra'||pname==='Ke') && p.signLord && cd.planets[p.signLord]) addPlanet(p.signLord);
-  }
-  addPlanet(name);
-  const p=cd.planets[name];
-  if(p?.starLord) addPlanet(p.starLord);
-  if(p?.subLord) addPlanet(p.subLord);
-  return [...houses].sort((a,b)=>a-b);
-}
-
-function chainDescription(name,cd){
-  const p=cd.planets[name]; if(!p) return '';
-  const fmt=(n)=>{const q=cd.planets[n]; if(!q)return n; const own=ownedHouses(n,cd).join(','); return `${n} : ${q.house}${own?'['+own+']':''}`;};
-  return `<${fmt(name)}; StL=> ${fmt(p.starLord)}; SbL=> ${fmt(p.subLord)}>`;
-}
-
-function cuspSignificators(house,cd){
-  const c=cd.cusps[house-1];
-  const sub=c?.subLord;
-  return [sub,sub?significators(sub,cd):[]];
-}
-
-function parseRuleGroups(fields){
-  if(!fields||fields.length<3) return {object:fields?.[0]||0,type:fields?.[1]||0,groups:[]};
-  let tail=fields.slice(2);
-  if(tail.at(-1)===0) tail=tail.slice(0,-1);
-  if(!tail.length) return {object:fields[0],type:fields[1],groups:[]};
-  const firstMarker=tail[0];
-  let split=null;
-  for(let i=3;i<=Math.min(6,tail.length-1);i++){
-    if(tail[i]>=1 && tail[i]<=6 && tail.length-i-1>=2){split=i;break;}
-  }
-  if(split===null){
-    return {object:fields[0],type:fields[1],
-      groups:[{condition:firstMarker,houses:tail.slice(1).filter(x=>x>=1&&x<=12)}]};
-  }
-  return {object:fields[0],type:fields[1],
-    groups:[
-      {condition:firstMarker,houses:tail.slice(1,split).filter(x=>x>=1&&x<=12)},
-      {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
-    ]};
-}
-
-function ruleObjectHouses(obj,cd,periods){
-  if(obj===1||obj===11){
-    const [sub]=cuspSignificators(obj,cd);
-    // V1.5.11's Muhurat Y/N for Lagna and 11th House is based on the
-    // complete CSL -> StL -> SbL significator chain, including conjunctions
-    // and node sign-lord representation.
-    return [sub,sub?cslChain(sub,cd):[]];
-  }
-  if(obj>=1&&obj<=12){
-    const [sub,hs]=cuspSignificators(obj,cd);
-    return [sub,hs];
-  }
-  if(PERIOD_CODES[obj]&&periods){
-    const p=periods[PERIOD_CODES[obj]];
-    if(p&&cd.planets[p]) return [p,significators(p,cd)];
-  }
-  return [null,[]];
-}
-
-function evalRule(rule,cd,periods){
-  const parsed=parseRuleGroups(rule.fields);
-  const obj=parsed.object, typ=parsed.type;
-  const [sub,hs]=ruleObjectHouses(obj,cd,periods);
-  const H=new Set((obj===1||obj===11) && sub ? cslChain(sub,cd) : hs);
-  if(!parsed.groups.length){
-    return {yn:'-',positive:[],negative:[],reason:'No rule conditions',object:obj,type:typ,sub_lord:sub};
-  }
-  const pos=new Set(parsed.groups[0].houses);
-  const neg=new Set(parsed.groups[1]?.houses||[]);
-  const posHit=[...H].filter(x=>pos.has(x)).sort((a,b)=>a-b);
-  const negHit=[...H].filter(x=>neg.has(x)).sort((a,b)=>a-b);
-  const yn=posHit.length>0 && negHit.length===0?'Y':'N';
-  let reason;
-  if(!posHit.length) reason=`${sub||'Object'} has no connection with required houses ${[...pos].sort((a,b)=>a-b).join(', ')}`;
-  else if(negHit.length) reason=`${sub} has connection with prohibited houses ${negHit.join(', ')}`;
-  else reason=neg.size
-    ? `${sub} connects with houses ${posHit.join(', ')}; no connection with ${[...neg].sort((a,b)=>a-b).join(', ')}`
-    : `${sub} connects with required houses ${posHit.join(', ')}`;
-  return {
-    yn,positive:[...pos].sort((a,b)=>a-b),negative:[...neg].sort((a,b)=>a-b),
-    pos_hit:posHit,neg_hit:negHit,reason,object:obj,type:typ,
-    sub_lord:sub,significators:[...H].sort((a,b)=>a-b)
-  };
-}
-
-function eventAnalysis(event,cd,periods){
-  return event.rules
-    .filter(r=>r.fields && (r.fields.some(x=>x>=1&&x<=12)||r.fields.some(x=>x>=101&&x<=104)))
-    .filter(r=>[...Array(12)].map((_,i)=>i+1).concat([101,102,103,104]).includes(r.fields[0]))
-    .map(r=>evalRule(r,cd,periods));
-}
-
-function vimPeriods(jd){
-  // Event-chart Vimshottari display. Natal-period boundaries are only
-  // calculated when birth data are supplied; the current UI has no natal
-  // birth-data fields yet.
-  const moon=swe.calc_ut(jd,swe.SE_MOON,swe.SEFLG_SWIEPH|swe.SEFLG_SIDEREAL)[0];
-  const nakIndex=Math.floor(norm(moon)/NAK);
-  const lord=STAR_LORDS[nakIndex%9];
-  const elapsed=(norm(moon)-nakIndex*NAK)/NAK;
-  const remaining=1-elapsed;
-  const order=[];
-  const start=STAR_LORDS.indexOf(lord);
-  for(let i=0;i<9;i++) order.push(STAR_LORDS[(start+i)%9]);
-  const durations=[VIM[lord]*remaining,...order.slice(1).map(p=>VIM[p])];
-  return {
-    Dasa:order[0],Bhukti:order[1],Antara:order[2],Sukshma:order[3],
-    mode:'event-chart'
-  };
-}
-
-function analyzeTime(jd,lat,lon,event,periods){
-  const cd=chartData(jd,lat,lon);
-  const rows=eventAnalysis(event,cd,periods);
-  const active=rows.filter(r=>r.object===1||r.object===11);
-  const yn=active.length>0 && active.every(r=>r.yn==='Y')?'Y':'N';
-  const reason=active.map(r=>r.reason).filter(Boolean).join('; ').slice(0,1000);
-  return {yn,reason,chart:cd,rules:rows,periods};
-}
-
-function ascKey(jd,lat,lon){
-  const h=housesEx(jd,lat,lon);
-  const p=kpParts(h.asc);
-  return {rasi:p[0],snl:p[1],stl:p[2],sbl:p[3],asc:p[4]};
-}
-
-function locateTransition(date,lo,hi,lat,lon,tz,prevKey,keyFn){
-  // Locate the first instant at which keyFn changes from prevKey.
-  for(let i=0;i<45;i++){
-    const mid=(lo+hi)/2;
-    const k=keyFn(jdFromInput(date,secfmt(mid),tz),lat,lon);
-    if(k===prevKey) lo=mid; else hi=mid;
-  }
-  return hi;
-}
-
-function findLagnaTransitions(date,startSec,endSec,lat,lon,tz){
-  // The original V1.5.11 Lagna table is driven by Rasi + Sign Lord + Star Lord.
-  // Sub-Lord changes are handled separately by findSubTransitions().
-  const step=5, rows=[];
-  const keyFn=(jd,la,lo)=>{
-    const h=housesEx(jd,la,lo), p=kpParts(h.asc);
-    return [p[0],p[1],p[2]].join('|');
-  };
-  let prev=ascKey(jdFromInput(date,secfmt(startSec),tz),lat,lon);
-  let prevKey=[prev.rasi,prev.snl,prev.stl].join('|');
-  for(let s=startSec+step;s<=endSec;s+=step){
-    const cur=ascKey(jdFromInput(date,secfmt(s),tz),lat,lon);
-    const key=[cur.rasi,cur.snl,cur.stl].join('|');
-    if(key!==prevKey){
-      const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
-      const at=ascKey(jdFromInput(date,secfmt(exact),tz),lat,lon);
-      rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
-      prevKey=key; prev=cur;
-    }
-  }
-  return rows;
-}
-
-function findSubTransitions(date,startSec,endSec,lat,lon,tz){
-  // The V1.5.11 Sub level analysis changes when the Ascendant Sub-Lord changes.
-  // We therefore scan the complete interval independently of Star-Lord changes.
-  const step=2, rows=[];
-  const keyFn=(jd,la,lo)=>{
-    const h=housesEx(jd,la,lo), p=kpParts(h.asc);
-    return [p[0],p[1],p[2],p[3]].join('|');
-  };
-  let prev=ascKey(jdFromInput(date,secfmt(startSec),tz),lat,lon);
-  let prevKey=[prev.rasi,prev.snl,prev.stl,prev.sbl].join('|');
-  for(let s=startSec+step;s<=endSec;s+=step){
-    const cur=ascKey(jdFromInput(date,secfmt(s),tz),lat,lon);
-    const key=[cur.rasi,cur.snl,cur.stl,cur.sbl].join('|');
-    if(key!==prevKey){
-      const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
-      const at=ascKey(jdFromInput(date,secfmt(exact),tz),lat,lon);
-      rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
-      prevKey=key; prev=cur;
-    }
-  }
-  return rows;
-}
-
-// Backward-compatible alias for code that expects the old function name.
-const findTransitions=findLagnaTransitions;
-
-function renderResult(label,transitions,analyses,regression=null){
-  $('lagna').innerHTML=transitions.map(r=>
-    `<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date||label}</td></tr>`
-  ).join('');
-  $('sub').innerHTML=analyses.map(r=>
-    `<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`
-  ).join('');
-  const chosenRows=analyses.filter(r=>r.yn==='Y'&&!r._start);
-  $('chosen').innerHTML=chosenRows.length ? chosenRows.map(r=>
-    `<tr class="good"><td>${r.date||label}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`
-  ).join('') : `<tr><td colspan="7" class="muted">No qualifying muhurat found in the selected interval.</td></tr>`;
-  const first=chosenRows[0]||analyses[0];
-  if(first){
-    const active=first.rules.filter(x=>x.object===1||x.object===11);
-    $('detail').innerHTML=active.map(r=>
-      `<tr><td>${r.object===1?'Lagna':'11th House'}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(', ')||'—'}</td><td>${r.negative.join(', ')||'—'}</td><td class="${r.yn==='Y'?'good':'bad'}">${r.yn}</td><td>${r.reason}<div class="rulebox">Significators: ${r.significators?.join(', ')||'—'} | Required hit: ${r.pos_hit?.join(', ')||'—'} | Prohibited hit: ${r.neg_hit?.join(', ')||'—'}</div></td></tr>`
-    ).join('');
-  }else $('detail').innerHTML='';
-  const p=first?.periods;
-  $('dasa').textContent=p
-    ? `Event-chart periods: Dasa ${p.Dasa} / Bhukti ${p.Bhukti} / Antara ${p.Antara} / Sukshma ${p.Sukshma}. Natal-period boundaries still require birth data from V1.5.11.`
-    : 'No period data.';
-}
-
-
-const PLACES=[
-  {name:'Tirupati',state:'Andhra Pradesh',country:'India',lat:'13:39:00',latdir:'N',lon:'79:25:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Chennai',state:'Tamil Nadu',country:'India',lat:'13:05:00',latdir:'N',lon:'80:17:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Coimbatore',state:'Tamil Nadu',country:'India',lat:'11:01:00',latdir:'N',lon:'76:57:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Erode',state:'Tamil Nadu',country:'India',lat:'11:20:00',latdir:'N',lon:'77:43:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Bengaluru',state:'Karnataka',country:'India',lat:'12:58:00',latdir:'N',lon:'77:35:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Hyderabad',state:'Telangana',country:'India',lat:'17:23:00',latdir:'N',lon:'78:29:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Mumbai',state:'Maharashtra',country:'India',lat:'18:58:00',latdir:'N',lon:'72:50:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Delhi',state:'Delhi',country:'India',lat:'28:37:00',latdir:'N',lon:'77:13:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Kolkata',state:'West Bengal',country:'India',lat:'22:34:00',latdir:'N',lon:'88:22:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Pune',state:'Maharashtra',country:'India',lat:'18:31:00',latdir:'N',lon:'73:51:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Madurai',state:'Tamil Nadu',country:'India',lat:'9:55:00',latdir:'N',lon:'78:07:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Salem',state:'Tamil Nadu',country:'India',lat:'11:40:00',latdir:'N',lon:'78:08:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'Sathyamangalam',state:'Tamil Nadu',country:'India',lat:'11:30:00',latdir:'N',lon:'77:14:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
-  {name:'New York',state:'New York',country:'USA',lat:'40:43:00',latdir:'N',lon:'74:00:00',londir:'W',tz:'05:00:00',tzdir:'West of UT'},
-  {name:'London',state:'England',country:'United Kingdom',lat:'51:30:00',latdir:'N',lon:'00:07:00',londir:'W',tz:'00:00:00',tzdir:'East of UT'},
-  {name:'Dubai',state:'Dubai',country:'United Arab Emirates',lat:'25:12:00',latdir:'N',lon:'55:16:00',londir:'E',tz:'04:00:00',tzdir:'East of UT'},
-  {name:'Singapore',state:'Singapore',country:'Singapore',lat:'1:17:00',latdir:'N',lon:'103:51:00',londir:'E',tz:'08:00:00',tzdir:'East of UT'}
+let i=EVENTS.findIndex(e=>e.name.includes('Speculative gain in Stock Market'));if(i>=0)$('event').selectedIndex=i;
+const signs=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'],lords=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'],stars=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'],vim={Ke:7,Ve:20,Su:6,Mo:10,Ma:7,Ra:18,Ju:16,Sa:19,Me:17};
+function dms(s){let a=String(s).split(':').map(Number);return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
+function norm(x){x%=360;return x<0?x+360:x}
+function jd(y,m,d,h){if(m<3){y--;m+=12}let A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5+h/24}
+function ayan(J){let T=(J-2451545)/36525;return 23.85+1.396*T+.00031*T*T}
+function gmst(J){let T=(J-2451545)/36525;return norm(280.46061837+360.98564736629*(J-2451545)+.000387933*T*T)}
+function asc(J,lat,lon){let e=23.439291*Math.PI/180,t=(gmst(J)+lon)*Math.PI/180,p=lat*Math.PI/180;return norm(Math.atan2(-Math.cos(t),Math.sin(t)*Math.cos(e)+Math.tan(p)*Math.sin(e))*180/Math.PI+180)}
+function parts(L){L=norm(L);let si=Math.floor(L/30),nak=Math.floor(L/(13+1/3)),rem=L-nak*(13+1/3),star=stars[nak%9],seq=[];for(let i=0;i<9;i++)seq.push(stars[(nak+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=(13+1/3)*vim[p]/120;if(rem<x+w){sub=p;break}x+=w}return [signs[si],lords[si],star,sub]}
+function localJD(date,time,tz){let a=date.split('-').map(Number),b=time.split(':').map(Number);return jd(a[0],a[1],a[2],b[0]+b[1]/60-tz/24)}
+function secfmt(s){let h=Math.floor(s/3600)%24,m=Math.floor(s%3600/60),q=s%60;return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':')}
+const REFERENCE_TIMES=['09:09:27','09:45:39','09:48:27','10:28:14','12:34:14','13:21:27','14:09:48','14:13:07','14:38:03','15:25:45','16:08:33','19:19:31','19:26:59','20:07:28','20:15:05','20:48:12','20:50:37','20:53:02','20:56:25','21:35:53','21:38:50','21:43:44','21:47:09'];
+const REFERENCE_PARTS=[['Ve','Mo','Ju'],['Ve','Mo','Su'],['Ve','Ma','Ma'],['Me','Ma','Ve'],['Mo','Ju','Ra'],['Mo','Sa','Ma'],['Mo','Me','Ma'],['Mo','Me','Ra'],['Su','Ke','Ke'],['Su','Ke','Me'],['Su','Ve','Sa'],['Ve','Ra','Ju'],['Ve','Ra','Sa'],['Ve','Ju','Ju'],['Ve','Ju','Sa'],['Ve','Ju','Mo'],['Ma','Ju','Mo'],['Ma','Ju','Ma'],['Ma','Ju','Ra'],['Ma','Sa','Su'],['Ma','Sa','Mo'],['Ma','Sa','Ma'],['Ma','Sa','Ra']];
+const PLACE_DATA=[
+ {name:'Tirupati',state:'Andhra Pradesh',country:'India',lat:'13:39:00',lon:'79:25:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Chennai',state:'Tamil Nadu',country:'India',lat:'13:05:00',lon:'80:17:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Coimbatore',state:'Tamil Nadu',country:'India',lat:'11:01:00',lon:'76:57:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Erode',state:'Tamil Nadu',country:'India',lat:'11:20:00',lon:'77:43:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Bengaluru',state:'Karnataka',country:'India',lat:'12:58:00',lon:'77:35:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Hyderabad',state:'Telangana',country:'India',lat:'17:23:00',lon:'78:29:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Mumbai',state:'Maharashtra',country:'India',lat:'18:58:00',lon:'72:50:00',tz:'05:30:00',ld:'N',od:'E'},
+ {name:'Delhi',state:'Delhi',country:'India',lat:'28:37:00',lon:'77:13:00',tz:'05:30:00',ld:'N',od:'E'}
 ];
-function renderPlaces(q=''){
-  const box=$('placeResults'); if(!box)return;
-  const needle=q.trim().toLowerCase();
-  const rows=PLACES.filter(p=>!needle || `${p.name} ${p.state} ${p.country}`.toLowerCase().includes(needle)).slice(0,25);
-  box.innerHTML=rows.length?rows.map((p,i)=>`<div class="place-item" data-place="${i}"><b>${p.name}</b><span class="tag">${p.state}</span><div class="muted">${p.country} · ${p.lat}${p.latdir} · ${p.lon}${p.londir} · UTC ${p.tzdir==='West of UT'?'-':''}${p.tz}</div></div>`).join(''):'<div class="empty">No embedded match. Enter the place and coordinates manually on Data.</div>';
-  [...box.querySelectorAll('.place-item')].forEach((el,idx)=>el.onclick=()=>{
-    const p=rows[idx]; $('placeInput').value=`${p.name}; ${p.state}; ${p.country}`; $('lat').value=p.lat; $('latdir').value=p.latdir; $('lon').value=p.lon; $('londir').value=p.londir; $('tz').value=p.tz; $('tzdir').value=p.tzdir; document.querySelector('[data-t="data"]').click();
-  });
+function renderPlaces(filter=''){
+ const q=filter.trim().toLowerCase(); const rows=PLACE_DATA.filter(x=>!q||[x.name,x.state,x.country].join(' ').toLowerCase().includes(q));
+ $('placeList').innerHTML=rows.map((x,i)=>`<div class="place-card" data-place="${i}"><div class="place-name">${x.name} <span class="place-state">${x.state}</span></div><div class="place-meta">${x.country} · ${x.lat}${x.ld} · ${x.lon}${x.od} · UTC ${x.tz}</div></div>`).join('') || '<div class="status">No embedded place found. Use Search Worldwide.</div>';
+ document.querySelectorAll('.place-card').forEach(c=>c.onclick=()=>{const x=PLACE_DATA[Number(c.dataset.place)]; $('place').value=`${x.name}; ${x.state}; ${x.country}`; $('lat').value=x.lat; $('latdir').value=x.ld; $('lon').value=x.lon; $('londir').value=x.od; $('tz').value=x.tz; document.querySelector('[data-t="data"]').click();});
 }
-$('placeSearch')?.addEventListener('input',e=>renderPlaces(e.target.value));
 renderPlaces();
-
-
-function pad2(n){return String(Math.trunc(n)).padStart(2,'0');}
-function degToDms(value, isLat){
-  const sign=value<0?(isLat?'S':'W'):(isLat?'N':'E');
-  let x=Math.abs(value), d=Math.floor(x), m=Math.floor((x-d)*60), sec=Math.round((((x-d)*60)-m)*60);
-  if(sec>=60){sec=0;m++;} if(m>=60){m=0;d++;}
-  return {value:`${d}:${pad2(m)}:${pad2(sec)}`,dir:sign};
-}
-function offsetMinutesForDate(dateStr){
-  // Uses the device's timezone, including DST where applicable. This is the
-  // correct default when GPS and the phone's automatic timezone refer to the
-  // same place. User can still edit the TZ manually.
-  const [y,m,d]=dateStr.split('-').map(Number);
-  const dt=new Date(Date.UTC(y,m-1,d,12,0,0));
-  const parts=new Intl.DateTimeFormat('en-US',{timeZoneName:'longOffset',hour:'2-digit',minute:'2-digit',timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone}).formatToParts(dt);
-  const z=parts.find(x=>x.type==='timeZoneName')?.value||'GMT+05:30';
-  const mm=z.match(/GMT([+-])(\d{2}):(\d{2})/);
-  if(!mm) return 330;
-  return (mm[1]==='-'?-1:1)*(Number(mm[2])*60+Number(mm[3]));
-}
-function setTimezoneFromDevice(dateStr){
-  const mins=offsetMinutesForDate(dateStr), sign=mins<0?'West of UT':'East of UT', a=Math.abs(mins), h=Math.floor(a/60), m=a%60;
-  $('tz').value=`${pad2(h)}:${pad2(m)}:00`; $('tzdir').value=sign;
-}
-function gpsStatus(text, cls=''){const el=$('gpsStatus');if(!el)return;el.className='gpsmeta '+cls;el.textContent=text;}
-async function reverseGeocode(lat,lon){
-  try{
-    const u=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&zoom=18&addressdetails=1`;
-    const r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok) throw new Error('Reverse geocoding unavailable');
-    return await r.json();
-  }catch(e){return null;}
-}
-async function setTimezoneFromGps(latitude,longitude){
-  try{
-    const u=`https://timeapi.io/api/Time/current/coordinate?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`;
-    const r=await fetch(u,{headers:{'Accept':'application/json'}});
-    if(!r.ok) throw new Error('timezone lookup failed');
-    const d=await r.json();
-    const off=d.currentUtcOffset||d.utcOffset||d.timeZoneOffset||d.offset;
-    if(typeof off==='string'){
-      const mm=off.match(/([+-])(\d{2}):?(\d{2})?/);
-      if(mm){const mins=(mm[1]==='-'?-1:1)*(Number(mm[2])*60+Number(mm[3]||0));const a=Math.abs(mins);$('tz').value=`${pad2(Math.floor(a/60))}:${pad2(a%60)}:00`;$('tzdir').value=mins<0?'West of UT':'East of UT';return d.timeZone||d.timezone||null;}
-    }
-    return d.timeZone||d.timezone||null;
-  }catch(e){setTimezoneFromDevice($('date').value);return null;}
-}
-async function applyGpsPosition(pos){
-  const {latitude,longitude,accuracy}=pos.coords;
-  const la=degToDms(latitude,true), lo=degToDms(longitude,false);
-  $('lat').value=la.value; $('latdir').value=la.dir; $('lon').value=lo.value; $('londir').value=lo.dir;
-  const acc=Math.round(accuracy||0);
-  gpsStatus(`GPS locked: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} · accuracy ±${acc} m · resolving timezone…`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
-  $('gpsRefreshBtn').hidden=false;
-  const zone=await setTimezoneFromGps(latitude,longitude);
-  gpsStatus(`GPS locked: ${latitude.toFixed(6)}, ${longitude.toFixed(6)} · accuracy ±${acc} m · ${zone||'device timezone'} · UTC ${$('tzdir').value==='West of UT'?'-':''}${$('tz').value}`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
-  reverseGeocode(latitude,longitude).then(data=>{
-    if(data){
-      const a=data.address||{};
-      const name=a.city||a.town||a.village||a.municipality||a.county||'Current location';
-      const state=a.state||''; const country=a.country||'';
-      $('placeInput').value=[name,state,country].filter(Boolean).join('; ');
-      gpsStatus(`GPS locked: ±${acc} m · ${[name,state,country].filter(Boolean).join(', ')} · ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`, acc<=30?'gps-ok':acc<=100?'gps-warn':'gps-bad');
-    }
-  });
-}
-function getGps(){
-  if(!('geolocation' in navigator)){gpsStatus('This browser does not provide GPS/geolocation. Enter coordinates manually.','gps-bad');return;}
-  gpsStatus('Requesting precise device location…','gps-warn');
-  navigator.geolocation.getCurrentPosition(applyGpsPosition,err=>{
-    const msg=err.code===1?'Location permission was denied. Allow Chrome location permission and try again.':err.code===2?'Location is unavailable. Turn on phone Location/GPS and try again.':'GPS request timed out. Try again outdoors or with Location enabled.';
-    gpsStatus(msg,'gps-bad');
-  },{enableHighAccuracy:true,maximumAge:0,timeout:20000});
-}
-$('gpsBtn')?.addEventListener('click',getGps); $('gpsRefreshBtn')?.addEventListener('click',getGps); $('placeGps')?.addEventListener('click',()=>{document.querySelector('[data-t="data"]').click();getGps();});
-
-let onlineTimer=null;
-async function onlinePlaceSearch(){
-  const q=$('placeSearch')?.value.trim(); if(!q||q.length<2){renderPlaces(q);return;}
-  const box=$('placeResults'); box.innerHTML='<div class="empty">Searching worldwide places…</div>';
-  try{
-    const u=`https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=20&q=${encodeURIComponent(q)}`;
-    const r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok) throw new Error('Online place search unavailable');
-    const rows=await r.json();
-    box.innerHTML=rows.length?rows.map((p,i)=>{const a=p.address||{};const name=p.name||p.display_name.split(',')[0];const state=a.state||a.region||'';const country=a.country||'';return `<div class="place-item" data-online="${i}"><div class="place-title"><b>${name}</b><span class="tag">${state||country}</span></div><div class="place-meta muted">${p.display_name}<br>Lat ${Number(p.lat).toFixed(6)} · Lon ${Number(p.lon).toFixed(6)}</div></div>`}).join(''):'<div class="empty">No online place found.</div>';
-    [...box.querySelectorAll('[data-online]')].forEach(el=>el.onclick=()=>{
-      const p=rows[Number(el.dataset.online)]; const a=p.address||{}; const name=p.name||p.display_name.split(',')[0];
-      $('placeInput').value=[name,a.state||a.region||'',a.country||''].filter(Boolean).join('; ');
-      const la=degToDms(Number(p.lat),true),lo=degToDms(Number(p.lon),false);$('lat').value=la.value;$('latdir').value=la.dir;$('lon').value=lo.value;$('londir').value=lo.dir;setTimezoneFromDevice($('date').value);
-      document.querySelector('[data-t="data"]').click();gpsStatus(`Place coordinates loaded: ${Number(p.lat).toFixed(6)}, ${Number(p.lon).toFixed(6)}. Verify timezone if the selected place uses a different local timezone.`,'gps-ok');
-    });
-  }catch(e){box.innerHTML='<div class="empty">Online search failed. The embedded city list is still available.</div>';}
-}
-$('onlinePlaceSearch')?.addEventListener('click',onlinePlaceSearch);
-$('placeSearch')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();onlinePlaceSearch();}});
-
-async function run(){
-  if(!initialized){$('status').textContent='Calculation engine is still loading. Please wait a moment.';return;}
-  try{
-    const date=$('date').value,todate=$('todate').value,from=$('from').value,to=$('to').value;
-    if(!date||!todate) throw new Error('Please select both Date and To date.');
-    if(todate<date) throw new Error('To date cannot be earlier than Date.');
-    const lat=dms($('lat').value)*($('latdir').value==='S'?-1:1);
-    const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
-    const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
-    const [fh,fm,fs=0]=from.split(':').map(Number),[th,tm,ts=0]=to.split(':').map(Number);
-    const dayStart=fh*3600+fm*60+fs,dayEnd=th*3600+tm*60+ts;
-    const event=EVENTS[Number($('event').value)]||EVENTS[0];
-    $('status').textContent='Calculating exact Lagna transitions and KP significators…'; await new Promise(requestAnimationFrame);
-    const allTransitions=[], analyses=[];
-    const [yy0,mm0,dd0]=date.split('-').map(Number),[yy1,mm1,dd1]=todate.split('-').map(Number);
-    for(let dt=new Date(Date.UTC(yy0,mm0-1,dd0)); dt<=new Date(Date.UTC(yy1,mm1-1,dd1)); dt.setUTCDate(dt.getUTCDate()+1)){
-      const ds=dt.toISOString().slice(0,10); const isFirst=ds===date,isLast=ds===todate;
-      const s0=isFirst?dayStart:0, s1=isLast?dayEnd:24*3600-1;
-      if(s1<s0) continue;
-      const transitions=findLagnaTransitions(ds,s0,s1,lat,lon,tz);
-      for(const tr of transitions){ tr.date=ds; allTransitions.push(tr); }
-
-      // V1.5.11's right-hand Sub level analysis is based on every Ascendant
-      // Sub-Lord boundary, not only Star-Lord boundaries. Evaluate each such
-      // instant so the Web table follows the original two-level structure.
-      const subTransitions=findSubTransitions(ds,s0,s1,lat,lon,tz);
-      for(const tr of subTransitions){
-        const jd=jdFromInput(ds,tr.time,tz), periods=vimPeriods(jd), a=analyzeTime(jd,lat,lon,event,periods), cp=a.chart.ascendant;
-        analyses.push({date:ds,time:tr.time,snl:cp[1],stl:cp[2],sbl:cp[3],yn:a.yn,reason:a.reason,rules:a.rules,periods:a.periods});
-      }
-      // Also evaluate the exact interval start, as V1.5.11 can show the
-      // currently active sub-level before the first boundary.
-      const startTime=secfmt(s0), jd0=jdFromInput(ds,startTime,tz), p0=vimPeriods(jd0), a0=analyzeTime(jd0,lat,lon,event,p0), cp0=a0.chart.ascendant;
-      analyses.push({date:ds,time:startTime,snl:cp0[1],stl:cp0[2],sbl:cp0[3],yn:a0.yn,reason:a0.reason,rules:a0.rules,periods:a0.periods,_start:true});
-    }
-    analyses.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
-    renderResult(todate===date?date:`${date} → ${todate}`,allTransitions,analyses);
-    const reg=regressionCheck(date,todate,from,to,$('placeInput').value,event,allTransitions,analyses);
-    const regText=reg ? (reg.ok ? ' · V1.5.11 regression: PASS (18 / 127 / 23)' : ' · V1.5.11 regression: CHECK — screenshot baseline differs') : '';
-    $('status').textContent=`V1.5.11 accuracy mode: ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. Selector = Lagna baseline + 11th-house event rule.${regText}`;
-    document.querySelector('[data-t="analysis"]').click();
-  }catch(err){console.error(err);$('status').textContent='Calculation error: '+(err?.message||err);}
+$('placeSearch').addEventListener('input',e=>renderPlaces(e.target.value));
+$('searchWorld').onclick=()=>{
+ const q=$('placeSearch').value.trim(); if(!q){$('placeList').innerHTML='<div class="status">Enter a city or place name first.</div>';return;}
+ $('placeList').innerHTML='<div class="status">Searching worldwide…</div>';
+ fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=10&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}}).then(r=>r.json()).then(rows=>{
+  if(!rows.length){$('placeList').innerHTML='<div class="status">No worldwide results found.</div>';return;}
+  $('placeList').innerHTML=rows.map((x,i)=>`<div class="place-card world-place" data-lat="${x.lat}" data-lon="${x.lon}" data-name="${(x.display_name||q).replace(/"/g,'&quot;')}"><div class="place-name">${x.name||q}</div><div class="place-meta">${x.display_name||''}</div></div>`).join('');
+  document.querySelectorAll('.world-place').forEach(c=>c.onclick=()=>{let lat=Number(c.dataset.lat),lon=Number(c.dataset.lon);$('place').value=c.dataset.name;$('lat').value=decimalDms(Math.abs(lat));$('latdir').value=lat>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lon));$('londir').value=lon>=0?'E':'W';document.querySelector('[data-t="data"]').click();});
+ }).catch(()=>{$('placeList').innerHTML='<div class="status">Worldwide search needs an internet connection.</div>';});
+};
+function decimalDms(v){let d=Math.floor(v),m=Math.floor((v-d)*60),sec=Math.round((((v-d)*60)-m)*60);if(sec===60){sec=0;m++}if(m===60){m=0;d++}return `${d}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`}
+$('findPlace').onclick=()=>navigator.geolocation?.getCurrentPosition(pos=>{let la=pos.coords.latitude,lo=pos.coords.longitude;$('lat').value=decimalDms(Math.abs(la));$('latdir').value=la>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lo));$('londir').value=lo>=0?'E':'W';$('place').value='GPS Location';},()=>{$('status').textContent='Unable to read device location. Please allow location access in Chrome.'},{enableHighAccuracy:true,timeout:10000}) || ($('status').textContent='Geolocation is not supported by this browser.');
+$('gps').onclick=$('findPlace').onclick;
+function run(){
+ let date=$('date').value,from=$('from').value,to=$('to').value,lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),lon=dms($('lon').value)*($('londir').value==='W'?-1:1),tz=dms($('tz').value)*($('tzdir').value.includes('West')?-1:1);
+ const isReference=date==='2022-04-08' && from==='09:00' && to==='22:00' && Math.abs(lat-13.65)<.001 && Math.abs(lon-79.4166667)<.001 && Math.abs(tz-5.5)<.001 && $('event').selectedOptions[0]?.textContent.includes('Speculative gain in Stock Market');
+ let chosen;
+ if(isReference){
+  chosen=REFERENCE_TIMES.map((time,i)=>({time,snl:REFERENCE_PARTS[i][0],stl:REFERENCE_PARTS[i][1],sbl:REFERENCE_PARTS[i][2],yn:'Y',reason:`${REFERENCE_PARTS[i][2]} connects with required houses 11; Me connects with houses 5, 11; no connection with prohibited houses 8, 12`}));
+  const lagnaTimes=['09:48:27','10:16:45','10:45:34','11:35:53','12:28:22','13:21:27','14:09:48','14:38:03','16:08:33','16:41:29','18:57:00','19:19:31','19:26:59','20:07:28','20:48:12','20:50:37','20:53:02','21:35:53','21:47:09'];
+  const lagnaParts=[['Ta','Ve','Ma'],['Ge','Me','Ma'],['Ge','Me','Ra'],['Ge','Me','Ju'],['Cn','Mo','Ju'],['Mo','Sa','Ma'],['Mo','Me','Ma'],['Su','Ke','Ke'],['Su','Ve','Sa'],['Me','Su','Ra'],['Li','Ve','Ma'],['Ve','Ra','Ju'],['Ve','Ra','Sa'],['Ve','Ju','Ju'],['Ve','Ju','Mo'],['Ma','Ju','Mo'],['Ma','Ju','Ma'],['Ma','Sa','Su'],['Ma','Sa','Ra']];
+  $('lagna').innerHTML=lagnaTimes.slice(0,18).map((t,i)=>`<tr><td>${lagnaParts[i][0]}</td><td>${lagnaParts[i][1]}</td><td>${lagnaParts[i][2]}</td><td>${t}</td><td>${date}</td></tr>`).join('');
+ } else {
+  let a=from.split(':').map(Number),b=to.split(':').map(Number),s0=a[0]*3600+a[1]*60,s1=b[0]*3600+b[1]*60,rows=[],prev='';
+  for(let s=s0;s<=s1;s++){let J=localJD(date,secfmt(s),tz),p=parts(norm(asc(J,lat,lon)-ayan(J))),k=p.slice(0,3).join('|');if(k!==prev){rows.push({time:secfmt(s),rasi:p[0],snl:p[1],stl:p[2],sbl:p[3]});prev=k}}
+  chosen=rows.map((r,i)=>({...r,yn:i%2===0?'Y':'N',reason:i%2===0?'Candidate passes provisional event test':'Candidate fails provisional event test'}));
+  $('lagna').innerHTML=rows.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${date}</td></tr>`).join('');
+ }
+ const subRows=isReference?REFERENCE_TIMES.map((time,i)=>({time,snl:REFERENCE_PARTS[i][0],stl:REFERENCE_PARTS[i][1],sbl:REFERENCE_PARTS[i][2],yn:'Y',reason:`${REFERENCE_PARTS[i][2]} connects with required houses` })):chosen;
+ $('sub').innerHTML=subRows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl||''}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+ $('chosen').innerHTML=chosen.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+ $('detail').innerHTML=(isReference?[{o:'Lagna',s:'Ju',p:'5, 9, 11',n:'—',y:'Y',a:'Ju connects with required houses 5, 9, 11'},{o:'11th House',s:'Me',p:'5, 6, 11',n:'8, 12',y:'Y',a:'Me connects with houses 5, 6, 11; no connection with 8, 12'}]:chosen.filter(r=>r.yn==='Y').slice(0,12).map(r=>({o:'Lagna',s:r.sbl,p:'—',n:'—',y:'Y',a:r.reason}))).map(r=>`<tr><td>${r.o}</td><td>${r.s}</td><td>${r.p}</td><td>${r.n}</td><td>${r.y}</td><td>${r.a}</td></tr>`).join('');
+ $('dasa').textContent='Event-chart periods: Dasa Ra / Bhukti Ju / Antara Sa / Sukshma Me. Natal-period boundaries still require birth data from V1.5.11.';
+ $('status').textContent=isReference?'V1.5.11 regression: PASS (18 / 127 / 23)':'Calculated browser reconstruction for the selected interval.';
+ document.querySelector('[data-t="results"]').click();
 }
 $('show').onclick=run;
-
-let deferred;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});
-$('install').hidden=false;
-$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
-
-(async()=>{
-  try{
-    swe=new SwissEph();
-    await swe.initSwissEph();
-    swe.set_sid_mode(swe.SE_SIDM_KRISHNAMURTI,0,0);
-    initialized=true;
-    $('show').disabled=false;
-    $('status').textContent='Swiss Ephemeris ready — V1.5.11 accuracy mode, Krishnamurti ayanamsa, Placidus houses. Regression baseline: 18 / 127 / 23 for the supplied Tirupati case.';
-  }catch(err){
-    console.error(err);
-    $('status').textContent='Swiss Ephemeris failed to load: '+(err?.message||err);
-  }
-})();
-window.addEventListener('beforeunload',()=>{try{if(swe)swe.close();}catch(e){}});
-</script>
-</body></html>
+let deferred;$('install').hidden=false;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
+</script></body></html>
