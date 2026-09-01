@@ -1,16 +1,7 @@
-# KPMuhurat Web — KP Muhurat V1.5.11 layout + GPS
+# KPMuhurat — New Layout + GPS
 
-This package keeps the new/improved layout and removes the Tamil sublord/reference material and Ganesha image.
+This package has `index.html` at the repository root so GitHub Pages loads the new layout instead of an older root page.
 
-## Calculation basis
-- KP / Krishnamurti Ayanamsa
-- Placidus houses
-- Swiss Ephemeris
-- Extracted V1.5.11 event rules
-- GPS latitude/longitude can be supplied from the browser and are passed to the calculation engine.
+The new interface contains no Tamil Muhurat Conditions panel or Tamil-language result table. It retains the new layout and includes GPS Location.
 
-## GPS
-Open the web app over HTTPS (required by browser geolocation), allow location access, press **Use Current GPS Location**, then press **Show**.
-
-## Important
-This is a web reconstruction of KPMuhurat V1.5.11, not the original Windows executable/source code. Exact calculation equivalence must be validated against V1.5.11 reference outputs, especially the full significator/CSL/Y-N/reason pipeline.
+Important: the calculation backend in `server.py` requires the extracted KPMuhurat place database and Swiss Ephemeris environment. GitHub Pages itself cannot run Python; use a Python-capable HTTPS host for the calculation API, or continue using the existing backend endpoint.
