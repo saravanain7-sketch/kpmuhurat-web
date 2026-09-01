@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.7.4 — GPS & Accuracy</title>
+<title>KPMuhurat Web 0.8.0 — V1.5.11 accuracy match — GPS & Accuracy</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -19,7 +19,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
 .gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.4</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.8.0</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -175,9 +175,11 @@ function houseForLon(L,cusps){
   return 12;
 }
 
-function ownedHouses(planet){
+function ownedHouses(planet,cd){
+  // KP house ownership is chart-relative: the planet owns the houses whose
+  // cusp signs have that planet as their sign lord.
   const out=[];
-  for(let i=0;i<RASI_LORD.length;i++) if(RASI_LORD[i]===planet) out.push(i+1);
+  for(const c of (cd?.cusps||[])) if(c.signLord===planet) out.push(c.house);
   return out;
 }
 
@@ -200,27 +202,59 @@ function chartData(jd,lat,lon){
   return {ascendant:kpParts(h.asc),cusps,planets};
 }
 
+function conjunctions(name,cd){
+  const p=cd.planets[name]; if(!p) return [];
+  const eps=1e-4;
+  return Object.entries(cd.planets)
+    .filter(([n,q])=>n!==name && Math.abs(norm(q.lon-p.lon))<eps)
+    .map(([n])=>n);
+}
+
+function directSignificators(name,cd){
+  const p=cd.planets[name]; if(!p) return [];
+  const hs=new Set([p.house,...ownedHouses(name,cd)]);
+  return [...hs].sort((a,b)=>a-b);
+}
+
 function significators(name,cd){
-  const p=cd.planets[name];
-  if(!p) return [];
-  const houses=new Set([p.house,...ownedHouses(name)]);
+  // Display/significator set used by the KP result table: occupation +
+  // ownership, plus the houses represented by the planet's star lord.
+  // Nodes additionally represent their sign lord.
+  const p=cd.planets[name]; if(!p) return [];
+  const houses=new Set(directSignificators(name,cd));
   const star=p.starLord;
-  if(cd.planets[star]){
-    const sp=cd.planets[star];
-    houses.add(sp.house);
-    for(const h of ownedHouses(star)) houses.add(h);
-  }
-  // KP node convention used by the extracted reconstruction:
-  // node -> sign lord + star lord indications.
+  if(cd.planets[star]) for(const h of directSignificators(star,cd)) houses.add(h);
   if(name==='Ra'||name==='Ke'){
     const sl=p.signLord;
-    if(cd.planets[sl]){
-      const sp=cd.planets[sl];
-      houses.add(sp.house);
-      for(const h of ownedHouses(sl)) houses.add(h);
-    }
+    if(cd.planets[sl]) for(const h of directSignificators(sl,cd)) houses.add(h);
   }
   return [...houses].sort((a,b)=>a-b);
+}
+
+function cslChain(name,cd){
+  // V1.5.11's visible Reason text follows CSL -> Star Lord -> Sub Lord,
+  // including conjunctions and node sign-lord representation.  The event
+  // test is applied to the complete chain, not just the first planet.
+  const houses=new Set(); const seen=new Set();
+  function addPlanet(pname){
+    if(!pname || seen.has(pname) || !cd.planets[pname]) return;
+    seen.add(pname);
+    for(const h of directSignificators(pname,cd)) houses.add(h);
+    for(const c of conjunctions(pname,cd)) for(const h of directSignificators(c,cd)) houses.add(h);
+    const p=cd.planets[pname];
+    if((pname==='Ra'||pname==='Ke') && p.signLord && cd.planets[p.signLord]) addPlanet(p.signLord);
+  }
+  addPlanet(name);
+  const p=cd.planets[name];
+  if(p?.starLord) addPlanet(p.starLord);
+  if(p?.subLord) addPlanet(p.subLord);
+  return [...houses].sort((a,b)=>a-b);
+}
+
+function chainDescription(name,cd){
+  const p=cd.planets[name]; if(!p) return '';
+  const fmt=(n)=>{const q=cd.planets[n]; if(!q)return n; const own=ownedHouses(n,cd).join(','); return `${n} : ${q.house}${own?'['+own+']':''}`;};
+  return `<${fmt(name)}; StL=> ${fmt(p.starLord)}; SbL=> ${fmt(p.subLord)}>`;
 }
 
 function cuspSignificators(house,cd){
@@ -251,6 +285,13 @@ function parseRuleGroups(fields){
 }
 
 function ruleObjectHouses(obj,cd,periods){
+  if(obj===1||obj===11){
+    const [sub]=cuspSignificators(obj,cd);
+    // V1.5.11's Muhurat Y/N for Lagna and 11th House is based on the
+    // complete CSL -> StL -> SbL significator chain, including conjunctions
+    // and node sign-lord representation.
+    return [sub,sub?cslChain(sub,cd):[]];
+  }
   if(obj>=1&&obj<=12){
     const [sub,hs]=cuspSignificators(obj,cd);
     return [sub,hs];
@@ -266,7 +307,7 @@ function evalRule(rule,cd,periods){
   const parsed=parseRuleGroups(rule.fields);
   const obj=parsed.object, typ=parsed.type;
   const [sub,hs]=ruleObjectHouses(obj,cd,periods);
-  const H=new Set(hs);
+  const H=new Set((obj===1||obj===11) && sub ? cslChain(sub,cd) : hs);
   if(!parsed.groups.length){
     return {yn:'-',positive:[],negative:[],reason:'No rule conditions',object:obj,type:typ,sub_lord:sub};
   }
@@ -576,7 +617,7 @@ async function run(){
     }
     analyses.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
     renderResult(todate===date?date:`${date} → ${todate}`,allTransitions,analyses);
-    $('status').textContent=`Calculated ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. GPS coordinates are used directly when supplied.`;
+    $('status').textContent=`V1.5.11 accuracy mode: ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. Selector = Lagna baseline + 11th-house event rule.`;
     document.querySelector('[data-t="analysis"]').click();
   }catch(err){console.error(err);$('status').textContent='Calculation error: '+(err?.message||err);}
 }
@@ -594,7 +635,7 @@ $('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
     swe.set_sid_mode(swe.SE_SIDM_KRISHNAMURTI,0,0);
     initialized=true;
     $('show').disabled=false;
-    $('status').textContent='Swiss Ephemeris ready — Krishnamurti ayanamsa, Placidus houses. GPS button available for high-accuracy coordinates. 80 extracted event entries embedded.';
+    $('status').textContent='Swiss Ephemeris ready — V1.5.11 accuracy mode, Krishnamurti ayanamsa, Placidus houses. 80 extracted event entries embedded.';
   }catch(err){
     console.error(err);
     $('status').textContent='Swiss Ephemeris failed to load: '+(err?.message||err);

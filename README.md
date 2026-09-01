@@ -43,3 +43,10 @@ The extraction report for the original MSI records **97,875 place rows**, but th
 The browser engine uses Swiss Ephemeris with Krishnamurti ayanamsa and Placidus houses. The current 2026-09-01 Coimbatore transition timings have been regression-checked against the supplied V1.5.11-style screenshots.
 
 The event-rule data are extracted from the original MSI, but the original Windows source code is not included. Exact parity of every significator/CSL/Y-N edge case still requires regression testing against the Windows application.
+
+
+## 0.8.0 — V1.5.11 accuracy matching
+- House ownership is chart-relative (from cusp sign lords), matching the original UI's notation.
+- Lagna/11th-house Y/N uses the complete CSL → Star Lord → Sub Lord chain, including conjunctions and node sign-lord representation.
+- Muhurat selection uses the V1.5.11 pattern: Lagna baseline rule plus the event's 11th-house rule; the 5th-house event rule remains available for event analysis but does not gate the primary selector, consistent with the supplied V1.5.11 comparison screenshot.
+- The 08-Apr-2022 Tirupati stock-market regression now targets the sub-level boundaries at 09:00, 09:01:22, 09:09:27, 09:16:41, 09:25:20, 09:33:08, 09:36:22, 09:45:39, 09:48:27 and 09:51:43, with 09:45:39 and 09:48:27 expected to qualify under this reconstructed V1.5.11 logic.
