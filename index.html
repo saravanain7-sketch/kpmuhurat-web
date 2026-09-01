@@ -81,6 +81,8 @@ th{background:#eef5f8;font-weight:700}
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
+<div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="subResults"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted">Event-chart periods: Dasa Ra / Bhukti Ju / Antara Sa / Sukshma Me. Natal-period boundaries still require birth data from V1.5.11.</div></div></section>
 
@@ -154,6 +156,7 @@ function run(){
  }
  const subRows=isReference?REFERENCE_TIMES.map((time,i)=>({time,snl:REFERENCE_PARTS[i][0],stl:REFERENCE_PARTS[i][1],sbl:REFERENCE_PARTS[i][2],yn:'Y',reason:`${REFERENCE_PARTS[i][2]} connects with required houses` })):chosen;
  $('sub').innerHTML=subRows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl||''}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+ $('subResults').innerHTML=subRows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl||''}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
  $('chosen').innerHTML=chosen.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
  $('detail').innerHTML=(isReference?[{o:'Lagna',s:'Ju',p:'5, 9, 11',n:'—',y:'Y',a:'Ju connects with required houses 5, 9, 11'},{o:'11th House',s:'Me',p:'5, 6, 11',n:'8, 12',y:'Y',a:'Me connects with houses 5, 6, 11; no connection with 8, 12'}]:chosen.filter(r=>r.yn==='Y').slice(0,12).map(r=>({o:'Lagna',s:r.sbl,p:'—',n:'—',y:'Y',a:r.reason}))).map(r=>`<tr><td>${r.o}</td><td>${r.s}</td><td>${r.p}</td><td>${r.n}</td><td>${r.y}</td><td>${r.a}</td></tr>`).join('');
  $('dasa').textContent='Event-chart periods: Dasa Ra / Bhukti Ju / Antara Sa / Sukshma Me. Natal-period boundaries still require birth data from V1.5.11.';
