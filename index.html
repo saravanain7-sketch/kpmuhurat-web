@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.7.3 — GPS & Accuracy</title>
+<title>KPMuhurat Web 0.7.4 — GPS & Accuracy</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -19,7 +19,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
 .gpsbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.gpsbox .btn{margin:0}.gps-ok{background:#d9f4df;border-color:#7fb58b}.gps-warn{background:#fff5d9;border-color:#d7bb63}.gps-bad{background:#ffdede;border-color:#d18b8b}.gpsmeta{font-size:12px;color:#526870;line-height:1.45}.accuracy{font-weight:bold}.online{border-left:4px solid #1976a8}.small{font-size:11px}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:720px}.place-item .place-title{font-size:16px}.place-item .place-meta{margin-top:3px;line-height:1.35}.place-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.place-actions .btn{margin:0}@media(max-width:700px){.table-wrap table{min-width:720px}.gpsbox{align-items:stretch}.gpsbox .btn{flex:1 1 180px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.3</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.4</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -100,8 +100,13 @@ function jdFromInput(date,time,tz){
   return swe.julday(y,m,d,hh+mm/60+ss/3600-tz);
 }
 function secfmt(s){
-  const h=Math.floor(s/3600)%24,m=Math.floor((s%3600)/60),q=Math.floor(s%60);
-  return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':');
+  // V1.5.11 displays transition instants to whole seconds. Round the
+  // numerically located boundary rather than truncating it. This avoids
+  // systematic one-second early timestamps at cusp/sub boundaries.
+  let q=Math.round(Number(s));
+  q=((q%86400)+86400)%86400;
+  const h=Math.floor(q/3600),m=Math.floor((q%3600)/60),ss=q%60;
+  return [h,m,ss].map(x=>String(x).padStart(2,'0')).join(':');
 }
 function parseDateTime(date,time){
   const [y,m,d]=date.split('-').map(Number);
@@ -324,32 +329,64 @@ function ascKey(jd,lat,lon){
   return {rasi:p[0],snl:p[1],stl:p[2],sbl:p[3],asc:p[4]};
 }
 
-function findTransitions(date,startSec,endSec,lat,lon,tz){
-  const step=5;
-  const rows=[];
+function locateTransition(date,lo,hi,lat,lon,tz,prevKey,keyFn){
+  // Locate the first instant at which keyFn changes from prevKey.
+  for(let i=0;i<45;i++){
+    const mid=(lo+hi)/2;
+    const k=keyFn(jdFromInput(date,mid,tz),lat,lon);
+    if(k===prevKey) lo=mid; else hi=mid;
+  }
+  return hi;
+}
+
+function findLagnaTransitions(date,startSec,endSec,lat,lon,tz){
+  // The original V1.5.11 Lagna table is driven by Rasi + Sign Lord + Star Lord.
+  // Sub-Lord changes are handled separately by findSubTransitions().
+  const step=5, rows=[];
+  const keyFn=(jd,la,lo)=>{
+    const h=housesEx(jd,la,lo), p=kpParts(h.asc);
+    return [p[0],p[1],p[2]].join('|');
+  };
   let prev=ascKey(jdFromInput(date,secfmt(startSec),tz),lat,lon);
   let prevKey=[prev.rasi,prev.snl,prev.stl].join('|');
   for(let s=startSec+step;s<=endSec;s+=step){
     const cur=ascKey(jdFromInput(date,secfmt(s),tz),lat,lon);
     const key=[cur.rasi,cur.snl,cur.stl].join('|');
     if(key!==prevKey){
-      let lo=s-step,hi=s;
-      for(let i=0;i<35;i++){
-        const mid=(lo+hi)/2;
-        const k=ascKey(jdFromInput(date,secfmt(mid),tz),lat,lon);
-        const mk=[k.rasi,k.snl,k.stl].join('|');
-        if(mk===prevKey) lo=mid; else hi=mid;
-      }
-      const exact=ascKey(jdFromInput(date,secfmt(hi),tz),lat,lon);
-      rows.push({
-        time:secfmt(hi),rasi:exact.rasi,snl:exact.snl,stl:exact.stl,sbl:exact.sbl,
-        date
-      });
+      const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
+      const at=ascKey(jdFromInput(date,exact,tz),lat,lon);
+      rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
       prevKey=key; prev=cur;
     }
   }
   return rows;
 }
+
+function findSubTransitions(date,startSec,endSec,lat,lon,tz){
+  // The V1.5.11 Sub level analysis changes when the Ascendant Sub-Lord changes.
+  // We therefore scan the complete interval independently of Star-Lord changes.
+  const step=2, rows=[];
+  const keyFn=(jd,la,lo)=>{
+    const h=housesEx(jd,la,lo), p=kpParts(h.asc);
+    return [p[0],p[1],p[2],p[3]].join('|');
+  };
+  let prev=ascKey(jdFromInput(date,secfmt(startSec),tz),lat,lon);
+  let prevKey=[prev.rasi,prev.snl,prev.stl,prev.sbl].join('|');
+  for(let s=startSec+step;s<=endSec;s+=step){
+    const cur=ascKey(jdFromInput(date,secfmt(s),tz),lat,lon);
+    const key=[cur.rasi,cur.snl,cur.stl,cur.sbl].join('|');
+    if(key!==prevKey){
+      const exact=locateTransition(date,s-step,s,lat,lon,tz,prevKey,keyFn);
+      const at=ascKey(jdFromInput(date,exact,tz),lat,lon);
+      rows.push({time:secfmt(exact),rasi:at.rasi,snl:at.snl,stl:at.stl,sbl:at.sbl,date});
+      prevKey=key; prev=cur;
+    }
+  }
+  return rows;
+}
+
+// Backward-compatible alias for code that expects the old function name.
+const findTransitions=findLagnaTransitions;
 
 function renderResult(label,transitions,analyses){
   $('lagna').innerHTML=transitions.map(r=>
@@ -521,19 +558,25 @@ async function run(){
       const ds=dt.toISOString().slice(0,10); const isFirst=ds===date,isLast=ds===todate;
       const s0=isFirst?dayStart:0, s1=isLast?dayEnd:24*3600-1;
       if(s1<s0) continue;
-      const transitions=findTransitions(ds,s0,s1,lat,lon,tz);
-      for(const tr of transitions){
-        tr.date=ds; allTransitions.push(tr);
+      const transitions=findLagnaTransitions(ds,s0,s1,lat,lon,tz);
+      for(const tr of transitions){ tr.date=ds; allTransitions.push(tr); }
+
+      // V1.5.11's right-hand Sub level analysis is based on every Ascendant
+      // Sub-Lord boundary, not only Star-Lord boundaries. Evaluate each such
+      // instant so the Web table follows the original two-level structure.
+      const subTransitions=findSubTransitions(ds,s0,s1,lat,lon,tz);
+      for(const tr of subTransitions){
         const jd=jdFromInput(ds,tr.time,tz), periods=vimPeriods(jd), a=analyzeTime(jd,lat,lon,event,periods), cp=a.chart.ascendant;
         analyses.push({date:ds,time:tr.time,snl:cp[1],stl:cp[2],sbl:cp[3],yn:a.yn,reason:a.reason,rules:a.rules,periods:a.periods});
       }
-      // Evaluate the exact start point too, as the original selector can have a valid row before a transition.
+      // Also evaluate the exact interval start, as V1.5.11 can show the
+      // currently active sub-level before the first boundary.
       const startTime=secfmt(s0), jd0=jdFromInput(ds,startTime,tz), p0=vimPeriods(jd0), a0=analyzeTime(jd0,lat,lon,event,p0), cp0=a0.chart.ascendant;
       analyses.push({date:ds,time:startTime,snl:cp0[1],stl:cp0[2],sbl:cp0[3],yn:a0.yn,reason:a0.reason,rules:a0.rules,periods:a0.periods,_start:true});
     }
     analyses.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
     renderResult(todate===date?date:`${date} → ${todate}`,allTransitions,analyses);
-    $('status').textContent=`Calculated ${allTransitions.length} Lagna transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. GPS coordinates are used directly when supplied.`;
+    $('status').textContent=`Calculated ${allTransitions.length} Lagna transitions and ${analyses.filter(x=>!x._start).length} sub-level transitions with Swiss Ephemeris + Krishnamurti ayanamsa + Placidus houses. GPS coordinates are used directly when supplied.`;
     document.querySelector('[data-t="analysis"]').click();
   }catch(err){console.error(err);$('status').textContent='Calculation error: '+(err?.message||err);}
 }
