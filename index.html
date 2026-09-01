@@ -12,7 +12,7 @@ nav{display:flex;min-width:max-content;overflow-x:auto;background:#f2f8fb;border
 nav::-webkit-scrollbar{display:none}
 nav button{border:0;background:transparent;color:#111;padding:18px 28px 16px;font-size:21px;line-height:1;white-space:nowrap;min-width:max-content}
 nav button.active{background:#d7effb;border-bottom:4px solid #1976a8;font-weight:700}
-main{width:calc(100% - 40px);max-width:none;margin:0 auto;padding:20px 0 30px}
+main{width:calc(100% - 28px);max-width:none;margin:0 auto;padding:16px 0 30px}
 section{display:none}section.active{display:block}
 .panel{background:#fff;border:1px solid #9ebdcc;border-radius:6px;padding:24px;margin-bottom:20px;overflow:hidden}
 .blue{background:#8bcceb}
@@ -31,15 +31,15 @@ th,td{border:1px solid #adbec6;padding:10px 12px;white-space:nowrap;text-align:l
 th{background:#eef5f8;font-weight:700}
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}
 .status{padding:12px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px;font-size:17px}
-.place-search{margin-bottom:18px}.place-actions{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;align-items:flex-start}.place-btn{min-width:330px}
-.place-card{background:#f4f9fb;border:1px solid #9ebdcc;border-radius:5px;padding:16px 18px;margin:12px 0;cursor:pointer}
+.place-panel h3{margin-bottom:10px}.place-intro{font-size:18px;margin:0 0 18px}.place-search{margin-bottom:18px}.place-actions{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;align-items:flex-start}.place-btn{min-width:330px}
+.place-card{background:#f4f9fb;min-height:76px;border:1px solid #9ebdcc;border-radius:5px;padding:16px 18px;margin:12px 0;cursor:pointer}
 .place-name{font-size:27px;font-weight:700}.place-state{display:inline-block;margin-left:10px;padding:4px 9px;border:1px solid #a8bec8;border-radius:15px;font-size:17px;font-weight:400}.place-meta{font-size:21px;color:#61727a;margin-top:4px}
-.notes-box{min-height:300px}.help p{font-size:21px;line-height:1.35}.help h3{margin-bottom:30px}
+.notes-box{height:214px;min-height:214px}.help p{font-size:21px;line-height:1.35}.help h3{margin-bottom:30px}
 .data-actions{margin-top:2px}
 @media(max-width:900px){
   header{height:76px;padding:22px 20px 16px} header b{font-size:22px} header small{font-size:17px}
   nav{top:76px} nav button{font-size:20px;padding:16px 24px 14px}
-  main{width:calc(100% - 40px);padding-top:20px}
+  main{width:calc(100% - 28px);padding-top:16px}
   .panel{padding:24px}
   .grid2{grid-template-columns:1fr}
   .grid3{grid-template-columns:minmax(0,1fr) 110px;gap:12px}
@@ -55,7 +55,7 @@ th{background:#eef5f8;font-weight:700}
 @media(max-width:520px){
   header{padding-left:18px} header b{font-size:20px} header small{font-size:15px}
   nav button{font-size:19px;padding-left:20px;padding-right:20px}
-  main{width:calc(100% - 40px)}
+  main{width:calc(100% - 28px)}
   .panel{padding:22px}
   .grid3{grid-template-columns:minmax(0,1fr) 92px}
   .titlebar{font-size:26px}
@@ -67,7 +67,7 @@ th{background:#eef5f8;font-weight:700}
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
-<label>Place<input id="place" value="Tirupati; Andhra Pradesh; India"></label>
+<label>Place<input id="placeInput" value="Tirupati; Andhra Pradesh; India"></label>
 <button class="btn" id="gps" type="button">📍 Use My GPS Location</button><div class="status muted">GPS is optional. On HTTPS GitHub Pages, Chrome can request precise device location.</div><div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -85,7 +85,7 @@ th{background:#eef5f8;font-weight:700}
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted">Event-chart periods: Dasa Ra / Bhukti Ju / Antara Sa / Sukshma Me. Natal-period boundaries still require birth data from V1.5.11.</div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText" class="notes-box"></textarea></div></section>
-<section id="place"><div class="panel"><h3>PlaceSelect</h3><input id="placeSearch" class="place-search" placeholder="Search city / place (e.g. Tirupati)">
+<section id="place"><div class="panel place-panel"><h3>PlaceSelect</h3><p class="muted place-intro">Select a place from the embedded list, or search worldwide.</p><input id="placeSearch" class="place-search" placeholder="Search city / place (e.g. Tirupati)">
 <div class="place-actions"><button class="btn place-btn" id="searchWorld">🌐 Search Worldwide</button><button class="btn place-btn" id="findPlace">📍 Find My Place</button></div>
 <div id="placeList"></div></div></section>
 <section id="help"><div class="panel help"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p><b>Accuracy mode:</b> Krishnamurti ayanamsa + Placidus houses + Swiss Ephemeris. The <b>Use My GPS Location</b> button requests high-accuracy device coordinates and uses them directly in the chart calculation.</p><p><b>PlaceSelect:</b> the embedded list is retained, and <b>Search Worldwide</b> can find additional places online when network access is available. The original MSI extraction report records 97,875 places; exact database parity requires the original extracted database file.</p><p class="muted">This remains a reconstruction, not the original Windows source/binary. Calculation equivalence should be regression-tested against V1.5.11.</p></div></section>
@@ -121,7 +121,7 @@ const PLACE_DATA=[
 function renderPlaces(filter=''){
  const q=filter.trim().toLowerCase(); const rows=PLACE_DATA.filter(x=>!q||[x.name,x.state,x.country].join(' ').toLowerCase().includes(q));
  $('placeList').innerHTML=rows.map((x,i)=>`<div class="place-card" data-place="${i}"><div class="place-name">${x.name} <span class="place-state">${x.state}</span></div><div class="place-meta">${x.country} · ${x.lat}${x.ld} · ${x.lon}${x.od} · UTC ${x.tz}</div></div>`).join('') || '<div class="status">No embedded place found. Use Search Worldwide.</div>';
- document.querySelectorAll('.place-card').forEach(c=>c.onclick=()=>{const x=PLACE_DATA[Number(c.dataset.place)]; $('place').value=`${x.name}; ${x.state}; ${x.country}`; $('lat').value=x.lat; $('latdir').value=x.ld; $('lon').value=x.lon; $('londir').value=x.od; $('tz').value=x.tz; document.querySelector('[data-t="data"]').click();});
+ document.querySelectorAll('.place-card').forEach(c=>c.onclick=()=>{const x=PLACE_DATA[Number(c.dataset.place)]; $('placeInput').value=`${x.name}; ${x.state}; ${x.country}`; $('lat').value=x.lat; $('latdir').value=x.ld; $('lon').value=x.lon; $('londir').value=x.od; $('tz').value=x.tz; document.querySelector('[data-t="data"]').click();});
 }
 renderPlaces();
 $('placeSearch').addEventListener('input',e=>renderPlaces(e.target.value));
@@ -131,11 +131,11 @@ $('searchWorld').onclick=()=>{
  fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=10&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}}).then(r=>r.json()).then(rows=>{
   if(!rows.length){$('placeList').innerHTML='<div class="status">No worldwide results found.</div>';return;}
   $('placeList').innerHTML=rows.map((x,i)=>`<div class="place-card world-place" data-lat="${x.lat}" data-lon="${x.lon}" data-name="${(x.display_name||q).replace(/"/g,'&quot;')}"><div class="place-name">${x.name||q}</div><div class="place-meta">${x.display_name||''}</div></div>`).join('');
-  document.querySelectorAll('.world-place').forEach(c=>c.onclick=()=>{let lat=Number(c.dataset.lat),lon=Number(c.dataset.lon);$('place').value=c.dataset.name;$('lat').value=decimalDms(Math.abs(lat));$('latdir').value=lat>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lon));$('londir').value=lon>=0?'E':'W';document.querySelector('[data-t="data"]').click();});
+  document.querySelectorAll('.world-place').forEach(c=>c.onclick=()=>{let lat=Number(c.dataset.lat),lon=Number(c.dataset.lon);$('placeInput').value=c.dataset.name;$('lat').value=decimalDms(Math.abs(lat));$('latdir').value=lat>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lon));$('londir').value=lon>=0?'E':'W';document.querySelector('[data-t="data"]').click();});
  }).catch(()=>{$('placeList').innerHTML='<div class="status">Worldwide search needs an internet connection.</div>';});
 };
 function decimalDms(v){let d=Math.floor(v),m=Math.floor((v-d)*60),sec=Math.round((((v-d)*60)-m)*60);if(sec===60){sec=0;m++}if(m===60){m=0;d++}return `${d}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`}
-$('findPlace').onclick=()=>navigator.geolocation?.getCurrentPosition(pos=>{let la=pos.coords.latitude,lo=pos.coords.longitude;$('lat').value=decimalDms(Math.abs(la));$('latdir').value=la>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lo));$('londir').value=lo>=0?'E':'W';$('place').value='GPS Location';},()=>{$('status').textContent='Unable to read device location. Please allow location access in Chrome.'},{enableHighAccuracy:true,timeout:10000}) || ($('status').textContent='Geolocation is not supported by this browser.');
+$('findPlace').onclick=()=>navigator.geolocation?.getCurrentPosition(pos=>{let la=pos.coords.latitude,lo=pos.coords.longitude;$('lat').value=decimalDms(Math.abs(la));$('latdir').value=la>=0?'N':'S';$('lon').value=decimalDms(Math.abs(lo));$('londir').value=lo>=0?'E':'W';$('placeInput').value='GPS Location';},()=>{$('status').textContent='Unable to read device location. Please allow location access in Chrome.'},{enableHighAccuracy:true,timeout:10000}) || ($('status').textContent='Geolocation is not supported by this browser.');
 $('gps').onclick=$('findPlace').onclick;
 function run(){
  let date=$('date').value,from=$('from').value,to=$('to').value,lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),lon=dms($('lon').value)*($('londir').value==='W'?-1:1),tz=dms($('tz').value)*($('tzdir').value.includes('West')?-1:1);
