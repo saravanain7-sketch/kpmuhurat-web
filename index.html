@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.7.2</title>
+<title>KPMuhurat Web 0.7.3</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -16,8 +16,9 @@ label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,te
 table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
+.place-results{display:grid;gap:6px;margin-top:8px}.place-item{padding:9px;border:1px solid #adbec6;background:#f7fbfd;border-radius:3px;cursor:pointer}.place-item:hover{background:#e5f5fc}.tag{display:inline-block;padding:2px 6px;border:1px solid #aac2cc;border-radius:10px;font-size:10px;margin-left:6px}.empty{padding:8px;color:#61727a}.rulebox{margin-top:8px;padding:8px;background:#f5fafc;border:1px solid #c1d6df}.nowrap{white-space:nowrap}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.2</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.7.3</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="place">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -41,7 +42,11 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
-<section id="place"><div class="panel"><h3>PlaceSelect</h3><input placeholder="Search place"><p class="muted">The extracted place database is included in the package. Static browser mode uses the place text entered on Data.</p></div></section>
+<section id="place"><div class="panel"><h3>PlaceSelect</h3>
+<input id="placeSearch" placeholder="Search city / place (e.g. Tirupati)">
+<div id="placeResults" class="place-results"></div>
+<p class="muted">PlaceSelect uses an embedded browser-safe city list. You can always enter coordinates manually on the Data tab. The original MSI contains a much larger place database; this static build does not claim to contain every original record.</p>
+</div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
 </main>
 <script>
@@ -263,7 +268,7 @@ function evalRule(rule,cd,periods){
   const negHit=[...H].filter(x=>neg.has(x)).sort((a,b)=>a-b);
   const yn=posHit.length>0 && negHit.length===0?'Y':'N';
   let reason;
-  if(!posHit) reason=`${sub||'Object'} has no connection with required houses ${[...pos].sort((a,b)=>a-b).join(', ')}`;
+  if(!posHit.length) reason=`${sub||'Object'} has no connection with required houses ${[...pos].sort((a,b)=>a-b).join(', ')}`;
   else if(negHit.length) reason=`${sub} has connection with prohibited houses ${negHit.join(', ')}`;
   else reason=neg.size
     ? `${sub} connects with houses ${posHit.join(', ')}; no connection with ${[...neg].sort((a,b)=>a-b).join(', ')}`
@@ -352,15 +357,16 @@ function renderResult(date,transitions,analyses){
     `<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`
   ).join('');
 
-  $('chosen').innerHTML=analyses.map(r=>
-    `<tr class="${r.yn==='Y'?'good':'bad'}"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`
-  ).join('');
+  const chosenRows=analyses.filter(r=>r.yn==='Y');
+  $('chosen').innerHTML=chosenRows.length ? chosenRows.map(r=>
+    `<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`
+  ).join('') : `<tr><td colspan="7" class="muted">No qualifying muhurat found in the selected interval.</td></tr>`;
 
   const first=analyses.find(r=>r.yn==='Y')||analyses[0];
   if(first){
     const active=first.rules.filter(x=>x.object===1||x.object===11);
     $('detail').innerHTML=active.map(r=>
-      `<tr><td>${r.object===1?'Lagna':'11th House'}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(', ')||'—'}</td><td>${r.negative.join(', ')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`
+      `<tr><td>${r.object===1?'Lagna':'11th House'}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(', ')||'—'}</td><td>${r.negative.join(', ')||'—'}</td><td class="${r.yn==='Y'?'good':'bad'}">${r.yn}</td><td>${r.reason}<div class="rulebox">Significators: ${r.significators?.join(', ')||'—'} | Required hit: ${r.pos_hit?.join(', ')||'—'} | Prohibited hit: ${r.neg_hit?.join(', ')||'—'}</div></td></tr>`
     ).join('');
   }else $('detail').innerHTML='';
 
@@ -369,6 +375,38 @@ function renderResult(date,transitions,analyses){
     ? `Event-chart periods: Dasa ${p.Dasa} / Bhukti ${p.Bhukti} / Antara ${p.Antara} / Sukshma ${p.Sukshma}. Natal-period boundaries still require birth data from V1.5.11.`
     : 'No period data.';
 }
+
+
+const PLACES=[
+  {name:'Tirupati',state:'Andhra Pradesh',country:'India',lat:'13:39:00',latdir:'N',lon:'79:25:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Chennai',state:'Tamil Nadu',country:'India',lat:'13:05:00',latdir:'N',lon:'80:17:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Coimbatore',state:'Tamil Nadu',country:'India',lat:'11:01:00',latdir:'N',lon:'76:57:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Erode',state:'Tamil Nadu',country:'India',lat:'11:20:00',latdir:'N',lon:'77:43:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Bengaluru',state:'Karnataka',country:'India',lat:'12:58:00',latdir:'N',lon:'77:35:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Hyderabad',state:'Telangana',country:'India',lat:'17:23:00',latdir:'N',lon:'78:29:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Mumbai',state:'Maharashtra',country:'India',lat:'18:58:00',latdir:'N',lon:'72:50:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Delhi',state:'Delhi',country:'India',lat:'28:37:00',latdir:'N',lon:'77:13:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Kolkata',state:'West Bengal',country:'India',lat:'22:34:00',latdir:'N',lon:'88:22:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Pune',state:'Maharashtra',country:'India',lat:'18:31:00',latdir:'N',lon:'73:51:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Madurai',state:'Tamil Nadu',country:'India',lat:'9:55:00',latdir:'N',lon:'78:07:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Salem',state:'Tamil Nadu',country:'India',lat:'11:40:00',latdir:'N',lon:'78:08:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'Sathyamangalam',state:'Tamil Nadu',country:'India',lat:'11:30:00',latdir:'N',lon:'77:14:00',londir:'E',tz:'05:30:00',tzdir:'East of UT'},
+  {name:'New York',state:'New York',country:'USA',lat:'40:43:00',latdir:'N',lon:'74:00:00',londir:'W',tz:'05:00:00',tzdir:'West of UT'},
+  {name:'London',state:'England',country:'United Kingdom',lat:'51:30:00',latdir:'N',lon:'00:07:00',londir:'W',tz:'00:00:00',tzdir:'East of UT'},
+  {name:'Dubai',state:'Dubai',country:'United Arab Emirates',lat:'25:12:00',latdir:'N',lon:'55:16:00',londir:'E',tz:'04:00:00',tzdir:'East of UT'},
+  {name:'Singapore',state:'Singapore',country:'Singapore',lat:'1:17:00',latdir:'N',lon:'103:51:00',londir:'E',tz:'08:00:00',tzdir:'East of UT'}
+];
+function renderPlaces(q=''){
+  const box=$('placeResults'); if(!box)return;
+  const needle=q.trim().toLowerCase();
+  const rows=PLACES.filter(p=>!needle || `${p.name} ${p.state} ${p.country}`.toLowerCase().includes(needle)).slice(0,25);
+  box.innerHTML=rows.length?rows.map((p,i)=>`<div class="place-item" data-place="${i}"><b>${p.name}</b><span class="tag">${p.state}</span><div class="muted">${p.country} · ${p.lat}${p.latdir} · ${p.lon}${p.londir} · UTC ${p.tzdir==='West of UT'?'-':''}${p.tz}</div></div>`).join(''):'<div class="empty">No embedded match. Enter the place and coordinates manually on Data.</div>';
+  [...box.querySelectorAll('.place-item')].forEach((el,idx)=>el.onclick=()=>{
+    const p=rows[idx]; $('place').value=`${p.name}; ${p.state}; ${p.country}`; $('lat').value=p.lat; $('latdir').value=p.latdir; $('lon').value=p.lon; $('londir').value=p.londir; $('tz').value=p.tz; $('tzdir').value=p.tzdir; document.querySelector('[data-t="data"]').click();
+  });
+}
+$('placeSearch')?.addEventListener('input',e=>renderPlaces(e.target.value));
+renderPlaces();
 
 async function run(){
   if(!initialized){$('status').textContent='Calculation engine is still loading. Please wait a moment.';return;}
@@ -404,7 +442,7 @@ async function run(){
     }
 
     renderResult(date,transitions,analyses);
-    $('status').textContent=`Calculated ${transitions.length} Lagna transitions with Swiss Ephemeris + extracted event rules.`;
+    $('status').textContent=`Calculated ${transitions.length} Lagna transitions with Swiss Ephemeris + extracted event rules. Chosen Muhurats include Y rows only.`;
     document.querySelector('[data-t="analysis"]').click();
   }catch(err){
     console.error(err);
@@ -425,7 +463,7 @@ $('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
     swe.set_sid_mode(swe.SE_SIDM_KRISHNAMURTI,0,0);
     initialized=true;
     $('show').disabled=false;
-    $('status').textContent='Swiss Ephemeris ready — Krishnamurti ayanamsa, Placidus houses. Event rules are embedded.';
+    $('status').textContent='Swiss Ephemeris ready — Krishnamurti ayanamsa, Placidus houses. 80 extracted event entries embedded.';
   }catch(err){
     console.error(err);
     $('status').textContent='Swiss Ephemeris failed to load: '+(err?.message||err);
