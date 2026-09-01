@@ -88,22 +88,27 @@ def chart_data(dt,lat,lon,tz):
         cusp_rows.append({'house':i,'lon':lon2,'sign':s,'sign_lord':snl,'star_lord':stl,'sub_lord':sbl})
     return {'ascendant':kp_parts(asc),'cusps':cusp_rows,'planets':planets}
 
-def owned_houses(planet):
-    return [i+1 for i,x in enumerate(RASI_LORD) if x==planet]
+def owned_houses(planet,cd):
+    # Houses are owned by the zodiac signs counted from the ascendant sign.
+    # This is essential for KP CSL significators (e.g. Taurus Lagna makes
+    # Jupiter lord of houses 8 and 11, not zodiac signs 9 and 12).
+    asc_sign=cd['ascendant'][0]
+    asc_idx=SIGNS.index(asc_sign)
+    return [h for h in range(1,13) if RASI_LORD[(asc_idx+h-1)%12]==planet]
 
 def significators(name,cd):
     p=cd['planets'][name]
-    houses=set([p['house']]+owned_houses(name))
+    houses=set([p['house']]+owned_houses(name,cd))
     star=p['star_lord']
     if star in cd['planets']:
         sp=cd['planets'][star]
-        houses.add(sp['house']); houses.update(owned_houses(star))
+        houses.add(sp['house']); houses.update(owned_houses(star,cd))
     # KP node convention: add sign-lord and star-lord indications.
     if name in ('Ra','Ke'):
         signlord=p['sign_lord']
         if signlord in cd['planets']:
             sl=cd['planets'][signlord]
-            houses.add(sl['house']); houses.update(owned_houses(signlord))
+            houses.add(sl['house']); houses.update(owned_houses(signlord,cd))
     return sorted(houses)
 
 def cusp_significators(house,cd):
@@ -305,7 +310,10 @@ class H(BaseHTTPRequestHandler):
         if p=='/api/health': self.send_json({'ok':True,'engine':'KP/Swiss Ephemeris','ayanamsa':'Krishnamurti','events':len(EVENT_RULES)});return
         if p=='/api/events': self.send_json([{'index':i,'name':e['name'],'rule_count':e['rule_count_declared'],'remarks':e.get('remarks','')} for i,e in enumerate(EVENT_RULES)]);return
         if p=='/api/event-rules': self.send_json(EVENT_RULES);return
-        if p=='/api/place/search': self.send_json(place_search(parse_qs(u.query).get('q',[''])[0]));return
+        if p=='/api/place/search':
+            try:self.send_json(place_search(parse_qs(u.query).get('q',[''])[0]))
+            except Exception:self.send_json([])
+            return
         if p=='/api/place/tirupati': self.send_json(place_search('Tirupati'));return
         if p=='/':p='/index.html'
         fp=os.path.normpath(os.path.join(STATIC,p.lstrip('/')))
