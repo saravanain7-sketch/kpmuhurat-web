@@ -16,3 +16,6 @@ The source extraction report identifies the original MSI resources, including th
 
 ## GitHub Pages
 Upload the files to the repository root and publish `main` → `/ (root)`. Keep `index.html` at the repository root.
+
+## 0.7.3 fix
+The PlaceSelect tab uses a unique input ID (`placeInput`) so the navigation target `section#place` is no longer shadowed by the Data-tab Place field. This fixes the blank PlaceSelect screen on mobile Chrome.

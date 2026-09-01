@@ -24,7 +24,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
-<label>Place<input id="place" value="Tirupati; Andhra Pradesh; India"></label>
+<label>Place<input id="placeInput" value="Tirupati; Andhra Pradesh; India"></label>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -402,7 +402,7 @@ function renderPlaces(q=''){
   const rows=PLACES.filter(p=>!needle || `${p.name} ${p.state} ${p.country}`.toLowerCase().includes(needle)).slice(0,25);
   box.innerHTML=rows.length?rows.map((p,i)=>`<div class="place-item" data-place="${i}"><b>${p.name}</b><span class="tag">${p.state}</span><div class="muted">${p.country} · ${p.lat}${p.latdir} · ${p.lon}${p.londir} · UTC ${p.tzdir==='West of UT'?'-':''}${p.tz}</div></div>`).join(''):'<div class="empty">No embedded match. Enter the place and coordinates manually on Data.</div>';
   [...box.querySelectorAll('.place-item')].forEach((el,idx)=>el.onclick=()=>{
-    const p=rows[idx]; $('place').value=`${p.name}; ${p.state}; ${p.country}`; $('lat').value=p.lat; $('latdir').value=p.latdir; $('lon').value=p.lon; $('londir').value=p.londir; $('tz').value=p.tz; $('tzdir').value=p.tzdir; document.querySelector('[data-t="data"]').click();
+    const p=rows[idx]; $('placeInput').value=`${p.name}; ${p.state}; ${p.country}`; $('lat').value=p.lat; $('latdir').value=p.latdir; $('lon').value=p.lon; $('londir').value=p.londir; $('tz').value=p.tz; $('tzdir').value=p.tzdir; document.querySelector('[data-t="data"]').click();
   });
 }
 $('placeSearch')?.addEventListener('input',e=>renderPlaces(e.target.value));
