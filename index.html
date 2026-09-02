@@ -294,8 +294,20 @@ function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  const cusps=[];for(let i=1;i<=12;i++)cusps[i]=norm(h.cusps[i]-ayan);
-  const asc=norm(h.ascendant-ayan);
+  // @swisseph/browser builds have appeared with both C-style (0-based) and
+  // documented 1-based cusp arrays. Detect the actual runtime layout by
+  // matching cusp 1 to the returned Ascendant before converting to sidereal.
+  const rawAsc=norm(h.ascendant);
+  const d0=h.cusps?.length?Math.abs(((Number(h.cusps[0])-rawAsc+540)%360)-180):1e9;
+  const d1=h.cusps?.length>1?Math.abs(((Number(h.cusps[1])-rawAsc+540)%360)-180):1e9;
+  const cuspOffset=d0<=d1?0:1;
+  const cusps=[];
+  for(let i=1;i<=12;i++){
+    const raw=h.cusps[i-1+cuspOffset];
+    if(!Number.isFinite(Number(raw))) throw new Error('Invalid Placidus cusp data at house '+i);
+    cusps[i]=norm(Number(raw)-ayan);
+  }
+  const asc=norm(rawAsc-ayan);
   const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,Ra:10,Ke:null};
   const planets={};
   for(const [name,id] of Object.entries(ids)){
@@ -477,7 +489,7 @@ async function run(){
   const chosenTimes=rows.filter(r=>r.yn==='Y').map(r=>r.time);
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Engine reproduced all 10 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with runtime-normalized Placidus cusps, reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
