@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.4</title>
+<title>KPMuhurat Web 0.9.5</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.4</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.5</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -56,14 +56,20 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     if(kind==='error')old.style.borderColor='#c62828';
   }
   function closeGpsStatus(){var x=E('gpsStatus');if(x)x.remove()}
-  function setFields(name,lat,lon,tzMinutes){
-    E('place').value=name||('GPS '+lat.toFixed(6)+', '+lon.toFixed(6));
-    var alat=Math.abs(lat),alon=Math.abs(lon);
-    var laM=Math.floor((alat%1)*60),laS=Math.round((((alat%1)*60)%1)*60);if(laS===60){laS=0;laM++;}
-    var loM=Math.floor((alon%1)*60),loS=Math.round((((alon%1)*60)%1)*60);if(loS===60){loS=0;loM++;}
-    E('lat').value=Math.floor(alat)+':'+String(laM).padStart(2,'0')+':'+String(laS).padStart(2,'0');
+  function gpsDMS(value){
+    var a=Math.abs(Number(value)),deg=Math.floor(a);
+    var minFloat=(a-deg)*60,min=Math.floor(minFloat);
+    var sec=(minFloat-min)*60;
+    return deg+':'+String(min).padStart(2,'0')+':'+sec.toFixed(3).padStart(6,'0');
+  }
+  function setFields(name,lat,lon,tzMinutes,accuracy){
+    // Keep the actual GPS coordinates. Do not snap them to the nearest city/place.
+    var label='Live GPS';
+    if(Number.isFinite(accuracy)) label+=' (±'+Math.round(accuracy)+' m)';
+    E('place').value=name || label+' '+lat.toFixed(8)+', '+lon.toFixed(8);
+    E('lat').value=gpsDMS(lat);
     E('latdir').value=lat<0?'S':'N';
-    E('lon').value=Math.floor(alon)+':'+String(loM).padStart(2,'0')+':'+String(loS).padStart(2,'0');
+    E('lon').value=gpsDMS(lon);
     E('londir').value=lon<0?'W':'E';
     if(Number.isFinite(tzMinutes)){
       var m=Math.round(tzMinutes),sign=m<0?-1:1,am=Math.abs(m);
@@ -72,25 +78,42 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     }
   }
   function reverse(lat,lon,done){
-    var u='https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lon)+'&zoom=10&addressdetails=1';
-    fetch(u,{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():Promise.reject(new Error('reverse lookup failed'))}).then(function(j){var a=j.address||{},city=a.city||a.town||a.village||a.municipality||a.county||'Current GPS location',state=a.state||a.region||'',country=a.country||'';done([city,state,country].filter(Boolean).join('; '));}).catch(function(){done('Current GPS location')});
+    var u='https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lon)+'&zoom=18&addressdetails=1';
+    fetch(u,{headers:{'Accept':'application/json'}})
+      .then(function(r){return r.ok?r.json():Promise.reject(new Error('reverse lookup failed'))})
+      .then(function(j){
+        var a=j.address||{};
+        var name=a.road||a.neighbourhood||a.suburb||a.city_district||a.city||a.town||a.village||'Live GPS';
+        done(name);
+      })
+      .catch(function(){done(null)});
   }
   function finishButton(btn){if(btn){btn.disabled=false;btn.textContent=btn.id==='gps2'?'📍 Use Current GPS Location':'📍 GPS'}}
   function getGPS(e){
     var btn=e&&e.currentTarget?e.currentTarget:null;
     if(btn){btn.disabled=true;btn.textContent='📍 Locating…'}
-    gpsStatus('📍 GPS: requesting your phone location permission…');
+    gpsStatus('📍 GPS: requesting your phone’s high-accuracy location…');
     var nav=window.navigator;
     if(!window.isSecureContext){gpsStatus('❌ GPS requires HTTPS. Please open the GitHub Pages https:// address.','error');finishButton(btn);return;}
-    if(!nav.geolocation){gpsStatus('❌ This browser does not provide GPS/geolocation. Open the site directly in Chrome, not inside another app.','error');finishButton(btn);return;}
+    if(!nav.geolocation){gpsStatus('❌ This browser does not provide GPS/geolocation. Open the site directly in Chrome.','error');finishButton(btn);return;}
     var done=false;
     function success(pos){
-      if(done)return;done=true;
-      var lat=Number(pos.coords.latitude),lon=Number(pos.coords.longitude);
+      if(done)return;
+      var c=pos.coords;
+      var lat=Number(c.latitude),lon=Number(c.longitude),accuracy=Number(c.accuracy);
+      if(!Number.isFinite(lat)||!Number.isFinite(lon)){fail({message:'Invalid GPS coordinates returned by the device.'});return;}
+      done=true;
+      // Use the phone's current timezone for the event data. GPS coordinates remain untouched.
       var tz=-new Date().getTimezoneOffset();
-      setFields('GPS '+lat.toFixed(6)+', '+lon.toFixed(6),lat,lon,tz);
-      gpsStatus('✅ GPS received: '+lat.toFixed(6)+', '+lon.toFixed(6)+'\nUpdating Place…','ok');
-      reverse(lat,lon,function(name){setFields(name,lat,lon,tz);gpsStatus('✅ GPS location set to '+name+'\nLatitude/Longitude have been filled in Data.','ok');finishButton(btn);setTimeout(function(){closeGpsStatus()},3000);});
+      setFields(null,lat,lon,tz,accuracy);
+      gpsStatus('✅ LIVE GPS LOCATION RECEIVED\nLatitude: '+lat.toFixed(8)+'\nLongitude: '+lon.toFixed(8)+'\nAccuracy: ±'+(Number.isFinite(accuracy)?Math.round(accuracy):'?')+' m\n\nThe exact GPS coordinates are now in Data.');
+      // Reverse lookup is display-only: it can change the place name, never the coordinates.
+      reverse(lat,lon,function(name){
+        if(name) E('place').value='Live GPS — '+name+' (±'+(Number.isFinite(accuracy)?Math.round(accuracy):'?')+' m)';
+        finishButton(btn);
+        setTimeout(function(){closeGpsStatus()},4500);
+      });
+      if(!Number.isFinite(accuracy)) finishButton(btn);
     }
     function fail(err){
       if(done)return;done=true;
@@ -101,8 +124,13 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
       else if(err&&err.message)text+=' '+err.message;
       gpsStatus(text,'error');finishButton(btn);
     }
-    try{nav.geolocation.getCurrentPosition(success,fail,{enableHighAccuracy:false,timeout:60000,maximumAge:0});}
-    catch(ex){fail({message:ex.message})}
+    try{
+      nav.geolocation.getCurrentPosition(success,fail,{
+        enableHighAccuracy:true,
+        timeout:90000,
+        maximumAge:0
+      });
+    }catch(ex){fail({message:ex.message})}
   }
   function attach(){
     var a=E('gps'),b=E('gps2');
