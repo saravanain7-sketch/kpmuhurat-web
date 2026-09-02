@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.16</title>
+<title>KPMuhurat Web 0.9.17</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.16</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.17</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -328,11 +328,26 @@ function ownedHouses(planet,cd){
 }
 function significators(name,cd){
   const p=cd.planets[name];if(!p)return [];
+  // KPMuhurat evaluates the planet, its star lord and its sub lord at the
+  // house-signification level.  It also uses the cuspal sub-lord links that
+  // are visible in the original analysis window.  Keep the result as a set
+  // of houses so the event-rule layer can test the same house groups.
   const H=new Set([p.house,...ownedHouses(name,cd)]);
-  const star=p.star_lord;
-  if(cd.planets[star]){const sp=cd.planets[star];H.add(sp.house);for(const x of ownedHouses(star,cd))H.add(x)}
-  if(name==='Ra'||name==='Ke'){
-    const sl=p.sign_lord;if(cd.planets[sl]){const sp=cd.planets[sl];H.add(sp.house);for(const x of ownedHouses(sl,cd))H.add(x)}
+  const addPlanet=(n)=>{
+    const q=cd.planets[n];if(!q)return;
+    H.add(q.house);for(const x of ownedHouses(n,cd))H.add(x);
+  };
+  addPlanet(p.star_lord);
+  addPlanet(p.sub_lord);
+  if(cd.planets[p.sub_lord])addPlanet(cd.planets[p.sub_lord].star_lord);
+  if(name==='Ra'||name==='Ke')addPlanet(p.sign_lord);
+
+  // Cuspal interlink: a planet is connected with every cusp on which that
+  // planet occurs as star lord or sub lord.  This is important for the
+  // KPMuhurat CSL analysis (for example, Saturn can connect a significator
+  // with the 6/8/12 cusps).
+  for(const c of cd.cusps){
+    if(c.star_lord===name||c.sub_lord===name)H.add(c.house);
   }
   return [...H].sort((a,b)=>a-b);
 }
@@ -377,8 +392,13 @@ function evalRule(rule,cd,periods){const parsed=parseRule(rule.fields);let obj=p
   if(!parsed.groups.length)return {obj,type:parsed.type,sub_lord:sub,yn:'-',positive:[],negative:[],reason:'No rule condition'};
   const pos=parsed.groups[0].houses,neg=parsed.groups[1]?.houses||[];
   let posHit=H.filter(x=>pos.includes(x)),negHit=H.filter(x=>neg.includes(x));
-  let yn=posHit.length>0&&negHit.length===0?'Y':'N';
-  let reason=yn==='Y'?`${sub} signifies required houses ${posHit.join(',')}`:(!posHit.length?`${sub||'Object'} does not signify required houses ${pos.join(',')}`:`${sub} signifies prohibited houses ${negHit.join(',')}`);
+  // In the V1.5.11 analysis display the second house group is reported as a
+  // separate negative connection; it does not by itself turn the row red.
+  // The rule is positive when its required group is satisfied.  This is why
+  // the original stock-market analysis can show +H 2,5,6,11 and -H 8,12
+  // while still reporting Y.
+  let yn=posHit.length>0?'Y':'N';
+  let reason=yn==='Y'?`${sub} signifies required houses ${posHit.join(',')}${negHit.length?` (negative connection ${negHit.join(',')})`:''}`:`${sub||'Object'} does not signify required houses ${pos.join(',')}`;
   return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
 }
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
