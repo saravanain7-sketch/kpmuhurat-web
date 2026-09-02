@@ -14,7 +14,7 @@ label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,te
 .titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
 table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
-.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.sigVerify{font-size:14px;line-height:1.45}.sigVerify b{color:#213943}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.8</small></header>
@@ -38,7 +38,6 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">KP Significator Verification</div><div id="sigVerify" class="muted"></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
@@ -108,21 +107,6 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     }
     return true;
   }
-  // Exact KPMuhurat V1.5.11 regression locations. These are used before
-  // external geocoding so the original reference calculation can be reproduced
-  // without depending on a third-party place database.
-  const KPM_REFERENCE_PLACES=[
-    {keys:['pallavaram','pallavaram siva','pallavaram tamil nadu'],name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00'}
-  ];
-  function normalizePlaceQuery(q){return String(q||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ')}
-  function exactReferencePlace(q){
-    var n=normalizePlaceQuery(q);
-    if(n==='pallavaram'||n.includes('pallavaram')) return KPM_REFERENCE_PLACES[0];
-    return null;
-  }
-  function referenceResult(x){
-    return {display_name:x.name,lat:String(x.lat),lon:String(x.lon),kpmReference:true};
-  }
   function renderPlaceResults(items){
     var box=E('placeResults'); if(!box)return;
     if(!items.length){box.innerHTML='<div class="muted">No matching places found. Try a city, district, village or landmark name.</div>';return;}
@@ -132,21 +116,29 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     }).join('');
     box.querySelectorAll('.placeResult').forEach(function(btn){btn.addEventListener('click',function(){
       var x=items[Number(btn.dataset.placeIndex)];
-      var ok=applyLocation(x.display_name,Number(x.lat),Number(x.lon),null,null);
+      var ok=applyLocation(x.display_name,Number(x.lat),Number(x.lon),x._reference?x.tz:null,x._reference?x.tzDir:null);
       if(ok){gpsStatus('✅ Custom/place location applied.\nLatitude: '+Number(x.lat).toFixed(8)+'\nLongitude: '+Number(x.lon).toFixed(8)+'\n\nThe Data tab now uses these coordinates.','ok');setTimeout(closeGpsStatus,3500);document.querySelector('[data-t="data"]').click();}
     })});
   }
+  const REFERENCE_PLACES={
+    'pallavaram':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
+    'pallavaram tamil nadu':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
+    'pallavaram, tamil nadu, india':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'}
+  };
+  function referencePlace(q){return REFERENCE_PLACES[String(q||'').trim().toLowerCase()]||null}
+
   async function searchPlaces(){
     var q=(E('placeSearch')&&E('placeSearch').value||'').trim();
     if(!q){gpsStatus('Enter a place name first.','error');return;}
-    var exact=exactReferencePlace(q);
-    if(exact){
-      renderPlaceResults([referenceResult(exact)]);
-      gpsStatus('✅ Exact KPMuhurat V1.5.11 reference found for Pallavaram.\nLatitude: 12:58:34 N\nLongitude: 80:11:01 E\nTime Zone: 05:30:00','ok');
-      return;
-    }
     var btn=E('placeSearchBtn'); if(btn){btn.disabled=true;btn.textContent='Searching…'}
     try{
+      var ref=referencePlace(q);
+      if(ref){
+        renderPlaceResults([{display_name:ref.name,lat:String(ref.lat),lon:String(ref.lon),tz:ref.tz,tzDir:ref.tzDir,_reference:true}]);
+        var box=E('placeResults');
+        if(box){var btn0=box.querySelector('.placeResult');if(btn0)btn0.click();}
+        return;
+      }
       var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&addressdetails=1&q='+encodeURIComponent(q);
       var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place search failed');
       var data=await r.json(); renderPlaceResults(data);
@@ -167,15 +159,15 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     var q=(E('place').value||'').trim();
     if(!q)return;
     if(/^Live GPS/i.test(q)||/^Custom Location/i.test(q))return;
-    var exact=exactReferencePlace(q);
-    if(exact){
-      applyLocation(exact.name,exact.lat,exact.lon,exact.tz,'East of UT');
-      gpsStatus('✅ Exact KPMuhurat V1.5.11 Pallavaram reference applied.\nLatitude: 12:58:34 N\nLongitude: 80:11:01 E\nTime Zone: 05:30:00','ok');
-      setTimeout(closeGpsStatus,3500);
-      return;
-    }
     var btn=E('findPlace'); if(btn){btn.disabled=true;btn.textContent='Finding…'}
     try{
+      var ref=referencePlace(q);
+      if(ref){
+        applyLocation(ref.name,ref.lat,ref.lon,ref.tz,ref.tzDir);
+        gpsStatus('✅ Exact Pallavaram regression location applied.\nLatitude: 12:58:34.000 N\nLongitude: 80:11:01.000 E\nTime Zone: 05:30:00 East of UT','ok');
+        setTimeout(closeGpsStatus,3500);
+        return;
+      }
       var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q='+encodeURIComponent(q);
       var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place lookup failed');
       var data=await r.json();
@@ -273,7 +265,22 @@ function dms(s){let a=String(s).split(':').map(Number);return (a[0]||0)+(a[1]||0
 function norm(x){x%=360;return x<0?x+360:x}
 function parts(L){L=norm(L);let si=Math.floor(L/30),nk=Math.floor(L/NAK),rem=L-nk*NAK,star=STAR_LORDS[nk%9],seq=[];for(let i=0;i<9;i++)seq.push(STAR_LORDS[(nk+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=NAK*VIM[p]/120;if(rem<x+w+1e-12){sub=p;break}x+=w}return [SIGNS[si],RASI_LORD[si],star,sub,L,nk]}
 function localJD(date,time,tz){let a=date.split('-').map(Number),b=time.split(':').map(Number);return swe.julianDay(a[0],a[1],a[2],b[0]+b[1]/60+b[2]/3600-tz)}
-function secfmt(s){let h=Math.floor(s/3600)%24,m=Math.floor(s%3600/60),q=Math.floor(s%60);return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':')}
+function timeFromSeconds(s){
+  // Preserve fractional seconds during boundary searches. The previous build
+  // truncated every binary-search probe to whole seconds, which could move a
+  // KP boundary by one displayed second.
+  s=Math.max(0,Math.min(86399.999999,s));
+  let h=Math.floor(s/3600),r=s-h*3600,m=Math.floor(r/60),q=r-m*60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+q.toFixed(6).padStart(9,'0');
+}
+function secfmt(s){
+  // KPMuhurat displays transition times to the nearest whole second.
+  s=Math.round(Number(s));
+  if(s>=86400)s=0;
+  let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=s%60;
+  return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':');
+}
+function parseClockSeconds(t){let b=String(t).split(':').map(Number);return (b[0]||0)*3600+(b[1]||0)*60+(b[2]||0)}
 function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===12?1:i+1],x=(L-a+360)%360,span=(b-a+360)%360;if(span===0)continue;if(x<span||Math.abs(x-span)<1e-8)return i}return 12}
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
@@ -308,26 +315,19 @@ function significators(name,cd){
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  // V1.5.11 rule grammar: after object/type, the first value is itself a
-  // required-house value. If a second condition group exists, its marker
-  // (1..6) appears after the first group; all values before that marker are
-  // required houses and all values after it are prohibited houses.
-  // Example stock-market rule:
-  // 5:4:2:5:6:11:2:8:12 -> +H 2,5,6,11 ; -H 8,12.
+  // Exact parser for the extracted V1.5.11 rule grammar. A second condition
+  // starts only after at least three house values in the first group.
   const obj=fields[0],type=fields[1];let tail=fields.slice(2);
   if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
   if(!tail.length)return {obj,type,groups:[]};
-  let split=-1;
-  // The second condition marker can occur only after at least three
-  // required-house values. Prefer the earliest valid marker with at least
-  // two houses following it; this matches the extracted V1.5.11 rules.
+  const firstMarker=tail[0]; let split=-1;
   for(let i=3;i<=Math.min(6,tail.length-1);i++){
     if(tail[i]>=1&&tail[i]<=6&&tail.length-i-1>=2){split=i;break}
   }
-  if(split<0)return {obj,type,groups:[{houses:tail.filter(x=>x>=1&&x<=12)}]};
+  if(split<0)return {obj,type,groups:[{condition:firstMarker,houses:tail.slice(1).filter(x=>x>=1&&x<=12)}]};
   return {obj,type,groups:[
-    {houses:tail.slice(0,split).filter(x=>x>=1&&x<=12)},
-    {houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
+    {condition:firstMarker,houses:tail.slice(1,split).filter(x=>x>=1&&x<=12)},
+    {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
   ]};
 }
 function evalRule(rule,cd,periods){const parsed=parseRule(rule.fields);let obj=parsed.obj,sub=null,H=[];
@@ -345,9 +345,26 @@ function vimPeriods(date,time,tz){
   const jd=localJD(date,time,tz),q=swe.calculatePosition(jd,Planet.Moon,ephFlags),moon=norm(q.longitude),nk=Math.floor(moon/NAK),lord=STAR_LORDS[nk%9],rem=(moon-nk*NAK)/NAK,idx=STAR_LORDS.indexOf(lord),seq=[];for(let j=0;j<9;j++)seq.push(STAR_LORDS[(idx+j)%9]);return {Dasa:seq[0],Bhukti:seq[1],Antara:seq[2],Sukshma:seq[3],mode:'event'};
 }
 function transitionRows(date,from,to,lat,lon,tz){
-  const a=from.split(':').map(Number),b=to.split(':').map(Number),s0=a[0]*3600+a[1]*60+(a[2]||0),s1=b[0]*3600+b[1]*60+(b[2]||0);let rows=[],prev=null,step=5;
-  const key=s=>{const c=chart({date,time:secfmt(s),tz,lat,lon});return [c.ascendant[0],c.ascendant[1],c.ascendant[2],c.ascendant[3]].join('|')};
-  for(let s=s0;s<=s1;s+=step){const k=key(s);if(prev===null){prev=k;continue}if(k!==prev){let lo=s-step,hi=s;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(key(mid)===prev)lo=mid;else hi=mid}const c=chart({date,time:secfmt(hi),tz,lat,lon});rows.push({time:secfmt(hi),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date});prev=k}}
+  const s0=parseClockSeconds(from),s1=parseClockSeconds(to);
+  let rows=[],prev=null,step=5;
+  // Evaluate the actual fractional-second instant, not a truncated HH:MM:SS
+  // string, while searching for each Lagna/star/sub boundary.
+  const key=s=>{const c=chart({date,time:timeFromSeconds(s),tz,lat,lon});return [c.ascendant[0],c.ascendant[1],c.ascendant[2],c.ascendant[3]].join('|')};
+  for(let s=s0;s<=s1;s+=step){
+    const k=key(s);
+    if(prev===null){prev=k;continue}
+    if(k!==prev){
+      let lo=s-step,hi=s;
+      for(let i=0;i<45;i++){
+        const mid=(lo+hi)/2;
+        if(key(mid)===prev)lo=mid;else hi=mid;
+      }
+      const displaySeconds=Math.round(hi);
+      const c=chart({date,time:timeFromSeconds(hi),tz,lat,lon});
+      rows.push({time:secfmt(displaySeconds),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date,exactSeconds:hi});
+      prev=k;
+    }
+  }
   return rows;
 }
 
@@ -363,12 +380,10 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
   $('chosen').innerHTML=rows.filter(r=>r.yn==='Y').map(r=>`<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
-  const best=analyses.find(a=>{const r=Object.fromEntries(a.rules.map(x=>[x.obj,x]));return r[1]?.yn==='Y'&&r[11]?.yn==='Y'}) || analyses.find(a=>a.yn==='Y') || analyses[0];
+  const best=analyses.find(a=>a.yn==='Y')||analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(',')||'—'}</td><td>${r.negative.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
-  const sigRows=(best?.rules||[]).filter(r=>r.obj===1||r.obj===5||r.obj===11).map(r=>`<div class="sigVerify"><b>Object ${r.obj} · SubL ${r.sub_lord||'—'}</b> — Significators: ${(r.significators||[]).join(', ')||'—'}; +H: ${(r.positive||[]).join(', ')||'—'}; −H: ${(r.negative||[]).join(', ')||'—'}; Y/N: ${r.yn}</div>`).join('');
-  $('sigVerify').innerHTML=sigRows||'No significator verification data.';
   $('dasa').innerHTML=`Dasa: <b>${periods.Dasa}</b> &nbsp; Bhukti: <b>${periods.Bhukti}</b> &nbsp; Antara: <b>${periods.Antara}</b> &nbsp; Sukshma: <b>${periods.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM.</span>`;
-  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions using the extracted V1.5.11 event rules; stock-market rule parser verified.`;
+  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions using the extracted V1.5.11 event rules; fractional-second boundary search enabled.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
