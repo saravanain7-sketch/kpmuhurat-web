@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.11</title>
+<title>KPMuhurat Web 0.9.12</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.11</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.12</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,8 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify the calculation-driven Muhurat selection against the stored V1.5.11 reference.</div></div>
+  <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
@@ -293,7 +294,7 @@ function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  const cusps=[];for(let i=1;i<=12;i++)cusps[i]=norm(h.cusps[i-1]-ayan);
+  const cusps=[];for(let i=1;i<=12;i++)cusps[i]=norm(h.cusps[i]-ayan);
   const asc=norm(h.ascendant-ayan);
   const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,Ra:10,Ke:null};
   const planets={};
@@ -323,18 +324,36 @@ function significators(name,cd){
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  // Exact parser for the extracted V1.5.11 rule grammar. A second condition
-  // starts only after at least three house values in the first group.
-  const obj=fields[0],type=fields[1];let tail=fields.slice(2);
+  // V1.5.11 encoding: object:type:house...[:condition:house...][:0].
+  // The first value after type is a house, not a marker.  When a second
+  // condition group exists, its condition marker occurs after the first
+  // group and is followed by at least one house.  This preserves the raw
+  // extracted rule data while interpreting the house lists correctly.
+  const obj=fields[0],type=fields[1];
+  let tail=fields.slice(2);
   if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
   if(!tail.length)return {obj,type,groups:[]};
-  const firstMarker=tail[0]; let split=-1;
-  for(let i=3;i<=Math.min(6,tail.length-1);i++){
-    if(tail[i]>=1&&tail[i]<=6&&tail.length-i-1>=2){split=i;break}
+
+  // Type 2 is a single required-house group in the original rule stream.
+  if(type===2)return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
+
+  // Look for the second condition marker.  For the extracted two-group
+  // rules the first group contains at least two houses and the marker is
+  // followed by at least one house.  Prefer the earliest valid marker only
+  // when doing so leaves a meaningful second group.
+  let split=-1;
+  const minSplit=(type===3)?2:3;
+  for(let i=minSplit;i<=Math.min(6,tail.length-2);i++){
+    if(tail[i]>=1&&tail[i]<=6 && tail.length-i-1>=1){
+      // Stock-market and similar rules use a second marker after 3+ houses;
+      // shorter type-3 rules such as 1:3:9:3:12 use the same convention.
+      // Avoid treating a final ordinary house as a marker.
+      split=i;break;
+    }
   }
-  if(split<0)return {obj,type,groups:[{condition:firstMarker,houses:tail.slice(1).filter(x=>x>=1&&x<=12)}]};
+  if(split<0)return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
   return {obj,type,groups:[
-    {condition:firstMarker,houses:tail.slice(1,split).filter(x=>x>=1&&x<=12)},
+    {condition:null,houses:tail.slice(0,split).filter(x=>x>=1&&x<=12)},
     {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
   ]};
 }
@@ -399,23 +418,25 @@ function transitionRows(date,from,to,lat,lon,tz){
 
 
 
-// V1.5.11 regression reference for the supplied Pallavaram stock-market test.
-// This is deliberately isolated from the astronomical engine: it is used only
-// when all reference inputs match, so other dates/places/events continue to use
-// the reconstructed rule interpreter.
+// Regression fixture used only for verification. It is never used to select
+// Muhurats or override the calculation engine.
 const V1511_STOCK_PALLAVARAM = {
   date:'2022-04-08', from:'09:00', to:'22:00',
   lat:12+58/60+34/3600, lon:80+11/60+1/3600, tz:5.5,
   eventName:'05. Speculative gain in Stock Market',
-  chosen:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
+  expected:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
 };
-function near(a,b){return Math.abs(a-b)<1e-7}
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
     event && event.name===V1511_STOCK_PALLAVARAM.eventName;
 }
-
+function regressionCheck(actual){
+  const exp=V1511_STOCK_PALLAVARAM.expected;
+  const missing=exp.filter(x=>!actual.includes(x));
+  const extra=actual.filter(x=>!exp.includes(x));
+  return {pass:missing.length===0&&extra.length===0,missing,extra,expected:exp,actual};
+}
 
 async function run(){
  try{
@@ -433,15 +454,12 @@ async function run(){
     const cd=chart({date,time,tz,lat,lon});
     const periods=vimPeriods(date,time,tz);
     const rules=eventAnalysis(event,cd,periods);
-    // The event's actual rule objects are 5, 11 and 101-104. Object 1 is the
-    // generic Lagna rule and must not be used as the stock-event selector.
-    const core=rules.filter(r=>[5,11,101,102,103,104].includes(r.obj));
-    let yn=core.length?core.every(r=>r.yn==='Y'):'N';
-    let reason=core.map(r=>r.reason).join('; ');
-    if(isStockRegression(date,from,to,lat,lon,tz,event)) {
-      yn=V1511_STOCK_PALLAVARAM.chosen.includes(time)?'Y':'N';
-      reason=yn==='Y'?'V1.5.11 regression match: selected Muhurat':'V1.5.11 regression reference: not selected';
-    }
+    // General event selector: all rule objects belonging to the selected
+    // event must pass. This is calculation-driven; no reference times are
+    // injected into the result.
+    const active=rules.filter(r=>r.obj>=1&&r.obj<=12 || PERIOD_CODES[r.obj]);
+    const yn=active.length>0&&active.every(r=>r.yn==='Y')?'Y':'N';
+    const reason=active.map(r=>r.reason).join('; ');
     analyses.push({date,time,chart:cd,rules,periods,yn,reason});
   }
 
@@ -455,7 +473,10 @@ async function run(){
 
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
-  $('status').textContent=isStockRegression(date,from,to,lat,lon,tz,event) ? `Calculated ${trs.length} transitions; V1.5.11 Pallavaram stock-market regression reference applied.` : `Calculated ${trs.length} Lagna/Sub-level transitions with reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
+  const chosenTimes=rows.filter(r=>r.yn==='Y').map(r=>r.time);
+   const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
+   if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Engine reproduced all 10 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
