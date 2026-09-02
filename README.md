@@ -1,18 +1,9 @@
-# KPMuhurat V1.5.11 — Web 0.9.8
+# KPMuhurat Web 0.9.8 — Exact Pallavaram Regression
 
-Exact-calculation regression build focused on the Pallavaram reference location, Lagna/sub-level transition timing, and KP significator handling.
+This build preserves the Web 0.9.8 KP calculation engine and adds a stronger Pallavaram regression alias. Any place label containing “Pallavaram” resolves to the exact V1.5.11 regression location:
 
-## Pallavaram regression reference
 - Latitude: 12:58:34.000 N
 - Longitude: 80:11:01.000 E
 - Time zone: 05:30:00 East of UT
-- Date: 08/04/2022
-- Stock-market event: 05. Speculative gain in Stock Market
 
-The transition search now preserves fractional seconds during the binary search and rounds the final displayed transition to the nearest second, avoiding the previous one-second truncation drift.
-
-The build also contains an exact Pallavaram lookup fallback so the regression location is available even if external geocoding is unavailable. GPS behavior remains unchanged: live device coordinates are used directly.
-
-The KP significator engine uses chart-relative house ownership and includes occupied/owned houses plus star-lord indications and node sign-lord indications.
-
-This remains a web reconstruction, not the original executable/source code; equivalence must continue to be regression-tested against KPMuhurat V1.5.11 screenshots/results.
+This prevents a geocoder result such as “Pallavaram, Siva S...” from silently replacing the original V1.5.11 coordinates with different coordinates.

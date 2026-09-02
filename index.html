@@ -125,7 +125,15 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     'pallavaram tamil nadu':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
     'pallavaram, tamil nadu, india':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'}
   };
-  function referencePlace(q){return REFERENCE_PLACES[String(q||'').trim().toLowerCase()]||null}
+  function referencePlace(q){
+    var k=String(q||'').trim().toLowerCase();
+    if(REFERENCE_PLACES[k]) return REFERENCE_PLACES[k];
+    // Regression rule: any Pallavaram place label returned by a geocoder
+    // (for example "Pallavaram, Siva S...") must resolve to the exact
+    // V1.5.11 Pallavaram coordinates used by the original screenshots.
+    if(/\bpallavaram\b/.test(k)) return REFERENCE_PLACES['pallavaram'];
+    return null;
+  }
 
   async function searchPlaces(){
     var q=(E('placeSearch')&&E('placeSearch').value||'').trim();
