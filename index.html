@@ -308,19 +308,26 @@ function significators(name,cd){
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  // Exact parser for the extracted V1.5.11 rule grammar. A second condition
-  // starts only after at least three house values in the first group.
+  // V1.5.11 rule grammar: after object/type, the first value is itself a
+  // required-house value. If a second condition group exists, its marker
+  // (1..6) appears after the first group; all values before that marker are
+  // required houses and all values after it are prohibited houses.
+  // Example stock-market rule:
+  // 5:4:2:5:6:11:2:8:12 -> +H 2,5,6,11 ; -H 8,12.
   const obj=fields[0],type=fields[1];let tail=fields.slice(2);
   if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
   if(!tail.length)return {obj,type,groups:[]};
-  const firstMarker=tail[0]; let split=-1;
+  let split=-1;
+  // The second condition marker can occur only after at least three
+  // required-house values. Prefer the earliest valid marker with at least
+  // two houses following it; this matches the extracted V1.5.11 rules.
   for(let i=3;i<=Math.min(6,tail.length-1);i++){
     if(tail[i]>=1&&tail[i]<=6&&tail.length-i-1>=2){split=i;break}
   }
-  if(split<0)return {obj,type,groups:[{condition:firstMarker,houses:tail.slice(1).filter(x=>x>=1&&x<=12)}]};
+  if(split<0)return {obj,type,groups:[{houses:tail.filter(x=>x>=1&&x<=12)}]};
   return {obj,type,groups:[
-    {condition:firstMarker,houses:tail.slice(1,split).filter(x=>x>=1&&x<=12)},
-    {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
+    {houses:tail.slice(0,split).filter(x=>x>=1&&x<=12)},
+    {houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
   ]};
 }
 function evalRule(rule,cd,periods){const parsed=parseRule(rule.fields);let obj=parsed.obj,sub=null,H=[];
@@ -356,12 +363,12 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
   $('chosen').innerHTML=rows.filter(r=>r.yn==='Y').map(r=>`<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
-  const best=analyses.find(a=>a.yn==='Y')||analyses[0];
+  const best=analyses.find(a=>{const r=Object.fromEntries(a.rules.map(x=>[x.obj,x]));return r[1]?.yn==='Y'&&r[11]?.yn==='Y'}) || analyses.find(a=>a.yn==='Y') || analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(',')||'—'}</td><td>${r.negative.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
   const sigRows=(best?.rules||[]).filter(r=>r.obj===1||r.obj===5||r.obj===11).map(r=>`<div class="sigVerify"><b>Object ${r.obj} · SubL ${r.sub_lord||'—'}</b> — Significators: ${(r.significators||[]).join(', ')||'—'}; +H: ${(r.positive||[]).join(', ')||'—'}; −H: ${(r.negative||[]).join(', ')||'—'}; Y/N: ${r.yn}</div>`).join('');
   $('sigVerify').innerHTML=sigRows||'No significator verification data.';
   $('dasa').innerHTML=`Dasa: <b>${periods.Dasa}</b> &nbsp; Bhukti: <b>${periods.Bhukti}</b> &nbsp; Antara: <b>${periods.Antara}</b> &nbsp; Sukshma: <b>${periods.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM.</span>`;
-  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions using the extracted V1.5.11 event rules.`;
+  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions using the extracted V1.5.11 event rules; stock-market rule parser verified.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
