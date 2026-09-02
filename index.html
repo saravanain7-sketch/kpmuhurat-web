@@ -14,7 +14,7 @@ label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,te
 .titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
 table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
-.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.1</small></header>
@@ -23,7 +23,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
-<label>Place<input id="place" value="Tirupati; Andhra Pradesh; India"></label>
+<label>Place<div class="placeRow"><input id="place" value="Tirupati; Andhra Pradesh; India"><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -41,7 +41,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
-<section id="place"><div class="panel"><h3>PlaceSelect</h3><input placeholder="Search place"><p class="muted">The extracted place database is included in the package. Static browser mode uses the place text entered on Data.</p></div></section>
+<section id="place"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place or use your phone GPS. Selecting a place automatically fills Place, Latitude, Longitude and Time Zone.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Coimbatore"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
 </main>
 <script type="module">
