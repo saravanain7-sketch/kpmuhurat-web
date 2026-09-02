@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.5</title>
+<title>KPMuhurat Web 0.9.9</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.8</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.9</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -349,8 +349,29 @@ function evalRule(rule,cd,periods){const parsed=parseRule(rule.fields);let obj=p
   return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
 }
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
+function vimLevel(parent,frac){
+  const start=STAR_LORDS.indexOf(parent);
+  const seq=[];for(let i=0;i<9;i++)seq.push(STAR_LORDS[(start+i)%9]);
+  let x=0;
+  for(const lord of seq){
+    const w=VIM[lord]/120;
+    if(frac < x+w-1e-14)return [lord,(frac-x)/w];
+    x+=w;
+  }
+  return [seq[8],1];
+}
 function vimPeriods(date,time,tz){
-  const jd=localJD(date,time,tz),q=swe.calculatePosition(jd,Planet.Moon,ephFlags),moon=norm(q.longitude),nk=Math.floor(moon/NAK),lord=STAR_LORDS[nk%9],rem=(moon-nk*NAK)/NAK,idx=STAR_LORDS.indexOf(lord),seq=[];for(let j=0;j<9;j++)seq.push(STAR_LORDS[(idx+j)%9]);return {Dasa:seq[0],Bhukti:seq[1],Antara:seq[2],Sukshma:seq[3],mode:'event'};
+  // Dasa -> Bhukti -> Antara -> Sukshma, evaluated at the event instant.
+  const jd=localJD(date,time,tz);
+  const q=swe.calculatePosition(jd,Planet.Moon,ephFlags);
+  const moon=norm(q.longitude);
+  const nk=Math.floor(moon/NAK);
+  const dasa=STAR_LORDS[nk%9];
+  const frac=(moon-nk*NAK)/NAK;
+  const [bhukti,f1]=vimLevel(dasa,frac);
+  const [antara,f2]=vimLevel(bhukti,f1);
+  const [sukshma]=vimLevel(antara,f2);
+  return {Dasa:dasa,Bhukti:bhukti,Antara:antara,Sukshma:sukshma,mode:'event'};
 }
 function transitionRows(date,from,to,lat,lon,tz){
   const s0=parseClockSeconds(from),s1=parseClockSeconds(to);
@@ -380,18 +401,36 @@ function transitionRows(date,from,to,lat,lon,tz){
 
 async function run(){
  try{
-  $('status').textContent='Calculating with KP/Krishnamurti Swiss Ephemeris…';
-  const date=$('date').value,from=$('from').value+':00',to=$('to').value+':00',lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),lon=dms($('lon').value)*($('londir').value==='W'?-1:1),tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),event=window.EVENTS[Number($('event').value)];
-  const periods=vimPeriods(date,from,tz),trs=transitionRows(date,from,to,lat,lon,tz),times=[from,...trs.map(x=>x.time)];let analyses=[];
-  for(const time of times){const cd=chart({date,time,tz,lat,lon}),rules=eventAnalysis(event,cd,periods),rr=Object.fromEntries(rules.map(r=>[r.obj,r]));let core=rules.filter(r=>r.obj===1||r.obj===11);let yn=core.length?core.every(r=>r.yn==='Y'):'N';analyses.push({date,time,chart:cd,rules,yn,reason:core.map(r=>r.reason).join('; ')})}
+  $('status').textContent='Calculating exact KP significators / CSL / Y-N / Dasa…';
+  const date=$('date').value,from=$('from').value+':00',to=$('to').value+':00',
+    lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),
+    lon=dms($('lon').value)*($('londir').value==='W'?-1:1),
+    tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),
+    event=window.EVENTS[Number($('event').value)];
+
+  const trs=transitionRows(date,from,to,lat,lon,tz);
+  const times=[from,...trs.map(x=>x.time)];
+  const analyses=[];
+  for(const time of times){
+    const cd=chart({date,time,tz,lat,lon});
+    const periods=vimPeriods(date,time,tz);
+    const rules=eventAnalysis(event,cd,periods);
+    const core=rules.filter(r=>r.obj===1||r.obj===5||r.obj===11);
+    const yn=core.length?core.every(r=>r.yn==='Y'):'N';
+    analyses.push({date,time,chart:cd,rules,periods,yn,reason:core.map(r=>r.reason).join('; ')});
+  }
+
   $('lagna').innerHTML=trs.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date}</td></tr>`).join('');
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
   $('chosen').innerHTML=rows.filter(r=>r.yn==='Y').map(r=>`<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
-  $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.positive.join(',')||'—'}</td><td>${r.negative.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
-  $('dasa').innerHTML=`Dasa: <b>${periods.Dasa}</b> &nbsp; Bhukti: <b>${periods.Bhukti}</b> &nbsp; Antara: <b>${periods.Antara}</b> &nbsp; Sukshma: <b>${periods.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM.</span>`;
-  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions using the extracted V1.5.11 event rules; fractional-second boundary search enabled.`;
+  $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.posHit?.join(',')||'—'}</td><td>${r.negHit?.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+
+  const p=best?.periods||vimPeriods(date,from,tz);
+  $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
+  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions with CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
