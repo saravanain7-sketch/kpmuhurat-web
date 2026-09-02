@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.5</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.6</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -181,36 +181,48 @@ function chart(dt){
   const cuspRows=[];for(let i=1;i<=12;i++){const p=parts(cusps[i]);cuspRows.push({house:i,lon:cusps[i],sign:p[0],sign_lord:p[1],star_lord:p[2],sub_lord:p[3]})}
   return {ascendant:parts(asc),cusps:cuspRows,planets,ayan};
 }
-function ownedHouses(planet){return RASI_LORD.map((x,i)=>x===planet?i+1:null).filter(Boolean)}
+// KP house ownership is chart-relative: the lord of the ascendant sign owns house 1,
+// then the following zodiac signs are houses 2..12. This is not fixed Aries=1 mapping.
+function ownedHouses(planet,cd){
+  const ascSign=cd.ascendant[0],ascIdx=SIGNS.indexOf(ascSign); if(ascIdx<0)return [];
+  const out=[]; for(let h=1;h<=12;h++){const signIdx=(ascIdx+h-1)%12;if(RASI_LORD[signIdx]===planet)out.push(h)}
+  return out;
+}
 function significators(name,cd){
   const p=cd.planets[name];if(!p)return [];
-  const H=new Set([p.house,...ownedHouses(name)]);
+  const H=new Set([p.house,...ownedHouses(name,cd)]);
   const star=p.star_lord;
-  if(cd.planets[star]){const sp=cd.planets[star];H.add(sp.house);for(const x of ownedHouses(star))H.add(x)}
+  if(cd.planets[star]){const sp=cd.planets[star];H.add(sp.house);for(const x of ownedHouses(star,cd))H.add(x)}
   if(name==='Ra'||name==='Ke'){
-    const sl=p.sign_lord;if(cd.planets[sl]){const sp=cd.planets[sl];H.add(sp.house);for(const x of ownedHouses(sl))H.add(x)}
+    const sl=p.sign_lord;if(cd.planets[sl]){const sp=cd.planets[sl];H.add(sp.house);for(const x of ownedHouses(sl,cd))H.add(x)}
   }
   return [...H].sort((a,b)=>a-b);
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  const obj=fields[0],type=fields[1];let tail=fields.slice(2);if(tail.at(-1)===0)tail=tail.slice(0,-1);if(!tail.length)return {obj,type,groups:[]};
-  const groups=[{condition:tail[0],houses:[]}];
-  // Types 3 and 5 are the two-group forms used by the extracted rule stream.
-  if(type===3||type===5){let split=-1;for(let i=1;i<tail.length;i++){if(tail[i]>=1&&tail[i]<=6){const remaining=tail.length-i-1;if(remaining>=1){split=i;break}}}if(split>0){groups[0].houses=tail.slice(1,split).filter(x=>x>=1&&x<=12);groups.push({condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)});return {obj,type,groups}}}
-  groups[0].houses=tail.slice(1).filter(x=>x>=1&&x<=12);return {obj,type,groups};
+  // Exact parser for the extracted V1.5.11 rule grammar. A second condition
+  // starts only after at least three house values in the first group.
+  const obj=fields[0],type=fields[1];let tail=fields.slice(2);
+  if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
+  if(!tail.length)return {obj,type,groups:[]};
+  const firstMarker=tail[0]; let split=-1;
+  for(let i=3;i<=Math.min(6,tail.length-1);i++){
+    if(tail[i]>=1&&tail[i]<=6&&tail.length-i-1>=2){split=i;break}
+  }
+  if(split<0)return {obj,type,groups:[{condition:firstMarker,houses:tail.slice(1).filter(x=>x>=1&&x<=12)}]};
+  return {obj,type,groups:[
+    {condition:firstMarker,houses:tail.slice(1,split).filter(x=>x>=1&&x<=12)},
+    {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
+  ]};
 }
 function evalRule(rule,cd,periods){const parsed=parseRule(rule.fields);let obj=parsed.obj,sub=null,H=[];
   if(obj>=1&&obj<=12){const x=cuspSig(obj,cd);sub=x.sub_lord;H=x.houses}
   else if(PERIOD_CODES[obj]&&periods){const pl=periods[PERIOD_CODES[obj]];sub=pl;H=significators(pl,cd)}
   if(!parsed.groups.length)return {obj,type:parsed.type,sub_lord:sub,yn:'-',positive:[],negative:[],reason:'No rule condition'};
   const pos=parsed.groups[0].houses,neg=parsed.groups[1]?.houses||[];
-  // Condition 4 in type-0 rules is explicitly used in the supplied remarks as a NOT-signify test.
-  const type0Negative=(parsed.type===0&&parsed.groups[0].condition===4);
   let posHit=H.filter(x=>pos.includes(x)),negHit=H.filter(x=>neg.includes(x));
-  let yn,reason;
-  if(type0Negative){yn=posHit.length?'N':'Y';reason=yn==='Y'?`${sub||'Object'} does not signify ${pos.join(',')}`:`${sub} signifies prohibited houses ${posHit.join(',')}`}
-  else{yn=posHit.length>0&&negHit.length===0?'Y':'N';reason=yn==='Y'?`${sub} signifies required houses ${posHit.join(',')}`:(!posHit.length?`${sub||'Object'} does not signify required houses ${pos.join(',')}`:`${sub} signifies prohibited houses ${negHit.join(',')}`)}
+  let yn=posHit.length>0&&negHit.length===0?'Y':'N';
+  let reason=yn==='Y'?`${sub} signifies required houses ${posHit.join(',')}`:(!posHit.length?`${sub||'Object'} does not signify required houses ${pos.join(',')}`:`${sub} signifies prohibited houses ${negHit.join(',')}`);
   return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
 }
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
@@ -218,7 +230,7 @@ function vimPeriods(date,time,tz){
   const jd=localJD(date,time,tz),q=swe.calculatePosition(jd,Planet.Moon,ephFlags),moon=norm(q.longitude),nk=Math.floor(moon/NAK),lord=STAR_LORDS[nk%9],rem=(moon-nk*NAK)/NAK,idx=STAR_LORDS.indexOf(lord),seq=[];for(let j=0;j<9;j++)seq.push(STAR_LORDS[(idx+j)%9]);return {Dasa:seq[0],Bhukti:seq[1],Antara:seq[2],Sukshma:seq[3],mode:'event'};
 }
 function transitionRows(date,from,to,lat,lon,tz){
-  const a=from.split(':').map(Number),b=to.split(':').map(Number),s0=a[0]*3600+a[1]*60+(a[2]||0),s1=b[0]*3600+b[1]*60+(b[2]||0);let rows=[],prev=null,step=15;
+  const a=from.split(':').map(Number),b=to.split(':').map(Number),s0=a[0]*3600+a[1]*60+(a[2]||0),s1=b[0]*3600+b[1]*60+(b[2]||0);let rows=[],prev=null,step=5;
   const key=s=>{const c=chart({date,time:secfmt(s),tz,lat,lon});return [c.ascendant[0],c.ascendant[1],c.ascendant[2],c.ascendant[3]].join('|')};
   for(let s=s0;s<=s1;s+=step){const k=key(s);if(prev===null){prev=k;continue}if(k!==prev){let lo=s-step,hi=s;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(key(mid)===prev)lo=mid;else hi=mid}const c=chart({date,time:secfmt(hi),tz,lat,lon});rows.push({time:secfmt(hi),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date});prev=k}}
   return rows;
