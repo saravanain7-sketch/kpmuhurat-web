@@ -426,6 +426,7 @@ const V1511_STOCK_PALLAVARAM = {
   eventName:'05. Speculative gain in Stock Market',
   expected:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
 };
+function near(a,b){return Math.abs(Number(a)-Number(b))<1e-7}
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
