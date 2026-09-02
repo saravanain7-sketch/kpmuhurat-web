@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.9</title>
+<title>KPMuhurat Web 0.9.10</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.9</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.10</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -293,7 +293,7 @@ function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  const cusps=[];for(let i=1;i<=12;i++)cusps[i]=norm(h.cusps[i]-ayan);
+  const cusps=[];for(let i=1;i<=12;i++)cusps[i]=norm(h.cusps[i-1]-ayan);
   const asc=norm(h.ascendant-ayan);
   const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,Ra:10,Ke:null};
   const planets={};
@@ -388,7 +388,7 @@ function transitionRows(date,from,to,lat,lon,tz){
         const mid=(lo+hi)/2;
         if(key(mid)===prev)lo=mid;else hi=mid;
       }
-      const displaySeconds=Math.round(hi);
+      const displaySeconds=Math.floor(hi+1e-9);
       const c=chart({date,time:timeFromSeconds(hi),tz,lat,lon});
       rows.push({time:secfmt(displaySeconds),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date,exactSeconds:hi});
       prev=k;
@@ -409,7 +409,7 @@ async function run(){
     event=window.EVENTS[Number($('event').value)];
 
   const trs=transitionRows(date,from,to,lat,lon,tz);
-  const times=[from,...trs.map(x=>x.time)];
+  const times=trs.map(x=>x.time);
   const analyses=[];
   for(const time of times){
     const cd=chart({date,time,tz,lat,lon});
@@ -430,7 +430,7 @@ async function run(){
 
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
-  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions with CSL/significator evaluation and recursive Vimshottari periods.`;
+  $('status').textContent=`Calculated ${trs.length} Lagna/Sub-level transitions with corrected cusp indexing, CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }

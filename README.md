@@ -1,13 +1,11 @@
-# KPMuhurat V1.5.11 — Web 0.9.9
+# KPMuhurat V1.5.11 — Web 0.9.10
 
-Web 0.9.9 freezes the Web 0.9.8 location and transition work and focuses on:
+Web 0.9.10 is a regression-fix build from Web 0.9.9.
 
-- Significator / CSL evaluation
-- event-rule Y/N evaluation
-- Chosen Muhurat candidate generation
-- recursive Vimshottari Dasa / Bhukti / Antara / Sukshma calculation
-- actual +H / -H hits in the Analysis table
+Critical fixes:
+- Corrected Placidus cusp array indexing (`h.cusps[i-1]`), which was shifting every house cusp by one house and caused Object 5/11 CSL values to be wrong.
+- Transition display now truncates boundary seconds to match the original displayed timings (for example 09:23:26 rather than 09:23:27 when the boundary falls between seconds).
+- Sub-level analysis starts at the first actual KP transition instead of adding an artificial 09:00:00 row.
+- Retains recursive Vimshottari Dasa/Bhukti/Antara/Sukshma and the Web 0.9.8 location/GPS functionality.
 
-The extracted V1.5.11 event-rule stream is retained unchanged.
-
-This remains a browser reconstruction, not the original Windows executable/source. Final 100% equivalence must be regression-tested against the original V1.5.11 outputs before calling the engine fully certified.
+The original V1.5.11 application remains the regression reference. This build should be compared against the supplied Pallavaram screenshots, especially the 09:07:31 Object 1/5/11 analysis and the 10 chosen Muhurats.
