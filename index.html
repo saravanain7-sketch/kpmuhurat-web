@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.12</title>
+<title>KPMuhurat Web 0.9.13</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.12</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.13</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -294,12 +294,13 @@ function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  // @swisseph/browser builds have appeared with both C-style (0-based) and
-  // documented 1-based cusp arrays. Detect the actual runtime layout by
-  // matching cusp 1 to the returned Ascendant before converting to sidereal.
+  // The browser WASM build used by 0.9.12 exposes its cusp array 0-based at
+  // runtime, while the package documentation describes a 1-based layout.
+  // Detect the layout from the returned first cusp/Ascendant instead of
+  // assuming one indexing convention. This is essential for the exact CSL.
   const rawAsc=norm(h.ascendant);
-  const d0=h.cusps?.length?Math.abs(((Number(h.cusps[0])-rawAsc+540)%360)-180):1e9;
-  const d1=h.cusps?.length>1?Math.abs(((Number(h.cusps[1])-rawAsc+540)%360)-180):1e9;
+  const d0=Array.isArray(h.cusps)&&h.cusps.length>0 ? Math.abs(((Number(h.cusps[0])-rawAsc+540)%360)-180) : 1e9;
+  const d1=Array.isArray(h.cusps)&&h.cusps.length>1 ? Math.abs(((Number(h.cusps[1])-rawAsc+540)%360)-180) : 1e9;
   const cuspOffset=d0<=d1?0:1;
   const cusps=[];
   for(let i=1;i<=12;i++){
@@ -438,12 +439,12 @@ const V1511_STOCK_PALLAVARAM = {
   eventName:'05. Speculative gain in Stock Market',
   expected:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
 };
-function near(a,b){return Math.abs(Number(a)-Number(b))<1e-7}
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
     event && event.name===V1511_STOCK_PALLAVARAM.eventName;
 }
+function near(a,b){return Math.abs(Number(a)-Number(b))<1e-7}
 function regressionCheck(actual){
   const exp=V1511_STOCK_PALLAVARAM.expected;
   const missing=exp.filter(x=>!actual.includes(x));
@@ -489,7 +490,7 @@ async function run(){
   const chosenTimes=rows.filter(r=>r.yn==='Y').map(r=>r.time);
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Engine reproduced all 10 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with runtime-normalized Placidus cusps, reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
