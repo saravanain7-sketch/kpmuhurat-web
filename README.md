@@ -1,18 +1,15 @@
-# KPMuhurat Web 0.9.15
+# KPMuhurat Web 0.9.16
 
-This build fixes the KP sub-lord boundary classification used by the transition table.
+Mobile-performance update based on Web 0.9.15.
 
-The transition scan identifies the instant at which the Lagna sub-lord changes. At that exact instant, the displayed sub-lord must be the **new** sub-lord, matching the original V1.5.11 output. The previous build used a positive epsilon in the Vimshottari sub-lord boundary comparison, which caused each transition row to display the previous lord (for example 09:07:31 showed Ra instead of Ju, 09:14:46 showed Ju instead of Sa, etc.).
+## What changed
+- Kept the 0.9.15 KP boundary/sub-lord classification fix.
+- Added a lightweight Ascendant-only transition scanner instead of running the full planetary chart every 5 seconds.
+- Coarse transition scan changed to 15-second sampling; exact boundaries are still resolved with 45-iteration binary search.
+- Full chart calculations are performed only at the detected transition/probe times for analysis.
+- Regression verification remains unchanged and is still only a verification check; no reference times are injected into result selection.
 
-The regression fixture remains verification-only; it does not hard-code the expected times into the selector.
+## Reference test
+Pallavaram, Tamil Nadu — 08/04/2022, 09:00–22:00, event `05. Speculative gain in Stock Market`.
 
-Test case:
-- Pallavaram, Tamil Nadu, India
-- 08/04/2022
-- 09:00–22:00
-- 12:58:34 N, 80:11:01 E
-- TZ 05:30 East
-- Event: 05. Speculative gain in Stock Market
-
-Expected V1.5.11 selected Muhurats:
-09:07:31, 09:58:20, 10:36:01, 10:43:45, 11:09:30, 11:31:02, 11:38:52, 11:50:09, 11:59:28, 12:21:02
+The regression panel must show PASS before claiming exact V1.5.11 reproduction.

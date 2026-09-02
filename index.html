@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.15</title>
+<title>KPMuhurat Web 0.9.16</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.15</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.16</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -406,12 +406,27 @@ function vimPeriods(date,time,tz){
   const [sukshma]=vimLevel(antara,f2);
   return {Dasa:dasa,Bhukti:bhukti,Antara:antara,Sukshma:sukshma,mode:'event'};
 }
+// Fast transition scanner for mobile browsers. The previous build called the
+// full chart() (7 planets + 12 houses) every 5 seconds. That created thousands
+// of unnecessary WASM calls over a normal day. For boundary discovery we only
+// need the four Ascendant KP levels, so calculateHouses + ayanamsa is enough.
+function ascKey(date,s,lat,lon,tz){
+  const jd=localJD(date,timeFromSeconds(s),tz);
+  const ayan=swe.getAyanamsa(jd);
+  const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
+  const asc=norm(Number(h.ascendant)-ayan);
+  const p=parts(asc);
+  return [p[0],p[1],p[2],p[3]].join('|');
+}
 function transitionRows(date,from,to,lat,lon,tz){
   const s0=parseClockSeconds(from),s1=parseClockSeconds(to);
-  let rows=[],prev=null,step=5;
-  // Evaluate the actual fractional-second instant, not a truncated HH:MM:SS
-  // string, while searching for each Lagna/star/sub boundary.
-  const key=s=>{const c=chart({date,time:timeFromSeconds(s),tz,lat,lon});return [c.ascendant[0],c.ascendant[1],c.ascendant[2],c.ascendant[3]].join('|')};
+  let rows=[],prev=null;
+  // 15-second coarse sampling is safely below the shortest KP sub-level
+  // interval normally encountered by the moving Ascendant, while reducing
+  // the expensive house/WASM calls by roughly 3x versus the 5-second scan.
+  // The exact transition is still located with a 45-iteration binary search.
+  const step=15;
+  const key=s=>ascKey(date,s,lat,lon,tz);
   for(let s=s0;s<=s1;s+=step){
     const k=key(s);
     if(prev===null){prev=k;continue}
@@ -422,14 +437,11 @@ function transitionRows(date,from,to,lat,lon,tz){
         if(key(mid)===prev)lo=mid;else hi=mid;
       }
       const displaySeconds=Math.floor(hi+1e-9);
-      // At an exact KP boundary, floating-point arithmetic can leave the
-      // calculated longitude microscopically on the old side.  The original
-      // V1.5.11 transition row is labelled with the NEW lord.  Therefore
-      // probe a small, fixed amount after the boundary for classification,
-      // while keeping the displayed transition time exact.
+      // Classify the row just after the exact boundary so the new KP lord is
+      // displayed (e.g. 09:07:31 -> Ju, not the preceding Ra).
       const probeSeconds=Math.min(hi+0.25,s1-0.001);
-      const c=chart({date,time:timeFromSeconds(probeSeconds),tz,lat,lon});
-      rows.push({time:secfmt(displaySeconds),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date,exactSeconds:hi,probeSeconds});
+      const probeKey=key(probeSeconds).split('|');
+      rows.push({time:secfmt(displaySeconds),rasi:probeKey[0],snl:probeKey[1],stl:probeKey[2],sbl:probeKey[3],date,exactSeconds:hi,probeSeconds});
       prev=k;
     }
   }
