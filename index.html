@@ -272,7 +272,7 @@ try{await swe.loadStandardEphemeris();ephFlags=CalculationFlag.SwissEphemeris|Ca
 
 function dms(s){let a=String(s).split(':').map(Number);return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
 function norm(x){x%=360;return x<0?x+360:x}
-function parts(L){L=norm(L);let si=Math.floor(L/30),nk=Math.floor(L/NAK),rem=L-nk*NAK,star=STAR_LORDS[nk%9],seq=[];for(let i=0;i<9;i++)seq.push(STAR_LORDS[(nk+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=NAK*VIM[p]/120;if(rem<x+w+1e-12){sub=p;break}x+=w}return [SIGNS[si],RASI_LORD[si],star,sub,L,nk]}
+function parts(L){L=norm(L);let si=Math.floor(L/30),nk=Math.floor(L/NAK),rem=L-nk*NAK,star=STAR_LORDS[nk%9],seq=[];for(let i=0;i<9;i++)seq.push(STAR_LORDS[(nk+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=NAK*VIM[p]/120;if(rem < x+w-1e-12){sub=p;break}x+=w}return [SIGNS[si],RASI_LORD[si],star,sub,L,nk]}
 function localJD(date,time,tz){let a=date.split('-').map(Number),b=time.split(':').map(Number);return swe.julianDay(a[0],a[1],a[2],b[0]+b[1]/60+b[2]/3600-tz)}
 function timeFromSeconds(s){
   // Preserve fractional seconds during boundary searches. The previous build
