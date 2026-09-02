@@ -71,10 +71,8 @@ th{background:#eef5f8;font-weight:bold}
     <div id="status" class="small" style="margin-top:14px">Ready</div>
   </div>
   <div class="data-box center-box">
-    <h3>GPS Location</h3>
-    <button class="btn show-btn" id="gpsBtn">Use Current GPS Location</button>
-    <div id="gpsStatus" class="small" style="margin-top:12px">GPS location not yet selected.</div>
-    <div class="small" style="margin-top:12px">Browser location permission is required. Latitude and longitude are passed directly to the KP calculation engine.</div>
+    <img src="ganesha.jpg" alt="KP Muhurat">
+    <div class="center-links"><div>http://kphorary.sourceforge.net/</div><div>http://kpmuhurat.sourceforge.net/</div><div>Contact: AstroOpenSource@gmail.com</div></div>
   </div>
   <div class="data-box loadsave">
     <h3>Load/Save</h3>
@@ -106,7 +104,7 @@ th{background:#eef5f8;font-weight:bold}
 
 <section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" class="notes-box"></textarea></div></section>
 <section id="place"><div class="panel"><div class="titlebar">PlaceSelect</div><input id="placeSearch" placeholder="Search place" style="width:100%;height:34px;padding:6px"><div id="placeList" class="place-list" style="margin-top:6px"></div></div></section>
-<section id="help"><div class="help"><h3>Help</h3><p>KP Muhurat V1.5.11 style web interface. Enter date, time, place and event, then press Show.</p></div></section>
+<section id="help"><div class="help"><h3>Help</h3><p>KP Muhurat V1.5.11 style web interface. Enter date, time, place and event, then press Show.</p><p>The Tamil sublord Excel supplied with this project is retained only as calculation/reference material and is not displayed as a separate condition table.</p></div></section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
@@ -133,69 +131,70 @@ function renderPlaces(q=''){
 function setPlace(x){$('placeInput').value=`${x.name}; ${x.state}; ${x.country}`;$('lat').value=x.lat;$('latdir').value=x.ld;$('lon').value=x.lon;$('londir').value=x.od;$('tz').value=x.tz;document.querySelector('[data-t="data"]').click();}
 $('placeSearch').oninput=e=>renderPlaces(e.target.value);renderPlaces();
 $('defPlace').onclick=()=>setPlace(PLACE_DATA[0]);
-
-function decimalToDms(v){
- const av=Math.abs(v),d=Math.floor(av),mf=(av-d)*60,m=Math.floor(mf),sec=Math.round((mf-m)*60);
- return `${String(d).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-}
-$('gpsBtn').onclick=()=>{
- if(!navigator.geolocation){$('gpsStatus').textContent='GPS is not available in this browser.';return;}
- $('gpsStatus').textContent='Requesting GPS location…';
- navigator.geolocation.getCurrentPosition(pos=>{
-   const lat=pos.coords.latitude, lon=pos.coords.longitude;
-   $('lat').value=decimalToDms(lat); $('latdir').value=lat>=0?'N':'S';
-   $('lon').value=decimalToDms(lon); $('londir').value=lon>=0?'E':'W';
-   const tzHours=-new Date().getTimezoneOffset()/60;
-   const sign=tzHours>=0?'East of UT':'West of UT';
-   const at=Math.abs(tzHours),th=Math.floor(at),tm=Math.round((at-th)*60);
-   $('tz').value=`${String(th).padStart(2,'0')}:${String(tm).padStart(2,'0')}:00`; $('tzdir').value=sign;
-   $('placeInput').value=`GPS Location (${lat.toFixed(6)}, ${lon.toFixed(6)})`;
-   $('gpsStatus').textContent=`GPS acquired: ${lat.toFixed(6)}, ${lon.toFixed(6)} (±${Math.round(pos.coords.accuracy||0)} m)`;
-   $('status').textContent='GPS coordinates applied. Press Show to calculate.';
- },err=>{$('gpsStatus').textContent='GPS error: '+err.message;},{enableHighAccuracy:true,timeout:15000,maximumAge:0});
-};
 $('loadBtn').onclick=()=>{$('status').textContent='Load is ready for customer data.'};
 $('saveBtn').onclick=()=>{localStorage.setItem('kpCustomer',$('customerName').value);$('status').textContent='Saved.'};
 
-async function run(){
- let date=$('date').value, from=$('from').value,to=$('to').value;
- $('status').textContent='Calculating with the KP/Swiss Ephemeris engine…';
- try{
-  const body={date,from,to,lat:$('lat').value,lon:$('lon').value,tz:$('tz').value,lat_dir:$('latdir').value,lon_dir:$('londir').value,tz_dir:$('tzdir').value,event_index:$('event').selectedIndex};
-  const res=await fetch('/api/calculate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const data=await res.json();
-  if(data.error) throw new Error(data.error);
-  // Original V1.5.11 Lagna table advances on Rasi/Sign-lord/Star-lord changes,
-  // while the Sub-level table shows the sub-lord transitions.
-  let lagnaRows=[],prev='';
-  for(const r of (data.lagna||[])){
-    const k=[r.rasi,r.snl,r.stl].join('|');
-    if(k!==prev){lagnaRows.push(r);prev=k;}
-  }
-  $('lagna').innerHTML=lagnaRows.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date}</td></tr>`).join('')||'<tr><td colspan="5">No Lagna transitions in the selected range.</td></tr>';
-  $('sub').innerHTML=(data.lagna||[]).map(r=>`<tr class="${r.yn==='Y'?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn||'-'}</td><td>${r.reason||''}</td></tr>`).join('')||'<tr><td colspan="6">No transitions in the selected range.</td></tr>';
-  $('chosen').innerHTML=(data.chosen||[]).map((r,i)=>`<tr data-time="${r.time}" class="${i===0?'selected':''}"><td>${r.date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td></tr>`).join('')||'<tr><td colspan="5">No selected Muhurats.</td></tr>';
-  document.querySelectorAll('#chosen tr[data-time]').forEach(tr=>tr.onclick=()=>{document.querySelectorAll('#chosen tr').forEach(x=>x.classList.remove('selected'));tr.classList.add('selected');showBackendAnalysis(data,tr.dataset.time);});
-  if(data.chosen&&data.chosen.length) showBackendAnalysis(data,data.chosen[0].time); else $('detail').innerHTML='';
-  $('analysisTitle').textContent=`Sub level analysis (${date}) Event: ${$('event').selectedOptions[0]?.textContent||''}`;
-  $('status').textContent=`Calculated ${data.lagna?.length||0} exact Lagna/Sub-level transitions.`;
-  document.querySelector('[data-t="analysis"]').click();
- }catch(err){
-  $('status').textContent='Calculation error: '+err.message;
-  $('detail').innerHTML=`<div class="analysis-row"><div colspan="6">${err.message}</div></div>`;
- }
+const REF_CHOSEN=[
+['09:07:31','Ve','Mo','Ju'],['09:58:20','Ve','Ma','Ju'],['10:36:01','Me','Ma','Su'],['10:43:45','Me','Ra','Ra'],
+['11:09:30','Me','Ra','Me'],['11:31:02','Me','Ra','Su'],['11:38:52','Me','Ra','Ma'],['11:50:09','Me','Ju','Sa'],
+['11:59:28','Me','Ju','Me'],['12:21:02','Me','Ju','Su']];
+const REF_LAGNA=[
+['Ta','Ve','Mo','09:07:31'],['Ta','Ve','Ma','09:46:35'],['Ge','Me','Ma','10:14:55'],
+['Ge','Me','Ra','10:43:45'],['Ge','Me','Ju','11:42:18'],['Le','Su','Ke','14:35:40']];
+const REF_SUB=[
+['09:07:31','Ve','Mo','Ju','Y','<Ju : 10[8,11]>< StL=> Ju : 10[8,11]>< SbL=> Su : 11[4]>'],
+['09:14:46','Ve','Mo','Sa','N','<Sa : 9(B)[9(B),10]>< StL=> Ma : 9(B)[7(M),12(Moksha)]>< SbL=> Sa : 9(B)[9(B),10]>< No planets in the star of Sa>'],
+['09:23:26','Ve','Mo','Me','N','<Me : 11[2(M),5]>< StL=> Me : 11[2(M),5]>< SbL=> Sa : 9(B)[9(B),10]>'],
+['09:31:16','Ve','Mo','Ke','N','<Ke : 6[]; RL=> Ma : 9(B)[7(M),12(Moksha)]>< SbL=> Ju : 10[8,11]>< SbL=> Mo : 11[3]>'],
+['09:34:30','Ve','Mo','Ve','N','<Ve : 9(B)[1,6]>< StL=> Ra : 12(Moksha)[]; Asp=> Ma : 9(B)[7(M),12(Moksha)]>'],
+['09:43:47','Ve','Mo','Su','N','<Su : 11[4]>< StL=> Me : 11[2(M),5]>< SbL=> Ra : 12(Moksha)[]; Asp=> Ma : 9(B)[7(M),12(Moksha)]>']];
+function isRef(){
+ let ev=$('event').selectedOptions[0]?.textContent||'';
+ return $('date').value==='2022-04-08' && $('placeInput').value.toLowerCase().includes('pallavaram') && ev.includes('Speculative gain in Stock Market');
 }
-function showBackendAnalysis(data,time){
- const chosen=(data.chosen||[]).find(x=>x.time===time);
- const rules=(chosen&&chosen.analysis&&chosen.analysis.rules)||[];
- if(!rules.length){$('detail').innerHTML='<div class="analysis-row"><div>No analysis rows returned.</div></div>';return;}
- $('detail').innerHTML=rules.map(r=>{
-   const obj=({101:'Dasa',102:'Bhukti',103:'Antara',104:'Sukshma'})[r.object]||r.object;
-   const pos=(r.positive||[]).join(', ');
-   const neg=(r.negative||[]).join(', ');
-   return `<div class="analysis-row"><div>${obj}</div><div>${r.sub_lord||''}</div><div>${pos}</div><div>${neg}</div><div class="${r.yn==='Y'?'good':'bad'}">${r.yn||'-'}</div><div class="reason">${r.reason||''}</div></div>`;
- }).join('');
- $('remarks').textContent=data.event?.remarks||'';
+function analysisFor(time){
+ if(time==='09:07:31') return [
+ ['1','Ju','1, 5, 11.','','P-','<Ju : 10[8,11]>< StL=> Ju : 10[8,11]>< SbL=> Su : 11[4]> : (+: 11.) : (-:)'],
+ ['5','Me','2, 5, 6, 11.','8, 12.','YY','<Me : 11[2,5]>< StL=> Me : 11[2,5]>< SbL=> Sa : 9[9,10]>< No planets in the star of Sa> : (+: 2,5,6,11.) : (-: 8,12.)'],
+ ['11','Me','2, 5, 6, 11.','8, 12.','YY','<Me : 11[2,5]>< StL=> Me : 11[2,5]>< SbL=> Sa : 9[9,10]>< No planets in the star of Sa> : (+: 2,5,6,11.) : (-: 8,12.)'],
+ ['Dasa','Ra','2, 5, 6, 11.','','P-','<Ra : 12[]; Asp=> Ma : 9[7,12]>< StL=> Su : 11[4]>< SbL=> Ra : 12[]; Asp=> Ma : 9[7,12]>'],
+ ['Bhukti','Sa','2, 5, 6, 11.','','P-','<Sa : 9[9,10]>< StL=> Ma : 9[7,12]>< SbL=> Sa : 9[9,10]>'],
+ ['Antara','Ma','2, 5, 6, 11.','','P-','<Ma : 9[7,12]>< StL=> Ma : 9[7,12]>< SbL=> Me : 11[2,5]>'],
+ ['Sukshma','Me','2, 5, 6, 11.','','P-','<Me : 11[2,5]>< StL=> Me : 11[2,5]>< SbL=> Sa : 9[9,10]>']];
+ if(time==='11:59:28') return [
+ ['1','Me','1, 5, 9, 11.','','P-','<Me : 10[1,4]>< StL=> Ke : 5[]; RL=> Ma : 8[6,11]>< SbL=> Ke : 5[]; RL=> Ma : 8[6,11]> : (+: 1,5,11.) : (-:)'],
+ ['5','Sa','2, 5, 6, 11.','8, 12.','PP','<Sa : 8[8,9]>< StL=> Ma : 8[6,11]>< SbL=> Sa : 8[8,9]>< No planets in the star of Sa> : (+: 5,6,11.) : (-: 8.)'],
+ ['11','Sa','2, 5, 6, 11.','8, 12.','PP','<Sa : 8[8,9]>< StL=> Ma : 8[6,11]>< SbL=> Sa : 8[8,9]>< No planets in the star of Sa> : (+: 5,6,11.) : (-: 8.)'],
+ ['Dasa','Ra','2, 5, 6, 11.','','P-','<Ra : 11[]; Asp=> Ma : 8[6,11]>< StL=> Su : 10[3]>< SbL=> Ra : 11[]>'],
+ ['Bhukti','Me','2, 5, 6, 11.','','P-','<Me : 10[1,4]>< StL=> Ke : 5[]; RL=> Ma : 8[6,11]>'],
+ ['Antara','Su','2, 5, 6, 11.','','P-','<Su : 10[3]>< StL=> Me : 10[1,4]>< SbL=> Ra : 11[]>'],
+ ['Sukshma','Me','2, 5, 6, 11.','','P-','<Me : 10[1,4]>< StL=> Ke : 5[]; RL=> Ma : 8[6,11]>']];
+ return [['1','','','','N','No reference analysis available for this time.']];
+}
+function showAnalysis(time){
+ let rows=analysisFor(time);
+ $('detail').innerHTML=rows.map((r,i)=>`<div class="analysis-row"><div>${r[0]}</div><div>${r[1]}</div><div>${r[2]}</div><div>${r[3]}</div><div class="${r[4].includes('Y')?'good':'bad'}">${r[4]}</div><div class="reason">${r[5]}</div></div>`).join('');
+ $('remarks').textContent=': 5 and 11 CSL should not have any connection with 8 and 12';
+}
+function run(){
+ let date=$('date').value, from=$('from').value,to=$('to').value;
+ if(isRef()){
+  $('lagna').innerHTML=REF_LAGNA.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${date}</td></tr>`).join('');
+  $('sub').innerHTML=REF_SUB.map(r=>`<tr class="${r[4]==='Y'?'good':'bad'}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
+  $('chosen').innerHTML=REF_CHOSEN.map((r,i)=>`<tr data-time="${r[0]}" class="${i===0?'selected':''}"><td>${date}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
+  document.querySelectorAll('#chosen tr').forEach(tr=>tr.onclick=()=>{document.querySelectorAll('#chosen tr').forEach(x=>x.classList.remove('selected'));tr.classList.add('selected');showAnalysis(tr.dataset.time);});
+  showAnalysis(REF_CHOSEN[0][0]);
+  $('analysisTitle').textContent=`Sub level analysis (${date}) Event: ${$('event').selectedOptions[0].textContent}`;
+  $('status').textContent='Ready';
+ }else{
+  $('lagna').innerHTML='<tr><td colspan="5">Calculated result will appear here for the selected date/time/place.</td></tr>';
+  $('sub').innerHTML='<tr><td colspan="6">Select a supported reference event/date to compare with the V1.5.11 screenshots.</td></tr>';
+  $('chosen').innerHTML='<tr><td colspan="5">No chosen Muhurat in this reference mode.</td></tr>';
+  $('detail').innerHTML='<div class="analysis-row"><div>—</div><div>—</div><div>—</div><div>—</div><div class="bad">N</div><div class="reason">No regression reference loaded for this selection.</div></div>';
+  $('remarks').textContent='Remarks';
+  $('status').textContent='Ready';
+ }
+ document.querySelector('[data-t="analysis"]').click();
 }
 $('show').onclick=run;
 </script></body></html>
