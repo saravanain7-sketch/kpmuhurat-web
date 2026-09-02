@@ -1,9 +1,1 @@
-{
-  "name": "KP Muhurat by Kanak Bosmia",
-  "short_name": "KP Muhurat",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#eaf6fc",
-  "theme_color": "#1976a8",
-  "description": "Browser-hosted reconstruction of KP Muhurat V1.5.11"
-}
+{"name":"KP Muhurat V1.5.11","short_name":"KPMuhurat","start_url":"./","display":"standalone","background_color":"#8bcceb","theme_color":"#1976a8"}
