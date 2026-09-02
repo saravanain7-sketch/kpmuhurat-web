@@ -422,8 +422,14 @@ function transitionRows(date,from,to,lat,lon,tz){
         if(key(mid)===prev)lo=mid;else hi=mid;
       }
       const displaySeconds=Math.floor(hi+1e-9);
-      const c=chart({date,time:timeFromSeconds(hi),tz,lat,lon});
-      rows.push({time:secfmt(displaySeconds),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date,exactSeconds:hi});
+      // At an exact KP boundary, floating-point arithmetic can leave the
+      // calculated longitude microscopically on the old side.  The original
+      // V1.5.11 transition row is labelled with the NEW lord.  Therefore
+      // probe a small, fixed amount after the boundary for classification,
+      // while keeping the displayed transition time exact.
+      const probeSeconds=Math.min(hi+0.25,s1-0.001);
+      const c=chart({date,time:timeFromSeconds(probeSeconds),tz,lat,lon});
+      rows.push({time:secfmt(displaySeconds),rasi:c.ascendant[0],snl:c.ascendant[1],stl:c.ascendant[2],sbl:c.ascendant[3],date,exactSeconds:hi,probeSeconds});
       prev=k;
     }
   }
@@ -465,8 +471,12 @@ async function run(){
   const trs=transitionRows(date,from,to,lat,lon,tz);
   const times=trs.map(x=>x.time);
   const analyses=[];
-  for(const time of times){
-    const cd=chart({date,time,tz,lat,lon});
+  for(let i=0;i<times.length;i++){
+    const time=times[i], tr=trs[i];
+    // Use the post-boundary probe for lord classification; display remains
+    // the original transition second (e.g. 09:07:31).
+    const calcTime=timeFromSeconds(tr.probeSeconds ?? tr.exactSeconds ?? parseClockSeconds(time));
+    const cd=chart({date,time:calcTime,tz,lat,lon});
     const periods=vimPeriods(date,time,tz);
     const rules=eventAnalysis(event,cd,periods);
     // General event selector: all rule objects belonging to the selected
