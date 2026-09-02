@@ -14,16 +14,16 @@ label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,te
 .titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
 table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
-.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.6</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.7</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
-<label>Place<div class="placeRow"><input id="place" value="Tirupati; Andhra Pradesh; India"><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
+<label>Place<div class="placeRow"><input id="place" value="Tirupati; Andhra Pradesh; India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -41,7 +41,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
-<section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place or use your phone GPS. Selecting a place automatically fills Place, Latitude, Longitude and Time Zone.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Coimbatore"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
+<section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
 </main>
 <script>
@@ -87,6 +87,84 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
         done(name);
       })
       .catch(function(){done(null)});
+  }
+  function decimalToDMS(value){
+    var n=Number(value),a=Math.abs(n),deg=Math.floor(a),mf=(a-deg)*60,min=Math.floor(mf),sec=(mf-min)*60;
+    return deg+':'+String(min).padStart(2,'0')+':'+sec.toFixed(3).padStart(6,'0');
+  }
+  function applyLocation(name,lat,lon,tzText,tzDir){
+    lat=Number(lat); lon=Number(lon);
+    if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){
+      gpsStatus('❌ Invalid custom latitude/longitude.','error'); return false;
+    }
+    E('place').value=name||('Custom Location '+lat.toFixed(8)+', '+lon.toFixed(8));
+    E('lat').value=decimalToDMS(lat); E('latdir').value=lat<0?'S':'N';
+    E('lon').value=decimalToDMS(lon); E('londir').value=lon<0?'W':'E';
+    if(tzText){
+      var z=String(tzText).trim();
+      E('tz').value=z;
+      E('tzdir').value=tzDir||'East of UT';
+    }
+    return true;
+  }
+  function renderPlaceResults(items){
+    var box=E('placeResults'); if(!box)return;
+    if(!items.length){box.innerHTML='<div class="muted">No matching places found. Try a city, district, village or landmark name.</div>';return;}
+    box.innerHTML=items.map(function(x,i){
+      var lat=Number(x.lat),lon=Number(x.lon),name=(x.display_name||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return '<button class="placeResult" type="button" data-place-index="'+i+'"><b>'+name.split(',')[0]+'</b><small>'+name+'<br>Lat '+lat.toFixed(6)+' | Lon '+lon.toFixed(6)+'</small></button>';
+    }).join('');
+    box.querySelectorAll('.placeResult').forEach(function(btn){btn.addEventListener('click',function(){
+      var x=items[Number(btn.dataset.placeIndex)];
+      var ok=applyLocation(x.display_name,Number(x.lat),Number(x.lon),null,null);
+      if(ok){gpsStatus('✅ Custom/place location applied.\nLatitude: '+Number(x.lat).toFixed(8)+'\nLongitude: '+Number(x.lon).toFixed(8)+'\n\nThe Data tab now uses these coordinates.','ok');setTimeout(closeGpsStatus,3500);document.querySelector('[data-t="data"]').click();}
+    })});
+  }
+  async function searchPlaces(){
+    var q=(E('placeSearch')&&E('placeSearch').value||'').trim();
+    if(!q){gpsStatus('Enter a place name first.','error');return;}
+    var btn=E('placeSearchBtn'); if(btn){btn.disabled=true;btn.textContent='Searching…'}
+    try{
+      var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&addressdetails=1&q='+encodeURIComponent(q);
+      var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place search failed');
+      var data=await r.json(); renderPlaceResults(data);
+      if(!data.length)gpsStatus('No place found for “'+q+'”. Try a broader name.','error');
+    }catch(e){gpsStatus('❌ Place search failed. Check your internet connection and try again.','error')}
+    finally{if(btn){btn.disabled=false;btn.textContent='Search'}}
+  }
+  function applyCustomLocation(){
+    var name=(E('customPlace')&&E('customPlace').value||'').trim()||'Custom Location';
+    var lat=Number(E('customLat').value),lon=Number(E('customLon').value);
+    var tz=E('customTz').value.trim()||'05:30:00';
+    var latDir=E('customLatDir').value,lonDir=E('customLonDir').value;
+    if(latDir==='S')lat=-Math.abs(lat);else lat=Math.abs(lat);
+    if(lonDir==='W')lon=-Math.abs(lon);else lon=Math.abs(lon);
+    if(applyLocation(name,lat,lon,tz,'East of UT')){gpsStatus('✅ Custom location applied.\nLatitude: '+lat.toFixed(8)+'\nLongitude: '+lon.toFixed(8)+'\nTime Zone: '+tz+' East of UT','ok');setTimeout(closeGpsStatus,3500);document.querySelector('[data-t="data"]').click();}
+  }
+  async function findPlaceFromDataField(){
+    var q=(E('place').value||'').trim();
+    if(!q)return;
+    if(/^Live GPS/i.test(q)||/^Custom Location/i.test(q))return;
+    var btn=E('findPlace'); if(btn){btn.disabled=true;btn.textContent='Finding…'}
+    try{
+      var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q='+encodeURIComponent(q);
+      var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place lookup failed');
+      var data=await r.json();
+      if(!data.length){gpsStatus('❌ Could not find “'+q+'”. Use PlaceSelect search or enter custom coordinates.','error');return;}
+      var x=data[0];
+      applyLocation(x.display_name,Number(x.lat),Number(x.lon),null,null);
+      gpsStatus('✅ Location found and coordinates updated.\nLatitude: '+Number(x.lat).toFixed(8)+'\nLongitude: '+Number(x.lon).toFixed(8)+'\n\nThe Data tab now uses the selected place.','ok');
+      setTimeout(closeGpsStatus,3500);
+    }catch(e){gpsStatus('❌ Place lookup failed. Check your internet connection and try again.','error')}
+    finally{if(btn){btn.disabled=false;btn.textContent='🔎 Find'}}
+  }
+  function attachPlaceTools(){
+    var sb=E('placeSearchBtn'),ac=E('applyCustom'),fb=E('findPlace');
+    if(sb)sb.addEventListener('click',searchPlaces);
+    if(ac)ac.addEventListener('click',applyCustomLocation);
+    if(fb)fb.addEventListener('click',findPlaceFromDataField);
+    var ps=E('placeSearch'); if(ps)ps.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();searchPlaces()}});
+    var pl=E('place'); if(pl)pl.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();findPlaceFromDataField()}});
   }
   function finishButton(btn){if(btn){btn.disabled=false;btn.textContent=btn.id==='gps2'?'📍 Use Current GPS Location':'📍 GPS'}}
   function getGPS(e){
@@ -136,6 +214,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     var a=E('gps'),b=E('gps2');
     if(a)a.addEventListener('click',getGPS);
     if(b)b.addEventListener('click',getGPS);
+    attachPlaceTools();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
