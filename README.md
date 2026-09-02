@@ -1,6 +1,6 @@
-# KPMuhurat Web 0.9.13
+# KPMuhurat Web 0.9.14
 
-This build continues the 0.9.12 reconstruction and fixes the Placidus cusp-array indexing issue observed in the browser WASM runtime. The chart code detects whether the returned cusp array is 0-based or 1-based by comparing its first entries with the returned Ascendant, then maps houses 1–12 accordingly.
+This build continues the 0.9.14 reconstruction and fixes the Placidus cusp-array indexing issue observed in the browser WASM runtime. The chart code detects whether the returned cusp array is 0-based or 1-based by comparing its first entries with the returned Ascendant, then maps houses 1–12 accordingly.
 
 The Pallavaram V1.5.11 stock-market fixture remains verification-only; it does not hardcode the selected Muhurat times.
 

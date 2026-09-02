@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.13</title>
+<title>KPMuhurat Web 0.9.14</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.13</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.14</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -299,8 +299,9 @@ function chart(dt){
   // Detect the layout from the returned first cusp/Ascendant instead of
   // assuming one indexing convention. This is essential for the exact CSL.
   const rawAsc=norm(h.ascendant);
-  const d0=Array.isArray(h.cusps)&&h.cusps.length>0 ? Math.abs(((Number(h.cusps[0])-rawAsc+540)%360)-180) : 1e9;
-  const d1=Array.isArray(h.cusps)&&h.cusps.length>1 ? Math.abs(((Number(h.cusps[1])-rawAsc+540)%360)-180) : 1e9;
+  const cuspLen=h.cusps?.length||0;
+  const d0=cuspLen>0 ? Math.abs(((Number(h.cusps[0])-rawAsc+540)%360)-180) : 1e9;
+  const d1=cuspLen>1 ? Math.abs(((Number(h.cusps[1])-rawAsc+540)%360)-180) : 1e9;
   const cuspOffset=d0<=d1?0:1;
   const cusps=[];
   for(let i=1;i<=12;i++){
