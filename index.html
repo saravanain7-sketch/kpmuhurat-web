@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#1976a8"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.1</title>
+<meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
+<title>KPMuhurat Web 0.9.3</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.2</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.3</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -47,53 +47,71 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <script>
 (function(){
   function E(id){return document.getElementById(id)}
-  function dms(v){
-    var a=String(v||'').trim().split(':').map(Number); if(!a.length||a.some(isNaN)) return NaN;
-    return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600;
+  function dms(v){var a=String(v||'').trim().split(':').map(Number);if(!a.length||a.some(isNaN))return NaN;return(a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
+  function gpsStatus(text,kind){
+    var old=E('gpsStatus');
+    if(!old){old=document.createElement('div');old.id='gpsStatus';old.style.cssText='position:fixed;left:12px;right:12px;bottom:18px;z-index:9999;background:#fff;border:2px solid #1976a8;border-radius:8px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.25);font:16px Arial;color:#17313d';document.body.appendChild(old)}
+    old.textContent=text;
+    if(kind==='ok')old.style.borderColor='#2e7d32';
+    if(kind==='error')old.style.borderColor='#c62828';
   }
+  function closeGpsStatus(){var x=E('gpsStatus');if(x)x.remove()}
   function setFields(name,lat,lon,tzMinutes){
-    E('place').value=name||'Current GPS location';
-    var alat=Math.abs(lat), alon=Math.abs(lon);
-    var laM=Math.floor((alat%1)*60), laS=Math.round((((alat%1)*60)%1)*60); if(laS===60){laS=0;laM++;}
-    var loM=Math.floor((alon%1)*60), loS=Math.round((((alon%1)*60)%1)*60); if(loS===60){loS=0;loM++;}
+    E('place').value=name||('GPS '+lat.toFixed(6)+', '+lon.toFixed(6));
+    var alat=Math.abs(lat),alon=Math.abs(lon);
+    var laM=Math.floor((alat%1)*60),laS=Math.round((((alat%1)*60)%1)*60);if(laS===60){laS=0;laM++;}
+    var loM=Math.floor((alon%1)*60),loS=Math.round((((alon%1)*60)%1)*60);if(loS===60){loS=0;loM++;}
     E('lat').value=Math.floor(alat)+':'+String(laM).padStart(2,'0')+':'+String(laS).padStart(2,'0');
     E('latdir').value=lat<0?'S':'N';
     E('lon').value=Math.floor(alon)+':'+String(loM).padStart(2,'0')+':'+String(loS).padStart(2,'0');
     E('londir').value=lon<0?'W':'E';
     if(Number.isFinite(tzMinutes)){
-      var m=Math.round(tzMinutes), sign=m<0?-1:1, am=Math.abs(m);
+      var m=Math.round(tzMinutes),sign=m<0?-1:1,am=Math.abs(m);
       E('tz').value=String(Math.floor(am/60)).padStart(2,'0')+':'+String(am%60).padStart(2,'0')+':00';
       E('tzdir').value=sign<0?'West of UT':'East of UT';
     }
   }
-  function msg(t){var x=E('status');if(x)x.textContent=t;}
   function reverse(lat,lon,done){
     var u='https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lon)+'&zoom=10&addressdetails=1';
-    fetch(u,{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var a=j.address||{},city=a.city||a.town||a.village||a.municipality||a.county||'Current GPS location',state=a.state||a.region||'',country=a.country||'';done([city,state,country].filter(Boolean).join('; '));}).catch(function(){done('Current GPS location')});
+    fetch(u,{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():Promise.reject(new Error('reverse lookup failed'))}).then(function(j){var a=j.address||{},city=a.city||a.town||a.village||a.municipality||a.county||'Current GPS location',state=a.state||a.region||'',country=a.country||'';done([city,state,country].filter(Boolean).join('; '));}).catch(function(){done('Current GPS location')});
   }
-  function getGPSStandalone(){
-    var button=E('gps'); if(button){button.disabled=true;button.textContent='📍 Locating…'}
-    msg('Requesting phone GPS permission…');
-    if(!window.isSecureContext){msg('GPS needs HTTPS. Open the https:// GitHub Pages address.');if(button){button.disabled=false;button.textContent='📍 GPS'}return;}
-    if(!navigator.geolocation){msg('GPS is not available in this browser. Use Chrome and enable Location.');if(button){button.disabled=false;button.textContent='📍 GPS'}return;}
-    navigator.geolocation.getCurrentPosition(function(pos){
-      var lat=pos.coords.latitude,lon=pos.coords.longitude,tz=-new Date().getTimezoneOffset();
-      msg('GPS found '+lat.toFixed(6)+', '+lon.toFixed(6)+' — finding place…');
-      reverse(lat,lon,function(name){setFields(name,lat,lon,tz);msg('GPS location set: '+name+'. Tap Show to calculate.');if(button){button.disabled=false;button.textContent='📍 GPS'}});
-    },function(err){
-      var text;
-      if(err.code===1) text='Location permission denied. In Chrome tap 🔒/site settings → Permissions → Location → Allow, then reload.';
-      else if(err.code===2) text='Phone location unavailable. Turn ON Android Location/GPS and try again.';
-      else if(err.code===3) text='GPS timed out. Turn ON Location and try again outdoors.';
-      else text='GPS error: '+(err.message||'unknown error');
-      msg(text);if(button){button.disabled=false;button.textContent='📍 GPS'}
-    },{enableHighAccuracy:true,timeout:30000,maximumAge:60000});
+  function finishButton(btn){if(btn){btn.disabled=false;btn.textContent=btn.id==='gps2'?'📍 Use Current GPS Location':'📍 GPS'}}
+  function getGPS(e){
+    var btn=e&&e.currentTarget?e.currentTarget:null;
+    if(btn){btn.disabled=true;btn.textContent='📍 Locating…'}
+    gpsStatus('📍 GPS: requesting your phone location permission…');
+    var nav=window.navigator;
+    if(!window.isSecureContext){gpsStatus('❌ GPS requires HTTPS. Please open the GitHub Pages https:// address.','error');finishButton(btn);return;}
+    if(!nav.geolocation){gpsStatus('❌ This browser does not provide GPS/geolocation. Open the site directly in Chrome, not inside another app.','error');finishButton(btn);return;}
+    var done=false;
+    function success(pos){
+      if(done)return;done=true;
+      var lat=Number(pos.coords.latitude),lon=Number(pos.coords.longitude);
+      var tz=-new Date().getTimezoneOffset();
+      setFields('GPS '+lat.toFixed(6)+', '+lon.toFixed(6),lat,lon,tz);
+      gpsStatus('✅ GPS received: '+lat.toFixed(6)+', '+lon.toFixed(6)+'
+Updating Place…','ok');
+      reverse(lat,lon,function(name){setFields(name,lat,lon,tz);gpsStatus('✅ GPS location set to '+name+'
+Latitude/Longitude have been filled in Data.','ok');finishButton(btn);setTimeout(function(){closeGpsStatus()},3000);});
+    }
+    function fail(err){
+      if(done)return;done=true;
+      var text='❌ GPS failed.';
+      if(err&&err.code===1)text='❌ Location permission was denied. In Chrome: tap 🔒 → Permissions → Location → Allow, then reload the page.';
+      else if(err&&err.code===2)text='❌ Phone location is unavailable. Turn ON Android Location and try again.';
+      else if(err&&err.code===3)text='❌ GPS timed out. Turn ON Android Location and try again; if indoors, move near a window.';
+      else if(err&&err.message)text+=' '+err.message;
+      gpsStatus(text,'error');finishButton(btn);
+    }
+    try{nav.geolocation.getCurrentPosition(success,fail,{enableHighAccuracy:false,timeout:60000,maximumAge:0});}
+    catch(ex){fail({message:ex.message})}
   }
   function attach(){
-    if(E('gps')) E('gps').onclick=getGPSStandalone;
-    if(E('gps2')) E('gps2').onclick=getGPSStandalone;
+    var a=E('gps'),b=E('gps2');
+    if(a)a.addEventListener('click',getGPS);
+    if(b)b.addEventListener('click',getGPS);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',attach); else attach();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 </script>
 <script type="module">
