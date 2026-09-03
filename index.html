@@ -452,7 +452,7 @@ function evalRule(rule,cd,periods){
   const reason=first==='Y'
     ? `${sub} signifies required houses ${posHit.join(',')}${neg.length?` ; negative houses hit ${negHit.join(',')||'none'}`:''}`
     : `${sub||'Object'} does not signify required houses ${pos.join(',')}`;
-  return {obj,type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
+  return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
 }
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
 function vimLevel(parent,frac){
