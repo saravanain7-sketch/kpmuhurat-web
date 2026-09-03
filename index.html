@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.31</title>
+<title>KPMuhurat Web 0.9.32</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,12 +17,12 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.31</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.32</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date" value="2022-04-08"></label><label>To date<input id="todate" type="date" value="2022-04-08"></label></div>
-<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="10:00"></label></div>
+<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
 <label>Place<div class="placeRow"><input id="place" value="Tirupati; Andhra Pradesh; India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="13:39:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
@@ -37,8 +37,8 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.31 does not inject reference times into the selector.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.30</div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.32 does not inject reference times into the selector.</div></div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.32</div>
   <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector hypotheses below are compared for every transition and do not alter the production Chosen Muhurats table.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
@@ -578,7 +578,7 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
-  // 0.9.29 selection laboratory. These views are independent hypotheses and
+  // 0.9.32 selection laboratory. These views are independent hypotheses and
   // are intentionally NOT used by the production selector. Their purpose is
   // to expose which rule groups change at each transition so the original
   // V1.5.11 decision sequence can be reconstructed from evidence.
@@ -607,7 +607,7 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // Production selector remains unchanged in 0.9.29.
+  // Production selector remains unchanged in 0.9.32.
   $('chosen').innerHTML=rows.filter(r=>String(r.yn).startsWith('Y')).map(r=>`<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
