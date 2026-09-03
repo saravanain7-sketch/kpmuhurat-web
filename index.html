@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.23</title>
+<title>KPMuhurat Web 0.9.24</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.23</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.24</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.23 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.24 does not inject reference times into the selector.</div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
@@ -253,12 +253,17 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 const $=id=>document.getElementById(id);
 // Robust Show workflow: do not block the page on a top-level WASM import.
 // The Show button remains usable while the calculation engine loads.
-let swe=null, enginePromise=null, engineError=null;
+let swe=null, enginePromise=null, engineError=null, showRequested=false;
 $('status').textContent='Loading exact KP calculation engine…';
 $('show').disabled=false;
+// Queue a Show request if the user taps while the WASM engine is still loading.
+// The old build required a second tap after loading; 0.9.24 runs the queued
+// request automatically as soon as the engine becomes ready.
+$('show').type='button';
 $('show').addEventListener('click',()=>{
+  showRequested=true;
   if(typeof window.KP_RUN==='function') window.KP_RUN();
-  else $('status').textContent='Starting calculation engine… please tap Show again in a moment.';
+  else $('status').textContent='Starting calculation engine… your Show request is queued.';
 });
 async function initEngine(){
   if(swe) return swe;
@@ -277,6 +282,10 @@ async function initEngine(){
     ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
     try{await swe.loadStandardEphemeris();ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;}catch(e){console.warn('Swiss ephemeris files unavailable; using built-in Moshier.',e)}
     $('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
+    if(showRequested && typeof window.KP_RUN==='function'){
+      showRequested=false;
+      setTimeout(()=>window.KP_RUN(),0);
+    }
     return swe;
   })().catch(e=>{engineError=e; throw e});
   return enginePromise;
@@ -550,6 +559,7 @@ function regressionCheck(actual){
 }
 
 async function run(){
+ showRequested=false;
  $('show').disabled=true;
  try{
   $('status').textContent='Loading calculation engine…';
