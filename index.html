@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.19</title>
+<title>KPMuhurat Web 0.9.20</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.19</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.20</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.19 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.20 does not inject reference times into the selector.</div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
@@ -337,42 +337,47 @@ function cuspOwnedHouses(planet,cd){
 function significators(name,cd){
   const p=cd.planets[name]; if(!p)return [];
   const H=new Set();
-  const seen=new Set();
-  const addPlanet=(n)=>{
-    if(!n||seen.has(n))return;
+  const addBasic=(n)=>{
     const q=cd.planets[n]; if(!q)return;
-    seen.add(n);
     H.add(q.house);
-    for(const h of cuspOwnedHouses(n,cd)) H.add(h);
+    for(const h of ownedHouses(n,cd)) H.add(h);
   };
-  // Four-step planet chain: planet -> star -> sub -> star of sub.
-  addPlanet(name);
-  addPlanet(p.star_lord);
-  addPlanet(p.sub_lord);
-  if(cd.planets[p.sub_lord]) addPlanet(cd.planets[p.sub_lord].star_lord);
-
-  // KB/KP cuspal interlink: when a participating planet is itself a cusp
-  // sub-lord, that planet carries the corresponding cusp houses.  Also carry
-  // the cusp houses ruled by its own sub-lord; this is needed for cases such
-  // as Mercury -> Saturn where Saturn is CSL of 6/8/12.
-  const addCslHouses=(planet,depth=0)=>{
-    if(!planet||depth>2)return;
-    for(const c of cd.cusps){
-      if(c.sub_lord===planet) H.add(c.house);
-    }
-    const q=cd.planets[planet];
-    if(q?.sub_lord && q.sub_lord!==planet) addCslHouses(q.sub_lord,depth+1);
+  const otherPlanetInStar=(lord)=>Object.entries(cd.planets).some(([k,q])=>k!==lord && q.star_lord===lord);
+  const addAspectConnections=(n)=>{
+    const q=cd.planets[n]; if(!q)return;
+    const base=q.house;
+    // Classical KP/Vedic special aspects used as a connection in the
+    // original-style explanatory analysis: Saturn 3/7/10, Jupiter 5/7/9,
+    // Mars 4/7/8; other planets have the 7th aspect.
+    const ds=n==='Sa'?[3,7,10]:n==='Ju'?[5,7,9]:n==='Ma'?[4,7,8]:[7];
+    for(const d of ds) H.add(((base+d-2)%12)+1);
   };
-  addCslHouses(name);
-  addCslHouses(p.star_lord);
-  addCslHouses(p.sub_lord);
-  if(cd.planets[p.sub_lord]) addCslHouses(cd.planets[p.sub_lord].star_lord);
 
-  // Nodes additionally carry their sign-lord connection.
-  if(name==='Ra'||name==='Ke'){
-    addPlanet(p.sign_lord);
-    addCslHouses(p.sign_lord);
+  // Kanak Bosmia-style CSL signification: planet itself, star lord and
+  // sub-lord contribute their occupation/ownership. If no OTHER planet is
+  // deposited in the sub-lord's star, that sub-lord is positionally strong
+  // and additionally signifies the cusps for which it is CSL.
+  addBasic(name);
+  addBasic(p.star_lord);
+  addBasic(p.sub_lord);
+  if(p.sub_lord && !otherPlanetInStar(p.sub_lord)){
+    for(const c of cd.cusps) if(c.sub_lord===p.sub_lord) H.add(c.house);
   }
+
+  // A planet in a node's sign represents the sign lord; conjunction/aspect
+  // connections are relevant for nodes as described in the guide.
+  if(name==='Ra'||name==='Ke'){
+    addBasic(p.sign_lord);
+    const nodeHouse=p.house;
+    for(const [n,q] of Object.entries(cd.planets)){
+      if(n===name)continue;
+      if(q.house===nodeHouse) addBasic(n);
+    }
+  }
+
+  // Keep aspect connections available for the sub-level explanation. They
+  // are connections rather than a replacement for stellar signification.
+  addAspectConnections(name);
   return [...H].sort((a,b)=>a-b);
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
@@ -417,14 +422,17 @@ function evalRule(rule,cd,periods){
   if(!parsed.groups.length) return {obj,type:parsed.type,sub_lord:sub,yn:'-',positive:[],negative:[],posHit:[],negHit:[],reason:'No rule condition'};
   const pos=parsed.groups[0].houses, neg=parsed.groups[1]?.houses||[];
   const posHit=H.filter(x=>pos.includes(x));
-  // V1.5.11's analysis display shows the configured negative group as -H;
-  // it is not a second intersection used to reject a row.  The positive
-  // connection is what produces the Y result in the stock-market example.
-  const yn=posHit.length?'YY':'NN';
-  const reason=yn==='YY'
-    ? `${sub} signifies required houses ${posHit.join(',')}${neg.length?` ; avoid houses ${neg.join(',')}`:''}`
+  const negHit=H.filter(x=>neg.includes(x));
+  // Y/N is a two-character result in the original analysis: first character
+  // reports positive-house signification; second reports negative-house
+  // signification. With no negative list the second character is Y.
+  const first=posHit.length?'Y':'N';
+  const second=neg.length ? (negHit.length?'Y':'N') : 'Y';
+  const yn=first+second;
+  const reason=first==='Y'
+    ? `${sub} signifies required houses ${posHit.join(',')}${neg.length?` ; negative houses hit ${negHit.join(',')||'none'}`:''}`
     : `${sub||'Object'} does not signify required houses ${pos.join(',')}`;
-  return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit:[],significators:H,reason};
+  return {obj,type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,reason};
 }
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
 function vimLevel(parent,frac){
