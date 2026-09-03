@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.18</title>
+<title>KPMuhurat Web 0.9.19</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.18</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.19</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.18 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.19 does not inject reference times into the selector.</div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
@@ -337,63 +337,78 @@ function cuspOwnedHouses(planet,cd){
 function significators(name,cd){
   const p=cd.planets[name]; if(!p)return [];
   const H=new Set();
+  const seen=new Set();
   const addPlanet=(n)=>{
+    if(!n||seen.has(n))return;
     const q=cd.planets[n]; if(!q)return;
-    // Four-step KP chain: planet itself, star lord, sub lord and star lord
-    // of the sub lord.  For each participating planet include its occupied
-    // house and houses owned by its cusp/sign lord.
+    seen.add(n);
     H.add(q.house);
     for(const h of cuspOwnedHouses(n,cd)) H.add(h);
   };
+  // Four-step planet chain: planet -> star -> sub -> star of sub.
   addPlanet(name);
   addPlanet(p.star_lord);
   addPlanet(p.sub_lord);
   if(cd.planets[p.sub_lord]) addPlanet(cd.planets[p.sub_lord].star_lord);
 
-  // A planet that is the sub-lord of a cusp is directly connected with that
-  // cusp.  Same-CSL cusps are therefore connected as in the KB/KP method.
-  for(const c of cd.cusps){
-    if(c.sub_lord===name) H.add(c.house);
-  }
+  // KB/KP cuspal interlink: when a participating planet is itself a cusp
+  // sub-lord, that planet carries the corresponding cusp houses.  Also carry
+  // the cusp houses ruled by its own sub-lord; this is needed for cases such
+  // as Mercury -> Saturn where Saturn is CSL of 6/8/12.
+  const addCslHouses=(planet,depth=0)=>{
+    if(!planet||depth>2)return;
+    for(const c of cd.cusps){
+      if(c.sub_lord===planet) H.add(c.house);
+    }
+    const q=cd.planets[planet];
+    if(q?.sub_lord && q.sub_lord!==planet) addCslHouses(q.sub_lord,depth+1);
+  };
+  addCslHouses(name);
+  addCslHouses(p.star_lord);
+  addCslHouses(p.sub_lord);
+  if(cd.planets[p.sub_lord]) addCslHouses(cd.planets[p.sub_lord].star_lord);
 
   // Nodes additionally carry their sign-lord connection.
-  if(name==='Ra'||name==='Ke') addPlanet(p.sign_lord);
+  if(name==='Ra'||name==='Ke'){
+    addPlanet(p.sign_lord);
+    addCslHouses(p.sign_lord);
+  }
   return [...H].sort((a,b)=>a-b);
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  // V1.5.11 encoding: object:type:house...[:condition:house...][:0].
-  // The first value after type is a house, not a marker.  When a second
-  // condition group exists, its condition marker occurs after the first
-  // group and is followed by at least one house.  This preserves the raw
-  // extracted rule data while interpreting the house lists correctly.
   const obj=fields[0],type=fields[1];
   let tail=fields.slice(2);
   if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
   if(!tail.length)return {obj,type,groups:[]};
 
-  // Type 2 is a single required-house group in the original rule stream.
-  if(type===2)return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
-
-  // Look for the second condition marker.  For the extracted two-group
-  // rules the first group contains at least two houses and the marker is
-  // followed by at least one house.  Prefer the earliest valid marker only
-  // when doing so leaves a meaningful second group.
-  let split=-1;
-  const minSplit=(type===3)?2:3;
-  for(let i=minSplit;i<=Math.min(6,tail.length-2);i++){
-    if(tail[i]>=1&&tail[i]<=6 && tail.length-i-1>=1){
-      // Stock-market and similar rules use a second marker after 3+ houses;
-      // shorter type-3 rules such as 1:3:9:3:12 use the same convention.
-      // Avoid treating a final ordinary house as a marker.
-      split=i;break;
+  // Extracted V1.5.11 rule grammar:
+  // type 4: first group is four houses, then an optional condition marker,
+  // then the second house group.  Stock rule 5:4:2:5:6:11:2:8:12 therefore
+  // means + 2,5,6,11 and - 8,12.
+  // type 3: first group is one or more houses, followed by a marker and the
+  // second group.  A marker is only recognized when it leaves at least one
+  // house after it.
+  if(type===4){
+    if(tail.length>=5 && tail[4]>=1 && tail[4]<=6){
+      return {obj,type,groups:[
+        {condition:null,houses:tail.slice(0,4).filter(x=>x>=1&&x<=12)},
+        {condition:tail[4],houses:tail.slice(5).filter(x=>x>=1&&x<=12)}
+      ]};
+    }
+    return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
+  }
+  if(type===3){
+    for(let i=1;i<tail.length-1;i++){
+      if(tail[i]>=1&&tail[i]<=6){
+        return {obj,type,groups:[
+          {condition:null,houses:tail.slice(0,i).filter(x=>x>=1&&x<=12)},
+          {condition:tail[i],houses:tail.slice(i+1).filter(x=>x>=1&&x<=12)}
+        ]};
+      }
     }
   }
-  if(split<0)return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
-  return {obj,type,groups:[
-    {condition:null,houses:tail.slice(0,split).filter(x=>x>=1&&x<=12)},
-    {condition:tail[split],houses:tail.slice(split+1).filter(x=>x>=1&&x<=12)}
-  ]};
+  return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
 }
 function evalRule(rule,cd,periods){
   const parsed=parseRule(rule.fields); let obj=parsed.obj,sub=null,H=[];
