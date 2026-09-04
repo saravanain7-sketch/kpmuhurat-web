@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.42</title>
+<title>KPMuhurat Web 0.9.43</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.42</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.43</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.42 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.43 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -49,7 +49,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
   <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.42</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.42 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate Lagna/event rule candidate test. The V1.5.11 reference times remain verification-only.</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.43 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate Lagna/event rule candidate test. The V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -396,31 +396,33 @@ function parseRule(fields){
   if(tail.length&&tail[tail.length-1]===0)tail=tail.slice(0,-1);
   if(!tail.length)return {obj,type,groups:[]};
 
-  // Extracted V1.5.11 rule grammar:
-  // type 4: first group is four houses, then an optional condition marker,
-  // then the second house group.  Stock rule 5:4:2:5:6:11:2:8:12 therefore
-  // means + 2,5,6,11 and - 8,12.
-  // type 3: first group is one or more houses, followed by a marker and the
-  // second group.  A marker is only recognized when it leaves at least one
-  // house after it.
+  // V1.5.11 grammar: the first value after the rule type is a condition /
+  // operator code, NOT a house number. Type 4 has three primary houses;
+  // type 3 has two. A second operator starts the secondary/negative group.
+  // Example: 5:4:2:5:6:11:2:8:12 => +5,6,11 and -8,12.
   if(type===4){
-    if(tail.length>=5 && tail[4]>=1 && tail[4]<=6){
-      return {obj,type,groups:[
-        {condition:null,houses:tail.slice(0,4).filter(x=>x>=1&&x<=12)},
-        {condition:tail[4],houses:tail.slice(5).filter(x=>x>=1&&x<=12)}
-      ]};
+    if(tail.length>=4){
+      const condition=tail[0], firstH=tail.slice(1,4).filter(x=>x>=1&&x<=12);
+      const rest=tail.slice(4);
+      if(rest.length){
+        const condition2=rest[0], secondH=rest.slice(1).filter(x=>x>=1&&x<=12);
+        return {obj,type,groups:[{condition,houses:firstH},{condition:condition2,houses:secondH}]};
+      }
+      return {obj,type,groups:[{condition,houses:firstH}]};
     }
-    return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
+    return {obj,type,groups:[]};
   }
   if(type===3){
-    for(let i=1;i<tail.length-1;i++){
-      if(tail[i]>=1&&tail[i]<=6){
-        return {obj,type,groups:[
-          {condition:null,houses:tail.slice(0,i).filter(x=>x>=1&&x<=12)},
-          {condition:tail[i],houses:tail.slice(i+1).filter(x=>x>=1&&x<=12)}
-        ]};
+    if(tail.length>=3){
+      const condition=tail[0], firstH=tail.slice(1,3).filter(x=>x>=1&&x<=12);
+      const rest=tail.slice(3);
+      if(rest.length){
+        const condition2=rest[0], secondH=rest.slice(1).filter(x=>x>=1&&x<=12);
+        return {obj,type,groups:[{condition,houses:firstH},{condition:condition2,houses:secondH}]};
       }
+      return {obj,type,groups:[{condition,houses:firstH}]};
     }
+    return {obj,type,groups:[]};
   }
   return {obj,type,groups:[{condition:null,houses:tail.filter(x=>x>=1&&x<=12)}]};
 }
@@ -581,7 +583,7 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
-  // 0.9.42 — V1.5.11 decision trace. Reference values are observations only.
+  // 0.9.43 — V1.5.11 decision trace. Reference values are observations only.
   if(isStockRegression(date,from,to,lat,lon,tz,event)){
     const refs=V1511_STOCK_PALLAVARAM.expected;
     const trace=refs.map(ref=>{
@@ -661,7 +663,7 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.42 — independent selection/regression build.
+  // 0.9.43 — independent selection/regression build.
   // Astronomy, transition detection, chart/CSL and significator functions
   // remain calculation-driven. The V1.5.11 fixture is NEVER used to select.
   function eventGroups(event){
@@ -707,7 +709,7 @@ async function run(){
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
 
-  // 0.9.42 — Layer 1 astronomy / transition regression.  The original
+  // 0.9.43 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
   // inserted into trs and never used to select candidates.  For each reference
   // time, find the nearest independently calculated Web transition and also
