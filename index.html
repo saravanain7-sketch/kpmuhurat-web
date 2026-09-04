@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.32</title>
+<title>KPMuhurat Web 0.9.33</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.32</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.33</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,9 +37,9 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.32 does not inject reference times into the selector.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.32</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector hypotheses below are compared for every transition and do not alter the production Chosen Muhurats table.</div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.33 does not inject reference times into the selector.</div></div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.33</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector is now a separate production layer: Lagna health/timing + event-direction signification. Diagnostic columns remain for comparison.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -607,18 +607,61 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // Production selector remains unchanged in 0.9.32.
-  $('chosen').innerHTML=rows.filter(r=>String(r.yn).startsWith('Y')).map(r=>`<tr class="good"><td>${date}</td><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>Y</td><td>${r.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  // 0.9.33 — dedicated selection-engine reconstruction.
+  // The old implementation treated the seven predefined analysis rows as a
+  // single AND-gate.  That does not match KPMuhurat's documented workflow:
+  // the Lagna/sub-level is the candidate timing layer, while event cusps and
+  // DBAS are supporting significator checks.  We therefore score each
+  // transition in separate layers and select only candidates that satisfy the
+  // timing layer plus the event's gain/loss direction.
+  function eventGroups(event){
+    const out={positive:new Set(),negative:new Set()};
+    for(const rr of (event?.rules||[])){
+      const f=rr.fields||[]; if(!f.length)continue;
+      const obj=f[0]; if(!(obj>=1&&obj<=12))continue;
+      const p=parseRule(f); if(!p.groups?.length)continue;
+      p.groups[0].houses.forEach(h=>out.positive.add(h));
+      (p.groups[1]?.houses||[]).forEach(h=>out.negative.add(h));
+    }
+    return {positive:[...out.positive].sort((a,b)=>a-b),negative:[...out.negative].sort((a,b)=>a-b)};
+  }
+  function selectionLayer(a,event){
+    const groups=eventGroups(event), asc=a.chart.ascendant;
+    const sign=asc[0];
+    const badhaka=(sign==='Ar'||sign==='Cn'||sign==='Li'||sign==='Cp')?11:(sign==='Ta'||sign==='Le'||sign==='Sc'||sign==='Aq')?9:7;
+    const maraka=[2,7];
+    const sbl=a.chart.planets[asc[3]];
+    const sH=sbl?significators(asc[3],a.chart):[];
+    const sPos=sH.filter(h=>groups.positive.includes(h));
+    const sNeg=sH.filter(h=>groups.negative.includes(h));
+    const longevityH=significators(asc[3],a.chart);
+    const longevityPositive=longevityH.filter(h=>[1,5,9,11].includes(h));
+    const longevityBad=longevityH.filter(h=>[badhaka,...maraka].includes(h));
+    const eventBad=sNeg.length>0;
+    const eventGood=sPos.length>0;
+    // A Muhurat candidate is first a healthy Lagna sub-level.  Event
+    // signification then gives direction; explicit negative houses veto the
+    // candidate.  We do not require every event rule object to pass: the
+    // original workflow describes them as supporting analysis rather than an
+    // AND-gate.
+    const timingPass=longevityPositive.length>0 && longevityBad.length===0;
+    const eventPass=eventGood && !eventBad;
+    // If the event has no negative houses, the positive direction is enough.
+    const pass=timingPass && eventPass;
+    return {groups,sH,sPos,sNeg,badhaka,maraka,longevityPositive,longevityBad,timingPass,eventPass,pass};
+  }
+  const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
+  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.chart.ascendant[3]} is a healthy Lagna sub-level and signifies ${a.selection.sPos.join(',')||'required houses'}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.posHit?.join(',')||'—'}</td><td>${r.negHit?.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
-  const chosenTimes=rows.filter(r=>String(r.yn).startsWith('Y')).map(r=>r.time);
+  const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Engine reproduced all 10 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; regression verification: ${chosenTimes.length} selected, missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with reconstructed CSL/significator evaluation and recursive Vimshottari periods.`;
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; selection-engine reconstruction: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with dedicated selection-engine reconstruction, CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
