@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.40</title>
+<title>KPMuhurat Web 0.9.41</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.40</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.41</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,14 +37,19 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.40 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.41 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.40</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector remains a separate production layer. Web 0.9.40 corrects only the final candidate-selection step; diagnostic columns remain independently calculated.</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.41</div>
+  <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
+  <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
+  <div id="decisionTraceSummary" class="status"></div>
+  <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.41</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations remain independently calculated. Web 0.9.41 adds a V1.5.11 decision trace so the first demonstrable divergence can be isolated before changing the production selector.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -536,6 +541,20 @@ const V1511_STOCK_PALLAVARAM = {
   eventName:'05. Speculative gain in Stock Market',
   expected:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
 };
+// Exact SnL/StL/SbL observations visible in the supplied V1.5.11 Pallavaram
+// Results/Analysis screenshots. Verification-only; never used to select.
+const V1511_PALLAVARAM_LEVELS={
+  '09:07:31':['Ve','Mo','Ju'],
+  '09:58:20':['Ve','Ma','Ju'],
+  '10:36:01':['Me','Ma','Su'],
+  '10:43:45':['Me','Ra','Ra'],
+  '11:09:30':['Me','Ra','Me'],
+  '11:31:02':['Me','Ra','Su'],
+  '11:38:52':['Me','Ra','Ma'],
+  '11:50:09':['Me','Ju','Sa'],
+  '11:59:28':['Me','Ju','Me'],
+  '12:21:02':['Me','Ju','Su']
+};
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
@@ -583,6 +602,57 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
+  // 0.9.41 — V1.5.11 decision trace. Reference values are observations only.
+  if(isStockRegression(date,from,to,lat,lon,tz,event)){
+    const refs=V1511_STOCK_PALLAVARAM.expected;
+    const trace=refs.map(ref=>{
+      const rs=parseClockSeconds(ref), expected=V1511_PALLAVARAM_LEVELS[ref]||[];
+      let nearest=null,bestAbs=Infinity;
+      for(const tr of trs){
+        const d=Math.abs((tr.exactSeconds??parseClockSeconds(tr.time))-rs);
+        if(d<bestAbs){bestAbs=d;nearest=tr;}
+      }
+      const matchedTransition=nearest && bestAbs<=1.01;
+      let a=null;
+      if(nearest){
+        const calcTime=timeFromSeconds(nearest.probeSeconds ?? nearest.exactSeconds ?? parseClockSeconds(nearest.time));
+        const cd=chart({date,time:calcTime,tz,lat,lon});
+        const periods=vimPeriods(date,nearest.time,tz);
+        const rules=eventAnalysis(event,cd,periods);
+        const core=[1,5,11].map(n=>rules.find(r=>Number(r.obj)===n));
+        const corePass=core.every(r=>r && String(r.yn).startsWith('Y'));
+        const five=core.find(r=>Number(r?.obj)===5), eleven=core.find(r=>Number(r?.obj)===11);
+        const negHit=[...(five?.negHit||[]),...(eleven?.negHit||[])];
+        const eventPass=rules.length>0 && rules.every(r=>String(r.yn).startsWith('Y'));
+        const webLevels=[cd.ascendant[1],cd.ascendant[2],cd.ascendant[3]];
+        let first='';
+        if(!matchedTransition) first='Astronomy / transition';
+        else if(expected.length && expected.some((v,i)=>v!==webLevels[i])) first='Lagna SnL/StL/SbL';
+        else if(!corePass) first='1/5/11 CSL';
+        else if(negHit.length) first='5/11 ↔ 8/12';
+        else if(!eventPass) first='Event rule evaluation';
+        else first='No divergence shown';
+        return {ref,nearest,delta:bestAbs,expected,webLevels,corePass,negHit,eventPass,first};
+      }
+      return {ref,nearest,delta:bestAbs,expected,webLevels:[],corePass:false,negHit:[],eventPass:false,first:'Astronomy / transition'};
+    });
+    $('decisionTrace').innerHTML=trace.map(x=>{
+      const tr=x.nearest, lv=x.webLevels;
+      const astro=x.delta<=1.01?'MATCH':(x.delta<=5?'CLOSE':'DIVERGE');
+      const level=x.expected.length&&lv.length?(x.expected.every((v,i)=>v===lv[i])?'MATCH':'DIVERGE'):'—';
+      const csl=x.corePass?'PASS':'FAIL';
+      const conn=x.negHit.length?'HIT: '+x.negHit.join(','):'none';
+      const rules=x.eventPass?'PASS':'FAIL';
+      const cls=x.first==='No divergence shown'?'good':'bad';
+      return `<tr class="${cls}"><td>${x.ref}</td><td>${tr?.time||'—'}</td><td>${astro} (${Number.isFinite(x.delta)?x.delta.toFixed(1)+'s':'—'})</td><td>${lv[0]||'—'}</td><td>${lv[1]||'—'}</td><td>${lv[2]||'—'}</td><td>${csl}</td><td>${conn}</td><td>${rules}</td><td>${x.eventPass?'candidate':'check'}</td><td>${x.first}</td></tr>`;
+    }).join('');
+    const counts={astro:trace.filter(x=>x.first==='Astronomy / transition').length,levels:trace.filter(x=>x.first==='Lagna SnL/StL/SbL').length,csl:trace.filter(x=>x.first==='1/5/11 CSL').length,conn:trace.filter(x=>x.first==='5/11 ↔ 8/12').length,event:trace.filter(x=>x.first==='Event rule evaluation').length,none:trace.filter(x=>x.first==='No divergence shown').length};
+    $('decisionTraceSummary').innerHTML=`<b>First-divergence count:</b> Astronomy/transition ${counts.astro}, Lagna levels ${counts.levels}, 1/5/11 CSL ${counts.csl}, 5/11↔8/12 ${counts.conn}, event rules ${counts.event}, no shown divergence ${counts.none}. <span class="muted">The production selector is not changed by this trace.</span>`;
+  } else {
+    $('decisionTrace').innerHTML='';
+    $('decisionTraceSummary').textContent='Decision trace is available for the stored Pallavaram stock-market test only.';
+  }
+
   // 0.9.32 selection laboratory. These views are independent hypotheses and
   // are intentionally NOT used by the production selector. Their purpose is
   // to expose which rule groups change at each transition so the original
@@ -612,7 +682,7 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.40 — independent selection/regression build.
+  // 0.9.41 — independent selection/regression build.
   // Astronomy, transition detection, chart/CSL and significator functions
   // remain calculation-driven. The V1.5.11 fixture is NEVER used to select.
   function eventGroups(event){
@@ -655,7 +725,7 @@ async function run(){
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
 
-  // 0.9.40 — Layer 1 astronomy / transition regression.  The original
+  // 0.9.41 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
   // inserted into trs and never used to select candidates.  For each reference
   // time, find the nearest independently calculated Web transition and also
