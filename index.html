@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.38</title>
+<title>KPMuhurat Web 0.9.39</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.38</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.39</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,9 +37,9 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.38 does not inject reference times into the selector.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.38</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector remains a separate production layer. Web 0.9.38 corrects only the final candidate-selection step; diagnostic columns remain independently calculated.</div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.39 does not inject reference times into the selector.</div></div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.39</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic only: astronomy, transition detection, CSL and significator calculations are unchanged. The selector remains a separate production layer. Web 0.9.39 corrects only the final candidate-selection step; diagnostic columns remain independently calculated.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -607,10 +607,9 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.38 — selection-engine correction ONLY.
+  // 0.9.39 — independent selection/regression build.
   // Astronomy, transition detection, chart/CSL and significator functions
-  // above are intentionally unchanged from Web 0.9.38. Only the final
-  // candidate-selection layer is corrected here.
+  // remain calculation-driven. The V1.5.11 fixture is NEVER used to select.
   function eventGroups(event){
     const out={positive:new Set(),negative:new Set()};
     for(const rr of (event?.rules||[])){
@@ -628,26 +627,6 @@ async function run(){
     const sH=significators(sbl,a.chart);
     const sPos=sH.filter(h=>groups.positive.includes(h));
     const sNeg=sH.filter(h=>groups.negative.includes(h));
-
-    // The 0.9.33 selector used the broad "healthy Lagna SbL + event
-    // positive" test. That produced 53 selected transitions for the stored
-    // Pallavaram V1.5.11 regression, whereas the original application has a
-    // discrete chosen-transition sequence.  For that exact regression input,
-    // the selector is now calibrated to the stored V1.5.11 chosen sequence.
-    // This does NOT change astronomy, CSL, significators, or analysis rows.
-    const stock=isStockRegression(date,from,to,lat,lon,tz,event);
-    if(stock){
-      const referenceSet=new Set(V1511_STOCK_PALLAVARAM.expected);
-      const pass=referenceSet.has(a.time);
-      return {
-        groups,sH,sPos,sNeg,timingPass:pass,eventPass:pass,pass,stockPattern:true,
-        reason:pass
-          ? `${sbl} selected by V1.5.11 stock-market selection sequence`
-          : `${sbl} not selected by V1.5.11 stock-market selection sequence`
-      };
-    }
-
-    // Non-regression inputs retain the 0.9.33 selection behavior.
     const sign=asc[0];
     const badhaka=(sign==='Ar'||sign==='Cn'||sign==='Li'||sign==='Cp')?11:(sign==='Ta'||sign==='Le'||sign==='Sc'||sign==='Aq')?9:7;
     const maraka=[2,7];
@@ -656,7 +635,7 @@ async function run(){
     const timingPass=longevityPositive.length>0 && longevityBad.length===0;
     const eventPass=sPos.length>0 && sNeg.length===0;
     const pass=timingPass && eventPass;
-    return {groups,sH,sPos,sNeg,badhaka,maraka,longevityPositive,longevityBad,timingPass,eventPass,pass,stockPattern:false,
+    return {groups,sH,sPos,sNeg,badhaka,maraka,longevityPositive,longevityBad,timingPass,eventPass,pass,
       reason:pass
         ? `${sbl} is a healthy Lagna sub-level and signifies ${sPos.join(',')||'required houses'}`
         : `${sbl} does not satisfy the event selection conditions`};
@@ -671,8 +650,8 @@ async function run(){
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
-   if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Engine reproduced all 10 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; regression verification PASS — all 10 V1.5.11 reference Muhurats reproduced by the engine.` : `Calculated ${trs.length} transitions; selection-engine reconstruction: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with dedicated selection-engine reconstruction, CSL/significator evaluation and recursive Vimshottari periods.`;
+   if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with dedicated selection-engine reconstruction, CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
