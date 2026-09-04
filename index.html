@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.44</title>
+<title>KPMuhurat Web 0.9.45</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.44</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.45</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,19 +37,19 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.44 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.45 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.44</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.45</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.44</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.44 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate Lagna/event rule candidate test. The V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.45</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.45 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate Lagna/event rule candidate test. The V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -572,7 +572,7 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
-  // 0.9.44 — V1.5.11 decision trace. Reference values are observations only.
+  // 0.9.45 — V1.5.11 decision trace. Reference values are observations only.
   if(isStockRegression(date,from,to,lat,lon,tz,event)){
     const refs=V1511_STOCK_PALLAVARAM.expected;
     const trace=refs.map(ref=>{
@@ -652,53 +652,85 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.44 — independent selection/regression build.
-  // Astronomy, transition detection, chart/CSL and significator functions
-  // remain calculation-driven. The V1.5.11 fixture is NEVER used to select.
-  function eventGroups(event){
-  const out={positive:new Set(),negative:new Set()};
-  for(const rr of (event?.rules||[])){
-    const f=rr.fields||[]; if(!f.length) continue;
-    const p=parseRule(f);
-    (p.groups[0]?.houses||[]).forEach(h=>out.positive.add(h));
-    (p.groups[1]?.houses||[]).forEach(h=>out.negative.add(h));
+  // 0.9.45 — event-rule / final-selection reconstruction.
+  // Astronomy, transition detection and chart calculation are intentionally
+  // untouched. The stock-market rules are evaluated at the CSL/sub-level and
+  // the DBAS condition is treated as a joint period of significators.
+  function housesOfPlanet(name,cd){ return significators(name,cd); }
+  function ruleState(r){
+    if(!r) return {any:false,all:false,noLoss:true,hits:[],required:[]};
+    const required=[...(r.positive||[])];
+    const hits=[...(r.posHit||[])];
+    const all=required.length>0 && required.every(h=>hits.includes(h));
+    const any=hits.length>0;
+    const noLoss=!r.negHit?.length;
+    return {any,all,noLoss,hits,required};
   }
-  return {positive:[...out.positive].sort((a,b)=>a-b),negative:[...out.negative].sort((a,b)=>a-b)};
-}
-function rulePass(r){
-  if(!r) return false;
-  // A rule is favourable when its sub-lord signifies at least one required
-  // house and none of the explicitly prohibited houses.
-  return r.posHit?.length>0 && (!r.negative?.length || !r.negHit?.length);
-}
-function selectionLayer(a,event){
-  const byObj=n=>a.rules.find(r=>Number(r.obj)===n);
-  const lagna=byObj(1), fifth=byObj(5), eleventh=byObj(11);
-  const periods=[101,102,103,104].map(byObj);
-  const lagnaSign=a.chart.ascendant[0];
-  const movable=new Set(['Ar','Cn','Li','Cp']);
-  // Kanak Bosmia's stock/speculation rules: 1st CSL establishes longevity;
-  // 5th and 11th CSLs establish speculation/gain; DBAS provides the joint
-  // timing. Do not require every period lord to signify every target house.
-  const lagnaPass=rulePass(lagna) && !movable.has(lagnaSign);
-  const fifthPass=rulePass(fifth);
-  const eleventhPass=rulePass(eleventh);
-  const periodHits=periods.map(r=>({rule:r,houses:[...(r?.posHit||[])]}));
-  const required=[2,5,6,11];
-  const covered=new Set(periodHits.flatMap(x=>x.houses.filter(h=>required.includes(h))));
-  const timingPass=required.every(h=>covered.has(h));
-  // The period condition is a joint-period condition: collectively the four
-  // active lords must cover the required houses; an individual lord may cover
-  // only part of the set. Explicit 8/12 hits remain disqualifying.
-  const timingNoLoss=periods.every(r=>r && (!r.negative?.length || !r.negHit?.length));
-  const eventPass=fifthPass && eleventhPass;
-  const pass=lagnaPass && eventPass && timingPass && timingNoLoss;
-  return {sbl:a.chart.ascendant[3],lagnaSign,lagna,fifth,eleventh,periods,lagnaPass,fifthPass,eleventhPass,periodHits,required,covered:[...covered].sort((x,y)=>x-y),timingPass,timingNoLoss,eventPass,pass,
-    reason:pass
-      ? `${a.chart.ascendant[3]} passes Lagna longevity, 5th/11th speculation and joint DBAS coverage`
-      : `Fails one or more V1.5.11-style Lagna / 5th / 11th / DBAS conditions`};
-}
-const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
+  function cslSubLayer(cuspNo,cd){
+    const cusp=cd.cusps[cuspNo-1];
+    const csl=cusp?.sub_lord||null;
+    const planet=cd.planets[csl];
+    const sub=planet?.sub_lord||null;
+    const houses=sub?housesOfPlanet(sub,cd):[];
+    return {cusp:cuspNo,csl,sub,houses};
+  }
+  function layerMatches(layer,positive,negative){
+    const hit=layer.houses||[];
+    return {
+      hits:hit.filter(h=>positive.includes(h)),
+      negHits:hit.filter(h=>negative.includes(h)),
+      all:positive.length>0 && positive.every(h=>hit.includes(h)),
+      any:hit.some(h=>positive.includes(h)),
+      noLoss:!hit.some(h=>negative.includes(h))
+    };
+  }
+  function selectionLayer(a,event){
+    const asc=a.chart.ascendant;
+    const lagnaSign=asc[0], sbl=asc[3];
+    const lagnaH=housesOfPlanet(sbl,a.chart);
+    const lagnaPos=[1,5,9,11], lagnaNeg=[8,12];
+    const lagnaPosHit=lagnaH.filter(h=>lagnaPos.includes(h));
+    const lagnaNegHit=lagnaH.filter(h=>lagnaNeg.includes(h));
+    const movable=new Set(['Ar','Cn','Li','Cp']);
+    const lagnaPass=lagnaPosHit.length>0 && lagnaNegHit.length===0 && !movable.has(lagnaSign);
+
+    const fifthLayer=cslSubLayer(5,a.chart);
+    const eleventhLayer=cslSubLayer(11,a.chart);
+    const target=[2,5,6,11], losses=[8,12];
+    const fifthEval=layerMatches(fifthLayer,target,losses);
+    const eleventhEval=layerMatches(eleventhLayer,target,losses);
+
+    // For speculation the 5th CSL is the primary promise test. The extracted
+    // rule explicitly asks for 2,5,6,11 and excludes 8,12. Bosmia's published
+    // examples also evaluate the CSL through its own sub-level placement.
+    const fifthPass=fifthEval.all && fifthEval.noLoss;
+    // 11th CSL is the gain cross-check, using the same extracted stock-event
+    // house set and loss exclusion.
+    const eleventhPass=eleventhEval.all && eleventhEval.noLoss;
+
+    const periods=[101,102,103,104].map(n=>a.rules.find(r=>Number(r.obj)===n));
+    const periodLayers=periods.map(r=>{
+      const pl=r?.sub_lord||null;
+      const h=pl?housesOfPlanet(pl,a.chart):[];
+      return {rule:r,planet:pl,houses:h,hit:h.filter(x=>target.includes(x)),negHit:h.filter(x=>losses.includes(x))};
+    });
+    const covered=new Set(periodLayers.flatMap(x=>x.hit));
+    const timingPass=target.every(h=>covered.has(h));
+    const timingNoLoss=periodLayers.every(x=>x.rule && !x.negHit.length);
+
+    const pass=lagnaPass && fifthPass && eleventhPass && timingPass && timingNoLoss;
+    return {
+      sbl,lagnaSign,lagnaH,lagnaPosHit,lagnaNegHit,lagnaPass,
+      fifthLayer,fifthEval,fifthPass,
+      eleventhLayer,eleventhEval,eleventhPass,
+      periods,periodLayers,required:target,covered:[...covered].sort((x,y)=>x-y),
+      timingPass,timingNoLoss,pass,
+      reason:pass
+        ? `${sbl} passes Lagna; 5th/11th CSL sub-level promises; joint DBAS coverage`
+        : `Fails Lagna, 5th/11th CSL promise, or joint DBAS condition`
+    };
+  }
+  const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
@@ -708,7 +740,15 @@ const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
 
-  // 0.9.44 — Layer 1 astronomy / transition regression.  The original
+  // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
+  const finalDiag=selectionRows.map(a=>{
+    const s=a.selection;
+    return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,pass:s.pass};
+  });
+  const fd=$('selectorSummary');
+  if(fd) fd.innerHTML='<b>0.9.45 final-selection model:</b> 5th/11th CSL → their sub-level significators of 2,5,6,11, no 8/12; DBAS 101–104 jointly cover 2,5,6,11; Lagna must be non-movable and signify 1,5,9,11.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
+
+  // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
   // inserted into trs and never used to select candidates.  For each reference
   // time, find the nearest independently calculated Web transition and also
