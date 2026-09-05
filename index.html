@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.53</title>
+<title>KPMuhurat Web 0.9.54</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.53</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.54</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,7 +37,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.53 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.54 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -49,7 +49,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
   <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.52</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.53 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate promise/timing candidate test. The transiting Lagna-SBL activation gate from 0.9.51 has been removed. The V1.5.11 reference times remain verification-only.</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.54 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate promise/timing candidate test. The transiting Lagna-SBL activation gate from 0.9.51 has been removed. The V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -365,34 +365,35 @@ function cuspOwnedHouses(planet,cd){
   return out;
 }
 function significators(name,cd){
-  const p=cd.planets[name]; if(!p)return [];
-  const H=new Set();
-  const addBasic=(n)=>{
-    const q=cd.planets[n]; if(!q)return;
-    H.add(q.house);
-    for(const h of ownedHouses(n,cd)) H.add(h);
-  };
-
-  // 0.9.50: use the evidence-supported KP planet/star-lord level only.
-  // Do NOT recursively add the planet's own sub-lord or broad planetary
-  // aspects. Those additions in 0.9.49 made otherwise valid V1.5.11
-  // candidates acquire spurious 8/12 connections (for example the 09:07:31
-  // Me CSL case). The sub-level is already represented by the cusp's CSL;
-  // its significator test is the CSL planet's own KP signification.
-  addBasic(name);
-  if(p.star_lord) addBasic(p.star_lord);
-
-  // Rahu/Ketu: include sign lord and planets occupying the node's house,
-  // while keeping the same planet/star-lord construction for each contributor.
-  if(name==='Ra'||name==='Ke'){
-    if(p.sign_lord) addBasic(p.sign_lord);
-    const nodeHouse=p.house;
-    for(const [n,q] of Object.entries(cd.planets)){
-      if(n===name)continue;
-      if(q.house===nodeHouse) addBasic(n);
+  // 0.9.54: Kanak Bosmia's six-fold KP significator construction.
+  // The six columns are:
+  // A = planets in the sub of occupants,
+  // B = planets in the star of occupants,
+  // C = occupants,
+  // D = planets in the sub of the house owner,
+  // E = planets in the star of the house owner,
+  // F = house owner.
+  // This is materially different from the earlier planet + star-lord shortcut.
+  // It is used for both cusp and period-lord signification.
+  if(!cd?.planets || !cd?.cusps) return [];
+  const out=new Set();
+  const planets=cd.planets;
+  for(let h=1;h<=12;h++){
+    const occupants=Object.entries(planets).filter(([n,q])=>q.house===h).map(([n])=>n);
+    const owner=cd.cusps[h-1]?.sign_lord;
+    if(occupants.includes(name)) out.add(h);                 // C
+    if(owner===name) out.add(h);                             // F
+    for(const [n,q] of Object.entries(planets)){
+      if(occupants.includes(q.sub_lord)) out.add(h);         // A
+      if(occupants.includes(q.star_lord)) out.add(h);        // B
+      if(owner && q.sub_lord===owner) out.add(h);            // D
+      if(owner && q.star_lord===owner) out.add(h);           // E
     }
   }
-  return [...H].sort((a,b)=>a-b);
+  // Preserve the established KP node treatment: a node also represents its
+  // sign lord and planets occupying the node's house. Their six-fold houses
+  // are already included through the same construction above.
+  return [...out].sort((a,b)=>a-b);
 }
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
@@ -692,7 +693,12 @@ async function run(){
       noLoss:!hit.some(h=>negative.includes(h))
     };
   }
-  function selectionLayer(a,event){
+  function dayLordForDate(date){
+  const d=new Date(date+'T12:00:00Z').getUTCDay();
+  return ['Su','Mo','Ma','Me','Ju','Ve','Sa'][d];
+}
+
+function selectionLayer(a,event){
     const asc=a.chart.ascendant;
     const lagnaSign=asc[0], snl=asc[1], stl=asc[2], sbl=asc[3];
     const lagnaH=housesOfPlanet(snl,a.chart);
@@ -701,7 +707,7 @@ async function run(){
     const lagnaNegHit=lagnaH.filter(h=>lagnaNeg.includes(h));
     const movable=new Set(['Ar','Cn','Li','Cp']);
 
-    // 0.9.53: remove the unsupported "transiting Lagna SBL must itself
+    // 0.9.54: remove the unsupported "transiting Lagna SBL must itself
     // signify 2/5/6/11" activation gate.  V1.5.11 confirms that selected
     // instants are not equivalent to an all-positive rule vector, and there
     // is no evidence that the current Lagna SBL must independently carry an
@@ -724,21 +730,16 @@ async function run(){
     const fifthEval=layerMatches(fifthLayer,target,losses);
     const eleventhEval=layerMatches(eleventhLayer,target,losses);
 
-    // The 5th and 11th cuspal sub-lords are the two independent promise
-    // checks for speculative gain.  Do not collapse them into a single OR:
-    // the extracted event contains both object 5 and object 11 rules, while
-    // the DBAS objects are reserved for timing.  A promise is therefore
-    // accepted only when both cusps signify at least one of 2/5/6/11 and
-    // neither cusp carries an actual 8/12 signification.
+    // 0.9.54: use six-fold significators for the CSL promise. The source
+    // material distinguishes signification from the later ruling-planet
+    // selection step, so the CSL must first carry at least one fruitful house
+    // and must not be connected to a loss house through the six-fold table.
     const fifthPass=fifthEval.any && fifthEval.noLoss;
     const eleventhPass=eleventhEval.any && eleventhEval.noLoss;
     const promisePass=fifthPass && eleventhPass;
 
     // DBAS 101–104 are a joint period. Each level may contribute a subset;
-    // the union must cover the full event group 2/5/6/11.
-    // IMPORTANT: the extracted 101–104 rules contain NO negative 8/12 group.
-    // Therefore 8/12 must not be invented as an additional DBAS rejection
-    // test. The explicit 8/12 prohibition belongs to the 5th/11th CSL rules.
+    // the union must cover 2,5,6,11. No 8/12 gate is invented for DBAS.
     const periodLayers=dbas.map(r=>{
       const pl=r?.sub_lord||null;
       const h=pl?housesOfPlanet(pl,a.chart):[];
@@ -748,16 +749,24 @@ async function run(){
     const timingPass=target.every(h=>covered.has(h));
     const timingNoLoss=true;
 
-    // No stored V1.5.11 timestamp is used here. The current transition is
-    // the gochara timing point; selection is determined by the extracted
-    // event-rule structure and independently calculated significators.
-    const pass=lagnaPass && promisePass && timingPass;
+    // Ruling planets are calculated from the five primary KP RPs. They are
+    // exposed as a diagnostic and used only as a secondary quality signal;
+    // the current SBL is NOT required to be an RP, avoiding the unsupported
+    // 0.9.51 transit-SBL gate.
+    const rp=new Set([asc[1],asc[2],a.chart.planets.Mo?.sign_lord,a.chart.planets.Mo?.star_lord]);
+    rp.add(dayLordForDate(date));
+    const fruitfulPeriod=[...new Set(periodLayers.flatMap(x=>x.planet?housesOfPlanet(x.planet,a.chart):[]))];
+    const rpCommon=periodLayers.filter(x=>x.planet&&rp.has(x.planet)).map(x=>x.planet);
+    const timingRP=rpCommon.length>0;
+
+    // No stored V1.5.11 timestamp is used here.
+    const pass=lagnaPass && promisePass && timingPass && timingRP;
     return {
       sbl,snl,stl,lagnaSign,lagnaH,lagnaPosHit,lagnaNegHit,lagnaPass,
       fifthLayer,fifthEval,fifthPass,
       eleventhLayer,eleventhEval,eleventhPass,
       periods:dbas,periodLayers,required:target,covered:[...covered].sort((x,y)=>x-y),
-      timingPass,timingNoLoss,promisePass,triggerPass:true,sblH:housesOfPlanet(sbl,a.chart),sblPosHit:[],sblNegHit:[],pass,
+      timingPass,timingNoLoss,promisePass,timingRP,rp:[...rp],rpCommon,triggerPass:true,sblH:housesOfPlanet(sbl,a.chart),sblPosHit:[],sblNegHit:[],pass,
       reason:pass
         ? `Lagna promise, 5th+11th speculative-gain promise and joint DBAS pass`
         : `Fails Lagna promise, 5th/11th promise, or joint DBAS coverage/loss exclusion`
@@ -766,7 +775,7 @@ async function run(){
 
   const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.53 Selection Gates</div><div class="muted">Each transition is tested independently: Lagna promise, 5th CSL promise, 11th CSL promise, and joint DBAS coverage. DBAS 8/12 is not an extra gate.</div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.54 Selection Gates</div><div class="muted">Each transition is tested independently: Lagna promise, 5th CSL promise, 11th CSL promise, and joint DBAS coverage. DBAS 8/12 is not an extra gate.</div></div>');
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.posHit?.join(',')||'—'}</td><td>${r.negHit?.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
@@ -781,7 +790,7 @@ async function run(){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.53 final-selection model:</b> KP planet + star-lord significators; Lagna must signify ANY of 1,5,9,11, avoid 8/12, and be non-movable; BOTH 5th and 11th CSLs must signify ANY of 2,5,6,11 with no actual 8/12 signification; DBAS 101–104 are a JOINT UNION whose combined significators must cover 2,5,6,11; no extra 8/12 exclusion is applied to DBAS because the extracted DBAS rules have no negative group. The unsupported transiting Lagna-SBL activation gate is removed.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
+  if(fd) fd.innerHTML='<b>0.9.54 final-selection model:</b> KP six-fold significators; ruling planets are a secondary timing quality check; Lagna must signify ANY of 1,5,9,11, avoid 8/12, and be non-movable; BOTH 5th and 11th CSLs must signify ANY of 2,5,6,11 with no actual 8/12 signification; DBAS 101–104 are a JOINT UNION whose combined significators must cover 2,5,6,11; no extra 8/12 exclusion is applied to DBAS because the extracted DBAS rules have no negative group. The unsupported transiting Lagna-SBL activation gate is removed.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never

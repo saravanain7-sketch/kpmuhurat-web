@@ -1,13 +1,17 @@
-# KPMuhurat Web 0.9.52
+# KPMuhurat Web 0.9.54
 
-Independent static reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
+Static GitHub Pages reconstruction of KP Muhurat V1.5.11.
 
-## 0.9.52 changes
-- Preserves the working Swiss Ephemeris / Krishnamurti / Placidus transition layer from 0.9.51.
-- Removes the unsupported final gate requiring the current Lagna SBL to signify 2/5/6/11.
-- Treats event objects 5 and 11 as two independent speculative-gain promise checks; both must have a favourable 2/5/6/11 signification and no actual 8/12 signification.
-- Keeps DBAS 101–104 as a joint timing period: their combined significators must cover 2/5/6/11, while 8/12 is excluded at each level.
-- Stored V1.5.11 reference timestamps remain verification-only and are never injected into candidate selection.
+## 0.9.54 changes
+- Preserves the working Swiss Ephemeris WASM / Krishnamurti ayanamsa / Placidus transition layer.
+- Preserves the independent V1.5.11 Pallavaram regression diagnostics; stored timestamps remain verification-only.
+- Replaces the previous planet + star-lord shortcut with Kanak Bosmia's documented six-fold KP significator construction (sub-of-occupant, star-of-occupant, occupant, sub-of-owner, star-of-owner, owner).
+- Uses six-fold significators for cusp and DBAS timing checks.
+- Keeps the extracted 8/12 restriction on the 5th/11th CSL rules and does not invent an 8/12 DBAS gate.
+- Adds primary ruling-planet calculation as a secondary timing quality check; it does not require the current Lagna SBL to be a ruling planet.
+- No reference timestamp is injected into production candidate selection.
 
-## Important
-This is a reconstruction build. 0.9.52 is a new hypothesis and is not claimed to reproduce V1.5.11 until the Pallavaram regression fixture is run and compared.
+## Regression fixture
+Pallavaram, 08/04/2022, 09:00–15:00, event `05. Speculative gain in Stock Market`, location 12:58:34 N / 80:11:01 E / +05:30.
+
+The 10 V1.5.11 timestamps are displayed only for independent verification.
