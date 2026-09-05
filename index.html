@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.51</title>
+<title>KPMuhurat Web 0.9.52</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.51</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.52</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,19 +37,19 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.51 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.52 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.51</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.52</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.51</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.51 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate Lagna/event rule candidate test. The V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.52</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.52 uses standard KP significator construction (planet + star-lord occupation/ownership, with node handling) and a separate promise/timing candidate test. The transiting Lagna-SBL activation gate from 0.9.51 has been removed. The V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -701,14 +701,12 @@ async function run(){
     const lagnaNegHit=lagnaH.filter(h=>lagnaNeg.includes(h));
     const movable=new Set(['Ar','Cn','Li','Cp']);
 
-    // 0.9.51: separate the promise rule from the timing trigger.  The
-    // extracted V1.5.11 stream shows that the final chosen second is not
-    // simply the instant at which every rule vector is Y: several confirmed
-    // choices have 102/103/104 = N, and 11:50:09 has both 5 and 11 = N.
-    // Therefore use the actual Lagna CSL rule (object 1) for the promise,
-    // the DBAS vector for the joint period, and the transiting Lagna SBL as
-    // the final trigger.  This is also consistent with the KP Muhurat idea
-    // that a favourable running significator activates the promised event.
+    // 0.9.52: remove the unsupported "transiting Lagna SBL must itself
+    // signify 2/5/6/11" activation gate.  V1.5.11 confirms that selected
+    // instants are not equivalent to an all-positive rule vector, and there
+    // is no evidence that the current Lagna SBL must independently carry an
+    // event-house signification.  Keep gochara represented by the transition
+    // instant itself, while the event rules provide the promise/timing tests.
     const rule1=a.rules.find(r=>Number(r.obj)===1);
     const rule5=a.rules.find(r=>Number(r.obj)===5);
     const rule11=a.rules.find(r=>Number(r.obj)===11);
@@ -725,9 +723,20 @@ async function run(){
     const eleventhLayer=cslSubLayer(11,a.chart);
     const fifthEval=layerMatches(fifthLayer,target,losses);
     const eleventhEval=layerMatches(eleventhLayer,target,losses);
+
+    // The 5th and 11th cuspal sub-lords are the two independent promise
+    // checks for speculative gain.  Do not collapse them into a single OR:
+    // the extracted event contains both object 5 and object 11 rules, while
+    // the DBAS objects are reserved for timing.  A promise is therefore
+    // accepted only when both cusps signify at least one of 2/5/6/11 and
+    // neither cusp carries an actual 8/12 signification.
     const fifthPass=fifthEval.any && fifthEval.noLoss;
     const eleventhPass=eleventhEval.any && eleventhEval.noLoss;
+    const promisePass=fifthPass && eleventhPass;
 
+    // DBAS 101–104 are a joint period. Each level may contribute a subset;
+    // the union must cover the full event group 2/5/6/11. Loss exclusion is
+    // checked on the actual significators, not on the diagnostic Y/N token.
     const periodLayers=dbas.map(r=>{
       const pl=r?.sub_lord||null;
       const h=pl?housesOfPlanet(pl,a.chart):[];
@@ -735,34 +744,21 @@ async function run(){
     });
     const covered=new Set(periodLayers.flatMap(x=>x.hit));
     const timingPass=target.every(h=>covered.has(h));
-    // Loss exclusion is applied to the actual period significators, not to
-    // the Y/N token (whose second character is diagnostic rather than a
-    // direct boolean equivalent of the original application's selector).
     const timingNoLoss=periodLayers.every(x=>x.rule && !x.negHit.length);
 
-    // Final transit trigger: the current Lagna sub-sub-lord is itself a
-    // significator of at least one favourable speculative-gain house and is
-    // not a loss significator. This deliberately uses independently computed
-    // houses; no stored V1.5.11 time is inserted into the candidate list.
-    const sblH=housesOfPlanet(sbl,a.chart);
-    const sblPosHit=sblH.filter(h=>target.includes(h));
-    const sblNegHit=sblH.filter(h=>losses.includes(h));
-    const triggerPass=sblPosHit.length>0 && sblNegHit.length===0;
-
-    // The 5th/11th cusp test is retained as a diagnostic promise anchor. It
-    // is not required at every selected instant because the cusp promise is
-    // established by the natal/event chart, while the transit SBL activates it.
-    const promisePass=fifthPass || eleventhPass || String(rule5?.yn||'').startsWith('Y') || String(rule11?.yn||'').startsWith('Y');
-    const pass=lagnaPass && promisePass && timingPass && timingNoLoss && triggerPass;
+    // No stored V1.5.11 timestamp is used here.  The current transition
+    // itself is the gochara timing point; selection is determined solely by
+    // independently calculated chart/event/period conditions.
+    const pass=lagnaPass && promisePass && timingPass && timingNoLoss;
     return {
       sbl,snl,stl,lagnaSign,lagnaH,lagnaPosHit,lagnaNegHit,lagnaPass,
       fifthLayer,fifthEval,fifthPass,
       eleventhLayer,eleventhEval,eleventhPass,
       periods:dbas,periodLayers,required:target,covered:[...covered].sort((x,y)=>x-y),
-      timingPass,timingNoLoss,promisePass,triggerPass,sblH,sblPosHit,sblNegHit,pass,
+      timingPass,timingNoLoss,promisePass,triggerPass:true,sblH:housesOfPlanet(sbl,a.chart),sblPosHit:[],sblNegHit:[],pass,
       reason:pass
-        ? `${sbl} activates a favourable 2/5/6/11 significator; Lagna promise and joint DBAS pass`
-        : `Fails Lagna promise, joint DBAS coverage/loss exclusion, or transit SBL trigger`
+        ? `Lagna promise, 5th+11th speculative-gain promise and joint DBAS pass`
+        : `Fails Lagna promise, 5th/11th promise, or joint DBAS coverage/loss exclusion`
     };
   }
 
@@ -782,7 +778,7 @@ async function run(){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.51 final-selection model:</b> KP planet + star-lord significators; Lagna must signify ANY of 1,5,9,11, avoid 8/12, and be non-movable; 5th OR 11th CSL must signify ANY of 2,5,6,11 with no actual 8/12 signification; DBAS 101–104 are a JOINT UNION whose combined significators must cover 2,5,6,11, with no actual 8/12 signification at any level.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
+  if(fd) fd.innerHTML='<b>0.9.52 final-selection model:</b> KP planet + star-lord significators; Lagna must signify ANY of 1,5,9,11, avoid 8/12, and be non-movable; BOTH 5th and 11th CSLs must signify ANY of 2,5,6,11 with no actual 8/12 signification; DBAS 101–104 are a JOINT UNION whose combined significators must cover 2,5,6,11, with no actual 8/12 signification at any level. The unsupported transiting Lagna-SBL activation gate is removed.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
