@@ -1,9 +1,15 @@
-# KPMuhurat Web 0.9.48
-Browser-hosted KPMuhurat reconstruction for GitHub Pages.
+# KPMuhurat Web 0.9.50
 
-0.9.48 changes only the final event-selection interpretation:
-- Lagna group is ANY favourable 1/5/9/11, with no 8/12 and non-movable Lagna.
-- 5th OR 11th CSL contributes ANY 2/5/6/11, with no 8/12.
-- DBAS 101-104 are a joint union covering 2/5/6/11, with no 8/12 at any level.
-- Stored V1.5.11 reference times remain verification-only and are never injected into selection.
-- Astronomy/transition calculation is preserved.
+Reconstruction of KPMuhurat V1.5.11 for static web hosting.
+
+Changes from 0.9.49:
+- Keeps Swiss Ephemeris / astronomy / transition layer unchanged.
+- Keeps the corrected event-rule parser.
+- Uses KP planet + star-lord occupation/ownership for significators.
+- Removes recursive sub-lord and broad aspect additions that could create spurious 8/12 connections.
+- Keeps 5th/11th CSL as alternative promise anchors.
+- Keeps DBAS 101–104 as joint coverage of 2,5,6,11.
+- Reference timestamps remain verification-only and are never injected into selection.
+- Updates diagnostics/version labels to 0.9.50.
+
+This is an independent reconstruction, not the original executable/source code.
