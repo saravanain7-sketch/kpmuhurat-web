@@ -1,21 +1,27 @@
 # KPMuhurat Web 0.9.56
 
-Diagnostic reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
+Browser-hosted reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
 
-## 0.9.56 changes
+## 0.9.56 — Rule Engine Reconstruction
 - Preserves the successful Swiss Ephemeris / Krishnamurti / Placidus transition layer.
-- Keeps the six-fold KP significator calculation from 0.9.55.
-- Changes the **first event-rule character diagnostic from ALL-positive to ANY-positive**, because the V1.5.11 Pallavaram evidence disproves ALL-positive (09:07:31 Object 1 is YY while Jupiter hits only house 11 of 1,5,9,11).
-- Does not pretend the second Y/N character is a simple no-loss test; its competing interpretations remain visible in diagnostics.
-- Experimental selector uses ANY-positive Lagna, 5th OR 11th CSL promise, joint DBAS target-house coverage, and a secondary ruling-planet timing check.
-- Adds the supplied historical **24/09/2019 Pallavaram Transit Muhurta** as a verification/reference fixture only.
-- No V1.5.11 reference timestamp is injected into candidate selection.
-- No natal-chart logic is added to the Transit Muhurta mode.
+- Preserves the six-fold KP significator diagnostic.
+- Changes the working first Y/N character hypothesis from ALL-positive to ANY-positive coverage, based on the V1.5.11 09:07:31 evidence.
+- Keeps ANY, ALL and NO-loss tests visible independently for every rule.
+- Treats the second Y/N character as diagnostic only; its original V1.5.11 semantics are not yet claimed.
+- Does not inject stored V1.5.11 timestamps into candidate selection.
+- Keeps Transit Muhurta separate from natal-chart and GMP/KP Prasanna logic.
 
-## Regression
-Use the stored Pallavaram 2022 stock-market fixture to compare transition times, SnL/StL/SbL and rule vectors. The reference timestamps are verification-only.
+## Test
+Use the exact Pallavaram regression fixture:
+- Date: 08/04/2022
+- Time: 09:00–15:00
+- Latitude: 12:58:34 N
+- Longitude: 80:11:01 E
+- Time zone: 05:30:00 East of UT
+
+The Layer 1 transition stream should remain unchanged. The purpose of this build is to expose the rule-engine semantics so the next correction can be evidence-driven rather than hard-coded to reference timestamps.
 
 ## GitHub Pages
-Upload the contents of this folder to the repository root and enable GitHub Pages. Open `index.html` through the HTTPS Pages URL.
+Upload `index.html` from this folder to the published repository location. After replacing the old 0.9.55 file, hard-refresh Chrome (or clear the site cache) and confirm the green BUILD 0.9.56 banner at the top.
 
-This is not the original Windows executable/source code. Exact equivalence still requires regression validation against KPMuhurat V1.5.11.
+This is a static reconstruction, not the original Windows executable/source code. Exact equivalence requires regression testing against KPMuhurat V1.5.11.
