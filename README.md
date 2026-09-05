@@ -1,17 +1,21 @@
-# KPMuhurat Web 0.9.55
+# KPMuhurat Web 0.9.56
 
-Static GitHub Pages reconstruction of KP Muhurat V1.5.11.
+Diagnostic reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
 
-## 0.9.55 changes
-- Preserves the working Swiss Ephemeris WASM / Krishnamurti ayanamsa / Placidus transition layer.
-- Preserves independent V1.5.11 Pallavaram regression diagnostics; stored timestamps remain verification-only.
-- Corrects the six-fold significator implementation so A–F are evaluated for the requested planet independently, instead of using an over-broad inversion.
-- Separates rule evaluation into ANY-positive, ALL-positive, and NO-loss tests.
-- Displays the underlying positive/negative hits in the rule reason text for easier comparison with V1.5.11 screenshots.
-- Does not inject the ten reference timestamps into candidate selection.
-- Keeps the final Muhurat selector experimental; the main purpose of this build is to identify the V1.5.11 rule-vector semantics before another selector change.
+## 0.9.56 changes
+- Preserves the successful Swiss Ephemeris / Krishnamurti / Placidus transition layer.
+- Keeps the six-fold KP significator calculation from 0.9.55.
+- Changes the **first event-rule character diagnostic from ALL-positive to ANY-positive**, because the V1.5.11 Pallavaram evidence disproves ALL-positive (09:07:31 Object 1 is YY while Jupiter hits only house 11 of 1,5,9,11).
+- Does not pretend the second Y/N character is a simple no-loss test; its competing interpretations remain visible in diagnostics.
+- Experimental selector uses ANY-positive Lagna, 5th OR 11th CSL promise, joint DBAS target-house coverage, and a secondary ruling-planet timing check.
+- Adds the supplied historical **24/09/2019 Pallavaram Transit Muhurta** as a verification/reference fixture only.
+- No V1.5.11 reference timestamp is injected into candidate selection.
+- No natal-chart logic is added to the Transit Muhurta mode.
 
-## Regression fixture
-Pallavaram, 08/04/2022, 09:00–15:00, event `05. Speculative gain in Stock Market`, location 12:58:34 N / 80:11:01 E / +05:30.
+## Regression
+Use the stored Pallavaram 2022 stock-market fixture to compare transition times, SnL/StL/SbL and rule vectors. The reference timestamps are verification-only.
 
-The 10 V1.5.11 timestamps are displayed only for independent verification.
+## GitHub Pages
+Upload the contents of this folder to the repository root and enable GitHub Pages. Open `index.html` through the HTTPS Pages URL.
+
+This is not the original Windows executable/source code. Exact equivalence still requires regression validation against KPMuhurat V1.5.11.
