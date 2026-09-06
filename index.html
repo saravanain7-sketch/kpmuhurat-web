@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.56</title>
+<title>KPMuhurat Web 0.9.57</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.56</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.56 • RULE-ENGINE RECONSTRUCTION • 2026-09-05</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.57</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.57 • RULE-SEMANTICS RECONSTRUCTION • 2026-09-06</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -37,19 +37,19 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.56 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.57 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.52</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.57</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.56</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.56 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.57</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.57 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -534,6 +534,20 @@ const V1511_PALLAVARAM_LEVELS={
   '11:59:28':['Me','Ju','Me'],
   '12:21:02':['Me','Ju','Su']
 };
+// Exact V1.5.11 YY/YN/NY/NN rule-vector observations from the supplied
+// Pallavaram screenshots. Verification-only: never used by selection.
+const V1511_RULE_VECTORS={
+  '09:07:31':'1:YY 5:YN 11:YN 101:YY 102:NY 103:NY 104:YY',
+  '09:58:20':'1:YY 5:YY 11:YY 101:YY 102:NY 103:YY 104:NY',
+  '10:36:01':'1:YY 5:NN 11:YY 101:YY 102:NY 103:NY 104:YY',
+  '10:43:45':'1:YY 5:YY 11:YN 101:YY 102:NY 103:NY 104:YY',
+  '11:09:30':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:31:02':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:38:52':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:50:09':'1:YY 5:NN 11:NN 101:YY 102:YY 103:YY 104:YY',
+  '11:59:28':'1:YY 5:YY 11:YY 101:YY 102:YY 103:NY 104:YY',
+  '12:21:02':'1:YY 5:NN 11:YY 101:YY 102:YY 103:YY 104:NY'
+};
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
@@ -663,7 +677,7 @@ async function run(){
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.50 — event-rule / final-selection reconstruction.
+  // 0.9.57 — event-rule / final-selection reconstruction diagnostic.
   // Astronomy, transition detection and chart calculation are intentionally
   // untouched. The stock-market rules are evaluated at the CSL/sub-level and
   // the DBAS condition is treated as a joint period of significators.
@@ -780,7 +794,42 @@ function selectionLayer(a,event){
 
   const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.56 Rule Engine Diagnostics</div><div class="muted">Each transition is tested independently. Rule diagnostics now expose ANY vs ALL positive-house coverage and NO-loss separately; final selection remains an experimental hypothesis; rule-vector semantics are still under reconstruction and does not use reference timestamps.</div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.57 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
+
+  // 0.9.57 — reference-only rule-semantics matrix. This deliberately does
+  // NOT feed the expected V1.5.11 YY/YN/NY/NN values into selection. It only
+  // compares the independently calculated rule states at the ten stored
+  // regression instants so the unknown two-character semantics can be
+  // reconstructed without another selector guess.
+  if(isStockRegression(date,from,to,lat,lon,tz,event)){
+    const refs=V1511_STOCK_PALLAVARAM.expected;
+    const rows=refs.map(ref=>{
+      const a=analyses.find(x=>x.time===ref);
+      const expected=V1511_RULE_VECTORS?.[ref]||'';
+      const actual=a?ynToken(a.rules):'';
+      const expParts=expected.split(' ').filter(Boolean);
+      const actParts=actual.split(' ').filter(Boolean);
+      const mismatches=[];
+      for(let i=0;i<Math.max(expParts.length,actParts.length);i++) if(expParts[i]!==actParts[i]) mismatches.push((expParts[i]||'?')+'≠'+(actParts[i]||'?'));
+      return {ref,sbl:a?.chart?.ascendant?.[3]||'—',expected,actual,mismatches};
+    });
+    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.57</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
+
+    const objRows=[];
+    for(const ref of refs){
+      const a=analyses.find(x=>x.time===ref); if(!a) continue;
+      const expected=V1511_RULE_VECTORS?.[ref]||'';
+      const em={}; expected.split(' ').filter(Boolean).forEach(x=>{const q=x.split(':');em[q[0]]=q[1]||''});
+      for(const r of a.rules){
+        const e=em[String(r.obj)]||'—';
+        objRows.push('<tr class="'+(e===r.yn?'good':'bad')+'"><td>'+ref+'</td><td>'+r.obj+'</td><td>'+r.sub_lord+'</td><td>'+r.positive.join(',')+'</td><td>'+r.posHit.join(',')+'</td><td>'+r.posAny+'</td><td>'+r.posAll+'</td><td>'+r.negative.join(',')+'</td><td>'+r.negHit.join(',')+'</td><td>'+r.noLoss+'</td><td>'+e+'</td><td>'+r.yn+'</td></tr>');
+      }
+    }
+    $('ruleBreakdown').innerHTML='<div class="titlebar">Per-object diagnostic: what the current evaluator actually knows</div><div class="muted">This table is intentionally verbose. It separates required houses, hits, ANY, ALL, negative hits and NO-loss from the final two-character label. That prevents the unknown V1.5.11 YY/YN/NY/NN semantics from being hidden inside one boolean.</div><table><thead><tr><th>Time</th><th>Obj</th><th>SubL</th><th>+Req</th><th>+Hit</th><th>ANY</th><th>ALL</th><th>−Req</th><th>−Hit</th><th>No-loss</th><th>V1.5.11</th><th>Web</th></tr></thead><tbody>'+objRows.join('')+'</tbody></table>';
+  } else {
+    $('ruleMatrix').innerHTML='<div class="status">The YY/YN/NY/NN comparison matrix is available for the stored Pallavaram stock-market regression only.</div>';
+    $('ruleBreakdown').innerHTML='';
+  }
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.posHit?.join(',')||'—'}</td><td>${r.negHit?.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
@@ -795,7 +844,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.56 experimental-selection model:</b> KP six-fold significators; ruling planets are a secondary timing quality check; Lagna must signify ANY of 1,5,9,11, avoid 8/12, and be non-movable; BOTH 5th and 11th CSLs must signify ANY of 2,5,6,11 with no actual 8/12 signification; DBAS 101–104 are a JOINT UNION whose combined significators must cover 2,5,6,11; no extra 8/12 exclusion is applied to DBAS because the extracted DBAS rules have no negative group. The unsupported transiting Lagna-SBL activation gate is removed.<br><b>Selected:</b> '+chosenTimes.join(', ')+'<br><span class="muted">Reference timestamps are verification-only and are not used to select candidates.</span>';
+  if(fd) fd.innerHTML='<b>0.9.57 diagnostic model:</b> KP six-fold significators remain separate from event-rule semantics. ANY/ALL/NO-loss are exposed independently. The four-state YY/YN/NY/NN vector is compared against the stored V1.5.11 observations only as a regression diagnostic. No reference timestamp or reference vector is used to select candidates. Final selection remains experimental until the original rule-state semantics are reconstructed.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never

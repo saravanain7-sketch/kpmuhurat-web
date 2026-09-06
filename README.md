@@ -1,27 +1,19 @@
-# KPMuhurat Web 0.9.56
+# KPMuhurat Web 0.9.57
 
-Browser-hosted reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
+Browser-hosted reconstruction of the KPMuhurat V1.5.11 workflow for GitHub Pages.
 
-## 0.9.56 — Rule Engine Reconstruction
-- Preserves the successful Swiss Ephemeris / Krishnamurti / Placidus transition layer.
-- Preserves the six-fold KP significator diagnostic.
-- Changes the working first Y/N character hypothesis from ALL-positive to ANY-positive coverage, based on the V1.5.11 09:07:31 evidence.
-- Keeps ANY, ALL and NO-loss tests visible independently for every rule.
-- Treats the second Y/N character as diagnostic only; its original V1.5.11 semantics are not yet claimed.
-- Does not inject stored V1.5.11 timestamps into candidate selection.
-- Keeps Transit Muhurta separate from natal-chart and GMP/KP Prasanna logic.
+## 0.9.57 — Rule Semantics Reconstruction
+- Preserves the 0.9.56 astronomy / transition engine.
+- Preserves the six-fold KP significator layer.
+- Does **not** inject stored V1.5.11 selection timestamps into candidate selection.
+- Adds a reference-only YY/YN/NY/NN rule-vector comparison for the Pallavaram regression.
+- Adds a per-object diagnostic separating required positive houses, actual positive hits, ANY, ALL, required negative houses, negative hits, and NO-loss.
+- Keeps final selection explicitly experimental; this build is for reconstructing the original rule-state semantics rather than claiming byte-for-byte equivalence.
 
-## Test
-Use the exact Pallavaram regression fixture:
-- Date: 08/04/2022
-- Time: 09:00–15:00
-- Latitude: 12:58:34 N
-- Longitude: 80:11:01 E
-- Time zone: 05:30:00 East of UT
+## Upload to GitHub Pages
+Upload the contents of this folder to the root of a GitHub repository. Keep `index.html` at the publishing root.
 
-The Layer 1 transition stream should remain unchanged. The purpose of this build is to expose the rule-engine semantics so the next correction can be evidence-driven rather than hard-coded to reference timestamps.
+## Android
+Open the GitHub Pages HTTPS URL in Chrome and use **Add to Home screen** / **Install app** when available.
 
-## GitHub Pages
-Upload `index.html` from this folder to the published repository location. After replacing the old 0.9.55 file, hard-refresh Chrome (or clear the site cache) and confirm the green BUILD 0.9.56 banner at the top.
-
-This is a static reconstruction, not the original Windows executable/source code. Exact equivalence requires regression testing against KPMuhurat V1.5.11.
+This is a static browser reconstruction, not the original Windows executable/source code. Exact equivalence requires continued regression validation against KPMuhurat V1.5.11.
