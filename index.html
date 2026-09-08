@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.59</title>
+<title>KPMuhurat Web 0.9.60</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,8 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.59</small></header>
-<div style="text-align:center;background:#e8f5e9;color:#1b5e20;font-weight:700;padding:8px;border-bottom:1px solid #b7d7bd">BUILD 0.9.59 • RULE-STATE RECONSTRUCTION • 2026-09-08</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.60</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.60 • 3-MINUTE MUHURAT WINDOW • 2026-09-08</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -38,20 +37,25 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.59 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
+<div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate.</div>
+<div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
+<div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
+</div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.60 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.59</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.60</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.42</div>
-  <div class="muted" style="margin-bottom:8px"><b>0.9.59 rule-state reconstruction:</b> astronomy/transition detection is unchanged. KP six-fold significators are evaluated independently from the extracted event-rule grammar. ANY-positive, ALL-positive and NO-loss are exposed separately. Candidate YY/YN/NY/NN interpretations are diagnostic only; stored V1.5.11 times/vectors are verification-only and never select a candidate.</div>
-  <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core first-Y</th><th>DBAS first-Y</th><th>All first-Y</th><th>NO-loss</th><th>ANY +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.60</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.60 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
@@ -261,7 +265,8 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     if(b)b.addEventListener('click',getGPS);
     attachPlaceTools();
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
+  if(document.readyState==='loading')document.addEventListener('input',e=>{ if(e.target && (e.target.id==='muhurtaStart'||e.target.id==='muhurtaEnd')) { const r=window.__lastAnalyses||[]; updateThreeMinuteWindow(r); }});
+document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 </script>
 <script type="module">
@@ -366,66 +371,84 @@ function cuspOwnedHouses(planet,cd){
   return out;
 }
 function significators(name,cd){
-  // 0.9.59: Kanak Bosmia six-fold house significator construction.
-  // For every house: A planets in sub of occupants; B planets in star of
-  // occupants; C occupants; D planets in sub of owner; E planets in star of
-  // owner; F owner. This layer is independent from event-rule Y/N semantics.
-  const p=cd.planets[name]; if(!p)return [];
-  const H=new Set();
+  // 0.9.55: Six-fold KP significators, with the six columns evaluated
+  // independently for the requested planet.  The earlier 0.9.55 inversion
+  // was too broad: it treated every planet whose star/sub happened to match
+  // an occupant/owner as if that planet automatically inherited every house
+  // in the same pass.  Here each house is tested only for the requested
+  // planet, preserving the six-fold A-F definition.
+  if(!cd?.planets || !cd?.cusps || !cd?.planets[name]) return [];
+  const p=cd.planets[name];
+  const out=new Set();
   for(let h=1;h<=12;h++){
-    const occupants=Object.entries(cd.planets).filter(([n,q])=>q.house===h).map(([n])=>n);
+    const occupants=Object.values(cd.planets).filter(q=>q.house===h);
     const owner=cd.cusps[h-1]?.sign_lord;
-    if(occupants.includes(p.sub_lord)) H.add(h); // A
-    if(occupants.includes(p.star_lord)) H.add(h); // B
-    if(occupants.includes(name)) H.add(h); // C
-    if(owner && p.sub_lord===owner) H.add(h); // D
-    if(owner && p.star_lord===owner) H.add(h); // E
-    if(owner && name===owner) H.add(h); // F
+    // A: requested planet is in the sub of an occupant.
+    if(occupants.some(q=>q.sub_lord===name)) out.add(h);
+    // B: requested planet is in the star of an occupant.
+    if(occupants.some(q=>q.star_lord===name)) out.add(h);
+    // C: requested planet occupies the house.
+    if(p.house===h) out.add(h);
+    // D: requested planet is in the sub of the house owner.
+    if(owner && p.sub_lord===owner) out.add(h);
+    // E: requested planet is in the star of the house owner.
+    if(owner && p.star_lord===owner) out.add(h);
+    // F: requested planet owns the cusp.
+    if(owner===name) out.add(h);
   }
-  // Nodes represent their sign lord in KP; keep this as an explicit adjunct
-  // rather than changing the A-F definitions above.
-  if(name==='Ra'||name==='Ke'){
-    const sl=p.sign_lord;
-    if(sl && cd.planets[sl]) for(const h of significators(sl,cd)) H.add(h);
-  }
-  return [...H].sort((a,b)=>a-b);
+  return [...out].sort((a,b)=>a-b);
 }
+
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
 function parseRule(fields){
-  // 0.9.59 extracted grammar diagnostic. The type value is the number of
-  // houses in the primary group. Any remaining value is retained as the
-  // secondary condition/operator followed by its house group.
   const obj=Number(fields[0]), type=Number(fields[1]);
   let tail=(fields||[]).slice(2).map(Number);
   while(tail.length && tail[tail.length-1]===0) tail.pop();
-  if(!tail.length)return {obj,type,groups:[]};
+  if(!tail.length) return {obj,type,groups:[]};
+
+  // V1.5.11 rule encoding: the type is the number of required (+) houses.
+  // If additional values remain after those houses, the next value is the
+  // separator/operator and the remaining values are the prohibited (-) houses.
+  // Examples:
+  //   1:4:1:5:9:11:0       -> +1,5,9,11
+  //   5:4:2:5:6:11:2:8:12  -> +2,5,6,11 | -8,12
+  //   101:4:2:5:6:11:0     -> +2,5,6,11
+  // This preserves the extracted rule stream without inventing house markers.
   const n=Math.max(0,Math.min(type,tail.length));
   const positive=tail.slice(0,n).filter(x=>x>=1&&x<=12);
   const rest=tail.slice(n);
-  const groups=[{condition:null,houses:positive}];
+  let negative=[];
+  let separator=null;
   if(rest.length){
-    const separator=rest[0];
-    const negative=rest.slice(1).filter(x=>x>=1&&x<=12);
-    if(negative.length) groups.push({condition:separator,houses:negative});
+    separator=rest[0];
+    negative=rest.slice(1).filter(x=>x>=1&&x<=12);
   }
-  return {obj,type,groups};
+  return {obj,type,groups:[{condition:null,houses:positive}, ...(negative.length?[{condition:separator,houses:negative}]:[])]};
 }
 function evalRule(rule,cd,periods){
   const parsed=parseRule(rule.fields); let obj=parsed.obj,sub=null,H=[];
-  if(obj>=1&&obj<=12){const x=cuspSig(obj,cd);sub=x.sub_lord;H=x.houses}
-  else if(PERIOD_CODES[obj]&&periods){const pl=periods[PERIOD_CODES[obj]];sub=pl;H=significators(pl,cd)}
-  if(!parsed.groups.length)return {obj,type:parsed.type,sub_lord:sub,yn:'--',positive:[],negative:[],posHit:[],negHit:[],anyPositive:false,allPositive:false,noLoss:true,reason:'No rule condition'};
+  if(obj>=1&&obj<=12){ const x=cuspSig(obj,cd); sub=x.sub_lord; H=x.houses; }
+  else if(PERIOD_CODES[obj]&&periods){ const pl=periods[PERIOD_CODES[obj]]; sub=pl; H=significators(pl,cd); }
+  if(!parsed.groups.length) return {obj,type:parsed.type,sub_lord:sub,yn:'-',positive:[],negative:[],posHit:[],negHit:[],posAll:false,posAny:false,noLoss:true,reason:'No rule condition'};
   const pos=parsed.groups[0].houses, neg=parsed.groups[1]?.houses||[];
-  const posHit=H.filter(x=>pos.includes(x)), negHit=H.filter(x=>neg.includes(x));
-  const anyPositive=pos.length>0 && posHit.length>0;
-  const allPositive=pos.length>0 && pos.every(x=>H.includes(x));
-  const noLoss=neg.length===0 || negHit.length===0;
-  // Candidate state only. Evidence already proves that the original second
-  // character is not simply NO-loss, so keep the components separately.
-  const yn=(anyPositive?'Y':'N')+(noLoss?'Y':'N');
-  const reason=`${sub||'Object'}: +H ${pos.join(',')||'—'} hit ${posHit.join(',')||'—'}; ANY=${anyPositive?'Y':'N'}; ALL=${allPositive?'Y':'N'}; -H ${neg.join(',')||'—'} hit ${negHit.join(',')||'—'}; NO-loss=${noLoss?'Y':'N'}; candidate=${yn}`;
-  return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,significators:H,anyPositive,allPositive,noLoss,reason};
+  const posHit=H.filter(x=>pos.includes(x));
+  const negHit=H.filter(x=>neg.includes(x));
+  const posAny=posHit.length>0;
+  const posAll=pos.length>0 && pos.every(h=>H.includes(h));
+  const noLoss=negHit.length===0;
+  // 0.9.56 rule reconstruction: V1.5.11 evidence disproves an ALL-positive
+  // interpretation for the first character.  Example: Object 1 at 09:07:31
+  // is YY although Jupiter hits only house 11 of the required 1,5,9,11.
+  // Therefore the working first-character hypothesis is ANY positive coverage.
+  // The second character is kept as a separate diagnostic no-loss test only;
+  // it is NOT claimed to reproduce the original executable semantics yet.
+  const first=posAny?'Y':'N';
+  const second=neg.length?(noLoss?'Y':'N'):'Y';
+  const yn=first+second;
+  const reason=`${sub||'Object'}: +H ${pos.join(',')||'—'} hit ${posHit.join(',')||'none'}; any=${posAny?'Y':'N'}; all=${posAll?'Y':'N'}; -H ${neg.join(',')||'—'} hit ${negHit.join(',')||'none'}; no-loss=${noLoss?'Y':'N'}; second-char=diagnostic`;
+  return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,posAll,posAny,noLoss,significators:H,reason};
 }
+
 function eventAnalysis(event,cd,periods){return event.rules.filter(r=>r.fields&&((r.fields[0]>=1&&r.fields[0]<=12)||PERIOD_CODES[r.fields[0]])).map(r=>evalRule(r,cd,periods))}
 function vimLevel(parent,frac){
   const start=STAR_LORDS.indexOf(parent);
@@ -517,6 +540,20 @@ const V1511_PALLAVARAM_LEVELS={
   '11:59:28':['Me','Ju','Me'],
   '12:21:02':['Me','Ju','Su']
 };
+// Exact V1.5.11 YY/YN/NY/NN rule-vector observations from the supplied
+// Pallavaram screenshots. Verification-only: never used by selection.
+const V1511_RULE_VECTORS={
+  '09:07:31':'1:YY 5:YN 11:YN 101:YY 102:NY 103:NY 104:YY',
+  '09:58:20':'1:YY 5:YY 11:YY 101:YY 102:NY 103:YY 104:NY',
+  '10:36:01':'1:YY 5:NN 11:YY 101:YY 102:NY 103:NY 104:YY',
+  '10:43:45':'1:YY 5:YY 11:YN 101:YY 102:NY 103:NY 104:YY',
+  '11:09:30':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:31:02':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:38:52':'1:YY 5:YY 11:YY 101:YY 102:YY 103:YY 104:YY',
+  '11:50:09':'1:YY 5:NN 11:NN 101:YY 102:YY 103:YY 104:YY',
+  '11:59:28':'1:YY 5:YY 11:YY 101:YY 102:YY 103:NY 104:YY',
+  '12:21:02':'1:YY 5:NN 11:YY 101:YY 102:YY 103:YY 104:NY'
+};
 function isStockRegression(date,from,to,lat,lon,tz,event){
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && to===V1511_STOCK_PALLAVARAM.to+':00' &&
     near(lat,V1511_STOCK_PALLAVARAM.lat) && near(lon,V1511_STOCK_PALLAVARAM.lon) && near(tz,V1511_STOCK_PALLAVARAM.tz) &&
@@ -564,7 +601,7 @@ async function run(){
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
 
-  // 0.9.59 — V1.5.11 decision trace. Reference values are observations only.
+  // 0.9.45 — V1.5.11 decision trace. Reference values are observations only.
   if(isStockRegression(date,from,to,lat,lon,tz,event)){
     const refs=V1511_STOCK_PALLAVARAM.expected;
     const trace=refs.map(ref=>{
@@ -626,53 +663,196 @@ async function run(){
     const core=coreObjs.map(n=>byObj(a,n));
     const dbas=dbasObjs.map(n=>byObj(a,n));
     const all=a.rules.filter(r=>(r.obj>=1&&r.obj<=12)||PERIOD_CODES[r.obj]);
-    const all7=all.length===7 && all.every(firstY);
-    const corePass=core.length===3 && core.every(firstY);
-    const dbasPass=dbas.length===4 && dbas.every(firstY);
-    const noNeg=all.length>0 && all.every(r=>firstY(r) && (!r.negative?.length || !r.negHit?.length));
-    const positiveAny=all.some(r=>firstY(r));
-    return {time:a.time,sbl:a.chart.ascendant[3],all,core,dbas,all7,corePass,dbasPass,noNeg,positiveAny};
+    const all7=all.length===7 && all.every(r=>r.posAll);
+    const corePass=core.length===3 && core.every(r=>r.posAll);
+    const dbasPass=dbas.length===4 && dbas.every(r=>r.posAll);
+    const noNeg=all.length>0 && all.every(r=>r.noLoss);
+    const positiveAny=all.some(r=>r.posAny);
+    const positiveAll=all.length>0 && all.every(r=>r.posAll);
+    return {time:a.time,sbl:a.chart.ascendant[3],all,core,dbas,all7,corePass,dbasPass,noNeg,positiveAny,positiveAll};
   });
   const ynToken=rs=>rs.map(r=>`${r.obj}:${r.yn}`).join(' ');
-  $('selectorDiag').innerHTML=selectorLab.map(d=>`<tr class="${d.all7?'good':'bad'}"><td>${d.time}</td><td>${d.sbl}</td><td>${ynToken(d.all)}</td><td>${d.corePass?'Y':'N'}</td><td>${d.dbasPass?'Y':'N'}</td><td>${d.all7?'Y':'N'}</td><td>${d.noNeg?'Y':'N'}</td><td>${d.positiveAny?'Y':'N'}</td></tr>`).join('');
+  $('selectorDiag').innerHTML=selectorLab.map(d=>`<tr class="${d.all7?'good':'bad'}"><td>${d.time}</td><td>${d.sbl}</td><td>${ynToken(d.all)}</td><td>${d.corePass?'Y':'N'}</td><td>${d.dbasPass?'Y':'N'}</td><td>${d.all7?'Y':'N'}</td><td>${d.noNeg?'Y':'N'}</td><td>${d.positiveAny?'Y':'N'}</td><td>${d.positiveAll?'Y':'N'}</td></tr>`).join('');
   const labSets={
     'ALL 7':selectorLab.filter(d=>d.all7).map(d=>d.time),
     'Core 1/5/11':selectorLab.filter(d=>d.corePass).map(d=>d.time),
     'DBAS 101–104':selectorLab.filter(d=>d.dbasPass).map(d=>d.time),
     'All positive + no -H hit':selectorLab.filter(d=>d.noNeg).map(d=>d.time),
-    'Any positive rule':selectorLab.filter(d=>d.positiveAny).map(d=>d.time)
+    'Any positive rule':selectorLab.filter(d=>d.positiveAny).map(d=>d.time),
+    'All positive houses':selectorLab.filter(d=>d.positiveAll).map(d=>d.time)
   };
   $('selectorSummary').innerHTML=Object.entries(labSets).map(([k,v])=>`<b>${k}:</b> ${v.length} → ${v.join(', ')||'none'}`).join('<br>')+'<br><span class="muted">No reference times are injected into these tests.</span>';
 
-  // 0.9.59 — independent selection/regression build.
-  // Astronomy, transition detection, chart/CSL and significator functions
-  // remain calculation-driven. The V1.5.11 fixture is NEVER used to select.
-  function eventGroups(event){
-    const out={positive:new Set(),negative:new Set()};
-    for(const rr of (event?.rules||[])){
-      const f=rr.fields||[]; if(!f.length)continue;
-      const obj=f[0]; if(!(obj>=1&&obj<=12))continue;
-      const p=parseRule(f); if(!p.groups?.length)continue;
-      p.groups[0].houses.forEach(h=>out.positive.add(h));
-      (p.groups[1]?.houses||[]).forEach(h=>out.negative.add(h));
-    }
-    return {positive:[...out.positive].sort((a,b)=>a-b),negative:[...out.negative].sort((a,b)=>a-b)};
+  // 0.9.57 — event-rule / final-selection reconstruction diagnostic.
+  // Astronomy, transition detection and chart calculation are intentionally
+  // untouched. The stock-market rules are evaluated at the CSL/sub-level and
+  // the DBAS condition is treated as a joint period of significators.
+  function housesOfPlanet(name,cd){ return significators(name,cd); }
+  function ruleState(r){
+    if(!r) return {any:false,all:false,noLoss:true,hits:[],required:[]};
+    const required=[...(r.positive||[])];
+    const hits=[...(r.posHit||[])];
+    const all=required.length>0 && required.every(h=>hits.includes(h));
+    const any=hits.length>0;
+    const noLoss=!r.negHit?.length;
+    return {any,all,noLoss,hits,required};
   }
-  function selectionLayer(a,event){
-    // 0.9.59 experimental selector: calculation-only and deliberately simple.
-    // It is NOT claimed to reproduce V1.5.11 until rule-state semantics are known.
-    const byObj=n=>a.rules.find(r=>Number(r.obj)===n);
-    const r1=byObj(1), r5=byObj(5), r11=byObj(11);
-    const dbas=[101,102,103,104].map(byObj).filter(Boolean);
-    const lagna=!!r1?.anyPositive;
-    const cuspPromise=!!(r5?.anyPositive && r11?.anyPositive && r5?.noLoss && r11?.noLoss);
-    const joint=new Set(); dbas.forEach(r=>(r.posHit||[]).forEach(h=>joint.add(h)));
-    const jointPass=[2,5,6,11].some(h=>joint.has(h));
-    const pass=lagna && cuspPromise && jointPass;
-    return {pass,lagna,cuspPromise,jointPass,reason:pass?'0.9.59 experimental: Lagna ANY + 5/11 promise + DBAS joint positive':'0.9.59 diagnostic rejection'};
+  function cslSubLayer(cuspNo,cd){
+    const cusp=cd.cusps[cuspNo-1];
+    const csl=cusp?.sub_lord||null;
+    // The cusp SubL itself is the KP significator being tested. Do NOT
+    // descend once more to that planet's own sub-lord. The V1.5.11
+    // Analysis table explicitly reports e.g. Object 5 SubL=Me with
+    // Me's significations; an extra Me->Me's-sub layer changes the test
+    // and was the main reason 0.9.48 produced no selections.
+    const houses=csl?housesOfPlanet(csl,cd):[];
+    return {cusp:cuspNo,csl,sub:csl,houses};
   }
+  function layerMatches(layer,positive,negative){
+    const hit=layer.houses||[];
+    return {
+      hits:hit.filter(h=>positive.includes(h)),
+      negHits:hit.filter(h=>negative.includes(h)),
+      all:positive.length>0 && positive.every(h=>hit.includes(h)),
+      any:hit.some(h=>positive.includes(h)),
+      noLoss:!hit.some(h=>negative.includes(h))
+    };
+  }
+  function clockToSecondsLocal(v){
+  const a=String(v||'').split(':').map(Number);
+  return (a[0]||0)*3600+(a[1]||0)*60+(a[2]||0);
+}
+function updateThreeMinuteWindow(analyses){
+  const el=$('threeMinuteResult'); if(!el) return;
+  const st=clockToSecondsLocal($('muhurtaStart')?.value||'10:39:00');
+  const en=clockToSecondsLocal($('muhurtaEnd')?.value||'10:42:00');
+  const end=en>st?en:st+180;
+  const rows=(analyses||[]).filter(a=>{ const t=parseClockSeconds(a.time); return t>=st && t<=end; });
+  const dur=end-st;
+  el.innerHTML=`Window <b>${$('muhurtaStart')?.value||'10:39:00'} – ${$('muhurtaEnd')?.value||'10:42:00'}</b> (${Math.round(dur)} seconds).<br>` +
+    (rows.length ? `Transitions inside window: <b>${rows.length}</b><br><span class="muted">${rows.map(a=>`${a.time} (${a.chart.ascendant[1]}/${a.chart.ascendant[2]}/${a.chart.ascendant[3]})`).join(', ')}</span>` : 'No calculated Lagna/Sub transition falls inside this window.');
+}
+
+function dayLordForDate(date){
+  const d=new Date(date+'T12:00:00Z').getUTCDay();
+  return ['Su','Mo','Ma','Me','Ju','Ve','Sa'][d];
+}
+
+function selectionLayer(a,event){
+    const asc=a.chart.ascendant;
+    const lagnaSign=asc[0], snl=asc[1], stl=asc[2], sbl=asc[3];
+    const lagnaH=housesOfPlanet(snl,a.chart);
+    const lagnaPos=[1,5,9,11], lagnaNeg=[8,12];
+    const lagnaPosHit=lagnaH.filter(h=>lagnaPos.includes(h));
+    const lagnaNegHit=lagnaH.filter(h=>lagnaNeg.includes(h));
+    const movable=new Set(['Ar','Cn','Li','Cp']);
+
+    // 0.9.56: remove the unsupported "transiting Lagna SBL must itself
+    // signify 2/5/6/11" activation gate.  V1.5.11 confirms that selected
+    // instants are not equivalent to an all-positive rule vector, and there
+    // is no evidence that the current Lagna SBL must independently carry an
+    // event-house signification.  Keep gochara represented by the transition
+    // instant itself, while the event rules provide the promise/timing tests.
+    const rule1=a.rules.find(r=>Number(r.obj)===1);
+    const rule5=a.rules.find(r=>Number(r.obj)===5);
+    const rule11=a.rules.find(r=>Number(r.obj)===11);
+    const dbas=[101,102,103,104].map(n=>a.rules.find(r=>Number(r.obj)===n));
+    const target=[2,5,6,11], losses=[8,12];
+
+    const r1Hit=rule1?.posHit||[];
+    const r1Neg=rule1?.negHit||[];
+    const lagnaPass=(rule1?.posAny===true) &&
+      r1Hit.some(h=>lagnaPos.includes(h)) && !r1Neg.some(h=>lagnaNeg.includes(h)) &&
+      !movable.has(lagnaSign);
+
+    const fifthLayer=cslSubLayer(5,a.chart);
+    const eleventhLayer=cslSubLayer(11,a.chart);
+    const fifthEval=layerMatches(fifthLayer,target,losses);
+    const eleventhEval=layerMatches(eleventhLayer,target,losses);
+
+    // 0.9.56: use six-fold significators for the CSL promise. The source
+    // material distinguishes signification from the later ruling-planet
+    // selection step, so the CSL must first carry at least one fruitful house
+    // and must not be connected to a loss house through the six-fold table.
+    const fifthPass=fifthEval.any && fifthEval.noLoss;
+    const eleventhPass=eleventhEval.any && eleventhEval.noLoss;
+    const promisePass=fifthPass && eleventhPass;
+
+    // DBAS 101–104 are a joint period. Each level may contribute a subset;
+    // the union must cover 2,5,6,11. No 8/12 gate is invented for DBAS.
+    const periodLayers=dbas.map(r=>{
+      const pl=r?.sub_lord||null;
+      const h=pl?housesOfPlanet(pl,a.chart):[];
+      return {rule:r,planet:pl,houses:h,hit:h.filter(x=>target.includes(x)),negHit:h.filter(x=>losses.includes(x))};
+    });
+    const covered=new Set(periodLayers.flatMap(x=>x.hit));
+    const timingPass=target.every(h=>covered.has(h));
+    const timingNoLoss=true;
+
+    // Ruling planets are calculated from the five primary KP RPs. They are
+    // exposed as a diagnostic and used only as a secondary quality signal;
+    // the current SBL is NOT required to be an RP, avoiding the unsupported
+    // 0.9.51 transit-SBL gate.
+    const rp=new Set([asc[1],asc[2],a.chart.planets.Mo?.sign_lord,a.chart.planets.Mo?.star_lord]);
+    rp.add(dayLordForDate(date));
+    const fruitfulPeriod=[...new Set(periodLayers.flatMap(x=>x.planet?housesOfPlanet(x.planet,a.chart):[]))];
+    const rpCommon=periodLayers.filter(x=>x.planet&&rp.has(x.planet)).map(x=>x.planet);
+    const timingRP=rpCommon.length>0;
+
+    // No stored V1.5.11 timestamp is used here.
+    const pass=lagnaPass && promisePass && timingPass && timingRP;
+    return {
+      sbl,snl,stl,lagnaSign,lagnaH,lagnaPosHit,lagnaNegHit,lagnaPass,
+      fifthLayer,fifthEval,fifthPass,
+      eleventhLayer,eleventhEval,eleventhPass,
+      periods:dbas,periodLayers,required:target,covered:[...covered].sort((x,y)=>x-y),
+      timingPass,timingNoLoss,promisePass,timingRP,rp:[...rp],rpCommon,triggerPass:true,sblH:housesOfPlanet(sbl,a.chart),sblPosHit:[],sblNegHit:[],pass,
+      reason:pass
+        ? `Lagna promise, 5th+11th speculative-gain promise and joint DBAS pass`
+        : `Fails Lagna promise, 5th/11th promise, or joint DBAS coverage/loss exclusion`
+    };
+  }
+
   const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
+  window.__lastAnalyses=analyses;
+  updateThreeMinuteWindow(analyses);
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.57 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
+
+  // 0.9.57 — reference-only rule-semantics matrix. This deliberately does
+  // NOT feed the expected V1.5.11 YY/YN/NY/NN values into selection. It only
+  // compares the independently calculated rule states at the ten stored
+  // regression instants so the unknown two-character semantics can be
+  // reconstructed without another selector guess.
+  if(isStockRegression(date,from,to,lat,lon,tz,event)){
+    const refs=V1511_STOCK_PALLAVARAM.expected;
+    const rows=refs.map(ref=>{
+      const a=analyses.find(x=>x.time===ref);
+      const expected=V1511_RULE_VECTORS?.[ref]||'';
+      const actual=a?ynToken(a.rules):'';
+      const expParts=expected.split(' ').filter(Boolean);
+      const actParts=actual.split(' ').filter(Boolean);
+      const mismatches=[];
+      for(let i=0;i<Math.max(expParts.length,actParts.length);i++) if(expParts[i]!==actParts[i]) mismatches.push((expParts[i]||'?')+'≠'+(actParts[i]||'?'));
+      return {ref,sbl:a?.chart?.ascendant?.[3]||'—',expected,actual,mismatches};
+    });
+    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.60</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
+
+    const objRows=[];
+    for(const ref of refs){
+      const a=analyses.find(x=>x.time===ref); if(!a) continue;
+      const expected=V1511_RULE_VECTORS?.[ref]||'';
+      const em={}; expected.split(' ').filter(Boolean).forEach(x=>{const q=x.split(':');em[q[0]]=q[1]||''});
+      for(const r of a.rules){
+        const e=em[String(r.obj)]||'—';
+        objRows.push('<tr class="'+(e===r.yn?'good':'bad')+'"><td>'+ref+'</td><td>'+r.obj+'</td><td>'+r.sub_lord+'</td><td>'+r.positive.join(',')+'</td><td>'+r.posHit.join(',')+'</td><td>'+r.posAny+'</td><td>'+r.posAll+'</td><td>'+r.negative.join(',')+'</td><td>'+r.negHit.join(',')+'</td><td>'+r.noLoss+'</td><td>'+e+'</td><td>'+r.yn+'</td></tr>');
+      }
+    }
+    $('ruleBreakdown').innerHTML='<div class="titlebar">Per-object diagnostic: what the current evaluator actually knows</div><div class="muted">This table is intentionally verbose. It separates required houses, hits, ANY, ALL, negative hits and NO-loss from the final two-character label. That prevents the unknown V1.5.11 YY/YN/NY/NN semantics from being hidden inside one boolean.</div><table><thead><tr><th>Time</th><th>Obj</th><th>SubL</th><th>+Req</th><th>+Hit</th><th>ANY</th><th>ALL</th><th>−Req</th><th>−Hit</th><th>No-loss</th><th>V1.5.11</th><th>Web</th></tr></thead><tbody>'+objRows.join('')+'</tbody></table>';
+  } else {
+    $('ruleMatrix').innerHTML='<div class="status">The YY/YN/NY/NN comparison matrix is available for the stored Pallavaram stock-market regression only.</div>';
+    $('ruleBreakdown').innerHTML='';
+  }
 
   const best=analyses.find(a=>a.yn==='Y')||analyses[0];
   $('detail').innerHTML=(best?.rules||[]).map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.obj}</td><td>${r.sub_lord||'—'}</td><td>${r.posHit?.join(',')||'—'}</td><td>${r.negHit?.join(',')||'—'}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
@@ -681,7 +861,15 @@ async function run(){
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
 
-  // 0.9.59 — Layer 1 astronomy / transition regression.  The original
+  // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
+  const finalDiag=selectionRows.map(a=>{
+    const s=a.selection;
+    return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
+  });
+  const fd=$('selectorSummary');
+  if(fd) fd.innerHTML='<b>0.9.60 diagnostic model:</b> KP six-fold significators remain separate from event-rule semantics. ANY/ALL/NO-loss are exposed independently. The four-state YY/YN/NY/NN vector is compared against the stored V1.5.11 observations only as a regression diagnostic. No reference timestamp or reference vector is used to select candidates. Final selection remains experimental until the original rule-state semantics are reconstructed.';
+
+  // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
   // inserted into trs and never used to select candidates.  For each reference
   // time, find the nearest independently calculated Web transition and also
