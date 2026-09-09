@@ -1,12 +1,10 @@
-# KPMuhurat Web 0.9.60
+# KPMuhurat Web 0.9.61
 
 Browser-hosted reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
 
-## 0.9.60
-- Preserves the existing independent astronomy/transition engine.
-- Keeps V1.5.11 reference timestamps verification-only; they are never injected into selection.
-- Adds an explicit **3-minute Muhurat Window** check, defaulting to **10:39:00–10:42:00**.
-- The window check reports calculated Lagna/Sub transitions falling inside the requested interval.
-- The source PDF *K. P. Muhurat – A Novel Technique in K.P.* by Kanak B. Bosmia is used as the rule reference.
+## 0.9.61 fix
+The **Data → Place → Find** button now uses a direct mobile-safe click handler, exposes a fallback `window.kpFindPlace()` action, and keeps the existing PlaceSelect/Nominatim search path. Pallavaram remains resolved to the exact stored regression coordinates when that place name is entered.
 
-This is a reconstruction, not the original Windows executable/source code. Exact V1.5.11 equivalence still requires regression validation.
+No astronomy, transition, significator, event-rule, or regression-selection logic was changed in this fix.
+
+Upload `index.html` to GitHub Pages. This is a reconstruction, not the original Windows executable/source.

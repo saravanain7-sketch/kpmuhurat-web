@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.60</title>
+<title>KPMuhurat Web 0.9.61</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.60</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.60 • 3-MINUTE MUHURAT WINDOW • 2026-09-08</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.61</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.61 • FIND BUTTON FIX • 3-MINUTE MUHURAT WINDOW • 2026-09-08</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -48,13 +48,13 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.60</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.61</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.60</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.60 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.61</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.61 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -209,12 +209,20 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
   }
   function attachPlaceTools(){
     var sb=E('placeSearchBtn'),ac=E('applyCustom'),fb=E('findPlace');
-    if(sb)sb.addEventListener('click',searchPlaces);
-    if(ac)ac.addEventListener('click',applyCustomLocation);
-    if(fb)fb.addEventListener('click',findPlaceFromDataField);
-    var ps=E('placeSearch'); if(ps)ps.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();searchPlaces()}});
-    var pl=E('place'); if(pl)pl.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();findPlaceFromDataField()}});
+    // Use direct onclick handlers here rather than relying only on addEventListener.
+    // This is more robust on mobile Chrome/GitHub Pages and also prevents duplicate
+    // handlers if the UI is reattached after navigation.
+    if(sb)sb.onclick=searchPlaces;
+    if(ac)ac.onclick=applyCustomLocation;
+    if(fb){
+      fb.__kpDirectBound=true; fb.onclick=function(e){ e.preventDefault(); e.stopPropagation(); return findPlaceFromDataField(); };
+      fb.setAttribute('aria-label','Find place and update coordinates');
+    }
+    var ps=E('placeSearch'); if(ps)ps.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();searchPlaces()}};
+    var pl=E('place'); if(pl)pl.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();findPlaceFromDataField()}};
   }
+  // Expose the Data-tab Find action for a reliable mobile fallback/debug hook.
+  window.kpFindPlace=function(){return findPlaceFromDataField();};
   function finishButton(btn){if(btn){btn.disabled=false;btn.textContent=btn.id==='gps2'?'📍 Use Current GPS Location':'📍 GPS'}}
   function getGPS(e){
     var btn=e&&e.currentTarget?e.currentTarget:null;
@@ -266,6 +274,12 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     attachPlaceTools();
   }
   if(document.readyState==='loading')document.addEventListener('input',e=>{ if(e.target && (e.target.id==='muhurtaStart'||e.target.id==='muhurtaEnd')) { const r=window.__lastAnalyses||[]; updateThreeMinuteWindow(r); }});
+  document.addEventListener('click',function(e){
+    var b=e.target && e.target.closest ? e.target.closest('#findPlace') : null;
+    if(b && !b.__kpDirectBound && typeof window.kpFindPlace==='function'){
+      e.preventDefault(); e.stopPropagation(); window.kpFindPlace();
+    }
+  },true);
 document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 </script>
