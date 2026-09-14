@@ -1,10 +1,14 @@
-# KPMuhurat Web 0.9.61
+# KPMuhurat Web 0.9.62
 
-Browser-hosted reconstruction of KPMuhurat V1.5.11 for GitHub Pages.
+Browser reconstruction of KPMuhurat V1.5.11.
 
-## 0.9.61 fix
-The **Data → Place → Find** button now uses a direct mobile-safe click handler, exposes a fallback `window.kpFindPlace()` action, and keeps the existing PlaceSelect/Nominatim search path. Pallavaram remains resolved to the exact stored regression coordinates when that place name is entered.
+## Changes
+- Preserves the 0.9.61 astronomy/transition engine and Find button fix.
+- Preserves the 3-minute Muhurat window tool (default 10:39:00–10:42:00).
+- Adds a verification-only table for Pallavaram 2022-04-01 based on the supplied V1.5.11 screenshots.
+- Captures the original 01-Apr-2022 Lagna/SnL/StL/SbL transition stream and visible Y/N states.
+- The captured screenshot times/states are NEVER used to select candidates.
+- This build is evidence collection, not a claim of byte-for-byte V1.5.11 equivalence.
 
-No astronomy, transition, significator, event-rule, or regression-selection logic was changed in this fix.
-
-Upload `index.html` to GitHub Pages. This is a reconstruction, not the original Windows executable/source.
+## GitHub Pages
+Upload `index.html` to a GitHub Pages site and open it over HTTPS. The Swiss Ephemeris browser module/WASM is loaded from the configured public CDN at runtime.

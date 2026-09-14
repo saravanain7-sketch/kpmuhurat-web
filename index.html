@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.61</title>
+<title>KPMuhurat Web 0.9.62</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.61</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.61 • FIND BUTTON FIX • 3-MINUTE MUHURAT WINDOW • 2026-09-08</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.62</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.62 • 01-APR-2022 V1.5.11 EVIDENCE • 3-MINUTE WINDOW • 2026-09-09</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -38,7 +38,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
-<div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate.</div>
+<div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate. Source screenshots from 01-Apr-2022 are likewise verification-only.</div>
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
 <div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
 </div>
@@ -54,7 +54,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
   <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.61</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.61 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.62 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
@@ -581,6 +581,33 @@ function regressionCheck(actual){
   return {pass:missing.length===0&&extra.length===0,missing,extra,expected:exp,actual};
 }
 
+
+// 0.9.62 — Source evidence captured from the user's original KPMuhurat V1.5.11
+// screenshots for Pallavaram, 2022-04-01. These are observations only: they are
+// never used to select a candidate. They document the exact Lagna transition
+// times and the original V1.5.11 Y/N state visible in the screenshots.
+const V1511_20220401_SOURCE=[
+ ['09:07:26','Ve','Su','Ke','N'],['09:10:31','Ve','Su','Ve','N'],
+ ['09:19:21','Ve','Mo','Mo','N'],['09:23:49','Ve','Mo','Ma','N'],
+ ['09:26:56','Ve','Mo','Ra','N'],['09:35:02','Ve','Mo','Ju','N'],
+ ['09:42:17','Ve','Mo','Sa','N'],['09:50:58','Ve','Mo','Me','N'],
+ ['09:58:47','Ve','Mo','Ke','N'],['10:02:01','Ve','Mo','Ve','N'],
+ ['10:11:19','Ve','Mo','Su','N'],['10:14:07','Ve','Ma','Ma','N'],
+ ['10:17:23','Ve','Ma','Ra','N'],['10:25:51','Ve','Ma','Ju','N'],
+ ['10:33:25','Ve','Ma','Sa','N'],['10:42:27','Me','Ma','Ju','N'],
+ ['10:50:34','Me','Ma','Ke','N'],['10:53:55','Me','Ma','Ve','N'],
+ ['11:03:33','Me','Ma','Su','Y'],['11:06:26','Me','Ma','Mo','N'],
+ ['11:11:16','Me','Ra','Ra','N'],['11:20:00','Me','Ra','Ju','N'],
+ ['11:27:46','Me','Ra','Sa','Y'],['11:37:02','Me','Ra','Me','N'],
+ ['11:45:20','Me','Ra','Ke','N'],['11:48:45','Me','Ra','Ve','N'],
+ ['11:58:33','Me','Ra','Su','Y'],['12:01:29','Me','Ra','Mo','N'],
+ ['12:06:23','Me','Ra','Ma','N'],['12:09:49','Me','Ju','Ve','N'],
+ ['12:17:40','Me','Ju','Sa','Y'],['12:26:59','Me','Ju','Me','N'],
+ ['12:35:20','Me','Ju','Ke','N'],['12:38:45','Me','Ju','Ve','Y'],
+ ['12:48:33','Me','Ju','Su','Y'],['12:51:29','Me','Ju','Mo','N'],
+ ['15:03:12','Su','Ke','Ke','N']
+];
+
 async function run(){
  if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
  try{
@@ -831,6 +858,12 @@ function selectionLayer(a,event){
   window.__lastAnalyses=analyses;
   updateThreeMinuteWindow(analyses);
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+
+  if(date==='2022-04-01' && isStockRegression(date,from,to,lat,lon,tz,event)===false){
+    // The 01-Apr source screenshots use the same Pallavaram coordinates/event,
+    // but their run is 09:00–15:00 rather than the 08-Apr regression fixture.
+  }
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.62 — V1.5.11 Source Evidence: Pallavaram 2022-04-01</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220401_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>01-Apr-2022 evidence:</b> '+V1511_20220401_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220401_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. The six Y times are 11:03:33, 11:27:46, 11:58:33, 12:17:40, 12:38:45 and 12:48:33.</div></div>');
   $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.57 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
 
   // 0.9.57 — reference-only rule-semantics matrix. This deliberately does
