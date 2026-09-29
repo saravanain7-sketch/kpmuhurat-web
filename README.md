@@ -1,14 +1,14 @@
-# KPMuhurat Web 0.9.74
+# KPMuhurat Web 0.9.75
 
-Mobile/PWA reconstruction of KPMuhurat V1.5.11.
+Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original runtime data, event rules, place database, screenshots and regression observations.
 
-## 0.9.74 fix
+## Changes in 0.9.75
+- Keeps normal **Results** focused on live calculated Muhurat output.
+- Moves the **09-Apr-2022 and 10-Apr-2022 source-evidence panels inside Advanced Diagnostics**; they no longer appear in the normal Results stream.
+- Prevents repeated Show calculations from duplicating those source-evidence panels.
+- Includes `manifest.webmanifest` and `sw.js` for GitHub Pages PWA installation/caching.
+- Preserves the live astronomy/KP calculation layer and keeps supplied V1.5.11 reference timestamps/Y-N observations verification-only.
+- Retains the 0.9.74 null-safety fix.
 
-- Fixed the runtime `Cannot read properties of null (reading 'csl')` error shown after pressing **Show**.
-- The current 0.9.73 selection layer intentionally leaves the experimental fifth/eleventh-period structures disabled (`null`); the diagnostic renderer now handles those fields safely instead of dereferencing `.csl`.
-- Swiss Ephemeris / KP transition calculations and the current Baadhaka/Maaraka selection layer are otherwise unchanged.
-- Stored V1.5.11 reference timestamps remain verification-only and are not injected into live selection.
-
-## Important
-
-This remains a reconstruction, not the original executable/source. Exact V1.5.11 event-selection equivalence is still being reconstructed from the supplied runtime, event rules, user guide, and regression screenshots.
+## Verification scope
+The build does not claim byte-for-byte equivalence to the original V1.5.11 event-selection engine unless independently verified. The supplied source evidence remains separated from live selection.
