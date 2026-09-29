@@ -1,0 +1,22 @@
+{
+  "build": "0.9.69",
+  "target": "KPMuhurat V1.5.11 mobile/web reconstruction",
+  "original_runtime_files": [
+    "KpMuhuart.exe",
+    "ephcalc.dll",
+    "astrogui.dll",
+    "ephstrings.dll",
+    "vedicbputil.dll",
+    "sqlite3.dll",
+    "AstroOpenSourceAtlas.db",
+    "events.txt",
+    "Settings.xml"
+  ],
+  "place_database_records": 97875,
+  "timezone_records": 387,
+  "notes": [
+    "Original Windows executable is not executed in the browser.",
+    "Event rules and place data are preserved from supplied V1.5.11 package.",
+    "The final Y/N selector remains a reconstruction target pending source/IL equivalence."
+  ]
+}
