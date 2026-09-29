@@ -1,20 +1,14 @@
-# KPMuhurat Web 0.9.73
+# KPMuhurat Web 0.9.74
 
-Mobile/PWA reconstruction of Windows KPMuhurat V1.5.11.
+Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
-## 0.9.73 selection change
-The transition-level Analysis Y/N selector now follows the documented V1.5.11 user-guide rule: only Muhurats with no Baadhaka (B) or Maaraka (M) are automatically selectable. The selector evaluates the Lagna Rasi Lord -> Star Lord -> Sub Lord chain and the original-style conjunction/aspect relationships for B/M evidence. Event-specific house rules remain separate for Results/Cusp analysis.
+## 0.9.74 fix
 
-Stored V1.5.11 reference timestamps and screenshot Y/N observations remain verification evidence only; they are not injected into live selection.
+- Fixed the runtime `Cannot read properties of null (reading 'csl')` error shown after pressing **Show**.
+- The current 0.9.73 selection layer intentionally leaves the experimental fifth/eleventh-period structures disabled (`null`); the diagnostic renderer now handles those fields safely instead of dereferencing `.csl`.
+- Swiss Ephemeris / KP transition calculations and the current Baadhaka/Maaraka selection layer are otherwise unchanged.
+- Stored V1.5.11 reference timestamps remain verification-only and are not injected into live selection.
 
-## Preserved
-- Swiss Ephemeris WASM transition layer
-- Krishnamurti ayanamsa
-- Placidus houses
-- KP Lagna / Star / Sub transitions
-- Event database and rule parsing
-- Vimsottari Dasa hierarchy
-- V1.5.11 source-evidence diagnostics
-- PWA/mobile layout
+## Important
 
-This is a modified reconstruction, not the original Windows executable.
+This remains a reconstruction, not the original executable/source. Exact V1.5.11 event-selection equivalence is still being reconstructed from the supplied runtime, event rules, user guide, and regression screenshots.
