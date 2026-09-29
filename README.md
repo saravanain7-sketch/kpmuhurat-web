@@ -1,17 +1,17 @@
-# KPMuhurat Web 0.9.65
+# KPMuhurat Web 0.9.66
 
-GitHub Pages-compatible reconstruction/diagnostic build of KP Muhurat V1.5.11.
+Reconstruction build based on the supplied KP Muhurat V1.5.11 evidence.
 
-## 0.9.65 changes
-- Preserves the working Swiss Ephemeris / Krishnamurti / Placidus Lagna and Sub-level transition engine.
-- Preserves the independent six-fold KP significator diagnostic.
-- Preserves the source-only 01-Apr-2022 and 02-Apr-2022 Pallavaram evidence streams.
-- Cleans all stale 0.9.62/0.9.63/0.9.57 UI version labels to 0.9.65.
-- Keeps stored V1.5.11 timestamps and Y/N observations strictly verification-only; they are not injected into candidate selection.
-- Keeps the transit Muhurta reconstruction separate from any natal-chart or GMP/KP Prasanna method.
-- The current selector remains experimental because the original executable's two-character rule-state semantics are not yet fully reconstructed.
+## 0.9.66 focus
+- Preserves the working Swiss Ephemeris WASM astronomy/transition layer.
+- Adds a live Transit Reason-Chain Reconstruction diagnostic.
+- Exposes Lagna SnL/StL/SbL, SbL Star Lord, SbL Sub Lord, six-fold significations, loss-house hits, ruling-lord context, aspect context, and cusps for which the current SbL is the cusp Sub Lord.
+- Adds source-only evidence tables for the newly supplied 09-Apr-2022 and 10-Apr-2022 original V1.5.11 screenshots.
+- Source timestamps and source Y/N observations are never used as selection inputs.
+- Does not claim byte-for-byte equivalence to V1.5.11 or claim the final Y/N algorithm has been solved.
 
-## Regression fixture
-Pallavaram: 12:58:34 N, 80:11:01 E, UTC+05:30, 2022-04-08, 05. Speculative gain in Stock Market.
-
-Expected V1.5.11 Muhurat times are retained only for independent regression comparison.
+## Calculation basis
+- Krishnamurti ayanamsa
+- Placidus houses
+- Swiss Ephemeris WASM
+- Transit-only reconstruction; no natal chart is used.

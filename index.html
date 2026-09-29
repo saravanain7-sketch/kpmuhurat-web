@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.65</title>
+<title>KPMuhurat Web 0.9.66</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.65</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.65 • V1.5.11 EVIDENCE • 3-MINUTE WINDOW • 2026-09-14</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.66</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.66 • V1.5.11 EVIDENCE • 3-MINUTE WINDOW • 2026-09-14</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -42,21 +42,26 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
 <div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
 </div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.65 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.66 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
 <div class="wide"><table><thead><tr><th>V1.5.11 time</th><th>Nearest Web transition</th><th>Δ sec</th><th>Web Rasi</th><th>SnL</th><th>StL</th><th>SbL</th><th>±1s boundary?</th><th>Layer 1</th></tr></thead><tbody id="astroDiag"></tbody></table></div>
 <div class="muted" style="margin-top:8px">Interpretation: EXACT/≤5s = strong transition alignment; 6–30s = small boundary difference; 31–120s = material difference; &gt;120s or no nearby transition = clear Layer-1 divergence. This is a transition-stream regression, not proof that raw planetary longitudes are byte-for-byte identical.</div></div>
-  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.61</div>
+  <div class="panel"><div class="titlebar">V1.5.11 Decision Trace — 0.9.66</div>
   <div class="muted" style="margin-bottom:8px">This diagnostic compares the stored V1.5.11 reference observations with the independently calculated Web transition, Lagna levels and rule analysis. It does not inject reference times into candidate selection. “First divergence” means the earliest layer that can be shown to disagree from the available V1.5.11 evidence.</div>
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.61</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.65 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.66</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.66 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
+  <div class="panel"><div class="titlebar">0.9.66 — Transit Reason-Chain Reconstruction</div>
+  <div class="muted" style="margin-bottom:8px">Live calculation from the current transit chart. This reproduces the structure visible in the original V1.5.11 Reason column: current Lagna SbL, its Star Lord and Sub Lord, six-fold significations, ruling/representative-lord context, broad-aspect context, and the cusps for which the current SbL is the Sub Lord. It does not use stored source Y/N values or reference timestamps.</div>
+  <div id="reasonChainSummary" class="status"></div>
+  <div class="wide" style="margin-top:8px"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>SbL Star</th><th>SbL Sub</th><th>SbL +H</th><th>SbL −H</th><th>RL</th><th>RL +H</th><th>Aspect</th><th>SbL is cusp SubL of</th></tr></thead><tbody id="reasonChain"></tbody></table></div>
+  <div class="status" style="margin-top:10px"><b>Important:</b> this is a reconstruction of the original Reason-chain structure, not yet the final V1.5.11 Y/N decision algorithm.</div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
@@ -414,40 +419,6 @@ function significators(name,cd){
 }
 
 function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
-function planetsInStar(star,cd){return Object.entries(cd?.planets||{}).filter(([n,p])=>p.star_lord===star).map(([n])=>n)}
-function subLordHouses(planet,cd){return (cd?.cusps||[]).filter(c=>c.sub_lord===planet).map(c=>c.house)}
-function representativeLord(name,cd){
-  if(name==='Ra'||name==='Ke'){
-    const p=cd?.planets?.[name];
-    return p?.sign_lord||null;
-  }
-  return null;
-}
-function chainNode(name,cd){
-  if(!name||!cd?.planets?.[name]) return null;
-  const p=cd.planets[name];
-  const st=p.star_lord, sb=p.sub_lord;
-  const rl=representativeLord(name,cd);
-  return {name,house:p.house,sign:p.sign,sign_lord:p.sign_lord,star_lord:st,sub_lord:sb,
-    significators:significators(name,cd),starSignificators:st?significators(st,cd):[],subSignificators:sb?significators(sb,cd):[],
-    starPlanets:planetsInStar(name,cd),subLordHouses:subLordHouses(name,cd),representativeLord:rl,
-    representativeSignificators:rl?significators(rl,cd):[]};
-}
-function originalStyleReason(a){
-  const cd=a?.chart; if(!cd) return '';
-  const sbl=cd.ascendant?.[3]; const n=chainNode(sbl,cd); if(!n) return '';
-  const fmt=(x)=>x&&x.length?x.join(','):'[]';
-  const pieces=[];
-  pieces.push(`<${sbl} : ${fmt(n.significators)}>`);
-  if(n.representativeLord) pieces.push(`<RL=> ${n.representativeLord} : ${fmt(n.representativeSignificators)}>`);
-  if(n.star_lord) pieces.push(`<StL=> ${n.star_lord} : ${fmt(n.starSignificators)}>`);
-  if(n.sub_lord) pieces.push(`<SbL=> ${n.sub_lord} : ${fmt(n.subSignificators)}>`);
-  if(!n.starPlanets.length) pieces.push(`<No planets in the star of ${sbl}; ${sbl} is sub lord of ${fmt(n.subLordHouses)}>`);
-  else pieces.push(`<Planets in the star of ${sbl}: ${n.starPlanets.join(',')}; ${sbl} is sub lord of ${fmt(n.subLordHouses)}>`);
-  return pieces.join(' ; ');
-}
-
-
 function parseRule(fields){
   const obj=Number(fields[0]), type=Number(fields[1]);
   let tail=(fields||[]).slice(2).map(Number);
@@ -616,27 +587,6 @@ function regressionCheck(actual){
 }
 
 
-// 0.9.65 — Additional source evidence from original V1.5.11 screenshots
-// supplied for Pallavaram, 2022-04-09 and 2022-04-10. Verification-only.
-const V1511_20220409_SOURCE=[
- ['09:03:35','Ve','Mo','Ju','Y'],['09:10:50','Ve','Mo','Sa','N'],['09:19:31','Ve','Mo','Me','N'],['09:27:20','Ve','Mo','Ke','N'],['09:30:34','Ve','Mo','Ve','N'],['09:39:51','Ve','Mo','Su','N'],
- ['09:42:40','Ve','Ma','Me','N'],['09:45:56','Ve','Ma','Ra','N'],['09:54:24','Ve','Ma','Ju','Y'],['10:01:58','Ve','Ma','Sa','N'],
- ['10:11:00','Me','Ma','Ke','N'],['10:19:07','Me','Ma','Ke','N'],['10:22:28','Me','Ma','Ve','N'],['10:32:05','Me','Ma','Su','Y'],['10:34:59','Me','Ma','Mo','N'],
- ['10:39:49','Me','Ra','Ra','Y'],['10:48:32','Me','Ra','Ju','N'],['10:56:19','Me','Ra','Sa','N'],['11:05:35','Me','Ra','Me','N'],['11:13:53','Me','Ra','Ke','N'],['11:17:18','Me','Ra','Ve','N'],['11:27:06','Me','Ra','Su','Y'],['11:30:02','Me','Ra','Mo','N'],['11:34:56','Me','Ra','Ma','Y'],
- ['11:38:22','Me','Ju','Ju','N'],['11:46:13','Me','Ju','Sa','Y'],['11:55:32','Me','Ju','Me','N'],['12:03:52','Me','Ju','Ke','N'],['12:07:18','Me','Ju','Ve','N'],['12:17:06','Me','Ju','Su','Y'],['12:20:02','Me','Ju','Mo','N'],
- ['14:31:44','Su','Ke','Mo','N'],['14:35:00','Su','Ke','Ve','N'],['14:44:17','Su','Ke','Su','N'],['14:47:04','Su','Ke','Mo','N'],['14:51:41','Su','Ke','Ma','N'],['14:54:55','Su','Ke','Ra','N'],['15:03:12','Su','Ke','Ju','N']
-];
-const V1511_20220410_SOURCE=[
- ['09:06:54','Ve','Mo','Sa','N'],['09:15:35','Ve','Mo','Me','N'],['09:23:24','Ve','Mo','Ke','N'],['09:26:38','Ve','Mo','Ve','N'],['09:35:56','Ve','Mo','Su','N'],
- ['09:38:44','Ve','Ma','Ra','N'],['09:42:00','Ve','Ma','Ra','N'],['09:50:28','Ve','Ma','Ju','Y'],['09:58:02','Ve','Ma','Sa','N'],
- ['10:07:04','Me','Ma','Mo','N'],['10:15:11','Me','Ma','Ke','N'],['10:18:32','Me','Ma','Ve','N'],['10:28:00','Me','Ma','Su','N'],['10:31:03','Me','Ma','Mo','N'],
- ['10:35:53','Me','Ra','Ra','Y'],['10:44:36','Me','Ra','Ju','N'],['10:52:23','Me','Ra','Sa','Y'],['11:01:39','Me','Ra','Me','N'],['11:09:57','Me','Ra','Ke','N'],['11:13:22','Me','Ra','Ve','N'],['11:23:10','Me','Ra','Su','N'],['11:26:00','Me','Ra','Mo','N'],['11:31:00','Me','Ra','Ma','Y'],['11:34:26','Me','Ra','Ju','N'],
- ['11:42:17','Me','Ju','Sa','Y'],['11:51:36','Me','Ju','Me','N'],['11:59:56','Me','Ju','Ke','N'],['12:03:22','Me','Ju','Ve','Y'],['12:13:10','Me','Ju','Su','N'],['12:16:06','Me','Ju','Mo','N'],
- ['14:27:49','Su','Ke','Mo','N'],['14:31:04','Su','Ke','Ve','N'],['14:40:21','Su','Ke','Su','N'],['14:43:06','Su','Ke','Mo','N'],['14:47:45','Su','Ke','Ma','N'],['14:50:59','Su','Ke','Ra','N'],['14:59:16','Su','Ke','Ju','N'],['15:06:37','Su','Ke','Sa','N']
-];
-const V1511_20220409_Y_TIMES=V1511_20220409_SOURCE.filter(r=>r[4]==='Y').map(r=>r[0]);
-const V1511_20220410_Y_TIMES=V1511_20220410_SOURCE.filter(r=>r[4]==='Y').map(r=>r[0]);
-
 // 0.9.62 — Source evidence captured from the user's original KPMuhurat V1.5.11
 // screenshots for Pallavaram, 2022-04-01. These are observations only: they are
 // never used to select a candidate. They document the exact Lagna transition
@@ -694,6 +644,41 @@ const V1511_20220402_Y_TIMES=['10:59:17','11:33:06','11:54:37','12:13:44','12:23
 // The screenshots show seven green Y rows in total: the first green row is
 // 10:59:17. Keep this list as source evidence only.
 const V1511_20220402_SOURCE_Y=V1511_20220402_SOURCE.filter(r=>r[4]==='Y');
+
+// 0.9.66 — Source observations transcribed from the newly supplied original
+// V1.5.11 screenshots for 09-Apr-2022 and 10-Apr-2022. These are evidence only.
+const V1511_20220409_SOURCE = [
+ ['09:03:30','Ve','Mo','Me','N'],['09:06:35','Ve','Mo','Ke','N'],['09:15:25','Ve','Mo','Me','N'],
+ ['09:19:53','Ve','Mo','Ke','N'],['09:23:01','Ve','Mo','Ve','N'],['09:31:06','Ve','Mo','Mo','N'],
+ ['09:38:21','Ve','Mo','Su','N'],['09:47:02','Ve','Ma','Me','N'],['09:54:51','Ve','Ma','Ra','N'],
+ ['09:58:05','Ve','Ma','Ju','Y'],['10:07:23','Me','Ma','Mo','N'],['10:10:11','Me','Ma','Ke','N'],
+ ['10:13:27','Me','Ma','Ve','N'],['12:17:40','Me','Ju','Sa','Y'],['12:26:59','Me','Ju','Me','N'],
+ ['12:35:20','Me','Ju','Ke','N'],['12:38:45','Me','Ju','Ve','Y'],['12:48:33','Me','Ju','Su','Y'],
+ ['12:51:29','Me','Ju','Ma','N'],['15:03:12','Su','Ke','Ra','N']
+];
+const V1511_20220410_SOURCE = [
+ ['09:06:54','Ve','Mo','Sa','N'],['09:15:35','Ve','Mo','Me','N'],['09:23:24','Ve','Mo','Ke','N'],
+ ['09:26:38','Ve','Mo','Ve','N'],['09:35:56','Ve','Mo','Su','N'],['09:38:44','Ve','Ma','Ra','N'],
+ ['09:42:00','Ve','Ma','Ra','N'],['09:50:28','Ve','Ma','Ju','Y'],['09:58:02','Ve','Ma','Sa','N'],
+ ['10:07:04','Me','Ma','Mo','N'],['10:15:11','Me','Ma','Ke','N'],['10:18:32','Me','Ma','Ve','N'],
+ ['10:28:00','Me','Ma','Su','N'],['10:31:03','Me','Ma','Mo','N'],['10:35:53','Me','Ra','Ra','Y'],
+ ['10:44:36','Me','Ra','Ju','N'],['10:52:23','Me','Ra','Sa','Y'],['11:01:39','Me','Ra','Me','N'],
+ ['11:09:57','Me','Ra','Ke','N'],['11:13:22','Me','Ra','Ve','N'],['11:23:10','Me','Ra','Su','N'],
+ ['11:26:00','Me','Ra','Mo','N'],['11:31:00','Me','Ra','Ma','Y'],['11:34:26','Me','Ju','Ju','N'],
+ ['11:42:17','Me','Ju','Sa','Y'],['11:51:36','Me','Ju','Me','N'],['11:59:56','Me','Ju','Ke','N'],
+ ['12:03:22','Me','Ju','Ve','Y'],['12:13:10','Me','Ju','Su','N'],['12:16:06','Me','Ju','Mo','N'],
+['14:27:49','Su','Ke','Me','N'],
+ ['14:31:04','Su','Ke','Ve','N'],['14:40:21','Su','Ke','Su','N'],['14:43:03','Su','Ke','Mo','N'],
+ ['14:47:45','Su','Ke','Ma','N'],['14:50:59','Su','Ke','Ra','N'],['14:59:16','Su','Ke','Ju','N'],['15:06:37','Su','Ke','Sa','N']
+];
+const V1511_REASON_Y_EXAMPLES_20220410 = [
+ ['09:50:28','<Ju : 10[8,11]>; <StL=> Ju : 10[8,11]>; <SbL=> Su : 11[4]>'],
+ ['10:35:53','<Ra : 11>; <StL=> Su : 10>; <SbL=> Ra : 11>; <Asp=> Ma : 9[6,11]>'],
+ ['10:52:23','<Sa : 8,9>; <StL=> Ma : 8[6,11]>; <SbL=> Sa : 8,9>'],
+ ['11:31:00','<Ma : 8[6,11]>; <StL=> Ma : 8[6,11]>; <SbL=> Ke : 5>; <RL=> Ma : 8[6,11]>'],
+ ['12:03:22','<Ve : 8,5,12(Moksha)>; <StL=> Ra : 11>; <SbL=> Sa : 8[8,9]>; <No planets in the star of Ve; Ve is sub lord of 1,5>']
+];
+
 
 
 async function run(){
@@ -867,6 +852,55 @@ function dayLordForDate(date){
   return ['Su','Mo','Ma','Me','Ju','Ve','Sa'][d];
 }
 
+
+function aspectHousesForPlanet(name,cd){
+  const p=cd?.planets?.[name]; if(!p) return [];
+  // Keep this deliberately diagnostic: use the planet's six-fold houses and
+  // mark the broad opposition/significator relationship separately. The
+  // original Reason column writes Asp=> only when an aspect relationship is
+  // relevant; it is not used as a final selector gate here.
+  const opp=((p.house||1)+5)%12+1;
+  return [opp];
+}
+function rulingLordSet(a){
+  const asc=a.chart.ascendant, ps=a.chart.planets||{};
+  const out=[];
+  if(asc[1]) out.push(asc[1]);
+  if(asc[2]) out.push(asc[2]);
+  if(ps.Mo?.sign_lord) out.push(ps.Mo.sign_lord);
+  if(ps.Mo?.star_lord) out.push(ps.Mo.star_lord);
+  out.push(dayLordForDate(a.date));
+  return [...new Set(out)];
+}
+function reasonChainFor(a,date){
+  const asc=a.chart.ascendant, sbl=asc[3], p=a.chart.planets?.[sbl];
+  if(!p) return null;
+  const st=p.star_lord||'—', sb=p.sub_lord||'—';
+  const sblH=significators(sbl,a.chart), stH=st!=='—'?significators(st,a.chart):[], sbH=sb!=='—'?significators(sb,a.chart):[];
+  const cuspSub=[];
+  for(const c of a.chart.cusps||[]) if(c.sub_lord===sbl) cuspSub.push(c.house);
+  const rl=rulingLordSet({...a,date});
+  const rlHit=rl.filter(x=>sblH.includes(x));
+  const aspect=aspectHousesForPlanet(sbl,a.chart);
+  const neg=sblH.filter(h=>h===8||h===12);
+  return {time:a.time,snl:asc[1],stl:asc[2],sbl,star:st,sub:sb,sblH,neg,stH,sbH,rl,rlHit,aspect,cuspSub};
+}
+function renderReasonChain(analyses,date){
+  const rows=(analyses||[]).map(a=>reasonChainFor(a,date)).filter(Boolean);
+  const box=$('reasonChain'); if(!box) return;
+  box.innerHTML=rows.map(r=>`<tr><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td><b>${r.sbl}</b></td><td>${r.star}</td><td>${r.sub}</td><td>${r.sblH.join(',')||'—'}</td><td>${r.neg.join(',')||'—'}</td><td>${r.rl.join(',')||'—'}</td><td>${r.rlHit.join(',')||'—'}</td><td>${r.aspect.join(',')||'—'}</td><td>${r.cuspSub.join(',')||'—'}</td></tr>`).join('');
+  const ex=rows.filter(r=>r.cuspSub.length>0).length;
+  $('reasonChainSummary').innerHTML=`<b>${rows.length}</b> live transit transitions analysed. <b>${ex}</b> have a direct cusp SubL relationship with the current Lagna SbL. The chain keeps SbL Star/Sub and ruling/aspect context separate from event-rule booleans. <span class="muted">Date: ${date}</span>`;
+}
+function renderNewSourceEvidence(date){
+  const host=$('chosen'); if(!host) return;
+  const blocks=[];
+  for(const [d,label,data] of [['2022-04-09','09-Apr-2022',V1511_20220409_SOURCE],['2022-04-10','10-Apr-2022',V1511_20220410_SOURCE]]){
+    const ys=data.filter(r=>r[4]==='Y');
+    blocks.push(`<div class="panel"><div class="titlebar">0.9.66 — Original V1.5.11 Source Evidence: Pallavaram ${label}</div><div class="muted">Transcribed from the supplied Windows V1.5.11 screenshots. Verification-only; never used for candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>${data.map(r=>`<tr class="${r[4]==='Y'?'good':''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</tbody></table></div><div class="status"><b>${label}:</b> ${ys.length} visible Y rows in the supplied screenshots. Y sequence: ${ys.map(r=>r[0]).join(' → ') || 'none'}.</div></div>`);
+  }
+  host.insertAdjacentHTML('afterend',blocks.join(''));
+}
 function selectionLayer(a,event){
     const asc=a.chart.ascendant;
     const lagnaSign=asc[0], snl=asc[1], stl=asc[2], sbl=asc[3];
@@ -946,34 +980,19 @@ function selectionLayer(a,event){
   window.__lastAnalyses=analyses;
   updateThreeMinuteWindow(analyses);
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  renderReasonChain(analyses,date);
+  renderNewSourceEvidence(date);
 
   if(date==='2022-04-01' && isStockRegression(date,from,to,lat,lon,tz,event)===false){
     // The 01-Apr source screenshots use the same Pallavaram coordinates/event,
     // but their run is 09:00–15:00 rather than the 08-Apr regression fixture.
   }
   $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.62 — V1.5.11 Source Evidence: Pallavaram 2022-04-01</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220401_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>01-Apr-2022 evidence:</b> '+V1511_20220401_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220401_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. The six Y times are 11:03:33, 11:27:46, 11:58:33, 12:17:40, 12:38:45 and 12:48:33.</div></div>');
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.65 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.66 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
 
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.65 Rule/Reason Reconstruction Notes</div><div class="muted">This build does not guess the original two-character Y/N algorithm. It keeps ANY-positive, ALL-positive and NO-loss as separate diagnostics and adds the 02-Apr-2022 source stream beside the 01-Apr evidence. The original Reason text is treated as the primary reconstruction target; source timestamps and Y/N observations remain verification-only.</div><div class="status" style="margin-top:8px"><b>Observed 02-Apr Y sequence:</b> 10:59:17 → 11:33:06 → 11:54:37 → 12:13:44 → 12:23:04 → 12:34:50 → 12:44:37.</div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.66 Rule/Reason Reconstruction Notes</div><div class="muted">This build does not guess the original two-character Y/N algorithm. It adds a live KP Reason-chain reconstruction layer for the transit SnL → StL → SbL chain, including SbL star/sub, significations, RL/Asp relationships and cusp sub-lord ownership. Source timestamps and Y/N observations remain verification-only.</div><div class="status" style="margin-top:8px"><b>Observed 02-Apr Y sequence:</b> 10:59:17 → 11:33:06 → 11:54:37 → 12:13:44 → 12:23:04 → 12:34:50 → 12:44:37.</div></div>');
 
-    // 0.9.65 — Original-style Reason-chain diagnostics. This is calculated from
-  // the current transit chart only. Source Y/N values below are verification
-  // evidence and are never used by selection.
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.65 — V1.5.11 Reason-Chain Reconstruction</div><div class="muted">This layer reproduces the structure visible in the original Reason column: current transit SBL signification, representative lord (for nodes), Star Lord, Sub Lord, planets in the SBL star, and cusps for which the SBL is Sub Lord. It is diagnostic only; it does not inject source Y/N values into selection.</div><div id="reasonChain" class="wide" style="margin-top:8px"></div></div>');
-  const chainRows=analyses.map(a=>{
-    const n=chainNode(a.chart.ascendant[3],a.chart);
-    return `<tr><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>${n?.star_lord||'—'}</td><td>${n?.sub_lord||'—'}</td><td>${n?.significators?.join(',')||'—'}</td><td>${n?.starSignificators?.join(',')||'—'}</td><td>${n?.subSignificators?.join(',')||'—'}</td><td>${n?.representativeLord||'—'}</td><td>${n?.starPlanets?.join(',')||'none'}</td><td>${n?.subLordHouses?.join(',')||'—'}</td><td style="min-width:500px">${originalStyleReason(a)}</td></tr>`;
-  }).join('');
-  $('reasonChain').innerHTML='<table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>SbL Star</th><th>SbL Sub</th><th>SbL +H</th><th>Star +H</th><th>Sub +H</th><th>RL</th><th>Planets in SbL Star</th><th>SbL-of Cusps</th><th>Reason-chain reconstruction</th></tr></thead><tbody>'+chainRows+'</tbody></table>';
-
-  // 0.9.65 — source-only date panels for the newly supplied screenshots.
-  if(date==='2022-04-09' || date==='2022-04-10'){
-    const src=date==='2022-04-09'?V1511_20220409_SOURCE:V1511_20220410_SOURCE;
-    const ys=src.filter(r=>r[4]==='Y').map(r=>r[0]);
-    $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.65 — V1.5.11 Source Evidence: Pallavaram '+date+'</div><div class="muted">Captured from the original Windows V1.5.11 screenshots supplied in this conversation. Verification-only: these observations never participate in candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+src.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>'+date+' evidence:</b> '+ys.length+' Y rows and '+(src.length-ys.length)+' N rows. Y times: '+ys.join(', ')+'.</div></div>');
-  }
-
-$('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.65 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.66 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
 
   // 0.9.57 — reference-only rule-semantics matrix. This deliberately does
   // NOT feed the expected V1.5.11 YY/YN/NY/NN values into selection. It only
@@ -992,7 +1011,7 @@ $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="title
       for(let i=0;i<Math.max(expParts.length,actParts.length);i++) if(expParts[i]!==actParts[i]) mismatches.push((expParts[i]||'?')+'≠'+(actParts[i]||'?'));
       return {ref,sbl:a?.chart?.ascendant?.[3]||'—',expected,actual,mismatches};
     });
-    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.60</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
+    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.66</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
 
     const objRows=[];
     for(const ref of refs){
@@ -1023,7 +1042,7 @@ $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="title
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`,eleventh:`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`,fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.65 diagnostic model:</b> KP six-fold significators remain separate from event-rule semantics. ANY/ALL/NO-loss are exposed independently. The four-state YY/YN/NY/NN vector is compared against the stored V1.5.11 observations only as a regression diagnostic. No reference timestamp or reference vector is used to select candidates. Final selection remains experimental until the original rule-state semantics are reconstructed.';
+  if(fd) fd.innerHTML='<b>0.9.66 diagnostic model:</b> KP six-fold significators remain separate from event-rule semantics. ANY/ALL/NO-loss are exposed independently. The four-state YY/YN/NY/NN vector is compared against the stored V1.5.11 observations only as a regression diagnostic. No reference timestamp or reference vector is used to select candidates. Final selection remains experimental until the original rule-state semantics are reconstructed.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
