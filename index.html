@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.78</title>
+<title>KPMuhurat Web 0.9.79</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -29,10 +29,28 @@ header small{font-size:11px}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
 .mobileReasonRow{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}
+@media(max-width:700px){
+/* 0.9.79 mobile Analysis: keep the Lagna table fully visible instead of forcing a hidden horizontal scroll. */
+#analysis .split{display:block !important}
+#analysis .split .wide{overflow-x:visible !important;width:100% !important}
+#analysis .split .wide:first-child table{min-width:0 !important;width:100% !important;table-layout:fixed}
+#analysis .split .wide:first-child th,#analysis .split .wide:first-child td{padding:7px 5px;font-size:11px}
+#analysis .split .wide:first-child th:nth-child(1),#analysis .split .wide:first-child td:nth-child(1){width:18%;}
+#analysis .split .wide:first-child th:nth-child(2),#analysis .split .wide:first-child td:nth-child(2){width:18%;text-align:center}
+#analysis .split .wide:first-child th:nth-child(3),#analysis .split .wide:first-child td:nth-child(3){width:18%;text-align:center}
+#analysis .split .wide:first-child th:nth-child(4),#analysis .split .wide:first-child td:nth-child(4){width:46%;text-align:center}
+#analysis .split .wide:first-child th:nth-child(5),#analysis .split .wide:first-child td:nth-child(5){display:none}
+#analysis .split .wide:nth-child(2){margin-top:10px}
+#analysis .split .wide:nth-child(2) table{min-width:0 !important;width:100% !important}
+#analysis .split .wide:nth-child(2) th,#analysis .split .wide:nth-child(2) td{padding:6px 5px}
+#analysis .split .wide:nth-child(2) th:nth-child(1),#analysis .split .wide:nth-child(2) td:nth-child(1){width:74px}
+#analysis .split .wide:nth-child(2) th:nth-child(2),#analysis .split .wide:nth-child(2) td:nth-child(2),#analysis .split .wide:nth-child(2) th:nth-child(3),#analysis .split .wide:nth-child(2) td:nth-child(3),#analysis .split .wide:nth-child(2) th:nth-child(4),#analysis .split .wide:nth-child(2) td:nth-child(4),#analysis .split .wide:nth-child(2) th:nth-child(5),#analysis .split .wide:nth-child(2) td:nth-child(5){text-align:center;width:42px}
+#analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){white-space:normal;line-height:1.3;min-width:150px}
+}
 @media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1),#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}.mobileReasonRow{display:table-row !important}}
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.78</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.78 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.79</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.79 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -62,7 +80,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.78 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.79 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
