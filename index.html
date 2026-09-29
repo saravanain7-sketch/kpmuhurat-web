@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.81</title>
+<title>KPMuhurat Web 0.9.82</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -28,7 +28,7 @@ header small{font-size:11px}
 .status{font-size:13px;line-height:1.35}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
-.analysisReason{white-space:normal !important;max-width:420px;vertical-align:top}.analysisReason details summary{cursor:pointer;font-weight:600;line-height:1.2}.reasonFull{padding-top:6px;line-height:1.35;white-space:normal;color:#526770}.mobileReasonRow{display:none}.analysisMobileReason{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}
+.analysisReason{white-space:normal !important;max-width:360px;vertical-align:top}.analysisReason details summary{cursor:pointer;font-weight:600;line-height:1.2;color:#17313d}.reasonFull{padding-top:6px;line-height:1.35;white-space:normal;color:#526770}.mobileReasonRow{display:none}.analysisMobileReason{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}.inlineReason{display:none}
 @media(max-width:700px){
 /* 0.9.81 mobile Analysis: keep the Lagna table fully visible instead of forcing a hidden horizontal scroll. */
 #analysis .split{display:block !important}
@@ -45,16 +45,17 @@ header small{font-size:11px}
 #analysis .split .wide:nth-child(2) th,#analysis .split .wide:nth-child(2) td{padding:6px 5px}
 #analysis .split .wide:nth-child(2) th:nth-child(1),#analysis .split .wide:nth-child(2) td:nth-child(1){width:74px}
 #analysis .split .wide:nth-child(2) th:nth-child(2),#analysis .split .wide:nth-child(2) td:nth-child(2),#analysis .split .wide:nth-child(2) th:nth-child(3),#analysis .split .wide:nth-child(2) td:nth-child(3),#analysis .split .wide:nth-child(2) th:nth-child(4),#analysis .split .wide:nth-child(2) td:nth-child(4),#analysis .split .wide:nth-child(2) th:nth-child(5),#analysis .split .wide:nth-child(2) td:nth-child(5){text-align:center;width:42px}
-#analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){display:none}
-#analysis .split .wide:nth-child(2) .analysisMobileReason{display:table-row !important}
-#analysis .split .wide:nth-child(2) .analysisMobileReason td{white-space:normal !important;padding:5px 7px;background:#f7fbfd;font-size:12px;line-height:1.35}
-#analysis .split .wide:nth-child(2) .analysisMobileReason details summary{cursor:pointer;font-weight:600;padding:2px 0}
-#analysis .split .wide:nth-child(2) .analysisMobileReason details div{padding-top:6px;color:#526770}
+#analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){display:table-cell;width:92px;min-width:92px;white-space:normal !important}
+#analysis .split .wide:nth-child(2) td:nth-child(6) .desktopReason{display:none}
+#analysis .split .wide:nth-child(2) td:nth-child(6) .inlineReason{display:block}
+#analysis .split .wide:nth-child(2) td:nth-child(6) details summary{cursor:pointer;font-weight:700;text-align:left;padding:2px 0}
+#analysis .split .wide:nth-child(2) td:nth-child(6) details div{padding:7px 4px 2px;color:#526770;line-height:1.35;text-align:left;white-space:normal}
+#analysis .split .wide:nth-child(2) .analysisMobileReason{display:none !important}
 }
-@media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1),#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}.mobileReasonRow{display:table-row !important}}
+@media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px;vertical-align:top}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:table-cell;width:48px;white-space:normal !important}#chosenTable td:nth-child(7) .desktopReason{display:none}#chosenTable td:nth-child(7) .inlineReason{display:block}#chosenTable td:nth-child(7) details summary{cursor:pointer;font-weight:700;text-align:left;padding:2px 0}#chosenTable td:nth-child(7) details div{padding:7px 3px 2px;color:#526770;line-height:1.35;text-align:left;white-space:normal}.mobileReasonRow{display:none !important}}
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.81</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.81 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.82</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.82 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -84,7 +85,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.81 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.82 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -116,7 +117,7 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable is not embedded in the browser runtime. Normal web operation uses the reconstructed astronomy, KP and event-rule layers. The general V1.5.11 event-selection equivalence remains a reconstruction target; the supplied Pallavaram 08-Apr-2022 stock-market case has a clearly labelled parity check.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p><b>KPMuhurat V1.5.11 Mobile/PWA</b> lets you enter the event date/time, place and event type, then calculate Lagna/Sub-level transitions and review the Analysis and Results.</p><div class="status"><b>Quick start</b><br>1. Enter Date, Time, Place and Event on the Data tab.<br>2. Use <b>PlaceSelect</b> to search for a place or enter coordinates manually.<br>3. Tap <b>Show</b> to calculate the transitions.<br>4. Review <b>Analysis</b>, then open <b>Results</b> for the selected Muhurats.<br>5. Tap the small <b>▸</b> in a row when you want the detailed Reason.</div><p><b>PlaceSelect:</b> Search results or a custom location can be applied directly to the Data fields. GPS can be used when location permission is available.</p><p><b>Mobile use:</b> The application is designed for Android/mobile screens and can be installed as a PWA from a supported browser.</p><p><b>Technical verification:</b> The supplied Pallavaram 08-Apr-2022 stock-market case is retained as a clearly labelled V1.5.11 regression check. Detailed reconstruction and verification information is available under <b>Advanced Diagnostics</b>.</p><p class="muted"><b>Original data included:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -848,7 +849,7 @@ async function run(){
   $('sub').innerHTML=rows.map(r=>{
     const reasonText=r.reason||'No reconstructed reason available.';
     const short=reasonText.split(';')[0].slice(0,72) + (reasonText.length>72?'…':'');
-    return `<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details></td></tr><tr class="analysisMobileReason ${String(r.yn).startsWith('Y')?'good':'bad'}"><td colspan="6"><details><summary>Reason for ${r.time}</summary><div>${reasonText}</div></details></td></tr>`;
+    return `<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details class="desktopReason"><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details><details class="inlineReason"><summary>▶ Reason</summary><div>${reasonText}</div></details></td></tr>`;
   }).join('');
   if(isStockRegression(date,from,to,lat,lon,tz,event)) {
     const note=document.getElementById('parityNote');
@@ -1187,7 +1188,7 @@ function selectionLayer(a,event){
   });
   window.__lastAnalyses=analyses;
   updateThreeMinuteWindow(analyses);
-  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td><span class="desktopReason">${a.selection.reason}</span><details class="inlineReason"><summary>▶ Reason</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
   renderNewSourceEvidence(date);
@@ -1251,7 +1252,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.78 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
+  if(fd) fd.innerHTML='<b>0.9.82 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never

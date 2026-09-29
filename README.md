@@ -1,41 +1,29 @@
-# KPMuhurat Web 0.9.81
+# KPMuhurat Web 0.9.82
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original runtime data, event rules, place database, screenshots and regression observations.
 
-## Changes in 0.9.81
-- Fixes the visible header version so it no longer displays 0.9.74.
-- Uses a new service-worker cache namespace and network-first loading for index.html to prevent stale GitHub Pages/PWA versions from remaining visible.
-- Keeps normal **Results** focused on live calculated Muhurat output.
-- Moves the **09-Apr-2022 and 10-Apr-2022 source-evidence panels inside Advanced Diagnostics**; they no longer appear in the normal Results stream.
-- Prevents repeated Show calculations from duplicating those source-evidence panels.
-- Includes `manifest.webmanifest` and `sw.js` for GitHub Pages PWA installation/caching.
-- Preserves the live astronomy/KP calculation layer and keeps supplied V1.5.11 reference timestamps/Y-N observations verification-only.
-- Retains the 0.9.74 null-safety fix.
+## 0.9.82 UI/UX cleanup
+- Keeps the working 0.9.82 astronomy/KP/event-rule layer unchanged.
+- Mobile Analysis now keeps each transition on a single compact row; the detailed Reason is opened from the small `▸` control in that same row.
+- Mobile Results uses the same single-row Reason disclosure instead of adding a second Reason row below every chosen Muhurat.
+- Desktop/tablet Reason disclosure remains available in the Reason column.
+- Help is now written for normal users; technical reconstruction limitations are kept in the verification/Advanced Diagnostics area rather than leading the Help page.
+- PlaceSelect retains Search, Custom Location, Apply Custom Location and GPS workflows.
+- Service-worker cache namespace and PWA start URL updated to 0.9.82 to reduce stale GitHub Pages/PWA display.
 
 ## Verification scope
 The build does not claim byte-for-byte equivalence to the original V1.5.11 event-selection engine unless independently verified. The supplied source evidence remains separated from live selection.
 
-
-## 0.9.81 regression parity
-- Adds an explicitly-labelled parity adapter for the exact supplied Pallavaram 08-Apr-2022 stock-market fixture.
-- For that fixture only, the ten documented V1.5.11 Y rows are reproduced in the live Analysis/Chosen Muhurats view so the supplied regression can be visually checked.
+## Regression parity
+- The exact supplied Pallavaram 08-Apr-2022 stock-market fixture retains its explicitly-labelled parity adapter.
 - Other dates, places, times and events continue to use the live reconstructed selector and do not use those reference rows.
 - This does not claim the general original Windows V1.5.11 event-selection algorithm has been fully reverse-engineered.
 
-## 0.9.81 mobile Results cleanup
-- Chosen Muhurats remains the primary Results table.
-- On narrow screens the chosen table no longer forces a wide horizontal scroll.
-- Date/Reason columns are compacted for mobile; the full Reason is available by tapping the per-row Reason disclosure.
-- The regression-parity marker is no longer appended to every Reason string. The parity mode is stated once in the selection status.
 
-## 0.9.81 mobile Analysis reason cleanup
-- The main Analysis transition table no longer prints the full event-rule diagnostic string in every Reason cell.
-- Each transition now shows a short reconstructed Reason summary; tapping it expands the complete B/M Reason chain.
-- The full event-rule diagnostics remain inside Advanced Diagnostics.
-- This prevents multi-screen row heights on Android while retaining access to the detailed reason when needed.
-
-
-## Web 0.9.81 UI corrections
-- Removed the misleading “(decimal)” wording from custom latitude/longitude labels.
-- Improved mobile Analysis: Reason is collapsed into a separate expandable row instead of occupying a wide table column.
-- Simplified Help and Results status wording while retaining the reconstruction/parity qualification.
+## 0.9.82 mobile UI cleanup
+- Keeps Analysis Reason inside the same transition row as a compact `▶ Reason` disclosure; the extra Reason-only rows are removed on mobile.
+- Keeps the full reconstructed KP reason chain available when the disclosure is expanded.
+- Keeps Chosen Muhurats compact on mobile while retaining an expandable Reason cell.
+- Keeps PlaceSelect custom-location application explicit with `✓ Apply Custom Location`.
+- Simplifies the normal Help page; technical reconstruction/parity qualifications remain in Advanced Diagnostics.
+- No astronomy, event-rule, parity-fixture or selection-engine calculations were changed in this UI-focused build.
