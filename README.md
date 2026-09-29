@@ -1,22 +1,13 @@
-# KPMuhurat Web 0.9.69 — V1.5.11 Reconstruction
+# KPMuhurat Web 0.9.70
 
-Mobile/PWA build based on the supplied KPMuhurat V1.5.11 runtime package and regression evidence.
+Mobile/PWA refinement of the V1.5.11 reconstruction.
 
-## Included
-- Browser KP astronomy/transition layer from the previous verified build.
-- Supplied `events.txt` preserved in `data/events.txt`.
-- Supplied `AstroOpenSourceAtlas.db` preserved unchanged in `data/`.
-- Static `places.json` generated directly from the supplied database for fast GitHub Pages search (97,875 places, 387 timezones).
-- Supplied `Settings.xml`, license and SHA256 checksums.
-- PWA manifest and service worker for Android/desktop installation.
-- GPS and custom coordinates.
-- V1.5.11 regression/Reason-chain diagnostics remain visible.
+## Changes from 0.9.69
+- Improved Android/mobile layout and horizontal table containment.
+- Reduced visual clutter by placing long research diagnostics under collapsible **Advanced diagnostic** sections.
+- Preserved the verified Swiss Ephemeris transition layer and original supplied event/place data.
+- Preserved the explicit distinction between live calculation and stored V1.5.11 regression evidence.
+- Chosen Muhurat status now clearly states that final V1.5.11 event-selection equivalence is still being reconstructed rather than presenting an unverified selector as exact.
 
 ## Important
-This is a reconstruction, not the original Windows executable or original source code. The astronomy/transition layer has been regression-tested against the supplied V1.5.11 evidence, but the final event-selection Y/N algorithm has not been claimed as byte-for-byte equivalent. The app therefore keeps the selection diagnostics separate from the verified astronomy layer.
-
-## GitHub Pages
-Upload the contents of this folder to a repository and enable GitHub Pages. Open the HTTPS Pages URL in Chrome/Edge/Safari. The service worker and GPS require HTTPS (localhost is also permitted by browsers).
-
-## Attribution / license
-See `LICENSE.rtf`. The supplied license states that the program is for learning/practice of KP Muhurat and permits personal use/distribution/modification subject to its stated conditions. Modified versions should be clearly marked as modified.
+This is a browser/PWA reconstruction of KPMuhurat V1.5.11, not the original Windows executable. The original supplied data files are preserved. The final event-selection/Y-N semantics remain a reconstruction target until the original event-engine implementation is recovered.
