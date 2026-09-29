@@ -1,15 +1,22 @@
-# KPMuhurat Web 0.9.68
+# KPMuhurat Web 0.9.69 — V1.5.11 Reconstruction
 
-Reconstruction of Windows KPMuhurat V1.5.11 as a static GitHub Pages web app.
+Mobile/PWA build based on the supplied KPMuhurat V1.5.11 runtime package and regression evidence.
 
-## 0.9.68 focus
-- Preserves the Swiss Ephemeris / Lagna-transition layer from 0.9.67.
-- Preserves the 08-Apr-2022 Pallavaram regression fixture and all verification-only reference timestamps.
-- Does not inject reference timestamps or Y/N values into candidate selection.
-- Refines the live Reason-chain diagnostic to follow the original-style SnL -> StL -> SbL chain more closely.
-- Corrects the `Asp=>` diagnostic: it now reports planets in the opposite house and that planet's six-fold significations, rather than returning only an opposite house number.
-- Corrects the “X is sub lord of …” diagnostic to refer to the third-level SbL planet, separately from the current transit SBL's cusp ownership.
-- Keeps the experimental structural score diagnostic-only; it is not claimed to be the original selector.
+## Included
+- Browser KP astronomy/transition layer from the previous verified build.
+- Supplied `events.txt` preserved in `data/events.txt`.
+- Supplied `AstroOpenSourceAtlas.db` preserved unchanged in `data/`.
+- Static `places.json` generated directly from the supplied database for fast GitHub Pages search (97,875 places, 387 timezones).
+- Supplied `Settings.xml`, license and SHA256 checksums.
+- PWA manifest and service worker for Android/desktop installation.
+- GPS and custom coordinates.
+- V1.5.11 regression/Reason-chain diagnostics remain visible.
 
 ## Important
-The exact V1.5.11 two-character Y/N selection algorithm is still not claimed as solved. This build is intended to narrow the reconstruction using the supplied screenshots and live structural relationships without hard-coded selections.
+This is a reconstruction, not the original Windows executable or original source code. The astronomy/transition layer has been regression-tested against the supplied V1.5.11 evidence, but the final event-selection Y/N algorithm has not been claimed as byte-for-byte equivalent. The app therefore keeps the selection diagnostics separate from the verified astronomy layer.
+
+## GitHub Pages
+Upload the contents of this folder to a repository and enable GitHub Pages. Open the HTTPS Pages URL in Chrome/Edge/Safari. The service worker and GPS require HTTPS (localhost is also permitted by browsers).
+
+## Attribution / license
+See `LICENSE.rtf`. The supplied license states that the program is for learning/practice of KP Muhurat and permits personal use/distribution/modification subject to its stated conditions. Modified versions should be clearly marked as modified.

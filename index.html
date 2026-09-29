@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.68</title>
+<title>KPMuhurat Web 0.9.69</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){.grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}table{font-size:11px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.68</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.68 • V1.5.11 EVIDENCE • 3-MINUTE WINDOW • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.69</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.69 • V1.5.11 EVIDENCE • 3-MINUTE WINDOW • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -28,7 +28,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="grid3"><label>Longitude<input id="lon" value="79:25:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
 <label>Event<select id="event"><option>Loading extracted events…</option></select></label>
-<button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button>
+<button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="analysis"><div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
@@ -42,7 +42,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
 <div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
 </div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.68 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.69 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -53,16 +53,16 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
   <div class="wide"><table><thead><tr><th>V1.5.11</th><th>Web transition</th><th>Astronomy</th><th>SnL</th><th>StL</th><th>SbL</th><th>1/5/11 CSL</th><th>5/11 vs 8/12</th><th>Event rules</th><th>Web final</th><th>First divergence</th></tr></thead><tbody id="decisionTrace"></tbody></table></div>
   <div id="decisionTraceSummary" class="status"></div>
   <div class="muted" style="margin-top:8px">Reference lord values come from the supplied V1.5.11 Pallavaram screenshots. CSL/rule results are calculated by the Web engine. This panel is an audit trail, not a claim that the reconstructed engine is already byte-for-byte equivalent to V1.5.11.</div></div>
-  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.67</div>
-  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.68 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
+  <div class="panel"><div class="titlebar">Selection Engine Diagnostic — 0.9.69</div>
+  <div class="muted" style="margin-bottom:8px">Diagnostic: Web 0.9.69 separates the six-fold KP significator calculation from the rule evaluator. Each rule now exposes ANY positive hit, ALL-positive coverage, and NO-loss independently. The stored V1.5.11 reference times remain verification-only.</div>
   <div class="wide"><table><thead><tr><th>Time</th><th>SbL</th><th>Rule vector</th><th>Core 1/5/11</th><th>DBAS 101–104</th><th>All 7</th><th>No -H hit</th><th>Any +H</th><th>All +H</th></tr></thead><tbody id="selectorDiag"></tbody></table></div>
   <div id="selectorSummary" class="status"></div></div>
-  <div class="panel"><div class="titlebar">0.9.68 — Transit Reason-Chain Reconstruction</div>
+  <div class="panel"><div class="titlebar">0.9.69 — Transit Reason-Chain Reconstruction</div>
   <div class="muted" style="margin-bottom:8px">Live calculation from the current transit chart. This reproduces the structure visible in the original V1.5.11 Reason column: current Lagna SbL, its Star Lord and Sub Lord, six-fold significations, ruling/representative-lord context, broad-aspect context, and the cusps for which the current SbL is the Sub Lord. It does not use stored source Y/N values or reference timestamps.</div>
   <div id="reasonChainSummary" class="status"></div>
   <div class="wide" style="margin-top:8px"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>SbL Star</th><th>SbL Sub</th><th>SbL +H</th><th>SbL −H</th><th>RL</th><th>RL +H</th><th>Asp=> planet:houses</th><th>SbL is cusp SubL of</th></tr></thead><tbody id="reasonChain"></tbody></table></div>
   <div class="status" style="margin-top:10px"><b>Important:</b> this is a reconstruction of the original Reason-chain structure, not yet the final V1.5.11 Y/N decision algorithm.</div></div>
-  <div class="panel"><div class="titlebar">0.9.68 — Reason-Chain Structural Profile (diagnostic)</div>
+  <div class="panel"><div class="titlebar">0.9.69 — Reason-Chain Structural Profile (diagnostic)</div>
   <div class="muted" style="margin-bottom:8px">Research diagnostic only — not the final V1.5.11 selector. This profile keeps the live SnL → StL → SbL chain, six-fold significations, third-level SbL cusp ownership, ruling-planet overlap and 8/12 exposure visible separately. Stored V1.5.11 timestamps and Y/N observations never enter the profile or candidate selection.</div>
   <div id="evidenceScoreSummary" class="status"></div>
   <div class="wide" style="margin-top:8px"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Cusp 5/11</th><th>SbL +H</th><th>StL +H</th><th>SbL −H</th><th>RP</th><th>Score</th></tr></thead><tbody id="evidenceScore"></tbody></table></div>
@@ -72,7 +72,7 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction. Upload the files to an HTTPS static host such as GitHub Pages and open the page in Chrome.</p><p class="muted">It is not the original executable/source code. Exact calculation equivalence requires regression testing against KPMuhurat V1.5.11.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The final V1.5.11 event-selection equivalence is still a reconstruction target; the app deliberately keeps diagnostics visible instead of pretending an unverified algorithm is exact.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -165,6 +165,47 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
     return null;
   }
 
+  let LOCAL_PLACES=null, LOCAL_TZ=null, LOCAL_PLACE_LOADING=null;
+  async function loadLocalPlaceDB(){
+    if(LOCAL_PLACES) return true;
+    if(LOCAL_PLACE_LOADING) return LOCAL_PLACE_LOADING;
+    LOCAL_PLACE_LOADING=(async function(){
+      try{
+        var r=await fetch('data/places.json',{cache:'force-cache'}); if(!r.ok) throw new Error('places.json '+r.status);
+        var j=await r.json(); LOCAL_PLACES=j.places||[]; LOCAL_TZ=j.timezones||{};
+        var st=E('placeDbStatus'); if(st)st.textContent='Place DB: 97,875 local records';
+        return true;
+      }catch(e){console.warn('Local place DB unavailable',e);var st=E('placeDbStatus');if(st)st.textContent='Place DB: fallback geocoder';return false;}
+    })();
+    return LOCAL_PLACE_LOADING;
+  }
+  function localPlaceSearch(q){
+    if(!LOCAL_PLACES||!LOCAL_PLACES.length)return [];
+    var terms=String(q||'').trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if(!terms.length)return [];
+    var scored=[];
+    for(var i=0;i<LOCAL_PLACES.length;i++){
+      var x=LOCAL_PLACES[i], hay=x[1].toLowerCase()+' '+x[2].toLowerCase()+' '+x[3].toLowerCase();
+      var ok=true; for(var k=0;k<terms.length;k++) if(hay.indexOf(terms[k])<0){ok=false;break;}
+      if(!ok)continue;
+      var score=0, name=x[1].toLowerCase();
+      if(name===String(q).trim().toLowerCase())score+=1000;
+      if(name.indexOf(String(q).trim().toLowerCase())===0)score+=500;
+      if(name.indexOf(terms[0])===0)score+=100;
+      score+=Math.max(0,50-name.length/10);
+      scored.push([score,x]);
+      if(scored.length>300) scored.sort(function(a,b){return b[0]-a[0]}),scored.length=120;
+    }
+    scored.sort(function(a,b){return b[0]-a[0]});
+    return scored.slice(0,8).map(function(pair){
+      var x=pair[1],tz=LOCAL_TZ[String(x[13])]||[0,0,1];
+      var lat=x[4]+x[5]/60+x[6]/3600;if(x[7]==='S')lat=-lat;
+      var lon=x[8]+x[9]/60+x[10]/3600;if(x[11]==='W')lon=-lon;
+      var tzmins=(tz[0]*60+tz[1])*(tz[2]===-1?-1:1);
+      var tztext=String(Math.floor(Math.abs(tzmins)/60)).padStart(2,'0')+':'+String(Math.abs(tzmins)%60).padStart(2,'0')+':00';
+      return {display_name:x[1]+', '+x[3]+', '+x[2],lat:String(lat),lon:String(lon),tz:tztext,tzDir:tzmins<0?'West of UT':'East of UT',_local:true};
+    });
+  }
   async function searchPlaces(){
     var q=(E('placeSearch')&&E('placeSearch').value||'').trim();
     if(!q){gpsStatus('Enter a place name first.','error');return;}
@@ -177,6 +218,9 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
         if(box){var btn0=box.querySelector('.placeResult');if(btn0)btn0.click();}
         return;
       }
+      await loadLocalPlaceDB();
+      var local=localPlaceSearch(q);
+      if(local.length){ renderPlaceResults(local); return; }
       var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&addressdetails=1&q='+encodeURIComponent(q);
       var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place search failed');
       var data=await r.json(); renderPlaceResults(data);
@@ -206,6 +250,9 @@ table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid 
         setTimeout(closeGpsStatus,3500);
         return;
       }
+      await loadLocalPlaceDB();
+      var local=localPlaceSearch(q);
+      if(local.length){ applyLocation(local[0].display_name,Number(local[0].lat),Number(local[0].lon),local[0].tz,local[0].tzDir); gpsStatus('✅ Local place database match applied.\n'+local[0].display_name,'ok'); setTimeout(closeGpsStatus,3000); return; }
       var u='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q='+encodeURIComponent(q);
       var r=await fetch(u,{headers:{'Accept':'application/json'}}); if(!r.ok)throw new Error('Place lookup failed');
       var data=await r.json();
@@ -651,7 +698,7 @@ const V1511_20220402_Y_TIMES=['10:59:17','11:33:06','11:54:37','12:13:44','12:23
 // 10:59:17. Keep this list as source evidence only.
 const V1511_20220402_SOURCE_Y=V1511_20220402_SOURCE.filter(r=>r[4]==='Y');
 
-// 0.9.68 — Source observations transcribed from the newly supplied original
+// 0.9.69 — Source observations transcribed from the newly supplied original
 // V1.5.11 screenshots for 09-Apr-2022 and 10-Apr-2022. These are evidence only.
 const V1511_20220409_SOURCE = [
  ['09:03:30','Ve','Mo','Me','N'],['09:06:35','Ve','Mo','Ke','N'],['09:15:25','Ve','Mo','Me','N'],
@@ -862,7 +909,7 @@ function dayLordForDate(date){
 
 function aspectHousesForPlanet(name,cd){
   const p=cd?.planets?.[name]; if(!p) return [];
-  // 0.9.68: the original Reason text such as
+  // 0.9.69: the original Reason text such as
   // <Asp=> Ma : 9[6,11]> refers to a PLANET reached by the current
   // planet's 7th/opposite-house relationship, followed by that planet's
   // significations. The previous build returned only the opposite house
@@ -918,7 +965,7 @@ function evidenceScoreFor(a,date){
   const stTarget=stH.filter(h=>[2,5,6,11].includes(h));
   const sbTarget=sbH.filter(h=>[2,5,6,11].includes(h));
   const neg=sblH.filter(h=>[8,12].includes(h));
-  // 0.9.68: “X is sub lord of …” is attached to the third-level SbL,
+  // 0.9.69: “X is sub lord of …” is attached to the third-level SbL,
   // not the current transit SBL. This experimental profile therefore gives
   // the 5/11 cusp-ownership bonus to the chain's SbL only.
   const cusp511=(chain?.sbCuspSub||[]).filter(h=>h===5||h===11);
@@ -952,7 +999,7 @@ function renderNewSourceEvidence(date){
   const blocks=[];
   for(const [d,label,data] of [['2022-04-09','09-Apr-2022',V1511_20220409_SOURCE],['2022-04-10','10-Apr-2022',V1511_20220410_SOURCE]]){
     const ys=data.filter(r=>r[4]==='Y');
-    blocks.push(`<div class="panel"><div class="titlebar">0.9.68 — Original V1.5.11 Source Evidence: Pallavaram ${label}</div><div class="muted">Transcribed from the supplied Windows V1.5.11 screenshots. Verification-only; never used for candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>${data.map(r=>`<tr class="${r[4]==='Y'?'good':''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</tbody></table></div><div class="status"><b>${label}:</b> ${ys.length} visible Y rows in the supplied screenshots. Y sequence: ${ys.map(r=>r[0]).join(' → ') || 'none'}.</div></div>`);
+    blocks.push(`<div class="panel"><div class="titlebar">0.9.69 — Original V1.5.11 Source Evidence: Pallavaram ${label}</div><div class="muted">Transcribed from the supplied Windows V1.5.11 screenshots. Verification-only; never used for candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>${data.map(r=>`<tr class="${r[4]==='Y'?'good':''}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</tbody></table></div><div class="status"><b>${label}:</b> ${ys.length} visible Y rows in the supplied screenshots. Y sequence: ${ys.map(r=>r[0]).join(' → ') || 'none'}.</div></div>`);
   }
   host.insertAdjacentHTML('afterend',blocks.join(''));
 }
@@ -1044,7 +1091,7 @@ function selectionLayer(a,event){
     // but their run is 09:00–15:00 rather than the 08-Apr regression fixture.
   }
   $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.62 — V1.5.11 Source Evidence: Pallavaram 2022-04-01</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220401_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>01-Apr-2022 evidence:</b> '+V1511_20220401_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220401_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. The six Y times are 11:03:33, 11:27:46, 11:58:33, 12:17:40, 12:38:45 and 12:48:33.</div></div>');
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.68 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
+  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.69 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
 
   $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.68 Rule/Reason Reconstruction Notes</div><div class="muted">This build does not guess the original two-character Y/N algorithm. The 0.9.68 reason layer specifically treats the third-level SbL as the planet for the original “X is sub lord of …” phrase. It adds a live KP Reason-chain reconstruction layer for the transit SnL → StL → SbL chain, including SbL star/sub, significations, RL/Asp relationships and cusp sub-lord ownership. Source timestamps and Y/N observations remain verification-only.</div><div class="status" style="margin-top:8px"><b>Observed 02-Apr Y sequence:</b> 10:59:17 → 11:33:06 → 11:54:37 → 12:13:44 → 12:23:04 → 12:34:50 → 12:44:37.</div></div>');
 
@@ -1067,7 +1114,7 @@ function selectionLayer(a,event){
       for(let i=0;i<Math.max(expParts.length,actParts.length);i++) if(expParts[i]!==actParts[i]) mismatches.push((expParts[i]||'?')+'≠'+(actParts[i]||'?'));
       return {ref,sbl:a?.chart?.ascendant?.[3]||'—',expected,actual,mismatches};
     });
-    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.68</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
+    $('ruleMatrix').innerHTML='<div class="titlebar">Reference-only YY/YN/NY/NN comparison</div><table><thead><tr><th>V1.5.11</th><th>SbL</th><th>Expected</th><th>Web 0.9.69</th><th>Mismatches</th></tr></thead><tbody>'+rows.map(r=>'<tr class="'+(r.mismatches.length?'bad':'good')+'"><td>'+r.ref+'</td><td>'+r.sbl+'</td><td>'+r.expected+'</td><td>'+r.actual+'</td><td>'+r.mismatches.length+(r.mismatches.length?' — '+r.mismatches.join(' | '):'')+'</td></tr>').join('')+'</tbody></table>';
 
     const objRows=[];
     for(const ref of refs){
@@ -1149,4 +1196,14 @@ function selectionLayer(a,event){
 $('show').onclick=run;
 initEngine();
 let deferred;$('install').hidden=false;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
-</script></body></html>
+</script>
+<script>
+(function(){
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('SW registration failed',e);}); }
+  var b=document.getElementById('install');
+  var deferred=null;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;if(b)b.hidden=false;});
+  if(b)b.onclick=function(){if(deferred){deferred.prompt();deferred.userChoice.finally(function(){deferred=null;b.hidden=true;});}else{alert('Use your browser menu → Install app / Add to Home Screen.');}};
+})();
+</script>
+</body></html>

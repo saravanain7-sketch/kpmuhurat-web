@@ -1,1 +1,10 @@
-{"name":"KP Muhurat V1.5.11","short_name":"KPMuhurat","start_url":"./","display":"standalone","background_color":"#8bcceb","theme_color":"#1976a8"}
+{
+  "name": "KP Muhurat V1.5.11 Web Reconstruction",
+  "short_name": "KPMuhurat",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eaf6fc",
+  "theme_color": "#1976a8",
+  "description": "Mobile/PWA reconstruction of KPMuhurat V1.5.11 using supplied original event and place data.",
+  "icons": []
+}
