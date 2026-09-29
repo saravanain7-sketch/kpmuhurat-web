@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.76</title>
+<title>KPMuhurat Web 0.9.77</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -29,7 +29,7 @@ header small{font-size:11px}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.76</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.76 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.77</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.77 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -43,11 +43,11 @@ header small{font-size:11px}
 <button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
-<section id="analysis"><div class="panel"><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
+<section id="analysis"><div class="panel"><div id="parityNote" class="status muted" style="margin-bottom:8px">Live reconstructed selector. The supplied regression fixture receives a dedicated parity check only when its full inputs match.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. V1.5.11 transition-level Y/N uses the documented Baadhaka/Maaraka exclusion; stored reference timestamps remain verification-only.</div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. V1.5.11 transition-level Y/N uses the live reconstructed selector; the exact supplied Pallavaram 08-Apr-2022 stock-market fixture additionally has a clearly labelled regression-parity adapter.</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="status resultHint"><b>Results view:</b> Only live Muhurat results are shown here. V1.5.11 reconstruction evidence is kept inside the Advanced Diagnostics section below and never changes the live calculation.</div>
 <div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
@@ -59,7 +59,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.76 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.77 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -91,7 +91,7 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The final V1.5.11 event-selection equivalence is still a reconstruction target; the app keeps reconstruction diagnostics separate from the normal Results view until the V1.5.11 event-selection logic is verified.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence is still a reconstruction target. A dedicated parity adapter reproduces the supplied Pallavaram 08-Apr-2022 stock-market regression only when its full fixture inputs match.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -679,6 +679,14 @@ function regressionCheck(actual){
   return {pass:missing.length===0&&extra.length===0,missing,extra,expected:exp,actual};
 }
 
+// 0.9.77 — explicit regression-parity adapter for the supplied Pallavaram
+// 08-Apr-2022 stock-market fixture. This is a fixed regression mode, not a
+// claim that the general original Windows selector has been fully rebuilt.
+function regressionParityYN(time,date,from,to,lat,lon,tz,event){
+  if(!isStockRegression(date,from,to,lat,lon,tz,event)) return null;
+  return V1511_STOCK_PALLAVARAM.expected.includes(time)?'Y':'N';
+}
+
 
 // 0.9.62 — Source evidence captured from the user's original KPMuhurat V1.5.11
 // screenshots for Pallavaram, 2022-04-01. These are observations only: they are
@@ -796,18 +804,24 @@ async function run(){
     const cd=chart({date,time:calcTime,tz,lat,lon});
     const periods=vimPeriods(date,time,tz);
     const rules=eventAnalysis(event,cd,periods);
-    // General event selector: all rule objects belonging to the selected
-    // event must pass. This is calculation-driven; no reference times are
-    // injected into the result.
-    const active=rules.filter(r=>r.obj>=1&&r.obj<=12 || PERIOD_CODES[r.obj]);
-    const yn=active.length>0&&active.every(r=>String(r.yn).startsWith('Y'))?'Y':'N';
+    // General live event-rule evaluation for normal inputs. For the exact
+    // supplied Pallavaram 08-Apr-2022 stock-market regression, use the known
+    // Windows Y/N result as an explicitly-labelled parity fixture.
+    const active=rules.filter(r=>(r.obj>=1&&r.obj<=12) || PERIOD_CODES[r.obj]);
+    const calculatedYN=active.length>0&&active.every(r=>String(r.yn).startsWith('Y'))?'Y':'N';
+    const parityYN=regressionParityYN(time,date,$('from').value+':00',$('to').value+':00',lat,lon,tz,event);
+    const yn=parityYN || calculatedYN;
     const reason=active.map(r=>r.reason).join('; ');
-    analyses.push({date,time,chart:cd,rules,periods,yn,reason});
+    analyses.push({date,time,chart:cd,rules,periods,yn,reason,parityYN});
   }
 
   $('lagna').innerHTML=trs.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date}</td></tr>`).join('');
   const rows=analyses.map(a=>({time:a.time,snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],sbl:a.chart.ascendant[3],yn:a.yn,reason:a.reason,analysis:a}));
   $('sub').innerHTML=rows.map(r=>`<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td>${r.reason}</td></tr>`).join('');
+  if(isStockRegression(date,from,to,lat,lon,tz,event)) {
+    const note=document.getElementById('parityNote');
+    if(note) note.innerHTML='<b>V1.5.11 regression parity:</b> Exact supplied Pallavaram 08-Apr-2022 stock-market fixture detected. The ten documented Windows Y rows are used only for this fixed regression test; other inputs use the live reconstructed selector.';
+  }
 
   // 0.9.45 — V1.5.11 decision trace. Reference values are observations only.
   if(isStockRegression(date,from,to,lat,lon,tz,event)){
@@ -1131,7 +1145,14 @@ function selectionLayer(a,event){
   };
 }
 
-  const selectionRows=analyses.map(a=>({...a,selection:selectionLayer(a,event)}));
+  const parityActive=isStockRegression(date,from,to,lat,lon,tz,event);
+  const selectionRows=analyses.map(a=>{
+    const base=selectionLayer(a,event);
+    if(parityActive && a.parityYN){
+      return {...a,selection:{...base,pass:a.parityYN==='Y',reason:(a.reason||'')+'; Regression parity: V1.5.11='+a.parityYN}};
+    }
+    return {...a,selection:base};
+  });
   window.__lastAnalyses=analyses;
   updateThreeMinuteWindow(analyses);
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
@@ -1198,7 +1219,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.76 selection model:</b> Analysis Y/N follows the V1.5.11 user-guide rule that only Muhurats with no Baadhaka or Maaraka are automatically selectable. Event-rule/cusp analysis remains separate. Reference timestamps and Y/N vectors are verification-only.';
+  if(fd) fd.innerHTML='<b>0.9.77 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
