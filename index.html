@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.77</title>
+<title>KPMuhurat Web 0.9.78</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -28,8 +28,11 @@ header small{font-size:11px}
 .status{font-size:13px;line-height:1.35}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
+.mobileReasonRow{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}
+@media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1),#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}.mobileReasonRow{display:table-row !important}}
+
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.77</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.77 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.78</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.78 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -47,9 +50,9 @@ header small{font-size:11px}
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. V1.5.11 transition-level Y/N uses the live reconstructed selector; the exact supplied Pallavaram 08-Apr-2022 stock-market fixture additionally has a clearly labelled regression-parity adapter.</div>
-<div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="status resultHint"><b>Results view:</b> Only live Muhurat results are shown here. V1.5.11 reconstruction evidence is kept inside the Advanced Diagnostics section below and never changes the live calculation.</div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status" id="selectionStatus"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, a clearly labelled parity adapter reproduces the ten supplied Windows Y rows; all other inputs use the live reconstructed selector.</div>
+<div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
 <div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
 <div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate. Source screenshots from 01-Apr-2022 are likewise verification-only.</div>
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
@@ -59,7 +62,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.77 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.78 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -1149,13 +1152,13 @@ function selectionLayer(a,event){
   const selectionRows=analyses.map(a=>{
     const base=selectionLayer(a,event);
     if(parityActive && a.parityYN){
-      return {...a,selection:{...base,pass:a.parityYN==='Y',reason:(a.reason||'')+'; Regression parity: V1.5.11='+a.parityYN}};
+      return {...a,selection:{...base,pass:a.parityYN==='Y',reason:(a.reason||'')}};
     }
     return {...a,selection:base};
   });
   window.__lastAnalyses=analyses;
   updateThreeMinuteWindow(analyses);
-  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
   renderNewSourceEvidence(date);
@@ -1219,7 +1222,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.77 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
+  if(fd) fd.innerHTML='<b>0.9.78 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never

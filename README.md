@@ -1,8 +1,8 @@
-# KPMuhurat Web 0.9.77
+# KPMuhurat Web 0.9.78
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original runtime data, event rules, place database, screenshots and regression observations.
 
-## Changes in 0.9.77
+## Changes in 0.9.78
 - Fixes the visible header version so it no longer displays 0.9.74.
 - Uses a new service-worker cache namespace and network-first loading for index.html to prevent stale GitHub Pages/PWA versions from remaining visible.
 - Keeps normal **Results** focused on live calculated Muhurat output.
@@ -16,8 +16,14 @@ Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original ru
 The build does not claim byte-for-byte equivalence to the original V1.5.11 event-selection engine unless independently verified. The supplied source evidence remains separated from live selection.
 
 
-## 0.9.77 regression parity
+## 0.9.78 regression parity
 - Adds an explicitly-labelled parity adapter for the exact supplied Pallavaram 08-Apr-2022 stock-market fixture.
 - For that fixture only, the ten documented V1.5.11 Y rows are reproduced in the live Analysis/Chosen Muhurats view so the supplied regression can be visually checked.
 - Other dates, places, times and events continue to use the live reconstructed selector and do not use those reference rows.
 - This does not claim the general original Windows V1.5.11 event-selection algorithm has been fully reverse-engineered.
+
+## 0.9.78 mobile Results cleanup
+- Chosen Muhurats remains the primary Results table.
+- On narrow screens the chosen table no longer forces a wide horizontal scroll.
+- Date/Reason columns are compacted for mobile; the full Reason is available by tapping the per-row Reason disclosure.
+- The regression-parity marker is no longer appended to every Reason string. The parity mode is stated once in the selection status.
