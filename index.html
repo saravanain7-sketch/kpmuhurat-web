@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.71</title>
+<title>KPMuhurat Web 0.9.72</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -29,7 +29,7 @@ header small{font-size:11px}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.71</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.71 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.72</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.72 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -49,16 +49,16 @@ header small{font-size:11px}
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. Final V1.5.11 event-selection equivalence is still under reconstruction; this build does not insert stored reference times into live selection.</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
-<div class="status resultHint"><b>Results view:</b> This page shows live calculated output first. Verification and reconstruction research is grouped below so the main Muhurat result remains easy to read on mobile.</div>
+<div class="status resultHint"><b>Results view:</b> Only live Muhurat results are shown here. V1.5.11 reconstruction evidence is kept inside the Advanced Diagnostics section below and never changes the live calculation.</div>
 <div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
 <div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate. Source screenshots from 01-Apr-2022 are likewise verification-only.</div>
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
 <div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
 </div>
 <details class="diagnosticDetails">
-<summary>V1.5.11 Verification &amp; Reconstruction Diagnostics <span class="diagCount">(tap to expand)</span></summary>
+<summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.69 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.72 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -90,10 +90,15 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The final V1.5.11 event-selection equivalence is still a reconstruction target; the app deliberately keeps diagnostics visible instead of pretending an unverified algorithm is exact.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The final V1.5.11 event-selection equivalence is still a reconstruction target; the app keeps reconstruction diagnostics separate from the normal Results view until the V1.5.11 event-selection logic is verified.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
+  // 0.9.72: keep reconstruction research out of the normal mobile Results flow.
+  // Diagnostics are opt-in and never participate in live Muhurat selection.
+  function closeAdvancedDiagnostics(){
+    document.querySelectorAll('.diagnosticDetails').forEach(function(d){ d.open=false; });
+  }
   function E(id){return document.getElementById(id)}  function compactDiagnostics(){
     var sec=E('results'); if(!sec || sec.dataset.compacted) return;
     var titles=['V1.5.11 Decision Trace — 0.9.67','Selection Engine Diagnostic — 0.9.69','0.9.69 — Transit Reason-Chain Reconstruction','0.9.69 — Reason-Chain Structural Profile (diagnostic)','Analysis'];
@@ -105,7 +110,11 @@ header small{font-size:11px}
       panel.parentNode.insertBefore(d,panel); d.appendChild(sum); d.appendChild(panel);
     });
     sec.dataset.compacted='1';
+    closeAdvancedDiagnostics();
   }
+
+  closeAdvancedDiagnostics();
+  window.setTimeout(closeAdvancedDiagnostics, 0);
 
   function dms(v){var a=String(v||'').trim().split(':').map(Number);if(!a.length||a.some(isNaN))return NaN;return(a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
   function gpsStatus(text,kind){

@@ -1,17 +1,15 @@
-# KPMuhurat Web 0.9.71
+# KPMuhurat Web 0.9.72
 
-Mobile/PWA presentation refinement of the supplied KPMuhurat V1.5.11 reconstruction.
+Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
-## What changed from 0.9.70
-- Results page is now mobile-first: live result area stays at the top.
-- V1.5.11 verification/reconstruction diagnostics are grouped inside one collapsed section.
-- Diagnostic tables retain horizontal scrolling inside their own containers instead of widening the page.
-- Reduced blank/overflow-looking diagnostic blocks on narrow Android screens.
-- Preserved the live astronomy/transition layer and supplied original event/place/settings data.
-- No stored V1.5.11 timestamps are injected into live selection.
+## 0.9.72 changes
+- Keeps the normal Results screen focused on live calculated Muhurat output.
+- Moves V1.5.11 verification/reconstruction material behind **Advanced Diagnostics**.
+- Advanced Diagnostics is collapsed by default on every page load.
+- Diagnostic/source-evidence tables are never used as live selector inputs.
+- Preserves the existing Swiss Ephemeris WASM / KP astronomy and transition layer.
+- Preserves the existing V1.5.11 source-evidence and regression material for reconstruction work.
+- Does **not** claim that the final V1.5.11 event-selection algorithm has been solved.
 
-## Important status
-The final V1.5.11 event-selection equivalence is not claimed as solved. The original event-selection/B-M/Y-N implementation remains the next reconstruction target.
-
-## Deployment
-Upload the contents of `KPMuhurat_Web_0.9.71/` to GitHub Pages. The package is static and includes the PWA manifest and service worker.
+## Important
+The current build is a reconstruction. The original Windows V1.5.11 executable and supplied event data remain the authoritative reference for future reconstruction of the event-selection engine.
