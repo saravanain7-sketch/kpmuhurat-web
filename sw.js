@@ -1,8 +1,14 @@
 const CACHE='kpmuhurat-0.9.83';
-self.addEventListener('install',event=>{self.skipWaiting();});
-self.addEventListener('activate',event=>{event.waitUntil(self.clients.claim());});
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
-  const req=event.request;
-  if(req.method!=='GET') return;
-  event.respondWith(fetch(req).catch(()=>caches.match(req)));
+  if(event.request.method!=='GET') return;
+  const url=new URL(event.request.url);
+  const isIndex=url.pathname.endsWith('/') || url.pathname.endsWith('/index.html') || url.pathname.endsWith('/KPMuhurat_Web_0.9.83/index.html');
+  if(isIndex){
+    event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{ const copy=response.clone(); caches.open(CACHE).then(c=>c.put('./index.html',copy)).catch(()=>{}); return response; }).catch(()=>caches.match('./index.html')));
+    return;
+  }
+  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{ const copy=response.clone(); caches.open(CACHE).then(cache=>cache.put(event.request,copy)).catch(()=>{}); return response; }).catch(()=>caches.match('./index.html'))));
 });

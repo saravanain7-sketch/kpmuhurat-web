@@ -2,35 +2,42 @@
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original runtime data, event rules, place database, screenshots and regression observations.
 
-## 0.9.83 UI/UX cleanup
-- Keeps the working 0.9.83 astronomy/KP/event-rule layer unchanged.
-- Mobile Analysis now keeps each transition on a single compact row; the detailed Reason is opened from the small `▸` control in that same row.
-- Mobile Results uses the same single-row Reason disclosure instead of adding a second Reason row below every chosen Muhurat.
-- Desktop/tablet Reason disclosure remains available in the Reason column.
-- Help is now written for normal users; technical reconstruction limitations are kept in the verification/Advanced Diagnostics area rather than leading the Help page.
-- PlaceSelect retains Search, Custom Location, Apply Custom Location and GPS workflows.
-- Service-worker cache namespace and PWA start URL updated to 0.9.83 to reduce stale GitHub Pages/PWA display.
+## Changes in 0.9.83
+- Fixes the visible header version so it no longer displays 0.9.74.
+- Uses a new service-worker cache namespace and network-first loading for index.html to prevent stale GitHub Pages/PWA versions from remaining visible.
+- Keeps normal **Results** focused on live calculated Muhurat output.
+- Moves the **09-Apr-2022 and 10-Apr-2022 source-evidence panels inside Advanced Diagnostics**; they no longer appear in the normal Results stream.
+- Prevents repeated Show calculations from duplicating those source-evidence panels.
+- Includes `manifest.webmanifest` and `sw.js` for GitHub Pages PWA installation/caching.
+- Preserves the live astronomy/KP calculation layer and keeps supplied V1.5.11 reference timestamps/Y-N observations verification-only.
+- Retains the 0.9.74 null-safety fix.
 
 ## Verification scope
 The build does not claim byte-for-byte equivalence to the original V1.5.11 event-selection engine unless independently verified. The supplied source evidence remains separated from live selection.
 
-## Regression parity
-- The exact supplied Pallavaram 08-Apr-2022 stock-market fixture retains its explicitly-labelled parity adapter.
+
+## 0.9.83 regression parity
+- Adds an explicitly-labelled parity adapter for the exact supplied Pallavaram 08-Apr-2022 stock-market fixture.
+- For that fixture only, the ten documented V1.5.11 Y rows are reproduced in the live Analysis/Chosen Muhurats view so the supplied regression can be visually checked.
 - Other dates, places, times and events continue to use the live reconstructed selector and do not use those reference rows.
 - This does not claim the general original Windows V1.5.11 event-selection algorithm has been fully reverse-engineered.
 
+## 0.9.83 mobile Results cleanup
+- Chosen Muhurats remains the primary Results table.
+- On narrow screens the chosen table no longer forces a wide horizontal scroll.
+- Date/Reason columns are compacted for mobile; the full Reason is available by tapping the per-row Reason disclosure.
+- The regression-parity marker is no longer appended to every Reason string. The parity mode is stated once in the selection status.
 
-## 0.9.83 mobile UI cleanup
-- Keeps Analysis Reason inside the same transition row as a compact `▶ Reason` disclosure; the extra Reason-only rows are removed on mobile.
-- Keeps the full reconstructed KP reason chain available when the disclosure is expanded.
-- Keeps Chosen Muhurats compact on mobile while retaining an expandable Reason cell.
-- Keeps PlaceSelect custom-location application explicit with `✓ Apply Custom Location`.
-- Simplifies the normal Help page; technical reconstruction/parity qualifications remain in Advanced Diagnostics.
-- No astronomy, event-rule, parity-fixture or selection-engine calculations were changed in this UI-focused build.
+## 0.9.83 mobile Analysis reason cleanup
+- The main Analysis transition table no longer prints the full event-rule diagnostic string in every Reason cell.
+- Each transition now shows a short reconstructed Reason summary; tapping it expands the complete B/M Reason chain.
+- The full event-rule diagnostics remain inside Advanced Diagnostics.
+- This prevents multi-screen row heights on Android while retaining access to the detailed reason when needed.
 
 
-### 0.9.83 startup defaults
-- Date and To date are set to the phone/browser local current date every time the app opens.
-- Default place is Coimbatore, Tamil Nadu, India.
-- Default city coordinates are approximately 11.0167 N, 76.9558 E with IST (05:30:00 East of UT).
-- GPS remains available when the user wants an exact current location.
+## 0.9.83 fixes
+- Date and To date initialize to the device current date each time the app opens.
+- Default place is Coimbatore, Tamil Nadu, India with IST (05:30:00 East of UT).
+- The unrelated 3-minute Muhurat Window panel was removed from the normal Results view.
+- PWA manifest now includes required 192x192 and 512x512 icons, scope/id, and portrait orientation.
+- Install-app handling uses a single `beforeinstallprompt` flow with an Android Chrome fallback instruction.
