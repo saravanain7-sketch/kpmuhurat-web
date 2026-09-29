@@ -1,34 +1,35 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.70</title>
+<title>KPMuhurat Web 0.9.71</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
 nav{display:flex;overflow:auto;background:#f2f8fb;border-bottom:1px solid #9bb9c7;position:sticky;top:44px;z-index:3}
 nav button{border:0;background:transparent;padding:10px 14px;white-space:nowrap}nav button.active{background:#d7effb;border-bottom:2px solid #1976a8;font-weight:bold}
-main{max-width:1200px;margin:auto;padding:10px}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #9ebdcc;border-radius:4px;padding:12px;margin-bottom:10px}.blue{background:#8bcceb}
+main{max-width:1200px;margin:auto;padding:10px;min-width:0}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #9ebdcc;border-radius:4px;padding:12px;margin-bottom:10px}.blue{background:#8bcceb}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 80px;gap:8px}
 label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,textarea{width:100%;padding:9px;border:1px solid #8daab6;border-radius:3px;background:#fff;font-size:14px}
 .btn{padding:9px 18px;border:1px solid #8caab6;border-radius:3px;background:#fff;font-weight:bold;margin:6px 4px 2px 0}
 .titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto}
-table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto;max-width:100%;min-width:0}
+table{border-collapse:collapse;width:100%;font-size:12px;min-width:0}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
 .good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){
+html,body{max-width:100%;overflow-x:hidden}.panel,.status,.titlebar{max-width:100%;min-width:0}.diagInner{padding:5px 0}
 .grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}
 body{font-size:14px;overflow-x:hidden}.panel{padding:10px;border-radius:6px}.titlebar{font-size:16px;padding:8px}
 main{padding:7px}.wide{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.wide table{min-width:720px}.split .wide table{min-width:620px}
+.wide table{min-width:720px}.split .wide table{min-width:620px}.diagnosticDetails .wide table{min-width:680px}
 table{font-size:11px}th,td{padding:6px 7px}
 nav{top:43px}nav button{padding:11px 13px;font-size:14px}
 header{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 header small{font-size:11px}
 .status{font-size:13px;line-height:1.35}
 }
-.diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}
+.diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.70</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.70 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.71</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.71 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -48,11 +49,15 @@ header small{font-size:11px}
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. Final V1.5.11 event-selection equivalence is still under reconstruction; this build does not insert stored reference times into live selection.</div>
 <div class="wide"><table><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<div class="status resultHint"><b>Results view:</b> This page shows live calculated output first. Verification and reconstruction research is grouped below so the main Muhurat result remains easy to read on mobile.</div>
 <div class="panel"><div class="titlebar">3-Minute Muhurat Window</div>
 <div class="muted" style="margin-bottom:8px">Requested window: <b>10:39:00 to 10:42:00</b> (3 minutes). This is a duration/window check only; stored V1.5.11 reference timestamps are never used to select a candidate. Source screenshots from 01-Apr-2022 are likewise verification-only.</div>
 <div class="grid2"><label>Window start<input id="muhurtaStart" type="time" step="1" value="10:39:00"></label><label>Window end<input id="muhurtaEnd" type="time" step="1" value="10:42:00"></label></div>
 <div id="threeMinuteResult" class="status">Run <b>Show</b> to calculate the transitions inside this 3-minute window.</div>
 </div>
+<details class="diagnosticDetails">
+<summary>V1.5.11 Verification &amp; Reconstruction Diagnostics <span class="diagCount">(tap to expand)</span></summary>
+<div id="diagInner" class="diagInner">
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.69 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -79,6 +84,8 @@ header small{font-size:11px}
   <div class="wide" style="margin-top:8px"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Cusp 5/11</th><th>SbL +H</th><th>StL +H</th><th>SbL −H</th><th>RP</th><th>Score</th></tr></thead><tbody id="evidenceScore"></tbody></table></div>
   <div id="evidenceCalibration" class="wide" style="margin-top:10px"></div></div>
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
+</div>
+</details>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
@@ -1113,12 +1120,12 @@ function selectionLayer(a,event){
     // The 01-Apr source screenshots use the same Pallavaram coordinates/event,
     // but their run is 09:00–15:00 rather than the 08-Apr regression fixture.
   }
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.62 — V1.5.11 Source Evidence: Pallavaram 2022-04-01</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220401_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>01-Apr-2022 evidence:</b> '+V1511_20220401_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220401_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. The six Y times are 11:03:33, 11:27:46, 11:58:33, 12:17:40, 12:38:45 and 12:48:33.</div></div>');
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.69 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
+  $('diagInner').insertAdjacentHTML('beforeend', '<div class="panel"><div class="titlebar">0.9.62 — V1.5.11 Source Evidence: Pallavaram 2022-04-01</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220401_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>01-Apr-2022 evidence:</b> '+V1511_20220401_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220401_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. The six Y times are 11:03:33, 11:27:46, 11:58:33, 12:17:40, 12:38:45 and 12:48:33.</div></div>');
+  $('diagInner').insertAdjacentHTML('beforeend', '<div class="panel"><div class="titlebar">0.9.69 — V1.5.11 Source Evidence: Pallavaram 2022-04-02</div><div class="muted">Observed directly from the supplied original V1.5.11 screenshots. This table is verification evidence only and is never injected into candidate selection.</div><div class="wide" style="margin-top:8px"><table><thead><tr><th>V1.5.11 time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th></tr></thead><tbody>'+V1511_20220402_SOURCE.map(r=>'<tr class="'+(r[4]==='Y'?'good':'')+'"><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>').join('')+'</tbody></table></div><div class="status"><b>02-Apr-2022 evidence:</b> '+V1511_20220402_SOURCE.filter(r=>r[4]==='Y').length+' Y transitions and '+V1511_20220402_SOURCE.filter(r=>r[4]==='N').length+' N transitions captured. Y times: '+V1511_20220402_Y_TIMES.join(', ')+'.</div></div>');
 
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.68 Rule/Reason Reconstruction Notes</div><div class="muted">This build does not guess the original two-character Y/N algorithm. The 0.9.68 reason layer specifically treats the third-level SbL as the planet for the original “X is sub lord of …” phrase. It adds a live KP Reason-chain reconstruction layer for the transit SnL → StL → SbL chain, including SbL star/sub, significations, RL/Asp relationships and cusp sub-lord ownership. Source timestamps and Y/N observations remain verification-only.</div><div class="status" style="margin-top:8px"><b>Observed 02-Apr Y sequence:</b> 10:59:17 → 11:33:06 → 11:54:37 → 12:13:44 → 12:23:04 → 12:34:50 → 12:44:37.</div></div>');
+  $('diagInner').insertAdjacentHTML('beforeend', '<div class="panel"><div class="titlebar">0.9.68 Rule/Reason Reconstruction Notes</div><div class="muted">This build does not guess the original two-character Y/N algorithm. The 0.9.68 reason layer specifically treats the third-level SbL as the planet for the original “X is sub lord of …” phrase. It adds a live KP Reason-chain reconstruction layer for the transit SnL → StL → SbL chain, including SbL star/sub, significations, RL/Asp relationships and cusp sub-lord ownership. Source timestamps and Y/N observations remain verification-only.</div><div class="status" style="margin-top:8px"><b>Observed 02-Apr Y sequence:</b> 10:59:17 → 11:33:06 → 11:54:37 → 12:13:44 → 12:23:04 → 12:34:50 → 12:44:37.</div></div>');
 
-  $('chosen').insertAdjacentHTML('afterend', '<div class="panel"><div class="titlebar">0.9.68 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
+  $('diagInner').insertAdjacentHTML('beforeend', '<div class="panel"><div class="titlebar">0.9.68 Rule Semantics Diagnostics</div><div class="muted">Each transition is tested independently. The rule evaluator exposes ANY-positive, ALL-positive and NO-loss separately. A reference-only YY/YN/NY/NN matrix is shown below to identify exactly which character diverges from V1.5.11. Reference timestamps never participate in candidate selection.</div><div id="ruleMatrix" class="wide" style="margin-top:8px"></div><div id="ruleBreakdown" class="wide" style="margin-top:10px"></div></div>');
 
   // 0.9.57 — reference-only rule-semantics matrix. This deliberately does
   // NOT feed the expected V1.5.11 YY/YN/NY/NN values into selection. It only
