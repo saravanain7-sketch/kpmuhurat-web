@@ -123,73 +123,22 @@ header small{font-size:11px}
 }
 
 
-/* 1.11 — Match the supplied Windows-style Analysis format: compact columns,
-   but keep the full Analysis text visible and wrapped instead of clipped/empty. */
+/* 1.12 — Extra-compact mobile Analysis. Keep all six columns visible and keep each row short. */
 @media(max-width:700px){
-  .resultsAnalysisTable, .kpRuleTable{
-    width:100% !important;
-    min-width:0 !important;
-    table-layout:fixed !important;
-    font-size:11px !important;
-  }
-  .resultsAnalysisTable th, .resultsAnalysisTable td,
-  .kpRuleTable th, .kpRuleTable td{
-    border:1px solid #aebec7 !important;
-    padding:6px 5px !important;
-    vertical-align:top !important;
-    overflow:visible !important;
-    text-overflow:clip !important;
-    height:auto !important;
-    max-height:none !important;
-  }
-  .resultsAnalysisTable th, .kpRuleTable th{
-    background:#edf3f6 !important;
-    color:#203746 !important;
-    font-weight:800 !important;
-    white-space:normal !important;
-    line-height:1.05 !important;
-  }
-  .resultsAnalysisTable th:nth-child(1), .resultsAnalysisTable td:nth-child(1),
-  .kpRuleTable th:nth-child(1), .kpRuleTable td:nth-child(1){width:11% !important;}
-  .resultsAnalysisTable th:nth-child(2), .resultsAnalysisTable td:nth-child(2),
-  .kpRuleTable th:nth-child(2), .kpRuleTable td:nth-child(2){width:10% !important;text-align:center;}
-  .resultsAnalysisTable th:nth-child(3), .resultsAnalysisTable td:nth-child(3),
-  .kpRuleTable th:nth-child(3), .kpRuleTable td:nth-child(3){width:16% !important;white-space:nowrap !important;}
-  .resultsAnalysisTable th:nth-child(4), .resultsAnalysisTable td:nth-child(4),
-  .kpRuleTable th:nth-child(4), .kpRuleTable td:nth-child(4){width:16% !important;white-space:nowrap !important;}
-  .resultsAnalysisTable th:nth-child(5), .resultsAnalysisTable td:nth-child(5),
-  .kpRuleTable th:nth-child(5), .kpRuleTable td:nth-child(5){width:13% !important;text-align:center;}
-  .resultsAnalysisTable th:nth-child(6), .resultsAnalysisTable td:nth-child(6),
-  .kpRuleTable th:nth-child(6), .kpRuleTable td:nth-child(6){
-    width:34% !important;
-    white-space:normal !important;
-    overflow:visible !important;
-    text-overflow:clip !important;
-    word-break:normal !important;
-    overflow-wrap:anywhere !important;
-    line-height:1.25 !important;
-  }
-  .resultsAnalysisTable .analysisText{
-    display:table-cell !important;
-    font-size:11px !important;
-    white-space:normal !important;
-    overflow:visible !important;
-    text-overflow:clip !important;
-    word-break:normal !important;
-    overflow-wrap:anywhere !important;
-    max-width:none !important;
-    line-height:1.25 !important;
-  }
-  .resultsAnalysisTable .analysisYN, .kpRuleTable .analysisYN{
-    font-size:13px !important;
-    font-weight:800 !important;
-    white-space:nowrap !important;
-    vertical-align:middle !important;
-  }
+  .resultsAnalysisTable,.kpRuleTable{width:100% !important;min-width:0 !important;table-layout:fixed !important;font-size:10.5px !important;}
+  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{padding:5px 3px !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;vertical-align:middle !important;line-height:1.1 !important;height:38px !important;max-height:38px !important;}
+  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1),.kpRuleTable th:nth-child(1),.kpRuleTable td:nth-child(1){width:11% !important;text-align:left;}
+  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2),.kpRuleTable th:nth-child(2),.kpRuleTable td:nth-child(2){width:10% !important;text-align:center;}
+  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3),.kpRuleTable th:nth-child(3),.kpRuleTable td:nth-child(3){width:16% !important;}
+  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4),.kpRuleTable th:nth-child(4),.kpRuleTable td:nth-child(4){width:16% !important;}
+  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5),.kpRuleTable th:nth-child(5),.kpRuleTable td:nth-child(5){width:13% !important;text-align:center;}
+  .resultsAnalysisTable th:nth-child(6),.resultsAnalysisTable td:nth-child(6),.kpRuleTable th:nth-child(6),.kpRuleTable td:nth-child(6){width:34% !important;text-align:left;}
+  .resultsAnalysisTable .analysisText{display:block !important;font-size:10px !important;line-height:1.1 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;word-break:normal !important;max-width:100% !important;}
+  .resultsAnalysisTable .analysisYN,.kpRuleTable .analysisYN{font-size:13px !important;font-weight:800 !important;white-space:nowrap !important;vertical-align:middle !important;}
 }
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.11</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.11 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.12</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.12 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
