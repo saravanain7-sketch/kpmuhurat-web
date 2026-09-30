@@ -620,7 +620,7 @@ function significators(name,cd){
   return [...out].sort((a,b)=>a-b);
 }
 
-function cuspSig(h,cd){const c=cd.cusps[h-1],sub=c.sub_lord;return {sub_lord:sub,houses:significators(sub,cd)}}
+function cuspSig(h,cd){const c=cd?.cusps?.[h-1]||{};const sub=c.sub_lord||null;return {sub_lord:sub,houses:sub?significators(sub,cd):[]}}
 function parseRule(fields){
   const obj=Number(fields[0]), type=Number(fields[1]);
   let tail=(fields||[]).slice(2).map(Number);
@@ -1353,7 +1353,14 @@ function fullObjectAnalysis(event,cd,periods,fixture){
     let r=null;
     if(fixture) r=fixture.find(x=>Number(x.obj)===obj)||null;
     if(!r&&byObj.has(obj)) r=evalRule(byObj.get(obj),cd,periods);
-    if(r){out.push({...r,label:String(obj)});continue;}
+    if(r){
+      // Always show the actual cusp SubL for every object.
+      // Some Windows parity rows only carry a rule-specific SubL (or none);
+      // never display a blank/dash when the selected chart has a real CSL.
+      const actualSig=cuspSig(obj,cd);
+      out.push({...r,label:String(obj),subLord:r.subLord||r.sublord||actualSig.sub_lord||'—'});
+      continue;
+    }
     const sig=cuspSig(obj,cd), H=sig.houses||[];
     const posHit=H.filter(h=>genericPositive.includes(h));
     const negHit=H.filter(h=>genericNegative.includes(h));
