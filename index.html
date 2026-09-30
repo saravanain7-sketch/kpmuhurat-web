@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">
-<title>KPMuhurat Web 0.9.84</title>
+<title>KPMuhurat Web 0.9.86</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -14,7 +14,7 @@ label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,te
 .titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto;max-width:100%;min-width:0}
 table{border-collapse:collapse;width:100%;font-size:12px;min-width:0}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
-.good{background:#d9f4df}.bad{background:#ffd2d2}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
+.good{background:#d9f4df}.bad{background:#ffd2d2}.veryGood{background:#74d680 !important;color:#0b4d12;font-weight:700}.canSelect{background:#d9f4df !important;color:#245b2a}.notGood{background:#ffd2d2 !important;color:#8b1a1a}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){
 html,body{max-width:100%;overflow-x:hidden}.panel,.status,.titlebar{max-width:100%;min-width:0}.diagInner{padding:5px 0}
 .grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}
@@ -63,7 +63,7 @@ header small{font-size:11px}
 .kpCell .houseNo{font-weight:700;color:#234;text-decoration:none}
 .kpCell .lagnaMark{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:3px;background:#1976a8;color:#fff;font-size:10px;font-weight:700}
 .kpCell .signName{font-size:11px;color:#455a64}
-.kpCell .planetList{font-weight:700;margin-top:4px;word-break:break-word}
+.kpCell .planetList{font-weight:700;margin-top:4px;word-break:break-word}.kpPlanet{font-weight:700;margin-right:5px}.kpPlanet.lagnaPlanet{color:#1565c0}.kpPlanet.moonPlanet{color:#2e7d32}.kpPlanet.otherPlanet{color:#1e4f8a}.kpCell.lagnaCell .houseNo{color:#0d47a1}.kpCell.moonCell{box-shadow:inset 0 0 0 3px #66bb6a}
 .kpCenter{grid-column:2/4;grid-row:2/4;border:1px solid #78909c;background:#dce8f5;padding:9px;font-size:12px;overflow:auto}
 .kpCenter b{font-size:14px}
 .kpMeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -89,7 +89,7 @@ header small{font-size:11px}
 }
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.84</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.84 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.84</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.88 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -103,7 +103,7 @@ header small{font-size:11px}
 <button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
-<section id="analysis"><div class="panel"><div id="parityNote" class="status muted" style="margin-bottom:8px">Live reconstructed selector. The supplied regression fixture receives a dedicated parity check only when its full inputs match.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
+<section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Live reconstructed selector. The supplied regression fixture receives a dedicated parity check only when its full inputs match.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
@@ -121,9 +121,9 @@ header small{font-size:11px}
     </div>
     <div>
       <div class="kpLegend">
-        <span class="kpBadge green">GREEN = Y / selected</span>
-        <span class="kpBadge red">RED = N / not selected</span>
-        <span class="kpBadge partial">LIGHT GREEN = Partial</span>
+        <span class="kpBadge green">THICK GREEN = Very Good</span>
+        <span class="kpBadge partial">LIGHT GREEN = Can be Selected</span>
+        <span class="kpBadge red">RED = Not Good</span>
       </div>
       <div class="wide"><table class="kpRuleTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="selectedMuhuratRules"></tbody></table></div>
     </div>
@@ -937,7 +937,7 @@ async function run(){
   $('sub').innerHTML=rows.map(r=>{
     const reasonText=r.reason||'No reconstructed reason available.';
     const short=reasonText.split(';')[0].slice(0,72) + (reasonText.length>72?'…':'');
-    return `<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details></td></tr>`;
+    return `<tr class="${analysisRowClass(r.yn)}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details></td></tr>`;
   }).join('');
   if(isStockRegression(date,from,to,lat,lon,tz,event)) {
     const note=document.getElementById('parityNote');
@@ -1244,11 +1244,19 @@ function escHtml(v){
   return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 function ruleClass(yn){
-  const s=String(yn??'').toUpperCase();
-  if(s.startsWith('Y')) return 'kpRuleY';
-  if(s.startsWith('N')) return 'kpRuleN';
+  const s=String(yn??'').toUpperCase().replace(/\s+/g,'');
+  if(s==='Y-' || s==='YN') return 'kpRuleY';
+  if(s==='YP' || s==='P-' || s==='PN' || s==='PP' || s==='P') return 'kpRuleP';
+  if(s==='N-' || s==='NY' || s==='PY' || s==='YY' || s==='NN' || s==='N') return 'kpRuleN';
+  if(s.startsWith('Y') && !s.includes('Y',1)) return 'kpRuleY';
   if(s.startsWith('P')) return 'kpRuleP';
-  return '';
+  return 'kpRuleN';
+}
+function analysisRowClass(yn){
+  const s=String(yn??'').toUpperCase().replace(/\s+/g,'');
+  if(s==='Y-' || s==='YN') return 'veryGood';
+  if(s==='YP' || s==='P-' || s==='PN' || s==='PP' || s==='P') return 'canSelect';
+  return 'notGood';
 }
 function renderSelectedMuhurat(row){
   const panel=$('selectedMuhuratPanel'); if(!panel||!row) return;
@@ -1285,13 +1293,13 @@ function renderSelectedMuhurat(row){
   let cells='';
   for(let h=1;h<=12;h++){
     const [r,c]=positions[h];
-    const planets=houses[h].join(' ')||'—';
+    const planets=houses[h].length ? houses[h].map(pn=>`<span class="kpPlanet ${pn==='Mo'?'moonPlanet':(h===1?'lagnaPlanet':'otherPlanet')}">${escHtml(pn)}</span>`).join('') : '—';
     // Highlight the current Lagna cell for every selected Muhurat. In KP
     // Muhurat the Lagna is the Ascendant sign at the selected time; the
     // Placidus first cusp normally carries that same sign. Use the sign
     // match and fall back to house 1 if a cusp is exactly on a sign boundary.
     const isLagna=(signByHouse[h]===lagnaSign) || (h===1 && !signByHouse.some?.(x=>x===lagnaSign));
-    cells+=`<div class="kpCell${isLagna?' lagnaCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
+    cells+=`<div class="kpCell${isLagna?' lagnaCell':''}${houses[h].includes('Mo')?' moonCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
       <div class="houseNo">House ${h}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
       <div class="signName">${escHtml(signByHouse[h]||'')}</div>
       <div class="planetList">${escHtml(planets)}</div>
