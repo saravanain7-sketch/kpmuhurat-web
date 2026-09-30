@@ -101,7 +101,7 @@ header small{font-size:11px}
 .resultsAnalysisTable .analysisYN{font-weight:800;text-align:center;font-size:14px}
 @media(max-width:700px){.resultsAnalysisTable{font-size:12px}.resultsAnalysisTable th,.resultsAnalysisTable td{padding:5px 4px}.resultsAnalysisTable .analysisText{font-size:11px}.resultsAnalysisTable th:nth-child(1){width:11%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:13%}.resultsAnalysisTable th:nth-child(6){width:40%}}
 
-/* 0.9.99 — Native Muhurtam calculator/table rebuilt inside Notes. */
+/* 1.01 — Native Muhurtam calculator/table rebuilt inside Notes. */
 .muhurtamPanel{border:1px solid #9eb7c4;background:#fff}
 .muhurtamControls{border:1px solid #b8ccd6;background:#f7fbfd;padding:12px}
 .muhurtamControls .grid2{gap:14px}
@@ -123,7 +123,7 @@ header small{font-size:11px}
  .muhurtamTable th,.muhurtamTable td{padding:7px 6px}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.0.00</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.0.00 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.01</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.01 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -539,7 +539,7 @@ header small{font-size:11px}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 
-// 1.0.00 — Native Notes Muhurtam calculator. It reproduces the reference
+// 1.01 — Native Notes Muhurtam calculator. It reproduces the reference
 // Prophet-Pilot style table locally from the same moving Ascendant KP levels:
 // Star Lord / Sub Lord / Sub-Sub Lord. No iframe or external page is used.
 const MUH_PLANET_NAMES={Me:'MERCURY',Ra:'RAHU',Ke:'KETHU',Ve:'VENUS',Su:'SUN',Mo:'MOON',Ma:'MARS',Ju:'JUPITER',Sa:'SATURN'};
@@ -603,25 +603,11 @@ let SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag,swe,ephFlags;
 let engineReady=false;
 async function initEngine(){
   const btn=$('show');
-  const sources=[
-    {js:'https://cdn.jsdelivr.net/npm/@swisseph/browser@1.3.1/dist/swisseph-browser.js',wasm:'https://cdn.jsdelivr.net/npm/@swisseph/browser@1.3.1/dist/swisseph.wasm'},
-    {js:'https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js',wasm:'https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm'}
-  ];
   try{
     $('status').textContent='Loading Swiss Ephemeris engine…';
-    let lastErr=null;
-    for(const src of sources){
-      try{
-        ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=await import(src.js));
-        swe=new SwissEphemeris();
-        await swe.init(src.wasm);
-        break;
-      }catch(e){
-        lastErr=e;
-        SwissEphemeris=Planet=HouseSystem=SiderealMode=CalculationFlag=swe=null;
-      }
-    }
-    if(!swe) throw lastErr||new Error('Swiss Ephemeris CDN could not be loaded');
+    ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=await import('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js'));
+    swe=new SwissEphemeris();
+    await swe.init('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm');
     swe.setSiderealMode(SiderealMode.Krishnamurti);
     ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
     try{await swe.loadStandardEphemeris();ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;}
@@ -632,8 +618,8 @@ async function initEngine(){
     setTimeout(()=>window.renderMuhurtamRows&&window.renderMuhurtamRows(),50);
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
-    if(btn){btn.disabled=false;btn.textContent='Show'}
-    $('status').textContent='Engine initialization failed: '+(e?.message||e)+' — check internet access, then tap Show again.';
+    if(btn){btn.disabled=true;btn.textContent='Engine unavailable'}
+    $('status').textContent='Engine initialization failed: '+(e?.message||e)+' — refresh the page and ensure HTTPS/CDN access.';
   }
 }
 
