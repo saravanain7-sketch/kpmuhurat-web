@@ -99,10 +99,30 @@ header small{font-size:11px}
 .resultsAnalysisTable th:nth-child(1){width:12%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:12%}.resultsAnalysisTable th:nth-child(6){width:40%}
 .resultsAnalysisTable .analysisText{font-size:12px;line-height:1.2;word-break:break-word}
 .resultsAnalysisTable .analysisYN{font-weight:800;text-align:center;font-size:14px}
-@media(max-width:700px){.resultsAnalysisTable{font-size:12px}.resultsAnalysisTable th,.resultsAnalysisTable td{padding:5px 4px}.resultsAnalysisTable .analysisText{font-size:11px}.resultsAnalysisTable th:nth-child(1){width:11%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:13%}.resultsAnalysisTable th:nth-child(6){width:40%}}
+@media(max-width:700px){
+  /* 1.09 — Compact Windows-style Analysis table below Chosen Muhurats.
+     Keep every column inside the phone viewport so Y/N is always visible. */
+  .resultsAnalysisTable{width:100% !important;min-width:0 !important;table-layout:fixed !important;font-size:11px;overflow:hidden}
+  .resultsAnalysisTable th,.resultsAnalysisTable td{padding:6px 3px !important;white-space:normal !important;overflow:hidden;vertical-align:top;line-height:1.2;word-break:break-word;overflow-wrap:anywhere}
+  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1){width:11%}
+  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2){width:10%}
+  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3){width:16%}
+  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4){width:16%}
+  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5){width:13%;text-align:center}
+  .resultsAnalysisTable th:nth-child(6),.resultsAnalysisTable td:nth-child(6){width:34%}
+  .resultsAnalysisTable .analysisText{font-size:10px;line-height:1.2;white-space:normal !important;word-break:break-word;overflow-wrap:anywhere}
+  .resultsAnalysisTable .analysisYN{font-size:13px;font-weight:800;text-align:center;white-space:nowrap !important}
+
+  /* Keep the Chosen Muhurats table equally compact. */
+  #chosenTable{width:100% !important;min-width:0 !important;table-layout:fixed !important}
+  #chosenTable th,#chosenTable td{white-space:nowrap !important;overflow:hidden;text-overflow:ellipsis;padding:7px 3px !important}
+  #chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:25%}
+  #chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:19%}
+  #chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:18%;text-align:center}
+}
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.08</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.08 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.09</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.09 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
