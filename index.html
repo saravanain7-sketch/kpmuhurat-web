@@ -49,6 +49,43 @@ header small{font-size:11px}
 }
 @media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1),#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}.mobileReasonRow{display:table-row !important}}
 
+
+/* 0.9.85 — Windows-style per-Muhurat chart/details view */
+#selectedMuhuratPanel{margin-top:12px}
+#selectedMuhuratPanel .titlebar{font-size:20px}
+.muhuratPick{cursor:pointer}
+.muhuratPick:hover{filter:brightness(.98)}
+.muhuratPick.selected{outline:3px solid #1976a8;outline-offset:-3px}
+.muhuratChartWrap{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.kpChart{width:100%;max-width:620px;margin:0 auto;border:2px solid #78909c;background:#dce8f5;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,72px);position:relative}
+.kpCell{border:1px solid #78909c;padding:5px;font-size:12px;line-height:1.25;overflow:hidden;background:#b9cbe1}
+.kpCell .houseNo{font-weight:700;color:#234;text-decoration:none}
+.kpCell .signName{font-size:11px;color:#455a64}
+.kpCell .planetList{font-weight:700;margin-top:4px;word-break:break-word}
+.kpCenter{grid-column:2/4;grid-row:2/4;border:1px solid #78909c;background:#dce8f5;padding:9px;font-size:12px;overflow:auto}
+.kpCenter b{font-size:14px}
+.kpMeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.kpMetaBox{border:1px solid #b0bec5;border-radius:6px;padding:8px;background:#eef5fa}
+.kpRuleTable{width:100%;border-collapse:collapse;font-size:12px}
+.kpRuleTable th,.kpRuleTable td{border:1px solid #b0bec5;padding:6px;text-align:left}
+.kpRuleY{background:#c8f0cf !important;color:#145a1d}
+.kpRuleN{background:#ffd6d6 !important;color:#8b1a1a}
+.kpRuleP{background:#e5f2df !important;color:#35602c}
+.kpLegend{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.kpBadge{padding:5px 9px;border-radius:5px;font-weight:700;border:1px solid #9e9e9e}
+.kpBadge.green{background:#c8f0cf;color:#145a1d}
+.kpBadge.red{background:#ffd6d6;color:#8b1a1a}
+.kpBadge.partial{background:#e5f2df;color:#35602c}
+@media(max-width:700px){
+  .kpChart{grid-template-rows:repeat(4,66px)}
+  .kpCell{font-size:10px;padding:4px}
+  .kpCell .signName{font-size:9px}
+  .kpCenter{font-size:10px;padding:6px}
+  .kpCenter b{font-size:12px}
+  .kpMeta{grid-template-columns:1fr}
+  .kpRuleTable{font-size:11px}
+}
+
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.84</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.84 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
@@ -71,6 +108,25 @@ header small{font-size:11px}
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status" id="selectionStatus"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, a clearly labelled parity adapter reproduces the ten supplied Windows Y rows; all other inputs use the live reconstructed selector.</div>
 <div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
+<div id="selectedMuhuratPanel" class="panel" hidden>
+  <div class="titlebar">Selected Muhurat — Chart & Full Analysis</div>
+  <div id="selectedMuhuratMeta" class="status">Tap any Muhurat time above to open its chart.</div>
+  <div class="muhuratChartWrap">
+    <div id="selectedMuhuratChart"></div>
+    <div class="kpMeta">
+      <div id="selectedMuhuratPeriods" class="kpMetaBox"></div>
+      <div id="selectedMuhuratLevels" class="kpMetaBox"></div>
+    </div>
+    <div>
+      <div class="kpLegend">
+        <span class="kpBadge green">GREEN = Y / selected</span>
+        <span class="kpBadge red">RED = N / not selected</span>
+        <span class="kpBadge partial">LIGHT GREEN = Partial</span>
+      </div>
+      <div class="wide"><table class="kpRuleTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="selectedMuhuratRules"></tbody></table></div>
+    </div>
+  </div>
+</div>
 <details class="diagnosticDetails">
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
@@ -1178,6 +1234,112 @@ function basicReasonChain(a){
     (pass?'':' ; B/M: '+uniqueBad.map(x=>`${x.type}${x.house}(${x.planet})`).join(', '));
   return {lagnaSign,snl,stl,sbl,nodes,bad:uniqueBad,sbCusp,pass,reason};
 }
+
+// 0.9.85 — Per-Muhurat chart/detail view.
+// Mirrors the Windows workflow: click a Chosen Muhurat row, then inspect the
+// chart, DBAS and detailed event-rule analysis for that exact time.
+function escHtml(v){
+  return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function ruleClass(yn){
+  const s=String(yn??'').toUpperCase();
+  if(s.startsWith('Y')) return 'kpRuleY';
+  if(s.startsWith('N')) return 'kpRuleN';
+  if(s.startsWith('P')) return 'kpRuleP';
+  return '';
+}
+function renderSelectedMuhurat(row){
+  const panel=$('selectedMuhuratPanel'); if(!panel||!row) return;
+  panel.hidden=false;
+  const t=row.time;
+  const date=row.date||$('date').value;
+  const lat=dms($('lat').value)*($('latdir').value==='S'?-1:1);
+  const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
+  const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
+  const event=window.EVENTS[Number($('event').value)];
+  let cd=row.chart;
+  if(!cd) cd=chart({date,time:t,tz,lat,lon});
+  const periods=row.periods||vimPeriods(date,t,tz);
+  const rules=(row.rules&&row.rules.length)?row.rules:eventAnalysis(event,cd,periods);
+
+  $('selectedMuhuratMeta').innerHTML=
+    `<b>${escHtml(date)} ${escHtml(t)}</b> &nbsp; • &nbsp; ${escHtml($('place').value)}<br>`+
+    `Latitude ${escHtml($('lat').value)} ${escHtml($('latdir').value)} &nbsp; `+
+    `Longitude ${escHtml($('lon').value)} ${escHtml($('londir').value)} &nbsp; `+
+    `TZ ${escHtml($('tz').value)} ${escHtml($('tzdir').value)}<br>`+
+    `<b>Event:</b> ${escHtml(event?.name||'')}`;
+
+  const houses=Array(13).fill(null).map(()=>[]);
+  Object.entries(cd.planets||{}).forEach(([pn,p])=>{if(p&&p.house>=1&&p.house<=12)houses[p.house].push(pn);});
+  const signByHouse=Array(13).fill('');
+  (cd.cusps||[]).forEach(c=>{signByHouse[c.house]=c.sign;});
+  const positions={
+    12:[1,1],1:[1,2],2:[1,3],3:[1,4],
+    11:[2,1],4:[2,4],10:[3,1],5:[3,4],
+    9:[4,1],8:[4,2],7:[4,3],6:[4,4]
+  };
+  let cells='';
+  for(let h=1;h<=12;h++){
+    const [r,c]=positions[h];
+    const planets=houses[h].join(' ')||'—';
+    cells+=`<div class="kpCell" style="grid-row:${r};grid-column:${c}">
+      <div class="houseNo">House ${h}</div>
+      <div class="signName">${escHtml(signByHouse[h]||'')}</div>
+      <div class="planetList">${escHtml(planets)}</div>
+    </div>`;
+  }
+  const asc=cd.ascendant||[];
+  const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
+  cells+=`<div class="kpCenter"><b>${escHtml(date)} &nbsp; ${escHtml(t)}</b><br>
+    Day: ${day}<br><br>
+    <b>Event:</b> ${escHtml(event?.name||'')}<br>
+    <b>Lagna:</b> ${escHtml(asc[0]||'—')} &nbsp; 
+    <b>SnL:</b> ${escHtml(asc[1]||'—')} &nbsp;
+    <b>StL:</b> ${escHtml(asc[2]||'—')} &nbsp;
+    <b>SbL:</b> ${escHtml(asc[3]||'—')}<br><br>
+    <b>Chart:</b> South Indian style &nbsp; <b>House:</b> Placidus<br>
+    <b>Ayanamsa:</b> Krishnamurti
+  </div>`;
+  $('selectedMuhuratChart').innerHTML=`<div class="kpChart">${cells}</div>`;
+
+  $('selectedMuhuratPeriods').innerHTML=
+    `<b>Dasa / Bhukti / Antara / Sukshma</b><br><br>`+
+    `Dasa: <b>${escHtml(periods.Dasa||'—')}</b><br>`+
+    `Bhukti: <b>${escHtml(periods.Bhukti||'—')}</b><br>`+
+    `Antara: <b>${escHtml(periods.Antara||'—')}</b><br>`+
+    `Sukshma: <b>${escHtml(periods.Sukshma||'—')}</b>`;
+
+  $('selectedMuhuratLevels').innerHTML=
+    `<b>Lagna KP Levels</b><br><br>`+
+    `Rasi: <b>${escHtml(asc[0]||'—')}</b><br>`+
+    `Sign Lord: <b>${escHtml(asc[1]||'—')}</b><br>`+
+    `Star Lord: <b>${escHtml(asc[2]||'—')}</b><br>`+
+    `Sub Lord: <b>${escHtml(asc[3]||'—')}</b>`;
+
+  const ruleRows=(rules||[]).map(r=>{
+    const yn=String(r.yn??'—');
+    const pos=(r.positive||[]).join(', ')||'—';
+    const neg=(r.negative||[]).join(', ')||'—';
+    return `<tr class="${ruleClass(yn)}"><td>${escHtml(r.label||r.obj||'—')}</td><td>${escHtml(r.subLord||r.sublord||'—')}</td><td>${escHtml(pos)}</td><td>${escHtml(neg)}</td><td><b>${escHtml(yn)}</b></td><td>${escHtml(r.reason||'')}</td></tr>`;
+  }).join('');
+  $('selectedMuhuratRules').innerHTML=ruleRows||'<tr><td colspan="6">No detailed event-rule rows available for this time.</td></tr>';
+  panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function bindMuhuratRowClicks(){
+  const table=$('chosenTable'); if(!table || table.dataset.chartBound) return;
+  table.dataset.chartBound='1';
+  table.addEventListener('click',ev=>{
+    const tr=ev.target.closest('tr[data-muhurat-time]');
+    if(!tr) return;
+    table.querySelectorAll('tr.selected').forEach(x=>x.classList.remove('selected'));
+    tr.classList.add('selected');
+    const t=tr.dataset.muhuratTime;
+    const row=(window.__selectionRows||[]).find(x=>x.time===t);
+    if(row) renderSelectedMuhurat(row);
+  });
+}
+
 function selectionLayer(a,event){
   const chain=basicReasonChain(a);
   // V1.5.11 Analysis Y/N is a Muhurat-quality decision. The user guide
@@ -1224,7 +1386,9 @@ function selectionLayer(a,event){
     });
   }
   window.__lastAnalyses=analyses;
-  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  window.__selectionRows=selectionRows.filter(a=>a.selection.pass);
+  $('chosen').innerHTML=window.__selectionRows.map(a=>`<tr class="good muhuratPick" data-muhurat-time="${escHtml(a.time)}" title="Tap to view Chart and full analysis"><td>${date}</td><td><b>${a.time}</b></td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Chart & full analysis for ${a.time}</summary><div>Tap the Muhurat time row above to open the full chart.</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  bindMuhuratRowClicks();
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
   renderNewSourceEvidence(date);
