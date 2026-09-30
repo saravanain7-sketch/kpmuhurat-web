@@ -123,7 +123,7 @@ header small{font-size:11px}
  .muhurtamTable th,.muhurtamTable td{padding:7px 6px}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.01</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.01 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.02</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.02 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -603,23 +603,44 @@ let SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag,swe,ephFlags;
 let engineReady=false;
 async function initEngine(){
   const btn=$('show');
+  const sources=[
+    'https://cdn.jsdelivr.net/npm/@swisseph/browser@1.3.1/dist/swisseph-browser.js',
+    'https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js'
+  ];
+  let lastErr=null;
   try{
     $('status').textContent='Loading Swiss Ephemeris engine…';
-    ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=await import('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js'));
-    swe=new SwissEphemeris();
-    await swe.init('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm');
+    for(const src of sources){
+      try{
+        ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=await import(src));
+        swe=new SwissEphemeris();
+        // Let the browser package resolve its bundled WASM next to the imported JS.
+        await swe.init();
+        break;
+      }catch(e){
+        lastErr=e;
+        swe=null;
+        console.warn('Swiss Ephemeris source failed:',src,e);
+      }
+    }
+    if(!swe) throw lastErr||new Error('No Swiss Ephemeris CDN source could be loaded');
     swe.setSiderealMode(SiderealMode.Krishnamurti);
+    // Moshier is built into the browser package and does not require a second network fetch.
     ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
-    try{await swe.loadStandardEphemeris();ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;}
-    catch(e){console.warn('Swiss ephemeris files unavailable; using built-in Moshier.',e)}
+    try{
+      if(typeof swe.loadStandardEphemeris==='function'){
+        await swe.loadStandardEphemeris();
+        ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
+      }
+    }catch(e){console.warn('Swiss ephemeris files unavailable; using built-in Moshier.',e)}
     engineReady=true;
     if(btn){btn.disabled=false;btn.textContent='Show'}
-    $('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
-    setTimeout(()=>window.renderMuhurtamRows&&window.renderMuhurtamRows(),50);
+    $('status').textContent='Ready. Select an event and tap Show.';
+    if(window.renderMuhurtamRows) setTimeout(()=>window.renderMuhurtamRows(),50);
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
-    if(btn){btn.disabled=true;btn.textContent='Engine unavailable'}
-    $('status').textContent='Engine initialization failed: '+(e?.message||e)+' — refresh the page and ensure HTTPS/CDN access.';
+    if(btn){btn.disabled=false;btn.textContent='Show'}
+    $('status').textContent='Engine initialization failed: '+(e?.message||e)+'. Tap Show after checking your internet connection.';
   }
 }
 
