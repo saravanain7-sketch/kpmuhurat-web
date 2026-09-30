@@ -1,38 +1,16 @@
-# KPMuhurat Web 0.9.83
+# KPMuhurat V1.5.11 — Web 0.9.84
 
-Mobile/PWA reconstruction of KPMuhurat V1.5.11 based on the supplied original runtime data, event rules, place database, screenshots and regression observations.
+Mobile/PWA reconstruction based on the supplied V1.5.11 runtime data and regression evidence.
 
-## 0.9.83 UI/UX cleanup
-- Keeps the working 0.9.83 astronomy/KP/event-rule layer unchanged.
-- Mobile Analysis now keeps each transition on a single compact row; the detailed Reason is opened from the small `▸` control in that same row.
-- Mobile Results uses the same single-row Reason disclosure instead of adding a second Reason row below every chosen Muhurat.
-- Desktop/tablet Reason disclosure remains available in the Reason column.
-- Help is now written for normal users; technical reconstruction limitations are kept in the verification/Advanced Diagnostics area rather than leading the Help page.
-- PlaceSelect retains Search, Custom Location, Apply Custom Location and GPS workflows.
-- Service-worker cache namespace and PWA start URL updated to 0.9.83 to reduce stale GitHub Pages/PWA display.
+## 0.9.84 changes
+- Removed the unnecessary **3-Minute Muhurat Window** from the normal Results screen.
+- Date and To date now initialize automatically to the **current device date** whenever the app is opened.
+- Default place is **Coimbatore, Tamil Nadu, India**.
+- Default Coimbatore coordinates are **11:01:00.480 N, 76:57:20.880 E**, timezone **05:30:00 East of UT**.
+- Users can still change date, place, coordinates, timezone, and event manually.
+- Added `manifest.webmanifest` and `sw.js` so the package is a complete installable PWA shell.
 
-## Verification scope
-The build does not claim byte-for-byte equivalence to the original V1.5.11 event-selection engine unless independently verified. The supplied source evidence remains separated from live selection.
+## Important
+This remains a browser reconstruction, not the original Windows executable. The supplied V1.5.11 executable is not embedded in the browser. The astronomy/KP/event-rule layers remain reconstruction work and the stored Pallavaram regression is verification evidence.
 
-## Regression parity
-- The exact supplied Pallavaram 08-Apr-2022 stock-market fixture retains its explicitly-labelled parity adapter.
-- Other dates, places, times and events continue to use the live reconstructed selector and do not use those reference rows.
-- This does not claim the general original Windows V1.5.11 event-selection algorithm has been fully reverse-engineered.
-
-
-## 0.9.83 mobile UI cleanup
-- Keeps Analysis Reason inside the same transition row as a compact `▶ Reason` disclosure; the extra Reason-only rows are removed on mobile.
-- Keeps the full reconstructed KP reason chain available when the disclosure is expanded.
-- Keeps Chosen Muhurats compact on mobile while retaining an expandable Reason cell.
-- Keeps PlaceSelect custom-location application explicit with `✓ Apply Custom Location`.
-- Simplifies the normal Help page; technical reconstruction/parity qualifications remain in Advanced Diagnostics.
-- No astronomy, event-rule, parity-fixture or selection-engine calculations were changed in this UI-focused build.
-
-
-## Web 0.9.83 UI updates
-- Date and To date automatically use the phone/browser current local date whenever the app opens.
-- Default place is Coimbatore, Tamil Nadu, India with India Standard Time (05:30:00 East of UT).
-- The normal Results screen no longer shows the 3-Minute Muhurat Window.
-- Notes has a structured V1.5.11-style text format with Prepare Notes, Copy Notes and Clear actions.
-- Notes include event data, chosen Muhurats, full Analysis rows, Dasa/Bhukti/Antara/Sukshma and Reason text.
-- The stored Pallavaram regression remains verification-only and is not changed.
+Original licensing/attribution conditions from the supplied package remain applicable; modified versions should be clearly marked as modified.

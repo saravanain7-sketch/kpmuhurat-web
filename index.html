@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.83</title>
+<title>KPMuhurat Web 0.9.82</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -55,13 +55,13 @@ header small{font-size:11px}
 @media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px;vertical-align:top}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:table-cell;width:48px;white-space:normal !important}#chosenTable td:nth-child(7) .desktopReason{display:none}#chosenTable td:nth-child(7) .inlineReason{display:block}#chosenTable td:nth-child(7) details summary{cursor:pointer;font-weight:700;text-align:left;padding:2px 0}#chosenTable td:nth-child(7) details div{padding:7px 3px 2px;color:#526770;line-height:1.35;text-align:left;white-space:normal}.mobileReasonRow{display:none !important}}
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.83</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.83 • V1.5.11 MOBILE/PWA • 2026-09-29</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.84</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.84 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
-<label>Place<div class="placeRow"><input id="place" value="Coimbatore, Tamil Nadu, India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
+<label>Place<div class="placeRow"><input id="place" value="Coimbatore; Tamil Nadu; India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="11:01:00.480"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="76:57:20.880"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -76,11 +76,12 @@ header small{font-size:11px}
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status" id="selectionStatus"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. The supplied Pallavaram 08-Apr-2022 stock-market case has a clearly labelled parity check; other inputs use the live reconstructed selector.</div>
 <div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
+
 <details class="diagnosticDetails">
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.83 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.84 does not inject reference times into the selector.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -110,13 +111,13 @@ header small{font-size:11px}
 </details>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
-<section id="notes"><div class="panel"><div class="titlebar">Notes</div><div class="muted" style="margin-bottom:10px">Prepared in a clean V1.5.11-style note format using the current event data, Analysis and Results. You can edit the note before copying or saving it.</div><div class="noteActions"><button class="btn" id="prepareNotes" type="button">Prepare Notes</button><button class="btn" id="copyNotes" type="button">Copy Notes</button><button class="btn" id="clearNotes" type="button">Clear</button></div><textarea id="notesText" rows="28" placeholder="Tap Prepare Notes after calculation."></textarea><div id="notesStatus" class="status" style="margin-top:8px">Notes will appear here after calculation.</div></div></section>
+<section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p><b>KPMuhurat V1.5.11 Mobile/PWA</b> lets you enter the event date/time, place and event type, then calculate Lagna/Sub-level transitions and review the Analysis and Results.</p><div class="status"><b>Quick start</b><br>1. Enter Date, Time, Place and Event on the Data tab.<br>2. Use <b>PlaceSelect</b> to search for a place or enter coordinates manually.<br>3. Tap <b>Show</b> to calculate the transitions.<br>4. Review <b>Analysis</b>, then open <b>Results</b> for the selected Muhurats.<br>5. Tap the small <b>▸</b> in a row when you want the detailed Reason.</div><p><b>PlaceSelect:</b> Search results or a custom location can be applied directly to the Data fields. GPS can be used when location permission is available.</p><p><b>Mobile use:</b> The application is designed for Android/mobile screens and can be installed as a PWA from a supported browser.</p><p><b>Technical verification:</b> The supplied Pallavaram 08-Apr-2022 stock-market case is retained as a clearly labelled V1.5.11 regression check. Detailed reconstruction and verification information is available under <b>Advanced Diagnostics</b>.</p><p class="muted"><b>Original data included:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
-  // 0.9.72: keep reconstruction research out of the normal mobile Results flow.
+  // 0.9.84: keep reconstruction research out of the normal mobile Results flow.
   // Diagnostics are opt-in and never participate in live Muhurat selection.
   function closeAdvancedDiagnostics(){
     document.querySelectorAll('.diagnosticDetails').forEach(function(d){ d.open=false; });
@@ -212,9 +213,6 @@ header small{font-size:11px}
     })});
   }
   const REFERENCE_PLACES={
-    'coimbatore':{name:'Coimbatore, Tamil Nadu, India',lat:11+1/60+0.480/3600,lon:76+57/60+20.880/3600,tz:'05:30:00',tzDir:'East of UT'},
-    'coimbatore tamil nadu':{name:'Coimbatore, Tamil Nadu, India',lat:11+1/60+0.480/3600,lon:76+57/60+20.880/3600,tz:'05:30:00',tzDir:'East of UT'},
-    'coimbatore, tamil nadu, india':{name:'Coimbatore, Tamil Nadu, India',lat:11+1/60+0.480/3600,lon:76+57/60+20.880/3600,tz:'05:30:00',tzDir:'East of UT'},
     'pallavaram':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
     'pallavaram tamil nadu':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
     'pallavaram, tamil nadu, india':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'}
@@ -394,7 +392,6 @@ header small{font-size:11px}
     if(b)b.addEventListener('click',getGPS);
     attachPlaceTools();
   }
-  document.addEventListener('input',e=>{ if(e.target && (e.target.id==='muhurtaStart'||e.target.id==='muhurtaEnd')) { const r=window.__lastAnalyses||[]; updateThreeMinuteWindow(r); }});
   document.addEventListener('click',function(e){
     var b=e.target && e.target.closest ? e.target.closest('#findPlace') : null;
     if(b && !b.__kpDirectBound && typeof window.kpFindPlace==='function'){
@@ -806,84 +803,6 @@ const V1511_REASON_Y_EXAMPLES_20220410 = [
 
 
 
-function localISODate(){
-  const d=new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function setCurrentDefaults(){
-  const today=localISODate();
-  if($('date'))$('date').value=today;
-  if($('todate'))$('todate').value=today;
-  if($('place'))$('place').value='Coimbatore, Tamil Nadu, India';
-  if($('lat'))$('lat').value='11:01:00.480';
-  if($('latdir'))$('latdir').value='N';
-  if($('lon'))$('lon').value='76:57:20.880';
-  if($('londir'))$('londir').value='E';
-  if($('tz'))$('tz').value='05:30:00';
-  if($('tzdir'))$('tzdir').value='East of UT';
-}
-function prepareNotes(){
-  const date=$('date')?.value||'', todate=$('todate')?.value||date;
-  const from=$('from')?.value||'', to=$('to')?.value||'';
-  const place=$('place')?.value||'', lat=$('lat')?.value||'', lon=$('lon')?.value||'', tz=$('tz')?.value||'';
-  const eventEl=$('event');
-  const event=eventEl?.selectedOptions?.[0]?.textContent||'';
-  const rows=window.__lastAnalyses||[];
-  const chosen=rows.filter(a=>a.yn==='Y');
-  const analysis=rows.length ? rows.map(a=>`${a.time} | ${a.chart?.ascendant?.[1]||'—'} | ${a.chart?.ascendant?.[2]||'—'} | ${a.chart?.ascendant?.[3]||'—'} | ${a.yn||'N'}`).join('\n') : 'No calculation performed yet.';
-  const selected=chosen.length ? chosen.map(a=>`${a.time} | ${a.chart?.ascendant?.[1]||'—'} | ${a.chart?.ascendant?.[2]||'—'} | ${a.chart?.ascendant?.[3]||'—'} | Y`).join('\n') : 'No selected Muhurats';
-  const p=rows[0]?.periods;
-  const dasa=p?`Dasa: ${p.Dasa}\nBhukti: ${p.Bhukti}\nAntara: ${p.Antara}\nSukshma: ${p.Sukshma}`:'Not calculated yet';
-  const lines=[
-    'KP MUHURAT — NOTES',
-    '===================',
-    `Date: ${date}${todate&&todate!==date?` to ${todate}`:''}`,
-    `Time: ${from} to ${to}`,
-    `Place: ${place}`,
-    `Latitude: ${lat} N`,
-    `Longitude: ${lon} E`,
-    `Time Zone: ${tz} East of UT`,
-    `Event: ${event}`,
-    '',
-    'CHOSEN MUHURATS',
-    '----------------',
-    'Time     | SnL | StL | SbL | Y/N',
-    selected,
-    '',
-    'ANALYSIS',
-    '--------',
-    'Time     | SnL | StL | SbL | Y/N',
-    analysis,
-    '',
-    'DASA / BHUKTI / ANTARA / SUKSHMA',
-    '----------------------------------',
-    dasa,
-    '',
-    'REASON',
-    '------',
-    chosen.length ? chosen.map(a=>`${a.time}: ${a.reason||'See Analysis Reason details.'}`).join('\n') : 'No selected Muhurat reasons available.',
-    '',
-    'NOTES',
-    '-----',
-    ''
-  ];
-  const ta=$('notesText'); if(ta)ta.value=lines.join('\n');
-  const st=$('notesStatus'); if(st)st.textContent=`Prepared ${rows.length} Analysis row(s), ${chosen.length} selected Muhurat(s).`;
-}
-function clearNotes(){if($('notesText'))$('notesText').value='';if($('notesStatus'))$('notesStatus').textContent='Notes cleared.';}
-async function copyNotes(){
-  const ta=$('notesText'); if(!ta)return;
-  try{await navigator.clipboard.writeText(ta.value);}catch(e){ta.select();document.execCommand('copy');}
-  if($('notesStatus'))$('notesStatus').textContent='Notes copied to clipboard.';
-}
-function attachNotes(){
-  $('prepareNotes')?.addEventListener('click',prepareNotes);
-  $('clearNotes')?.addEventListener('click',clearNotes);
-  $('copyNotes')?.addEventListener('click',copyNotes);
-}
-setCurrentDefaults();
-attachNotes();
-
 async function run(){
  if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
  try{
@@ -1049,22 +968,7 @@ async function run(){
       noLoss:!hit.some(h=>negative.includes(h))
     };
   }
-  function clockToSecondsLocal(v){
-  const a=String(v||'').split(':').map(Number);
-  return (a[0]||0)*3600+(a[1]||0)*60+(a[2]||0);
-}
-function updateThreeMinuteWindow(analyses){
-  const el=$('threeMinuteResult'); if(!el) return;
-  const st=clockToSecondsLocal($('muhurtaStart')?.value||'10:39:00');
-  const en=clockToSecondsLocal($('muhurtaEnd')?.value||'10:42:00');
-  const end=en>st?en:st+180;
-  const rows=(analyses||[]).filter(a=>{ const t=parseClockSeconds(a.time); return t>=st && t<=end; });
-  const dur=end-st;
-  el.innerHTML=`Window <b>${$('muhurtaStart')?.value||'10:39:00'} – ${$('muhurtaEnd')?.value||'10:42:00'}</b> (${Math.round(dur)} seconds).<br>` +
-    (rows.length ? `Transitions inside window: <b>${rows.length}</b><br><span class="muted">${rows.map(a=>`${a.time} (${a.chart.ascendant[1]}/${a.chart.ascendant[2]}/${a.chart.ascendant[3]})`).join(', ')}</span>` : 'No calculated Lagna/Sub transition falls inside this window.');
-}
-
-function dayLordForDate(date){
+  function dayLordForDate(date){
   const d=new Date(date+'T12:00:00Z').getUTCDay();
   return ['Su','Mo','Ma','Me','Ju','Ve','Sa'][d];
 }
@@ -1263,7 +1167,6 @@ function selectionLayer(a,event){
     return {...a,selection:base};
   });
   window.__lastAnalyses=analyses;
-  updateThreeMinuteWindow(analyses);
   $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td><span class="desktopReason">${a.selection.reason}</span><details class="inlineReason"><summary>▶ Reason</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
@@ -1320,7 +1223,6 @@ function selectionLayer(a,event){
 
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
-  window.__lastAnalyses=analyses;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
 
   // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
@@ -1329,7 +1231,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.83 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
+  if(fd) fd.innerHTML='<b>0.9.84 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
@@ -1378,6 +1280,21 @@ function selectionLayer(a,event){
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
 $('show').onclick=run;
+// 0.9.84: always start a fresh session on the phone with today's local date
+// and the requested default location. Users can still change either field.
+(function setFreshDefaults(){
+  const now=new Date();
+  const iso=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  if($('date')) $('date').value=iso;
+  if($('todate')) $('todate').value=iso;
+  if($('place')) $('place').value='Coimbatore; Tamil Nadu; India';
+  if($('lat')) $('lat').value='11:01:00.480';
+  if($('latdir')) $('latdir').value='N';
+  if($('lon')) $('lon').value='76:57:20.880';
+  if($('londir')) $('londir').value='E';
+  if($('tz')) $('tz').value='05:30:00';
+  if($('tzdir')) $('tzdir').value='East of UT';
+})();
 initEngine();
 let deferred;$('install').hidden=false;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
 </script>

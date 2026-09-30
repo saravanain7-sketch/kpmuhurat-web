@@ -1,10 +1,11 @@
 {
-  "name": "KPMuhurat by Kanak Bosmia V1.5.11",
-  "short_name": "KPMuhurat",
-  "start_url": "./index.html?v=0.9.83",
+  "name": "KP Muhurat V1.5.11 Mobile",
+  "short_name": "KP Muhurat",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#eaf6fc",
+  "background_color": "#eaf5fb",
   "theme_color": "#1976a8",
-  "description": "Browser-hosted reconstruction of KPMuhurat V1.5.11.",
+  "orientation": "portrait-primary",
+  "description": "Mobile/PWA reconstruction of KPMuhurat V1.5.11.",
   "icons": []
 }
