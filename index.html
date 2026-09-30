@@ -613,7 +613,7 @@ async function initEngine(){
     engineReady=true;
     if(btn){btn.disabled=false;btn.textContent='Show'}
     $('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
-    setTimeout(renderMuhurtamRows,50);
+    setTimeout(()=>window.renderMuhurtamRows&&window.renderMuhurtamRows(),50);
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
     if(btn){btn.disabled=true;btn.textContent='Engine unavailable'}
@@ -831,6 +831,39 @@ function transitionRows(date,from,to,lat,lon,tz){
   return rows;
 }
 
+// Native Muhurtam renderer must live in this module so it can access the
+// module-scoped Swiss Ephemeris engine, ascKey(), and transitionRows().
+// The previous build bound the button to a classic-script function that could
+// not see those module variables, so tapping Calculate did nothing.
+window.renderMuhurtamRows=function(){
+  const body=document.getElementById('muhurtamTableBody');
+  const status=document.getElementById('muhurtamStatus');
+  if(!body||!status) return;
+  if(!engineReady||!swe){
+    status.textContent='Muhurtam engine is still loading. Please wait a moment and tap Calculate Muhurtam again.';
+    return;
+  }
+  const date=document.getElementById('muhurtamDate')?.value||'2026-09-30';
+  const from='00:00',to='23:59';
+  const lat=11,lon=76+58/60,tz=5.5;
+  const btn=document.getElementById('muhurtamCalculate');
+  if(btn){btn.disabled=true;btn.textContent='Calculating…';}
+  status.textContent='Calculating local KP Ascendant Star/Sub/Sub-Sub transitions…';
+  body.innerHTML='<tr><td colspan="5">Calculating…</td></tr>';
+  setTimeout(()=>{
+    try{
+      const rows=muhurtamRowsLocal(date,from,to,lat,lon,tz);
+      body.innerHTML=rows.map(r=>`<tr><td>${r.no}</td><td>${escHtml(r.combo)}</td><td>${r.start}</td><td>${r.stop}</td><td>${r.minutes}</td></tr>`).join('');
+      status.innerHTML=`<b>${rows.length} combinations calculated locally</b> — ${date}, Coimbatore, India • 00:00:00–23:59:59 • KP Ascendant Star/Sub/Sub-Sub.`;
+    }catch(e){
+      console.error('Muhurtam calculation failed',e);
+      status.textContent='Muhurtam calculation failed: '+(e?.message||e);
+      body.innerHTML='<tr><td colspan="5">Calculation unavailable.</td></tr>';
+    }finally{
+      if(btn){btn.disabled=false;btn.textContent='Calculate Muhurtam';}
+    }
+  },20);
+};
 
 
 // Regression fixture used only for verification. It is never used to select
@@ -1813,5 +1846,5 @@ initEngine();
 })();
 </script>
 <script>
-document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('muhurtamCalculate');if(b)b.addEventListener('click',renderMuhurtamRows);});
+document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('muhurtamCalculate');if(b)b.addEventListener('click',()=>window.renderMuhurtamRows&&window.renderMuhurtamRows());});
 </script></body></html>
