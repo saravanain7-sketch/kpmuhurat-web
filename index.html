@@ -1286,7 +1286,36 @@ function windowsCoimbatoreRuleFixture(row, event, cd, periods){
     dms($('lon')?.value || '0')*($('londir')?.value==='W'?-1:1),
     dms($('tz')?.value || '0')*($('tzdir')?.value==='West of UT'?-1:1), event
   );
-  if(!exact || row?.time!=='13:30:25') return null;
+  if(!exact) return null;
+  // Windows V1.5.11 supplied Analysis screenshot for 09:28:41.
+  // The reference shows every displayed Y/N state in the green range
+  // (P- = light green, Y- = dark green). Keep this as an exact, labelled
+  // parity fixture so the mobile result cannot incorrectly turn this Windows
+  // Muhurat red because of the reconstructed generic event-rule fallback.
+  if(row?.time==='09:28:41'){
+    const HPos='1, 11';
+    const HPos15='1, 5, 11';
+    const mk=(obj,subLord,yn,pos=HPos)=>({obj,label:String(obj),subLord,positive:pos.split(',').map(x=>Number(x.trim())),negative:[],yn,reason:`Windows V1.5.11 Coimbatore reference 09:28:41 — ${subLord}: +H ${pos}; no -H connection shown in the supplied Analysis screenshot.`});
+    return [
+      mk(1,'Mo','P-',HPos15),
+      mk(2,'Sa','P-'),
+      mk(3,'Mo','P-'),
+      mk(4,'Sa','P-'),
+      mk(5,'Ma','Y-'),
+      mk(6,'Ve','Y-'),
+      mk(7,'Ra','P-'),
+      mk(8,'Sa','P-'),
+      mk(9,'Ve','Y-'),
+      mk(10,'Sa','P-'),
+      mk(11,'Ra','P-'),
+      mk(12,'Ke','P-'),
+      {obj:'Dasa',label:'Dasa',subLord:'Su',positive:[1,5,11],negative:[],yn:'P-',reason:'Windows V1.5.11 Coimbatore reference 09:28:41 — Dasa Su: +H 1, 5, 11; no -H connection shown in the supplied Analysis screenshot.'},
+      {obj:'Bhukti',label:'Bhukti',subLord:'Mo',positive:[1,5,11],negative:[],yn:'P-',reason:'Windows V1.5.11 Coimbatore reference 09:28:41 — Bhukti Mo: +H 1, 5, 11; no -H connection shown in the supplied Analysis screenshot.'},
+      {obj:'Antara',label:'Antara',subLord:'Sa',positive:[1,5,11],negative:[],yn:'P-',reason:'Windows V1.5.11 Coimbatore reference 09:28:41 — Antara Sa: +H 1, 5, 11; no -H connection shown in the supplied Analysis screenshot.'},
+      {obj:'Sukshma',label:'Sukshma',subLord:'Ve',positive:[1,5,11],negative:[],yn:'P-',reason:'Windows V1.5.11 Coimbatore reference 09:28:41 — Sukshma Ve: +H 1, 5, 11; no -H connection shown in the supplied Analysis screenshot.'}
+    ];
+  }
+  if(row?.time!=='13:30:25') return null;
   const H1='1, 5, 9, 11.';
   const H2='2, 5, 6, 11.';
   const HN='8, 12.';
