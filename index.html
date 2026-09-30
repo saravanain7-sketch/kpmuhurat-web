@@ -101,12 +101,12 @@ header small{font-size:11px}
 .resultsAnalysisTable .analysisYN{font-weight:800;text-align:center;font-size:14px}
 @media(max-width:700px){.resultsAnalysisTable{font-size:12px}.resultsAnalysisTable th,.resultsAnalysisTable td{padding:5px 4px}.resultsAnalysisTable .analysisText{font-size:11px}.resultsAnalysisTable th:nth-child(1){width:11%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:13%}.resultsAnalysisTable th:nth-child(6){width:40%}}
 
-/* 0.9.95 — Prophet Pilot Muhurtam calculation inside Notes. */
+/* 0.9.96 — Prophet Pilot Muhurtam calculation inside Notes. */
 .muhurtamEmbedWrap{width:100%;overflow:hidden;border:1px solid #aebec7;border-radius:8px;background:#fff}
-#muhurtamFrame{display:block;width:100%;height:1100px;border:0;background:#fff}
-@media(max-width:700px){#muhurtamFrame{height:1050px}.muhurtamEmbedWrap{border-radius:6px}}
+#muhurtamFrame{display:block;width:100%;height:1360px;border:0;background:#fff;transform:translateY(-255px)}
+@media(max-width:700px){#muhurtamFrame{height:1305px;transform:translateY(-255px)}.muhurtamEmbedWrap{border-radius:6px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.95</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.95 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.96</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.96 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -188,14 +188,13 @@ header small{font-size:11px}
 
 <section id="notes">
 <div class="panel muhurtamNotesPanel">
-  <div class="titlebar">Muhurtam Calculation — Prophet Pilot</div>
+  <div class="titlebar">Muhurtam Calculation</div>
   <div class="status" style="margin-bottom:10px">
-    <b>List all combination</b> — This Notes calculator reproduces the separate Muhurtam calculation page supplied for reference. It shows <b>combination</b>, <b>start_time</b>, <b>stop_time</b> and <b>Total_Minutes</b>. The reference page itself notes that this Muhurtam calculator is <b>not for Stock Market</b>; keep it separate from the KP Stock Market selection/results logic.
+    <b>List all combination</b> — Muhurtam combinations with <b>start_time</b>, <b>stop_time</b> and <b>Total_Minutes</b>.
   </div>
   <div class="wide muhurtamEmbedWrap">
-    <iframe id="muhurtamFrame" title="Prophet Pilot Muhurtam Calculation" src="https://prophetpilot.netlify.app/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
+    <iframe id="muhurtamFrame" title="Muhurtam Calculation" src="https://prophetpilot.netlify.app/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
   </div>
-  <div class="muted" style="margin-top:8px">Reference: Prophet Pilot / Muhurtam. If the external page is unavailable, the KP Muhurat calculation continues to work normally; this Notes calculator is an external reference view and does not alter the KP Results.</div>
 </div>
 <div class="panel">
   <div class="titlebar">Notes</div>
