@@ -1,11 +1,11 @@
-KP Muhurat V1.5.11 — Web 0.8.1
-Stage 4 — Screenshot Matched
+KPMuhurat V1.5.11 Mobile/PWA — Build 1.05
 
-Static GitHub Pages package.
-Upload the contents of this folder to the repository root and enable GitHub Pages.
+This build changes the engine loader to prefer same-origin local Swiss Ephemeris files and only use CDN as a fallback. It also gives explicit engine loading/error status.
 
-Reference regression case:
-08/04/2022, Tirupati, 09:00–22:00, 05. Speculative gain in Stock Market
-Expected: 18 Lagna transitions, 127 sub-level transitions, 23 chosen Muhurats.
+IMPORTANT: the current workspace did not contain the official @swisseph/browser WASM binary, so vendor/swisseph-browser.js and vendor/swisseph.wasm are intentionally not fabricated. The official package documents that await swe.init() loads swisseph.wasm from the same directory as the JavaScript bundle.
 
-This is a web reconstruction, not the original Windows source/binary.
+To make this build completely self-contained/offline, add the matching @swisseph/browser distribution files:
+  vendor/swisseph-browser.js
+  vendor/swisseph.wasm
+
+Do not substitute another astronomy engine if Windows V1.5.11 parity is required.
