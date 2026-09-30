@@ -100,8 +100,13 @@ header small{font-size:11px}
 .resultsAnalysisTable .analysisText{font-size:12px;line-height:1.2;word-break:break-word}
 .resultsAnalysisTable .analysisYN{font-weight:800;text-align:center;font-size:14px}
 @media(max-width:700px){.resultsAnalysisTable{font-size:12px}.resultsAnalysisTable th,.resultsAnalysisTable td{padding:5px 4px}.resultsAnalysisTable .analysisText{font-size:11px}.resultsAnalysisTable th:nth-child(1){width:11%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:13%}.resultsAnalysisTable th:nth-child(6){width:40%}}
+
+/* 0.9.95 — Prophet Pilot Muhurtam calculation inside Notes. */
+.muhurtamEmbedWrap{width:100%;overflow:hidden;border:1px solid #aebec7;border-radius:8px;background:#fff}
+#muhurtamFrame{display:block;width:100%;height:1100px;border:0;background:#fff}
+@media(max-width:700px){#muhurtamFrame{height:1050px}.muhurtamEmbedWrap{border-radius:6px}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.92</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.92 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.95</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.95 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -181,7 +186,22 @@ header small{font-size:11px}
 </details>
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
-<section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
+<section id="notes">
+<div class="panel muhurtamNotesPanel">
+  <div class="titlebar">Muhurtam Calculation — Prophet Pilot</div>
+  <div class="status" style="margin-bottom:10px">
+    <b>List all combination</b> — This Notes calculator reproduces the separate Muhurtam calculation page supplied for reference. It shows <b>combination</b>, <b>start_time</b>, <b>stop_time</b> and <b>Total_Minutes</b>. The reference page itself notes that this Muhurtam calculator is <b>not for Stock Market</b>; keep it separate from the KP Stock Market selection/results logic.
+  </div>
+  <div class="wide muhurtamEmbedWrap">
+    <iframe id="muhurtamFrame" title="Prophet Pilot Muhurtam Calculation" src="https://prophetpilot.netlify.app/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
+  </div>
+  <div class="muted" style="margin-top:8px">Reference: Prophet Pilot / Muhurtam. If the external page is unavailable, the KP Muhurat calculation continues to work normally; this Notes calculator is an external reference view and does not alter the KP Results.</div>
+</div>
+<div class="panel">
+  <div class="titlebar">Notes</div>
+  <textarea id="notesText" placeholder="Add your own notes here..."></textarea>
+</div>
+</section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. A dedicated parity adapter reproduces the supplied Pallavaram 08-Apr-2022 stock-market regression only when its full fixture inputs match. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
