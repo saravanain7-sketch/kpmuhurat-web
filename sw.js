@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kpmuhurat-v1.5.11-0.9.86-chartdetails';
+const CACHE_NAME = 'kpmuhurat-v1.5.11-0.9.87-lagnamark';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

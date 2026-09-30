@@ -59,7 +59,9 @@ header small{font-size:11px}
 .muhuratChartWrap{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 .kpChart{width:100%;max-width:620px;margin:0 auto;border:2px solid #78909c;background:#dce8f5;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,72px);position:relative}
 .kpCell{border:1px solid #78909c;padding:5px;font-size:12px;line-height:1.25;overflow:hidden;background:#b9cbe1}
+.kpCell.lagnaCell{background:#8fd3f0 !important;border:3px solid #1976a8;box-shadow:inset 0 0 0 2px #dff5ff}
 .kpCell .houseNo{font-weight:700;color:#234;text-decoration:none}
+.kpCell .lagnaMark{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:3px;background:#1976a8;color:#fff;font-size:10px;font-weight:700}
 .kpCell .signName{font-size:11px;color:#455a64}
 .kpCell .planetList{font-weight:700;margin-top:4px;word-break:break-word}
 .kpCenter{grid-column:2/4;grid-row:2/4;border:1px solid #78909c;background:#dce8f5;padding:9px;font-size:12px;overflow:auto}
@@ -1278,17 +1280,23 @@ function renderSelectedMuhurat(row){
     11:[2,1],4:[2,4],10:[3,1],5:[3,4],
     9:[4,1],8:[4,2],7:[4,3],6:[4,4]
   };
+  const asc=cd.ascendant||[];
+  const lagnaSign=asc[0]||'';
   let cells='';
   for(let h=1;h<=12;h++){
     const [r,c]=positions[h];
     const planets=houses[h].join(' ')||'—';
-    cells+=`<div class="kpCell" style="grid-row:${r};grid-column:${c}">
-      <div class="houseNo">House ${h}</div>
+    // Highlight the current Lagna cell for every selected Muhurat. In KP
+    // Muhurat the Lagna is the Ascendant sign at the selected time; the
+    // Placidus first cusp normally carries that same sign. Use the sign
+    // match and fall back to house 1 if a cusp is exactly on a sign boundary.
+    const isLagna=(signByHouse[h]===lagnaSign) || (h===1 && !signByHouse.some?.(x=>x===lagnaSign));
+    cells+=`<div class="kpCell${isLagna?' lagnaCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
+      <div class="houseNo">House ${h}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
       <div class="signName">${escHtml(signByHouse[h]||'')}</div>
       <div class="planetList">${escHtml(planets)}</div>
     </div>`;
   }
-  const asc=cd.ascendant||[];
   const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
   cells+=`<div class="kpCenter"><b>${escHtml(date)} &nbsp; ${escHtml(t)}</b><br>
     Day: ${day}<br><br>
