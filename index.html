@@ -123,7 +123,7 @@ header small{font-size:11px}
  .muhurtamTable th,.muhurtamTable td{padding:7px 6px}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.03</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.03 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.04</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.04 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -605,20 +605,33 @@ async function initEngine(){
   const btn=$('show');
   try{
     $('status').textContent='Loading Swiss Ephemeris engine…';
-    ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=await import('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js'));
+    // Build 1.04: use the browser package's supported zero-argument init.
+    // The package ships a built-in Moshier ephemeris, so do not block startup
+    // on an external .wasm URL or optional Swiss ephemeris files.
+    let mod=null, lastErr=null;
+    for(const url of [
+      'https://unpkg.com/@swisseph/browser@1.4.0/dist/swisseph-browser.js',
+      'https://cdn.jsdelivr.net/npm/@swisseph/browser@1.4.0/dist/swisseph-browser.js',
+      'https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph-browser.js'
+    ]){
+      try{ mod=await import(url); break; }catch(e){ lastErr=e; console.warn('Swiss Ephemeris import failed:',url,e); }
+    }
+    if(!mod) throw lastErr || new Error('Swiss Ephemeris browser module could not be loaded');
+    ({SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag}=mod);
     swe=new SwissEphemeris();
-    await swe.init('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm');
+    await swe.init();
     swe.setSiderealMode(SiderealMode.Krishnamurti);
+    // Built-in Moshier is available without downloading ephemeris files.
     ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
-    try{await swe.loadStandardEphemeris();ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;}catch(e){console.warn('Swiss ephemeris files unavailable; using built-in Moshier.',e)}
     engineReady=true;
     if(btn){btn.disabled=false;btn.textContent='Show'}
-    $('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
+    $('status').textContent='Ready. Swiss Ephemeris engine loaded (built-in Moshier). Select an event and tap Show.';
     if(window.renderMuhurtamRows) setTimeout(()=>window.renderMuhurtamRows(),50);
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
-    if(btn){btn.disabled=false;btn.textContent='Show'}
-    $('status').textContent='Engine initialization failed: '+(e?.message||e)+'. Tap Show after checking your internet connection.';
+    engineReady=false;
+    if(btn){btn.disabled=true;btn.textContent='Engine unavailable'}
+    $('status').textContent='Engine initialization failed: '+(e?.message||e)+'. Please check the browser network connection.';
   }
 }
 
