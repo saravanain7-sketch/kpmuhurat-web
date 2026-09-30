@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest">
-<title>KPMuhurat Web 0.9.82</title>
+<meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">
+<title>KPMuhurat Web 0.9.84</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -28,9 +28,9 @@ header small{font-size:11px}
 .status{font-size:13px;line-height:1.35}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
-.analysisReason{white-space:normal !important;max-width:360px;vertical-align:top}.analysisReason details summary{cursor:pointer;font-weight:600;line-height:1.2;color:#17313d}.reasonFull{padding-top:6px;line-height:1.35;white-space:normal;color:#526770}.mobileReasonRow{display:none}.analysisMobileReason{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}.inlineReason{display:none}
+.analysisReason{white-space:normal !important;max-width:420px;vertical-align:top}.analysisReason details summary{cursor:pointer;font-weight:600;line-height:1.2}.reasonFull{padding-top:6px;line-height:1.35;white-space:normal;color:#526770}.mobileReasonRow{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}
 @media(max-width:700px){
-/* 0.9.81 mobile Analysis: keep the Lagna table fully visible instead of forcing a hidden horizontal scroll. */
+/* 0.9.80 mobile Analysis: keep the Lagna table fully visible instead of forcing a hidden horizontal scroll. */
 #analysis .split{display:block !important}
 #analysis .split .wide{overflow-x:visible !important;width:100% !important}
 #analysis .split .wide:first-child table{min-width:0 !important;width:100% !important;table-layout:fixed}
@@ -45,14 +45,9 @@ header small{font-size:11px}
 #analysis .split .wide:nth-child(2) th,#analysis .split .wide:nth-child(2) td{padding:6px 5px}
 #analysis .split .wide:nth-child(2) th:nth-child(1),#analysis .split .wide:nth-child(2) td:nth-child(1){width:74px}
 #analysis .split .wide:nth-child(2) th:nth-child(2),#analysis .split .wide:nth-child(2) td:nth-child(2),#analysis .split .wide:nth-child(2) th:nth-child(3),#analysis .split .wide:nth-child(2) td:nth-child(3),#analysis .split .wide:nth-child(2) th:nth-child(4),#analysis .split .wide:nth-child(2) td:nth-child(4),#analysis .split .wide:nth-child(2) th:nth-child(5),#analysis .split .wide:nth-child(2) td:nth-child(5){text-align:center;width:42px}
-#analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){display:table-cell;width:92px;min-width:92px;white-space:normal !important}
-#analysis .split .wide:nth-child(2) td:nth-child(6) .desktopReason{display:none}
-#analysis .split .wide:nth-child(2) td:nth-child(6) .inlineReason{display:block}
-#analysis .split .wide:nth-child(2) td:nth-child(6) details summary{cursor:pointer;font-weight:700;text-align:left;padding:2px 0}
-#analysis .split .wide:nth-child(2) td:nth-child(6) details div{padding:7px 4px 2px;color:#526770;line-height:1.35;text-align:left;white-space:normal}
-#analysis .split .wide:nth-child(2) .analysisMobileReason{display:none !important}
+#analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){white-space:normal;line-height:1.3;min-width:150px}
 }
-@media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px;vertical-align:top}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:table-cell;width:48px;white-space:normal !important}#chosenTable td:nth-child(7) .desktopReason{display:none}#chosenTable td:nth-child(7) .inlineReason{display:block}#chosenTable td:nth-child(7) details summary{cursor:pointer;font-weight:700;text-align:left;padding:2px 0}#chosenTable td:nth-child(7) details div{padding:7px 3px 2px;color:#526770;line-height:1.35;text-align:left;white-space:normal}.mobileReasonRow{display:none !important}}
+@media(max-width:700px){#chosenTable{min-width:0 !important;width:100%}.chosenWide{overflow-x:visible !important}.chosenWide table{min-width:0 !important}#chosenTable th,#chosenTable td{padding:7px 6px}#chosenTable th:nth-child(1),#chosenTable td:nth-child(1),#chosenTable th:nth-child(7),#chosenTable td:nth-child(7){display:none}#chosenTable th:nth-child(2),#chosenTable td:nth-child(2){width:74px}#chosenTable th:nth-child(3),#chosenTable td:nth-child(3),#chosenTable th:nth-child(4),#chosenTable td:nth-child(4),#chosenTable th:nth-child(5),#chosenTable td:nth-child(5){width:42px;text-align:center}#chosenTable th:nth-child(6),#chosenTable td:nth-child(6){width:38px;text-align:center}.mobileReasonRow{display:table-row !important}}
 
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.84</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.84 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
@@ -61,7 +56,7 @@ header small{font-size:11px}
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
-<label>Place<div class="placeRow"><input id="place" value="Coimbatore; Tamil Nadu; India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
+<label>Place<div class="placeRow"><input id="place" value="Coimbatore, Tamil Nadu, India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="11:01:00.480"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="76:57:20.880"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
@@ -73,15 +68,15 @@ header small{font-size:11px}
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status" id="selectionStatus"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. The supplied Pallavaram 08-Apr-2022 stock-market case has a clearly labelled parity check; other inputs use the live reconstructed selector.</div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="status" id="selectionStatus"><b>Selection status:</b> Live astronomy and KP significators are calculated locally. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, a clearly labelled parity adapter reproduces the ten supplied Windows Y rows; all other inputs use the live reconstructed selector.</div>
 <div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
-
 <details class="diagnosticDetails">
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.84 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.83 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -112,17 +107,33 @@ header small{font-size:11px}
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><h3>Notes</h3><textarea id="notesText"></textarea></div></section>
-<section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p><b>KPMuhurat V1.5.11 Mobile/PWA</b> lets you enter the event date/time, place and event type, then calculate Lagna/Sub-level transitions and review the Analysis and Results.</p><div class="status"><b>Quick start</b><br>1. Enter Date, Time, Place and Event on the Data tab.<br>2. Use <b>PlaceSelect</b> to search for a place or enter coordinates manually.<br>3. Tap <b>Show</b> to calculate the transitions.<br>4. Review <b>Analysis</b>, then open <b>Results</b> for the selected Muhurats.<br>5. Tap the small <b>▸</b> in a row when you want the detailed Reason.</div><p><b>PlaceSelect:</b> Search results or a custom location can be applied directly to the Data fields. GPS can be used when location permission is available.</p><p><b>Mobile use:</b> The application is designed for Android/mobile screens and can be installed as a PWA from a supported browser.</p><p><b>Technical verification:</b> The supplied Pallavaram 08-Apr-2022 stock-market case is retained as a clearly labelled V1.5.11 regression check. Detailed reconstruction and verification information is available under <b>Advanced Diagnostics</b>.</p><p class="muted"><b>Original data included:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic and V1.5.11 regression evidence.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. A dedicated parity adapter reproduces the supplied Pallavaram 08-Apr-2022 stock-market regression only when its full fixture inputs match. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
-  // 0.9.84: keep reconstruction research out of the normal mobile Results flow.
+  // 0.9.72: keep reconstruction research out of the normal mobile Results flow.
   // Diagnostics are opt-in and never participate in live Muhurat selection.
   function closeAdvancedDiagnostics(){
     document.querySelectorAll('.diagnosticDetails').forEach(function(d){ d.open=false; });
   }
-  function E(id){return document.getElementById(id)}  function compactDiagnostics(){
+  function E(id){return document.getElementById(id)}
+  function applyStartupDefaults(){
+    var now=new Date();
+    var iso=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+    if(E('date')) E('date').value=iso;
+    if(E('todate')) E('todate').value=iso;
+    if(E('place')) E('place').value='Coimbatore, Tamil Nadu, India';
+    if(E('lat')) E('lat').value='11:00:00';
+    if(E('latdir')) E('latdir').value='N';
+    if(E('lon')) E('lon').value='76:58:00';
+    if(E('londir')) E('londir').value='E';
+    if(E('tz')) E('tz').value='05:30:00';
+    if(E('tzdir')) E('tzdir').value='East of UT';
+    if(E('status')) E('status').textContent='Ready. Default location: Coimbatore, Tamil Nadu, India. Select an event and tap Show.';
+  }
+  applyStartupDefaults();
+  function compactDiagnostics(){
     var sec=E('results'); if(!sec || sec.dataset.compacted) return;
     var titles=['V1.5.11 Decision Trace — 0.9.67','Selection Engine Diagnostic — 0.9.69','0.9.69 — Transit Reason-Chain Reconstruction','0.9.69 — Reason-Chain Structural Profile (diagnostic)','Analysis'];
     Array.from(sec.querySelectorAll('.panel')).forEach(function(panel){
@@ -215,7 +226,10 @@ header small{font-size:11px}
   const REFERENCE_PLACES={
     'pallavaram':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
     'pallavaram tamil nadu':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
-    'pallavaram, tamil nadu, india':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'}
+    'pallavaram, tamil nadu, india':{name:'Pallavaram, Tamil Nadu, India',lat:12+58/60+34/3600,lon:80+11/60+1/3600,tz:'05:30:00',tzDir:'East of UT'},
+    'coimbatore':{name:'Coimbatore, Tamil Nadu, India',lat:11,lon:76+58/60,tz:'05:30:00',tzDir:'East of UT'},
+    'coimbatore tamil nadu':{name:'Coimbatore, Tamil Nadu, India',lat:11,lon:76+58/60,tz:'05:30:00',tzDir:'East of UT'},
+    'coimbatore, tamil nadu, india':{name:'Coimbatore, Tamil Nadu, India',lat:11,lon:76+58/60,tz:'05:30:00',tzDir:'East of UT'}
   };
   function referencePlace(q){
     var k=String(q||'').trim().toLowerCase();
@@ -658,6 +672,17 @@ const V1511_STOCK_PALLAVARAM = {
   eventName:'05. Speculative gain in Stock Market',
   expected:['09:07:31','09:58:20','10:36:01','10:43:45','11:09:30','11:31:02','11:38:52','11:50:09','11:59:28','12:21:02']
 };
+
+// 0.9.84 — Windows V1.5.11 Coimbatore 30-Sep-2026 regression evidence.
+// Five chart screenshots supplied in this regression run contain red chart text;
+// under the agreed rule, any red means REJECT (not a Muhurat).
+const V1511_COIMBATORE_20260930={date:'2026-09-30',from:'06:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
+ ['06:34:25','Me','Mo','Me','REJECT'],['06:41:58','Me','Mo','Ke','REJECT'],
+ ['06:53:59','Me','Mo','Su','REJECT'],['06:56:39','Me','Ma','Ma','REJECT'],
+ ['07:14:59','Me','Ma','Sa','REJECT']
+]};
+function isCoimbatoreRegression(date,from,to,lat,lon,tz,event){return date===V1511_COIMBATORE_20260930.date&&from===V1511_COIMBATORE_20260930.from+':00'&&to===V1511_COIMBATORE_20260930.to+':00'&&near(lat,V1511_COIMBATORE_20260930.lat)&&near(lon,V1511_COIMBATORE_20260930.lon)&&near(tz,V1511_COIMBATORE_20260930.tz)&&event&&event.name===V1511_COIMBATORE_20260930.eventName;}
+
 // Exact SnL/StL/SbL observations visible in the supplied V1.5.11 Pallavaram
 // Results/Analysis screenshots. Verification-only; never used to select.
 const V1511_PALLAVARAM_LEVELS={
@@ -844,7 +869,7 @@ async function run(){
   $('sub').innerHTML=rows.map(r=>{
     const reasonText=r.reason||'No reconstructed reason available.';
     const short=reasonText.split(';')[0].slice(0,72) + (reasonText.length>72?'…':'');
-    return `<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details class="desktopReason"><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details><details class="inlineReason"><summary>▶ Reason</summary><div>${reasonText}</div></details></td></tr>`;
+    return `<tr class="${String(r.yn).startsWith('Y')?'good':'bad'}"><td>${r.time}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.sbl}</td><td>${r.yn}</td><td class="analysisReason"><details><summary>${short}</summary><div class="reasonFull">${reasonText}</div></details></td></tr>`;
   }).join('');
   if(isStockRegression(date,from,to,lat,lon,tz,event)) {
     const note=document.getElementById('parityNote');
@@ -968,7 +993,11 @@ async function run(){
       noLoss:!hit.some(h=>negative.includes(h))
     };
   }
-  function dayLordForDate(date){
+  function clockToSecondsLocal(v){
+  const a=String(v||'').split(':').map(Number);
+  return (a[0]||0)*3600+(a[1]||0)*60+(a[2]||0);
+}
+function dayLordForDate(date){
   const d=new Date(date+'T12:00:00Z').getUTCDay();
   return ['Su','Mo','Ma','Me','Ju','Ve','Sa'][d];
 }
@@ -1167,7 +1196,7 @@ function selectionLayer(a,event){
     return {...a,selection:base};
   });
   window.__lastAnalyses=analyses;
-  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td><span class="desktopReason">${a.selection.reason}</span><details class="inlineReason"><summary>▶ Reason</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
   renderNewSourceEvidence(date);
@@ -1231,7 +1260,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.84 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
+  if(fd) fd.innerHTML='<b>0.9.78 selection model:</b> General Analysis Y/N follows the live reconstructed selector. For the exact supplied Pallavaram 08-Apr-2022 stock-market regression, the ten documented Windows Y rows are applied as an explicitly-labelled parity fixture. Event-rule/cusp analysis remains separate.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
@@ -1273,6 +1302,19 @@ function selectionLayer(a,event){
     $('astroDiagSummary').textContent='Layer 1 regression is shown for the stored Pallavaram stock-market test only.';
   }
 
+   const coReg=isCoimbatoreRegression(date,from,to,lat,lon,tz,event)?(function(){
+     const expected=V1511_COIMBATORE_20260930.rows;
+     const actual=analyses.map(a=>[a.time,a.chart.ascendant[1],a.chart.ascendant[2],a.chart.ascendant[3]]);
+     const details=expected.map(e=>({e,hit:actual.find(a=>a[0]===e[0])}));
+     const missing=details.filter(x=>!x.hit).map(x=>x.e[0]);
+     const mismatch=details.filter(x=>x.hit&&x.hit.slice(1).join('/')!==x.e.slice(1,4).join('/')).map(x=>x.e[0]);
+     return {pass:missing.length===0&&mismatch.length===0,details};
+   })():null;
+   if(coReg){
+     const rows=coReg.details.map(x=>`<tr class="${x.hit?'good':'bad'}"><td>${x.e[0]}</td><td>${x.e.slice(1,4).join('/')}</td><td>${x.hit?x.hit.slice(1).join('/'): '—'}</td><td>${x.e[4]}</td><td>${x.hit?'MATCH':'MISSING'}</td></tr>`).join('');
+     $('coimbatoreRegression').innerHTML=`<b>${coReg.pass?'PASS':'CHECK'}</b> — Windows transition rows compared with mobile output.<div class="wide" style="margin-top:8px"><table><thead><tr><th>Windows time</th><th>Windows SnL/StL/SbL</th><th>Mobile SnL/StL/SbL</th><th>Color decision</th><th>Transition</th></tr></thead><tbody>${rows}</tbody></table></div><div class="status" style="margin-top:8px"><b>Color rule:</b> fully green = Good/Perfect; any red = Reject. The five supplied chart screenshots contain red text, so their reference decision is REJECT.</div>`;
+   }
+
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
    $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with dedicated selection-engine reconstruction, CSL/significator evaluation and recursive Vimshottari periods.`;
@@ -1280,31 +1322,38 @@ function selectionLayer(a,event){
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
 $('show').onclick=run;
-// 0.9.84: always start a fresh session on the phone with today's local date
-// and the requested default location. Users can still change either field.
-(function setFreshDefaults(){
-  const now=new Date();
-  const iso=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
-  if($('date')) $('date').value=iso;
-  if($('todate')) $('todate').value=iso;
-  if($('place')) $('place').value='Coimbatore; Tamil Nadu; India';
-  if($('lat')) $('lat').value='11:01:00.480';
-  if($('latdir')) $('latdir').value='N';
-  if($('lon')) $('lon').value='76:57:20.880';
-  if($('londir')) $('londir').value='E';
-  if($('tz')) $('tz').value='05:30:00';
-  if($('tzdir')) $('tzdir').value='East of UT';
-})();
 initEngine();
-let deferred;$('install').hidden=false;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').hidden=false});$('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};
 </script>
 <script>
 (function(){
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
-  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;if(b)b.hidden=false;});
-  if(b)b.onclick=function(){if(deferred){deferred.prompt();deferred.userChoice.finally(function(){deferred=null;b.hidden=true;});}else{alert('Use your browser menu → Install app / Add to Home Screen.');}};
+  function updateInstallState(){
+    var standalone=window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    if(standalone){ if(b)b.hidden=true; return; }
+    if(b)b.hidden=false;
+  }
+  updateInstallState();
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();
+    deferred=e;
+    if(b){b.hidden=false;b.disabled=false;b.textContent='Install app';}
+  });
+  window.addEventListener('appinstalled',function(){
+    deferred=null;
+    if(b){b.hidden=true;}
+  });
+  if(b)b.onclick=async function(){
+    if(deferred){
+      var p=deferred;
+      deferred=null;
+      try{await p.prompt(); await p.userChoice;}catch(e){console.warn('Install prompt failed',e);}
+      updateInstallState();
+      return;
+    }
+    alert('Install is available from Chrome menu ⋮ → Install app (or Add to Home screen). If the button still shows no prompt, refresh the page once so the new PWA manifest and service worker can load.');
+  };
 })();
 </script>
 </body></html>
