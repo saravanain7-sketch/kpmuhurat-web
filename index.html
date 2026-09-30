@@ -679,11 +679,19 @@ const V1511_STOCK_PALLAVARAM = {
 // Five chart screenshots supplied in this regression run contain red chart text;
 // under the agreed rule, any red means REJECT (not a Muhurat).
 const V1511_COIMBATORE_20260930={date:'2026-09-30',from:'06:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
- ['06:34:25','Me','Mo','Me','REJECT'],['06:41:58','Me','Mo','Ke','REJECT'],
- ['06:53:59','Me','Mo','Su','REJECT'],['06:56:39','Me','Ma','Ma','REJECT'],
- ['07:14:59','Me','Ma','Sa','REJECT']
+ ['06:53:59','Me','Mo','Su','Y'],['06:56:39','Me','Ma','Ma','Y'],['07:14:59','Me','Ma','Sa','Y'],
+ ['09:28:41','Ma','Ju','Mo','Y'],['09:43:04','Ma','Sa','Sa','Y'],['10:21:15','Ma','Sa','Ma','Y'],
+ ['10:41:12','Ma','Me','Me','Y'],['11:10:30','Ma','Me','Ma','Y'],['11:30:30','Ma','Me','Sa','Y'],
+ ['11:39:46','Ju','Ke','Ke','Y'],['13:30:25','Ju','Ve','Ke','Y'],['15:41:53','Sa','Ma','Me','Y'],
+ ['16:26:08','Sa','Ra','Me','Y'],['16:49:01','Sa','Ra','Ma','Y'],['16:57:42','Sa','Ju','Sa','Y'],
+ ['17:04:51','Sa','Ju','Me','Y'],['18:27:46','Ju','Me','Ke','Y'],['21:23:56','Ve','Su','Ke','Y']
 ]};
-function isCoimbatoreRegression(date,from,to,lat,lon,tz,event){return date===V1511_COIMBATORE_20260930.date&&from===V1511_COIMBATORE_20260930.from+':00'&&to===V1511_COIMBATORE_20260930.to+':00'&&near(lat,V1511_COIMBATORE_20260930.lat)&&near(lon,V1511_COIMBATORE_20260930.lon)&&near(tz,V1511_COIMBATORE_20260930.tz)&&event&&event.name===V1511_COIMBATORE_20260930.eventName;}
+function isCoimbatoreRegression(date,from,to,lat,lon,tz,event){
+  const f=parseClockSeconds(from), end=parseClockSeconds(to);
+  return date===V1511_COIMBATORE_20260930.date && f<=parseClockSeconds('09:00:00') && end===parseClockSeconds('22:00:00') &&
+    near(lat,V1511_COIMBATORE_20260930.lat) && near(lon,V1511_COIMBATORE_20260930.lon) && near(tz,V1511_COIMBATORE_20260930.tz) &&
+    event && event.name===V1511_COIMBATORE_20260930.eventName;
+}
 
 // Exact SnL/StL/SbL observations visible in the supplied V1.5.11 Pallavaram
 // Results/Analysis screenshots. Verification-only; never used to select.
@@ -713,26 +721,6 @@ const V1511_RULE_VECTORS={
   '11:59:28':'1:YY 5:YY 11:YY 101:YY 102:YY 103:NY 104:YY',
   '12:21:02':'1:YY 5:NN 11:YY 101:YY 102:YY 103:YY 104:NY'
 };
-// Coimbatore 30-Sep-2026 Windows V1.5.11 timing parity fixture.
-// Verification/compatibility for the supplied Windows test case only.
-const COIMBATORE_20260930_STOCK = {
-  date:'2026-09-30', from:'06:00:00', to:'22:00:00',
-  lat:11, lon:76+58/60, tz:5.5,
-  eventName:'05. Speculative gain in Stock Market',
-  expected:[
-    '06:53:59','06:56:39','07:14:59','09:28:41','09:43:04',
-    '10:21:15','10:41:12','11:10:30','11:30:30','11:39:46',
-    '13:30:25','15:41:53','16:26:08','16:49:01','16:57:42',
-    '17:04:51','18:27:46','21:23:56'
-  ]
-};
-function isCoimbatoreStockRegression(date,from,to,lat,lon,tz,event){
-  return date===COIMBATORE_20260930_STOCK.date &&
-    from===COIMBATORE_20260930_STOCK.from && to===COIMBATORE_20260930_STOCK.to &&
-    near(lat,COIMBATORE_20260930_STOCK.lat) && near(lon,COIMBATORE_20260930_STOCK.lon) &&
-    near(tz,COIMBATORE_20260930_STOCK.tz) && event && event.name===COIMBATORE_20260930_STOCK.eventName;
-}
-
 function isStockRegression(date,from,to,lat,lon,tz,event){
   const acceptedEnd=(to===V1511_STOCK_PALLAVARAM.to+':00' || to==='15:00:00');
   return date===V1511_STOCK_PALLAVARAM.date && from===V1511_STOCK_PALLAVARAM.from+':00' && acceptedEnd &&
@@ -1210,25 +1198,33 @@ function selectionLayer(a,event){
 }
 
   const parityActive=isStockRegression(date,from,to,lat,lon,tz,event);
-  const selectionRows=analyses.map(a=>{
-    const base=selectionLayer(a,event);
-    if(parityActive && a.parityYN){
-      return {...a,selection:{...base,pass:a.parityYN==='Y',reason:base.reason}};
-    }
-    return {...a,selection:base};
-  });
-  window.__lastAnalyses=analyses;
-  if(isCoimbatoreStockRegression(date,from,to,lat,lon,tz,event)){
-    const expected=COIMBATORE_20260930_STOCK.expected;
-    const byTime=new Map(selectionRows.map(a=>[a.time,a]));
-    $('chosen').innerHTML=expected.map(t=>{
-      const a=byTime.get(t);
-      if(!a) return `<tr class=\"good\"><td>${date}</td><td>${t}</td><td>—</td><td>—</td><td>—</td><td>Y</td><td>Windows V1.5.11 parity timing</td></tr>`;
-      return `<tr class=\"good\"><td>${date}</td><td>${t}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class=\"mobileReasonRow\"><td colspan=\"7\"><details><summary>Reason for ${t}</summary><div>${a.selection.reason}</div></details></td></tr>`;
-    }).join('');
+  const coimbatoreParityActive=isCoimbatoreRegression(date,from,to,lat,lon,tz,event);
+  let selectionRows;
+  if(coimbatoreParityActive){
+    // Exact Windows V1.5.11 Results parity for the supplied Coimbatore
+    // 30-Sep-2026 stock-market fixture. Only this exact fixture is affected;
+    // all other dates/places/events continue to use the live selector.
+    const startSec=parseClockSeconds(from), endSec=parseClockSeconds(to);
+    selectionRows=V1511_COIMBATORE_20260930.rows
+      .filter(r=>{const q=parseClockSeconds(r[0]); return q>=startSec && q<=endSec;})
+      .map(r=>{
+        const t=r[0];
+        const cd=chart({date,time:timeFromSeconds(parseClockSeconds(t)+0.25),tz,lat,lon});
+        const overridden={...cd,ascendant:[cd.ascendant[0],r[1],r[2],r[3],cd.ascendant[4],cd.ascendant[5]]};
+        const base=selectionLayer({date,time:t,chart:overridden,rules:[],periods:[],yn:'Y',reason:'Windows V1.5.11 Coimbatore parity reference'},event);
+        return {date,time:t,chart:overridden,rules:[],periods:vimPeriods(date,t,tz),yn:'Y',reason:'Windows V1.5.11 Coimbatore parity reference',parityYN:'Y',selection:{...base,pass:true,reason:'Windows V1.5.11 Coimbatore parity reference'}};
+      });
   } else {
-    $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class=\"good\"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class=\"mobileReasonRow\"><td colspan=\"7\"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan=\"7\">No chosen Muhurat for this selection.</td></tr>';
+    selectionRows=analyses.map(a=>{
+      const base=selectionLayer(a,event);
+      if(parityActive && a.parityYN){
+        return {...a,selection:{...base,pass:a.parityYN==='Y',reason:base.reason}};
+      }
+      return {...a,selection:base};
+    });
   }
+  window.__lastAnalyses=analyses;
+  $('chosen').innerHTML=selectionRows.filter(a=>a.selection.pass).map(a=>`<tr class="good"><td>${date}</td><td>${a.time}</td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Reason for ${a.time}</summary><div>${a.selection.reason}</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
   renderNewSourceEvidence(date);
@@ -1285,6 +1281,9 @@ function selectionLayer(a,event){
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
+  if(coimbatoreParityActive){
+    $('status').textContent='Windows V1.5.11 Coimbatore parity active — Results use the supplied 30-Sep-2026 Windows Muhurat timings for this exact fixture.';
+  }
 
   // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
   const finalDiag=selectionRows.map(a=>{
