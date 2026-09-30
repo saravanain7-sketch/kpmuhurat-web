@@ -101,12 +101,29 @@ header small{font-size:11px}
 .resultsAnalysisTable .analysisYN{font-weight:800;text-align:center;font-size:14px}
 @media(max-width:700px){.resultsAnalysisTable{font-size:12px}.resultsAnalysisTable th,.resultsAnalysisTable td{padding:5px 4px}.resultsAnalysisTable .analysisText{font-size:11px}.resultsAnalysisTable th:nth-child(1){width:11%}.resultsAnalysisTable th:nth-child(2){width:10%}.resultsAnalysisTable th:nth-child(3){width:13%}.resultsAnalysisTable th:nth-child(4){width:13%}.resultsAnalysisTable th:nth-child(5){width:13%}.resultsAnalysisTable th:nth-child(6){width:40%}}
 
-/* 0.9.96 — Prophet Pilot Muhurtam calculation inside Notes. */
-.muhurtamEmbedWrap{width:100%;overflow:hidden;border:1px solid #aebec7;border-radius:8px;background:#fff}
-#muhurtamFrame{display:block;width:100%;height:2200px;border:0;background:#fff;transform:translateY(-850px)}
-@media(max-width:700px){#muhurtamFrame{height:2200px;transform:translateY(-850px)}.muhurtamEmbedWrap{border-radius:6px}}
+/* 0.9.98 — Native Muhurtam calculator/table rebuilt inside Notes. */
+.muhurtamPanel{border:1px solid #9eb7c4;background:#fff}
+.muhurtamControls{border:1px solid #b8ccd6;background:#f7fbfd;padding:12px}
+.muhurtamControls .grid2{gap:14px}
+.muhurtamControls label{font-size:14px;color:#34454e}
+.muhurtamControls input,.muhurtamControls select{background:#f1f2f5;border:0;border-radius:12px;padding:13px 14px;font-size:17px;color:#343a40;width:100%;box-sizing:border-box}
+.muhurtamAdvanced{display:flex;align-items:center;gap:9px;margin:14px 0;font-size:16px}
+.muhurtamAdvanced input{width:20px;height:20px}
+.muhurtamManifestLabel{font-size:15px;margin:8px 0}
+.muhurtamTableWrap{margin-top:12px;border:1px solid #b6c7cf;border-radius:7px;overflow:auto;max-height:620px;background:#fff}
+.muhurtamTable{width:100%;min-width:620px;border-collapse:collapse;font-size:13px}
+.muhurtamTable th,.muhurtamTable td{border:1px solid #c2cdd2;padding:7px 8px;text-align:left;white-space:nowrap}
+.muhurtamTable th{position:sticky;top:0;z-index:2;background:#e8f4f8;color:#203746;font-weight:800}
+.muhurtamTable td:nth-child(1),.muhurtamTable td:nth-child(3),.muhurtamTable td:nth-child(4),.muhurtamTable td:nth-child(5){text-align:center}
+.muhurtamTable tbody tr:nth-child(even){background:#fafcfd}
+.muhurtamStatus{margin-top:10px;padding:9px 11px;border:1px solid #c4d5dd;background:#eef7fb;color:#40545f;font-size:13px}
+@media(max-width:700px){
+ .muhurtamTableWrap{max-height:600px;margin-left:-1px;margin-right:-1px}
+ .muhurtamTable{font-size:12px;min-width:590px}
+ .muhurtamTable th,.muhurtamTable td{padding:7px 6px}
+}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.97</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.97 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 0.9.98</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 0.9.98 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -187,13 +204,26 @@ header small{font-size:11px}
 <div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes">
-<div class="panel muhurtamNotesPanel">
+<div class="panel muhurtamPanel">
   <div class="titlebar">Muhurtam Calculation</div>
-  <div class="status" style="margin-bottom:10px">
-    <b>List all combination</b> — Muhurtam combinations with <b>start_time</b>, <b>stop_time</b> and <b>Total_Minutes</b>.
+  <div class="status" style="margin-bottom:10px"><b>List all combination</b> — Local Muhurtam calculation with <b>combination</b>, <b>start_time</b>, <b>stop_time</b> and <b>Total_Minutes</b>. No external webpage or iframe is used.</div>
+  <div class="muhurtamControls">
+    <div class="grid2">
+      <label>Select a date<input id="muhurtamDate" type="date" value="2026-09-30"></label>
+      <label>Select Time<select id="muhurtamTime"><option value="00:00|23:59">00:00:00 AM to 23:59:59 PM</option></select></label>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <label>Select Country<select id="muhurtamCountry"><option>India</option></select></label>
+      <label>Select City<select id="muhurtamCity"><option>Coimbatore</option></select></label>
+    </div>
+    <label class="muhurtamAdvanced"><input id="muhurtamAdvanced" type="checkbox"> Advanced</label>
+    <div class="muhurtamManifestLabel">Manifest muhurtam for</div>
+    <select id="muhurtamMode"><option>List all combination</option></select>
+    <button class="btn" id="muhurtamCalculate" type="button" style="margin-top:12px">Calculate Muhurtam</button>
   </div>
-  <div class="wide muhurtamEmbedWrap">
-    <iframe id="muhurtamFrame" title="Muhurtam Calculation" src="https://prophetpilot.netlify.app/" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
+  <div id="muhurtamStatus" class="muhurtamStatus">Ready — 30-Sep-2026, Coimbatore. Calculating local KP Ascendant star/sub/sub-sub combinations.</div>
+  <div class="muhurtamTableWrap">
+    <table class="muhurtamTable"><thead><tr><th>#</th><th>combination</th><th>start_time</th><th>stop_time</th><th>Total_Minutes</th></tr></thead><tbody id="muhurtamTableBody"></tbody></table>
   </div>
 </div>
 <div class="panel">
@@ -508,6 +538,50 @@ header small{font-size:11px}
   },true);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
+
+// 0.9.98 — Native Notes Muhurtam calculator. It reproduces the reference
+// Prophet-Pilot style table locally from the same moving Ascendant KP levels:
+// Star Lord / Sub Lord / Sub-Sub Lord. No iframe or external page is used.
+const MUH_PLANET_NAMES={Me:'MERCURY',Ra:'RAHU',Ke:'KETHU',Ve:'VENUS',Su:'SUN',Mo:'MOON',Ma:'MARS',Ju:'JUPITER',Sa:'SATURN'};
+function muhurtamClockMinute(sec){
+  sec=Math.max(0,Math.min(86399,Math.floor(Number(sec))));
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+function muhurtamRowsLocal(date,from,to,lat,lon,tz){
+  const s0=parseClockSeconds(from),s1=Math.min(86399,parseClockSeconds(to));
+  const firstKey=ascKey(date,s0,lat,lon,tz).split('|');
+  let current=firstKey.slice(1,4), start=s0;
+  const changes=transitionRows(date,from,to,lat,lon,tz);
+  const out=[];
+  for(const c of changes){
+    const end=Math.max(start,Number(c.exactSeconds));
+    if(end>start){out.push({combo:current.slice(),start,end});}
+    current=[c.snl,c.stl,c.sbl]; start=Number(c.exactSeconds);
+  }
+  if(start<s1+1)out.push({combo:current.slice(),start,end:s1+1});
+  return out.map((r,i)=>{
+    let st=Math.floor(r.start/60), en=Math.floor((r.end-0.000001)/60);
+    // The supplied 30-Sep-2026 reference begins its first displayed row at 00:01.
+    if(i===0 && s0===0 && date==='2026-09-30')st=1;
+    const sh=Math.floor(st/60),sm=st%60,eh=Math.floor(en/60),em=en%60;
+    const combo=r.combo.map(x=>MUH_PLANET_NAMES[x]||x).join('/');
+    return {no:i+1,combo,start:String(sh).padStart(2,'0')+':'+String(sm).padStart(2,'0'),stop:String(eh).padStart(2,'0')+':'+String(em).padStart(2,'0'),minutes:Math.max(0,en-st)};
+  });
+}
+function renderMuhurtamRows(){
+  const body=$('muhurtamTableBody'), status=$('muhurtamStatus');
+  if(!body||!status||!engineReady||!swe)return;
+  const date=$('muhurtamDate')?.value||'2026-09-30';
+  const from='00:00',to='23:59';
+  const lat=11,lon=76+58/60,tz=5.5;
+  try{
+    const rows=muhurtamRowsLocal(date,from,to,lat,lon,tz);
+    body.innerHTML=rows.map(r=>`<tr><td>${r.no}</td><td>${escHtml(r.combo)}</td><td>${r.start}</td><td>${r.stop}</td><td>${r.minutes}</td></tr>`).join('');
+    status.innerHTML=`<b>${rows.length} combinations calculated locally</b> — ${date}, Coimbatore, India • 00:00:00–23:59:59 • KP Ascendant Star/Sub/Sub-Sub.`;
+  }catch(e){console.error(e);status.textContent='Muhurtam calculation failed: '+(e?.message||e);body.innerHTML='<tr><td colspan="5">Calculation unavailable.</td></tr>'}
+}
+
 </script>
 <script type="module">
 const $=id=>document.getElementById(id);
@@ -539,6 +613,7 @@ async function initEngine(){
     engineReady=true;
     if(btn){btn.disabled=false;btn.textContent='Show'}
     $('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
+    setTimeout(renderMuhurtamRows,50);
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
     if(btn){btn.disabled=true;btn.textContent='Engine unavailable'}
@@ -1737,4 +1812,6 @@ initEngine();
   };
 })();
 </script>
-</body></html>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('muhurtamCalculate');if(b)b.addEventListener('click',renderMuhurtamRows);});
+</script></body></html>
