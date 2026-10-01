@@ -140,6 +140,13 @@ header small{font-size:11px}
 }
 
 
+
+/* 1.19: Results Analysis should show ONLY the compact Object/SubL/+H/-H/Y/N/Analysis table.
+   Hide the selected-muhurat metadata/description lines without removing the table. */
+.resultsAnalysisHeader{display:none !important}
+#selectedMuhuratMeta{display:none !important}
+#selectedMuhuratPanel > .titlebar{display:none !important}
+#selectedMuhuratPanel > .status{display:none !important}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.16</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
