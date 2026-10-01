@@ -141,7 +141,7 @@ header small{font-size:11px}
 
 
 
-/* 1.19: Results Analysis should show ONLY the compact Object/SubL/+H/-H/Y/N/Analysis table.
+/* 1.20: Results Analysis should show ONLY the compact Object/SubL/+H/-H/Y/N/Analysis table.
    Hide the selected-muhurat metadata/description lines without removing the table. */
 .resultsAnalysisHeader{display:none !important}
 #selectedMuhuratMeta{display:none !important}
@@ -168,7 +168,6 @@ header small{font-size:11px}
 
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
-  <div class="resultsAnalysisHeader">Analysis for Selected Muhurat</div>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
@@ -1449,8 +1448,7 @@ function fullObjectAnalysis(event,cd,periods,fixture){
 function renderResultsAnalysis(row){
   const panel=$('resultsAnalysisPanel');
   const body=$('resultsAnalysisRows');
-  const meta=$('resultsAnalysisMeta');
-  if(!panel||!body||!meta||!row) return;
+  if(!panel||!body||!row) return;
   panel.hidden=false;
   const date=row.date||$('date').value;
   const t=row.time;
@@ -1463,7 +1461,6 @@ function renderResultsAnalysis(row){
   const periods=row.periods||vimPeriods(date,t,tz);
   const fixture=windowsCoimbatoreRuleFixture(row,event,cd,periods);
   const rules=fullObjectAnalysis(event,cd,periods,fixture);
-  meta.innerHTML='';
   body.innerHTML=rules.map(r=>{
     const yn=String(r.yn??'—');
     const pos=(r.positive||[]).join(', ')||'—';
