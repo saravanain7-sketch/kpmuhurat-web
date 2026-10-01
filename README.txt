@@ -1,11 +1,15 @@
-KPMuhurat V1.5.11 Mobile/PWA — Build 1.05
+KP Muhurat V1.5.11 — Windows Engine Reference
 
-This build changes the engine loader to prefer same-origin local Swiss Ephemeris files and only use CDN as a fallback. It also gives explicit engine loading/error status.
+These are the supplied Windows V1.5.11 binaries/data used as the reverse-engineering reference for mobile parity.
 
-IMPORTANT: the current workspace did not contain the official @swisseph/browser WASM binary, so vendor/swisseph-browser.js and vendor/swisseph.wasm are intentionally not fabricated. The official package documents that await swe.init() loads swisseph.wasm from the same directory as the JavaScript bundle.
+The browser app does NOT execute Windows DLLs directly. Chrome/Android uses the WebAssembly astronomy engine in index.html. The Windows files are retained here so the parity package contains the authoritative calculation reference and event/database inputs in one place.
 
-To make this build completely self-contained/offline, add the matching @swisseph/browser distribution files:
-  vendor/swisseph-browser.js
-  vendor/swisseph.wasm
-
-Do not substitute another astronomy engine if Windows V1.5.11 parity is required.
+Key reference components:
+- KpMuhuart.exe — original Windows V1.5.11 executable
+- vedicbputil.dll — KP/Vedic calculation utility
+- ephcalc.dll / ephstrings.dll / astrogui.dll — calculation/UI libraries
+- sqlite3.dll — database runtime
+- events.txt — original event rules
+- AstroOpenSourceAtlas.db — original place database
+- Settings.xml — original settings
+- MuhuratUserGuide.doc — V1.5.11 behavior/analysis documentation
