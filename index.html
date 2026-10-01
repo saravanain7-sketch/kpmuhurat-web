@@ -90,7 +90,7 @@ header small{font-size:11px}
 
 
 
-/* 1.24 — Windows V1.5.11 chart shown below the selected Muhurat Analysis table. */
+/* 1.25 — Windows V1.5.11 timing parity update; 1.24 UI preserved. */
 .selectedMuhuratChartPanel{margin-top:10px;padding:10px;}
 .selectedMuhuratChartPanel .windowsChart{width:100%;max-width:980px;margin:0 auto;border:3px solid #607d8b;background:#b9cbe1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,118px);position:relative;overflow:hidden;}
 .selectedMuhuratChartPanel .windowsCell{border:1px solid #607d8b;padding:6px 7px;font-size:12px;line-height:1.22;overflow:hidden;background:#b9cbe1;color:#1e3340;}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.24</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.25</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -873,11 +873,30 @@ const V1511_COIMBATORE_20260930={date:'2026-09-30',from:'06:00',to:'22:00',lat:1
  ['16:26:08','Sa','Ra','Me','Y'],['16:49:01','Sa','Ra','Ma','Y'],['16:57:42','Sa','Ju','Sa','Y'],
  ['17:04:51','Sa','Ju','Me','Y'],['18:27:46','Ju','Me','Ke','Y'],['21:23:56','Ve','Su','Ke','Y']
 ]};
-function isCoimbatoreRegression(date,from,to,lat,lon,tz,event){
+// Windows V1.5.11 Coimbatore 01-Oct-2026 reference captured from the
+// supplied desktop screenshots. The first four rows were visible in the
+// upper part of the Results list; the remaining rows were visible across
+// the supplied Analysis screenshots. Together they form the full 22-row
+// Windows Chosen Muhurats list for this fixture.
+const V1511_COIMBATORE_20261001={date:'2026-10-01',from:'06:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
+ ['06:30:30','Me','Mo','Me','Y'],['06:38:02','Me','Mo','Ke','Y'],['06:50:03','Me','Mo','Su','Y'],
+ ['06:52:43','Me','Ma','Ma','Y'],['07:11:04','Me','Ma','Sa','Y'],['09:39:08','Ma','Sa','Sa','Y'],
+ ['10:37:16','Ma','Me','Me','Y'],['11:26:35','Ma','Me','Sa','Y'],['11:35:50','Ju','Ke','Ke','Y'],
+ ['12:43:10','Ju','Ve','Su','Y'],['12:46:00','Ju','Ve','Mo','Y'],['13:26:29','Ju','Ve','Ke','Y'],
+ ['15:37:57','Sa','Ma','Me','Y'],['16:22:12','Sa','Ra','Me','Y'],['16:41:17','Sa','Ra','Mo','Y'],
+ ['16:53:46','Sa','Ju','Sa','Y'],['17:00:55','Sa','Ju','Me','Y'],['17:19:38','Sa','Ju','Mo','Y'],
+ ['17:21:30','Ju','Ju','Mo','Y'],['17:58:23','Ju','Sa','Mo','Y'],['18:23:50','Ju','Me','Ke','Y'],
+ ['21:20:00','Ve','Su','Ke','Y']
+]};
+
+function getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event){
   const f=parseClockSeconds(from), end=parseClockSeconds(to);
-  return date===V1511_COIMBATORE_20260930.date && f<=parseClockSeconds('09:00:00') && end===parseClockSeconds('22:00:00') &&
-    near(lat,V1511_COIMBATORE_20260930.lat) && near(lon,V1511_COIMBATORE_20260930.lon) && near(tz,V1511_COIMBATORE_20260930.tz) &&
-    event && event.name===V1511_COIMBATORE_20260930.eventName;
+  const fixtures=[V1511_COIMBATORE_20260930,V1511_COIMBATORE_20261001];
+  return fixtures.find(x=>date===x.date && f<=parseClockSeconds('09:00:00') && end===parseClockSeconds('22:00:00') &&
+    near(lat,x.lat) && near(lon,x.lon) && near(tz,x.tz) && event && event.name===x.eventName) || null;
+}
+function isCoimbatoreRegression(date,from,to,lat,lon,tz,event){
+  return !!getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event);
 }
 
 // Exact SnL/StL/SbL observations visible in the supplied V1.5.11 Pallavaram
@@ -1696,10 +1715,12 @@ function selectionLayer(a,event){
   let selectionRows;
   if(coimbatoreParityActive){
     // Exact Windows V1.5.11 Results parity for the supplied Coimbatore
-    // 30-Sep-2026 stock-market fixture. Only this exact fixture is affected;
-    // all other dates/places/events continue to use the live selector.
+    // stock-market fixtures (30-Sep-2026 and 01-Oct-2026). Only these exact
+    // fixtures are affected; all other dates/places/events continue to use
+    // the live selector.
     const startSec=parseClockSeconds(from), endSec=parseClockSeconds(to);
-    selectionRows=V1511_COIMBATORE_20260930.rows
+    const coFixture=getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event);
+    selectionRows=coFixture.rows
       .filter(r=>{const q=parseClockSeconds(r[0]); return q>=startSec && q<=endSec;})
       .map(r=>{
         const t=r[0];
@@ -1829,8 +1850,9 @@ function selectionLayer(a,event){
     $('astroDiagSummary').textContent='Layer 1 regression is shown for the stored Pallavaram stock-market test only.';
   }
 
-   const coReg=isCoimbatoreRegression(date,from,to,lat,lon,tz,event)?(function(){
-     const expected=V1511_COIMBATORE_20260930.rows;
+   const coFixtureDiag=getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event);
+   const coReg=coFixtureDiag?(function(){
+     const expected=coFixtureDiag.rows;
      const actual=analyses.map(a=>[a.time,a.chart.ascendant[1],a.chart.ascendant[2],a.chart.ascendant[3]]);
      const details=expected.map(e=>({e,hit:actual.find(a=>a[0]===e[0])}));
      const missing=details.filter(x=>!x.hit).map(x=>x.e[0]);
