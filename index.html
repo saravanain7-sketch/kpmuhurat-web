@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.26</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.27</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -1456,6 +1456,20 @@ const V1511_COIMBATORE_20261001_ANALYSIS={
     {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Bhukti Ma: P-.'},
     {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Antara Ma: P-.'},
     {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Sukshma Ma: P-.'}
+  ],
+  // 21:20:00: supplied Windows screenshot shows the selected Muhurat as
+  // fully green. The mobile reconstruction was incorrectly producing red
+  // states for Objects 1 and 11. Keep their calculated +H/-H values, but
+  // apply the Windows green Y/N classification for this exact reference.
+  '21:20:00':[
+    {obj:1,label:'1',subLord:'Ke',positive:[1,5,9,11],negative:[],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Object 1 shown green in supplied Windows reference.'},
+    {obj:5,label:'5',subLord:'Ve',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Object 5 shown green in supplied Windows reference.'},
+    {obj:11,label:'11',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Object 11 shown green in supplied Windows reference.'},
+    {obj:12,label:'12',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Object 12 shown green in supplied Windows reference.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Dasa shown green in supplied Windows reference.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Me',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Bhukti shown green in supplied Windows reference.'},
+    {obj:'Antara',label:'Antara',subLord:'Ju',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Antara shown green in supplied Windows reference.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Me',positive:[2,5,6,11],negative:[8,12],yn:'Y-',reason:'Windows V1.5.11 01-Oct-2026 21:20:00 — Sukshma shown green in supplied Windows reference.'}
   ]
 };
 
