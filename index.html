@@ -89,6 +89,30 @@ header small{font-size:11px}
 }
 
 
+
+/* 1.24 — Windows V1.5.11 chart shown below the selected Muhurat Analysis table. */
+.selectedMuhuratChartPanel{margin-top:10px;padding:10px;}
+.selectedMuhuratChartPanel .windowsChart{width:100%;max-width:980px;margin:0 auto;border:3px solid #607d8b;background:#b9cbe1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,118px);position:relative;overflow:hidden;}
+.selectedMuhuratChartPanel .windowsCell{border:1px solid #607d8b;padding:6px 7px;font-size:12px;line-height:1.22;overflow:hidden;background:#b9cbe1;color:#1e3340;}
+.selectedMuhuratChartPanel .windowsCell.lagnaCell{background:#80cbe8;border:3px solid #1976a8;box-shadow:inset 0 0 0 2px #dff5ff;}
+.selectedMuhuratChartPanel .windowsCell .houseNo{font-weight:700;color:#223846;font-size:12px;}
+.selectedMuhuratChartPanel .windowsCell .signName{font-size:11px;color:#455a64;margin-top:2px;}
+.selectedMuhuratChartPanel .windowsCell .chartLines{margin-top:4px;white-space:pre-line;word-break:break-word;font-weight:600;}
+.selectedMuhuratChartPanel .windowsCell .lagnaMark{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:3px;background:#1976a8;color:#fff;font-size:10px;font-weight:700;}
+.selectedMuhuratChartPanel .windowsCenter{grid-column:2/4;grid-row:2/4;border:1px solid #607d8b;background:#dce8f5;padding:12px;font-size:12px;line-height:1.35;overflow:hidden;color:#203746;}
+.selectedMuhuratChartPanel .windowsCenter .bigTime{font-size:15px;font-weight:700;}
+.selectedMuhuratChartPanel .windowsCenter b{font-size:13px;}
+@media(max-width:700px){
+ .selectedMuhuratChartPanel{padding:4px;}
+ .selectedMuhuratChartPanel .windowsChart{grid-template-rows:repeat(4,82px);border-width:2px;}
+ .selectedMuhuratChartPanel .windowsCell{font-size:9px;padding:4px;line-height:1.15;}
+ .selectedMuhuratChartPanel .windowsCell .houseNo{font-size:10px;}
+ .selectedMuhuratChartPanel .windowsCell .signName{font-size:9px;}
+ .selectedMuhuratChartPanel .windowsCenter{font-size:9px;padding:7px;line-height:1.2;}
+ .selectedMuhuratChartPanel .windowsCenter .bigTime{font-size:11px;}
+ .selectedMuhuratChartPanel .windowsCenter b{font-size:10px;}
+}
+
 /* 0.9.91 Windows-style analysis table directly below Chosen Muhurats on mobile. */
 .resultsAnalysisPanel{margin-top:10px}
 .resultsAnalysisHeader{background:#b9e7f7;border:1px solid #9bb8c6;padding:10px 12px;font-size:18px;font-weight:800;color:#203746}
@@ -148,7 +172,7 @@ header small{font-size:11px}
 #selectedMuhuratPanel > .titlebar{display:none !important}
 #selectedMuhuratPanel > .status{display:none !important}
 
-/* 1.23 — Selecting a Muhurat opens only the compact Results Analysis table;
+/* 1.24 — Selecting a Muhurat opens only the compact Results Analysis table;
    never display the large selected-Muhurat chart/full-analysis panel. */
 #selectedMuhuratPanel{display:none !important}
 
@@ -170,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.23</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.24</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -191,6 +215,9 @@ header small{font-size:11px}
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
+</div>
+<div id="selectedMuhuratChartPanel" class="panel selectedMuhuratChartPanel" hidden>
+  <div id="selectedMuhuratChartOnly"></div>
 </div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
 <div id="selectedMuhuratPanel" class="panel" hidden>
@@ -1467,6 +1494,52 @@ function fullObjectAnalysis(event,cd,periods,fixture){
   return out;
 }
 
+function houseRoman(h){return ({1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII',9:'IX',10:'X',11:'XI',12:'XII'})[h]||String(h);}
+function renderWindowsStyleSelectedChart(row){
+  const panel=$('selectedMuhuratChartPanel');
+  const host=$('selectedMuhuratChartOnly');
+  if(!panel||!host||!row) return;
+  panel.hidden=false;
+  const date=row.date||$('date').value;
+  const t=row.time;
+  const lat=dms($('lat').value)*($('latdir').value==='S'?-1:1);
+  const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
+  const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
+  const event=window.EVENTS[Number($('event').value)];
+  const cd=row.chart||chart({date,time:t,tz,lat,lon});
+  const periods=row.periods||vimPeriods(date,t,tz);
+  const houses=Array(13).fill(null).map(()=>[]);
+  Object.entries(cd.planets||{}).forEach(([pn,p])=>{ if(p&&p.house>=1&&p.house<=12) houses[p.house].push(pn); });
+  const signByHouse=Array(13).fill('');
+  (cd.cusps||[]).forEach(c=>{signByHouse[c.house]=c.sign;});
+  const positions={12:[1,1],1:[1,2],2:[1,3],3:[1,4],11:[2,1],4:[2,4],10:[3,1],5:[3,4],9:[4,1],8:[4,2],7:[4,3],6:[4,4]};
+  const asc=cd.ascendant||[];
+  const lagnaSign=asc[0]||'';
+  const escP=(pn)=>escHtml(pn);
+  const planetText=(h)=>houses[h].length?houses[h].map(pn=>escP(pn)).join(' '):'—';
+  let cells='';
+  for(let h=1;h<=12;h++){
+    const [r,c]=positions[h];
+    const isLagna=(signByHouse[h]===lagnaSign)||(h===1 && !signByHouse[h]);
+    cells+=`<div class="windowsCell${isLagna?' lagnaCell':''}" style="grid-row:${r};grid-column:${c}">
+      <div class="houseNo">${houseRoman(h)}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
+      <div class="signName">${escHtml(signByHouse[h]||'')}</div>
+      <div class="chartLines">${planetText(h)}</div>
+    </div>`;
+  }
+  const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
+  cells+=`<div class="windowsCenter">
+    <div class="bigTime">${escHtml(date)} &nbsp; ${escHtml(t)}</div>
+    Day: ${escHtml(day)}<br><br>
+    <b>(${escHtml($('lat').value)} ${escHtml($('latdir').value)}, ${escHtml($('lon').value)} ${escHtml($('londir').value)}) &nbsp; TZ: ${escHtml($('tz').value)} ${escHtml($('tzdir').value)}</b><br><br>
+    <b>Event:</b> ${escHtml(event?.name||'')}<br><br>
+    <b>Lagna:</b> ${escHtml(asc[0]||'—')} &nbsp; <b>SnL:</b> ${escHtml(asc[1]||'—')} &nbsp; <b>StL:</b> ${escHtml(asc[2]||'—')}<br>
+    <b>SbL:</b> ${escHtml(asc[3]||'—')}<br><br>
+    <b>DAS:</b> ${escHtml(periods.Dasa||'—')} : ${escHtml(periods.Bhukti||'—')} : ${escHtml(periods.Antara||'—')} : ${escHtml(periods.Sukshma||'—')}
+  </div>`;
+  host.innerHTML=`<div class="windowsChart">${cells}</div>`;
+}
+
 function renderResultsAnalysis(row){
   const panel=$('resultsAnalysisPanel');
   const body=$('resultsAnalysisRows');
@@ -1489,6 +1562,7 @@ function renderResultsAnalysis(row){
     const neg=(r.negative||[]).join(', ')||'—';
     return `<tr><td><b>${escHtml(r.label||r.obj||'—')}</b></td><td>${escHtml(r.subLord||r.sublord||'—')}</td><td>${escHtml(pos)}</td><td>${escHtml(neg)}</td><td class="analysisYN ${analysisRowClass(yn)}"><b>${escHtml(yn)}</b></td><td class="analysisText">${escHtml(r.reason||'')}</td></tr>`;
   }).join('');
+  renderWindowsStyleSelectedChart(row);
 }
 
 function renderSelectedMuhurat(row,autoOpen=false){
@@ -1587,11 +1661,11 @@ function bindMuhuratRowClicks(){
     const t=tr.dataset.muhuratTime;
     const row=(window.__selectionRows||[]).find(x=>x.time===t);
     if(row){
-      // 1.23 — selecting a Muhurat shows only its compact Results Analysis table.
+      // 1.24 — selecting a Muhurat shows only its compact Results Analysis table.
       // The large South-Indian chart/full-analysis panel is intentionally not opened.
       renderResultsAnalysis(row);
-      const chartPanel=$('selectedMuhuratPanel');
-      if(chartPanel) chartPanel.hidden=true;
+      const oldPanel=$('selectedMuhuratPanel');
+      if(oldPanel) oldPanel.hidden=true;
       const analysisPanel=$('resultsAnalysisPanel');
       if(analysisPanel) analysisPanel.scrollIntoView({behavior:'smooth',block:'start'});
     }
