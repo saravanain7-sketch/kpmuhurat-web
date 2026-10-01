@@ -141,7 +141,7 @@ header small{font-size:11px}
 
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.16</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.16 • V1.5.11 MOBILE/PWA • 2026-10-01</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.16</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -162,7 +162,6 @@ header small{font-size:11px}
 <section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="resultsAnalysisHeader">Analysis for Selected Muhurat</div>
-  <div id="resultsAnalysisMeta" class="resultsAnalysisMeta">Tap any Muhurat time above to display its Windows-style Analysis table.</div>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
 <div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
@@ -1457,7 +1456,7 @@ function renderResultsAnalysis(row){
   const periods=row.periods||vimPeriods(date,t,tz);
   const fixture=windowsCoimbatoreRuleFixture(row,event,cd,periods);
   const rules=fullObjectAnalysis(event,cd,periods,fixture);
-  meta.innerHTML=`<b>${escHtml(date)} ${escHtml(t)}</b> &nbsp; • &nbsp; ${escHtml(event?.name||'')}<br><span style="font-size:12px">Objects 1–12 + Dasa/Bhukti/Antara/Sukshma &nbsp; • &nbsp; Dark green = fully good &nbsp; • &nbsp; Light green = partial/selectable &nbsp; • &nbsp; Red = not good</span>`;
+  meta.innerHTML='';
   body.innerHTML=rules.map(r=>{
     const yn=String(r.yn??'—');
     const pos=(r.positive||[]).join(', ')||'—';
