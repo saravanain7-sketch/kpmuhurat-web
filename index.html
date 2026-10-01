@@ -123,22 +123,34 @@ header small{font-size:11px}
 }
 
 
-/* 1.12 — Extra-compact mobile Analysis. Keep all six columns visible and keep each row short. */
+/* 1.13 — Compact Analysis with horizontal access. Keep rows short, but make the
+   Analysis column wide enough to read after a left/right swipe. */
 @media(max-width:700px){
-  .resultsAnalysisTable,.kpRuleTable{width:100% !important;min-width:0 !important;table-layout:fixed !important;font-size:10.5px !important;}
-  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{padding:5px 3px !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;vertical-align:middle !important;line-height:1.1 !important;height:38px !important;max-height:38px !important;}
-  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1),.kpRuleTable th:nth-child(1),.kpRuleTable td:nth-child(1){width:11% !important;text-align:left;}
-  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2),.kpRuleTable th:nth-child(2),.kpRuleTable td:nth-child(2){width:10% !important;text-align:center;}
-  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3),.kpRuleTable th:nth-child(3),.kpRuleTable td:nth-child(3){width:16% !important;}
-  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4),.kpRuleTable th:nth-child(4),.kpRuleTable td:nth-child(4){width:16% !important;}
-  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5),.kpRuleTable th:nth-child(5),.kpRuleTable td:nth-child(5){width:13% !important;text-align:center;}
-  .resultsAnalysisTable th:nth-child(6),.resultsAnalysisTable td:nth-child(6),.kpRuleTable th:nth-child(6),.kpRuleTable td:nth-child(6){width:34% !important;text-align:left;}
-  .resultsAnalysisTable .analysisText{display:block !important;font-size:10px !important;line-height:1.1 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;word-break:normal !important;max-width:100% !important;}
+  .resultsAnalysisPanel .wide,
+  .selectedMuhuratRules .wide{overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;width:100% !important;max-width:100% !important;}
+  .resultsAnalysisTable,.kpRuleTable{width:900px !important;min-width:900px !important;table-layout:fixed !important;font-size:10.5px !important;}
+  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{
+    padding:5px 5px !important;vertical-align:middle !important;line-height:1.15 !important;height:38px !important;max-height:38px !important;
+    overflow:hidden !important;text-overflow:ellipsis !important;
+  }
+  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1),.kpRuleTable th:nth-child(1),.kpRuleTable td:nth-child(1){width:75px !important;text-align:left;}
+  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2),.kpRuleTable th:nth-child(2),.kpRuleTable td:nth-child(2){width:65px !important;text-align:center;}
+  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3),.kpRuleTable th:nth-child(3),.kpRuleTable td:nth-child(3){width:130px !important;}
+  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4),.kpRuleTable th:nth-child(4),.kpRuleTable td:nth-child(4){width:100px !important;}
+  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5),.kpRuleTable th:nth-child(5),.kpRuleTable td:nth-child(5){width:70px !important;text-align:center;}
+  .resultsAnalysisTable th:nth-child(6),.resultsAnalysisTable td:nth-child(6),.kpRuleTable th:nth-child(6),.kpRuleTable td:nth-child(6){width:460px !important;text-align:left;}
+  .resultsAnalysisTable .analysisText{
+    display:block !important;font-size:10.5px !important;line-height:1.15 !important;white-space:nowrap !important;
+    overflow:hidden !important;text-overflow:ellipsis !important;max-width:450px !important;
+  }
   .resultsAnalysisTable .analysisYN,.kpRuleTable .analysisYN{font-size:13px !important;font-weight:800 !important;white-space:nowrap !important;vertical-align:middle !important;}
+  /* Small hint so users know the table can be swiped horizontally. */
+  .resultsAnalysisPanel .resultsAnalysisMeta::after{content:'  •  Swipe left/right to view full Analysis';font-size:11px;color:#61727a;font-weight:600;}
 }
 
+
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.12</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.12 • V1.5.11 MOBILE/PWA • 2026-09-30</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.13</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.13 • V1.5.11 MOBILE/PWA • 2026-10-01</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kpmuhurat-v1.5.11-1.12-restored';
+const CACHE_NAME = 'kpmuhurat-v1.5.11-1.13-restored';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
