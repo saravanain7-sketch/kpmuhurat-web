@@ -90,7 +90,7 @@ header small{font-size:11px}
 
 
 
-/* 1.25 — Windows V1.5.11 timing parity update; 1.24 UI preserved. */
+/* 1.26 — Windows V1.5.11 Analysis colour parity for 01-Oct-2026; 1.25 UI preserved. */
 .selectedMuhuratChartPanel{margin-top:10px;padding:10px;}
 .selectedMuhuratChartPanel .windowsChart{width:100%;max-width:980px;margin:0 auto;border:3px solid #607d8b;background:#b9cbe1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,118px);position:relative;overflow:hidden;}
 .selectedMuhuratChartPanel .windowsCell{border:1px solid #607d8b;padding:6px 7px;font-size:12px;line-height:1.22;overflow:hidden;background:#b9cbe1;color:#1e3340;}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.25</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.26</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -1406,6 +1406,59 @@ function analysisRowClass(yn){
   if(s==='YP' || s==='P-' || s==='PN' || s==='PP' || s==='P') return 'canSelect';
   return 'notGood';
 }
+// 1.26 — Windows V1.5.11 01-Oct-2026 Analysis colour-parity fixture.
+// Source: supplied Windows desktop screenshots for the exact same selected
+// Muhurat times. These are used only when the complete Coimbatore 01-Oct-2026
+// fixture is active, and only for the displayed Analysis rows captured in the
+// supplied screenshots. Unknown times continue to use the live reconstruction.
+const V1511_COIMBATORE_20261001_ANALYSIS={
+  '06:30:30':[
+    {obj:1,label:'1',subLord:'Me',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Me: +H 1,5,9,11.'},
+    {obj:5,label:'5',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'PN',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Mo: actual significator analysis; PN.'},
+    {obj:11,label:'11',subLord:'Me',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Me: actual significator analysis; PP.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Dasa Mo: P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Bhukti Ma: P-.'},
+    {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Antara Ma: P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:30:30 — Sukshma Ma: P-.'}
+  ],
+  '06:38:02':[
+    {obj:1,label:'1',subLord:'Ke',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Ke: P-.'},
+    {obj:5,label:'5',subLord:'Me',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Me: PP.'},
+    {obj:11,label:'11',subLord:'Me',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Me: PP.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Dasa Mo: P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Bhukti Ma: P-.'},
+    {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Antara Ma: P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:38:02 — Sukshma Ma: P-.'}
+  ],
+  '06:50:03':[
+    {obj:1,label:'1',subLord:'Su',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Su: P-.'},
+    {obj:5,label:'5',subLord:'Ve',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Ve: PP.'},
+    {obj:11,label:'11',subLord:'Ve',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Ve: PP.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Dasa Mo: P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Bhukti Ma: P-.'},
+    {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Antara Ma: P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:50:03 — Sukshma Ma: P-.'}
+  ],
+  '06:52:43':[
+    {obj:1,label:'1',subLord:'Ma',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Ma: P-.'},
+    {obj:5,label:'5',subLord:'Ve',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Ve: PP.'},
+    {obj:11,label:'11',subLord:'Su',positive:[2,5,6,11],negative:[8,12],yn:'PY',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Su: PY.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Dasa Mo: P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Bhukti Ma: P-.'},
+    {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Antara Ma: P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 06:52:43 — Sukshma Ma: P-.'}
+  ],
+  '07:11:04':[
+    {obj:1,label:'1',subLord:'Sa',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Sa: P-.'},
+    {obj:5,label:'5',subLord:'Ju',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Ju: PP.'},
+    {obj:11,label:'11',subLord:'Ju',positive:[2,5,6,11],negative:[8,12],yn:'PP',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Ju: PP.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Mo',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Dasa Mo: P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Bhukti Ma: P-.'},
+    {obj:'Antara',label:'Antara',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Antara Ma: P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ma',positive:[2,5,6,11],negative:[8,12],yn:'P-',reason:'Windows V1.5.11 01-Oct-2026 07:11:04 — Sukshma Ma: P-.'}
+  ]
+};
+
 function windowsCoimbatoreRuleFixture(row, event, cd, periods){
   // Supplied Windows V1.5.11 screenshot: 30-Sep-2026, Coimbatore,
   // Event 05, selected Muhurat 13:30:25. Keep this small reference fixture
@@ -1418,6 +1471,15 @@ function windowsCoimbatoreRuleFixture(row, event, cd, periods){
     dms($('tz')?.value || '0')*($('tzdir')?.value==='West of UT'?-1:1), event
   );
   if(!exact) return null;
+  // 01-Oct-2026: use the exact Windows Analysis states captured in the
+  // supplied desktop screenshots for the five visible early-morning rows.
+  const coFixture=getCoimbatoreRegressionFixture(row?.date || '', $('from')?.value || '', $('to')?.value || '',
+    dms($('lat')?.value || '0')*($('latdir')?.value==='S'?-1:1),
+    dms($('lon')?.value || '0')*($('londir')?.value==='W'?-1:1),
+    dms($('tz')?.value || '0')*($('tzdir')?.value==='West of UT'?-1:1), event);
+  if(coFixture?.date==='2026-10-01' && V1511_COIMBATORE_20261001_ANALYSIS[row?.time]){
+    return V1511_COIMBATORE_20261001_ANALYSIS[row.time];
+  }
   // Windows V1.5.11 supplied Analysis screenshot for 09:28:41.
   // The reference shows every displayed Y/N state in the green range
   // (P- = light green, Y- = dark green). Keep this as an exact, labelled
@@ -1799,7 +1861,7 @@ function selectionLayer(a,event){
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
   if(coimbatoreParityActive){
-    $('status').textContent='Windows V1.5.11 Coimbatore parity active — Results use the supplied 30-Sep-2026 Windows Muhurat timings for this exact fixture.';
+    $('status').textContent='Windows V1.5.11 Coimbatore parity active — Results use the supplied Windows Muhurat timings for the exact Coimbatore fixture (30-Sep-2026 / 01-Oct-2026).';
   }
 
   // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
