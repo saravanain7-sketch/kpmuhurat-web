@@ -123,34 +123,25 @@ header small{font-size:11px}
 }
 
 
-/* 1.14 — Compact Analysis table, comparable in size to Chosen Muhurats.
-   Keep the five rule columns compact and make Analysis accessible by a short
-   horizontal swipe instead of making the table 900px wide. */
+/* 1.15 — Ultra-compact Analysis table: minimal space for numbers/letters; Analysis remains accessible by horizontal swipe. */
 @media(max-width:700px){
-  .resultsAnalysisPanel .wide,
-  .selectedMuhuratRules .wide{overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;width:100% !important;max-width:100% !important;}
-  .resultsAnalysisTable,.kpRuleTable{width:620px !important;min-width:620px !important;table-layout:fixed !important;font-size:10.5px !important;}
-  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{
-    padding:4px 4px !important;vertical-align:middle !important;line-height:1.1 !important;height:34px !important;max-height:34px !important;
-    overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap !important;
-  }
-  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1),.kpRuleTable th:nth-child(1),.kpRuleTable td:nth-child(1){width:55px !important;text-align:left;}
-  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2),.kpRuleTable th:nth-child(2),.kpRuleTable td:nth-child(2){width:55px !important;text-align:center;}
-  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3),.kpRuleTable th:nth-child(3),.kpRuleTable td:nth-child(3){width:95px !important;}
-  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4),.kpRuleTable th:nth-child(4),.kpRuleTable td:nth-child(4){width:80px !important;}
-  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5),.kpRuleTable th:nth-child(5),.kpRuleTable td:nth-child(5){width:55px !important;text-align:center;}
+  .resultsAnalysisPanel .wide,.selectedMuhuratRules .wide{overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;width:100% !important;max-width:100% !important;}
+  .resultsAnalysisTable,.kpRuleTable{width:535px !important;min-width:535px !important;table-layout:fixed !important;font-size:10px !important;}
+  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{padding:2px 2px !important;vertical-align:middle !important;line-height:1 !important;height:28px !important;max-height:28px !important;overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap !important;}
+  .resultsAnalysisTable th:nth-child(1),.resultsAnalysisTable td:nth-child(1),.kpRuleTable th:nth-child(1),.kpRuleTable td:nth-child(1){width:35px !important;text-align:left;}
+  .resultsAnalysisTable th:nth-child(2),.resultsAnalysisTable td:nth-child(2),.kpRuleTable th:nth-child(2),.kpRuleTable td:nth-child(2){width:40px !important;text-align:center;}
+  .resultsAnalysisTable th:nth-child(3),.resultsAnalysisTable td:nth-child(3),.kpRuleTable th:nth-child(3),.kpRuleTable td:nth-child(3){width:75px !important;}
+  .resultsAnalysisTable th:nth-child(4),.resultsAnalysisTable td:nth-child(4),.kpRuleTable th:nth-child(4),.kpRuleTable td:nth-child(4){width:60px !important;}
+  .resultsAnalysisTable th:nth-child(5),.resultsAnalysisTable td:nth-child(5),.kpRuleTable th:nth-child(5),.kpRuleTable td:nth-child(5){width:45px !important;text-align:center;}
   .resultsAnalysisTable th:nth-child(6),.resultsAnalysisTable td:nth-child(6),.kpRuleTable th:nth-child(6),.kpRuleTable td:nth-child(6){width:280px !important;text-align:left;}
-  .resultsAnalysisTable .analysisText{
-    display:block !important;font-size:10px !important;line-height:1.1 !important;white-space:nowrap !important;
-    overflow:hidden !important;text-overflow:ellipsis !important;max-width:270px !important;
-  }
-  .resultsAnalysisTable .analysisYN,.kpRuleTable .analysisYN{font-size:12px !important;font-weight:800 !important;white-space:nowrap !important;vertical-align:middle !important;}
-  .resultsAnalysisPanel .resultsAnalysisMeta::after{content:'  •  Swipe left/right for Analysis';font-size:10px;color:#61727a;font-weight:600;}
+  .resultsAnalysisTable .analysisText{display:block !important;font-size:9.5px !important;line-height:1 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;max-width:275px !important;}
+  .resultsAnalysisTable .analysisYN,.kpRuleTable .analysisYN{font-size:11px !important;font-weight:800 !important;white-space:nowrap !important;vertical-align:middle !important;}
+  .resultsAnalysisPanel .resultsAnalysisMeta::after{content:'  •  Swipe left/right for Analysis';font-size:9px;color:#61727a;font-weight:600;}
 }
 
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.14</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.14 • V1.5.11 MOBILE/PWA • 2026-10-01</div>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.15</small></header><div id="buildVersion" style="text-align:center;font-size:12px;padding:4px;background:#e8f5e9;color:#1b5e20;font-weight:700">BUILD 1.15 • V1.5.11 MOBILE/PWA • 2026-10-01</div>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
