@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kpmuhurat-v1.5.11-1.27-21-20-analysis-parity';
+const CACHE_NAME = 'kpmuhurat-v1.5.11-1.29-windows-engine-parity';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
