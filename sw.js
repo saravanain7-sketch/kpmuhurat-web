@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kpmuhurat-v1.5.11-1.34-original-engine';
+const CACHE_NAME = 'kpmuhurat-v1.5.11-1.34-live-event-engine';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
