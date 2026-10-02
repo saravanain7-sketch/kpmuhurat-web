@@ -1,32 +1,21 @@
-# KPMuhurat V1.5.11 Web 1.42 — Installable PWA
+# KPMuhurat V1.5.11 Web 1.43 — Installable PWA
 
-This package keeps the supplied Web 1.42 calculation/UI build and adds the files needed to install it as a PWA.
-
-## Important
-Open the app from an **HTTPS URL** (for example GitHub Pages), not from a `content://` file opened from Android Downloads. Chrome's PWA installation flow requires a web app origin; a downloaded HTML file is not the same thing as a hosted PWA.
-
-## Files
-- `index.html` — Web 1.42 application
+## Contents
+- `index.html` — Web 1.43 application
+- `KPMuhurat_V1.5.11_Web_1.43.html` — same application source
 - `manifest.webmanifest` — PWA manifest
-- `sw.js` — service worker with a versioned 1.42 cache
-- `icon-192.png`, `icon-512.png` — install icons
+- `sw.js` — service worker/cache
+- `icon-192.png`, `icon-512.png` — app icons
+- `VERSION.txt` — build information
 
-The current Web 1.42 build still loads Swiss Ephemeris browser/WASM from the CDN URLs already present in the application. Therefore this package provides PWA installation and shell caching, but it is **not a fully self-contained offline astronomy bundle**.
+## Install
+1. Host this folder from an HTTPS web origin (or localhost for development).
+2. Open `index.html` in Chrome.
+3. Use Chrome's Install/Add to Home screen option when it is offered.
 
-## GitHub Pages
-1. Create/open a GitHub repository.
-2. Upload the contents of this folder to the repository root.
-3. Enable **Settings → Pages → Deploy from branch → main → / (root)**.
-4. Open the HTTPS Pages URL in Chrome on Android.
-5. Chrome menu ⋮ → **Install app** (or **Add to Home screen**).
-6. Launch KPMuhurat from the Android home screen.
+A ZIP file itself is not directly installable as a PWA; the files must be served by a web origin. Chrome's available install UI can vary by browser/version and current installation state.
 
-## Local Windows test
-Run a local HTTP server from this folder, then open the shown localhost URL in Chrome. Example with Python:
+## Parity note
+Web 1.43 is a calculation-engine revision from Web 1.42. It does not hard-code the 02-Oct-2026 result list. The revision restores the recovered native Vedic-conjunction semantics (same Rasi, <30°) while retaining the recovered `nodeRuleFilterFlag=true` and planet-ID special-aspect mapping.
 
-`python -m http.server 8080`
-
-Then open `http://localhost:8080/`.
-
-## Calculation note
-This packaging change does not alter the V1.5.11 calculation logic. Web 1.42 remains the current reconstruction build and should continue to be regression-tested against the Windows V1.5.11 results.
+The exact Windows timing/selection parity still needs live regression confirmation after running this build against the Windows fixture. Do not treat the build as fully parity-certified until the 02-Oct-2026 result list and the one-second boundary timing have both been checked.

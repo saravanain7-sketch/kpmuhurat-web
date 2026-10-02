@@ -1,17 +1,30 @@
 {
   "id": "./",
-  "name": "KPMuhurat V1.5.11 Web",
+  "name": "KPMuhurat V1.5.11 Web 1.43",
   "short_name": "KPMuhurat",
   "description": "Browser/PWA reconstruction of KPMuhurat V1.5.11.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone"],
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
   "background_color": "#eaf6fc",
   "theme_color": "#1976a8",
   "orientation": "any",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

@@ -1,3 +1,6 @@
-KPMuhurat V1.5.11 Web 1.42
+KPMuhurat V1.5.11 Web 1.43
 PWA packaging: 2026-10-02
-Calculation build: Web 1.42 (unchanged)
+Calculation build: Web 1.43
+
+Parity target: Windows KPMuhurat V1.5.11
+Fixture: Coimbatore, 02-10-2026, Event 05
