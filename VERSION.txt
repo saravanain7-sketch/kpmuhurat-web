@@ -1,0 +1,3 @@
+KPMuhurat V1.5.11 Web 1.42
+PWA packaging: 2026-10-02
+Calculation build: Web 1.42 (unchanged)

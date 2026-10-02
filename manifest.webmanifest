@@ -1,31 +1,17 @@
 {
   "id": "./",
-  "name": "KPMuhurat by Kanak Bosmia V1.5.11",
+  "name": "KPMuhurat V1.5.11 Web",
   "short_name": "KPMuhurat",
-  "start_url": "./index.html?v=1.35",
+  "description": "Browser/PWA reconstruction of KPMuhurat V1.5.11.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone"
-  ],
-  "orientation": "portrait",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#eaf6fc",
   "theme_color": "#1976a8",
-  "lang": "en-IN",
-  "description": "Browser-hosted reconstruction of KP Muhurat V1.5.11 \u2014 independent date-by-date Muhurat analysis, Web 1.35.",
+  "orientation": "any",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
