@@ -194,15 +194,15 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.32</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.33</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
 <label>Place<div class="placeRow"><input id="place" value="Coimbatore, Tamil Nadu, India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
-<div class="grid3"><label>Latitude<input id="lat" value="11:01:00.480"></label><select id="latdir"><option>N</option><option>S</option></select></div>
-<div class="grid3"><label>Longitude<input id="lon" value="76:57:20.880"></label><select id="londir"><option>E</option><option>W</option></select></div>
+<div class="grid3"><label>Latitude<input id="lat" value="11:00:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
+<div class="grid3"><label>Longitude<input id="lon" value="76:58:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
 <label>Event<select id="event"><option>Loading extracted events…</option></select></label>
 <button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 0.9.83 does not inject reference times into the selector.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.33 uses the recovered V1.5.11 transition and B/M selection path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -276,7 +276,7 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" placeholder="Add your own notes here..."></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.32 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. A dedicated parity adapter reproduces the supplied Pallavaram 08-Apr-2022 stock-market regression only when its full fixture inputs match. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.33 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -685,9 +685,9 @@ function chart(dt){
   const planets={};
   for(const [name,id] of Object.entries(ids)){
     let L;if(name==='Ke')L=norm(planets.Ra.lon+180);else{const q=swe.calculatePosition(jd,id,ephFlags);L=norm(q.longitude)}
-    const p=parts(L);planets[name]={lon:L,sign:p[0],sign_lord:p[1],star_lord:p[2],sub_lord:p[3],house:houseForLon(L,cusps)};
+    const p=parts(L);planets[name]={lon:L,sign:p[0],signId:Math.floor(norm(L)/30),sign_lord:p[1],star_lord:p[2],sub_lord:p[3],house:houseForLon(L,cusps)};
   }
-  const cuspRows=[];for(let i=1;i<=12;i++){const p=parts(cusps[i]);cuspRows.push({house:i,lon:cusps[i],sign:p[0],sign_lord:p[1],star_lord:p[2],sub_lord:p[3]})}
+  const cuspRows=[];for(let i=1;i<=12;i++){const p=parts(cusps[i]);cuspRows.push({house:i,lon:cusps[i],sign:p[0],signId:Math.floor(norm(cusps[i])/30),sign_lord:p[1],star_lord:p[2],sub_lord:p[3]})}
   return {ascendant:parts(asc),cusps:cuspRows,planets,ayan};
 }
 // KP house ownership is chart-relative: the lord of the ascendant sign owns house 1,
@@ -813,42 +813,131 @@ function vimPeriods(date,time,tz){
 // full chart() (7 planets + 12 houses) every 5 seconds. That created thousands
 // of unnecessary WASM calls over a normal day. For boundary discovery we only
 // need the four Ascendant KP levels, so calculateHouses + ayanamsa is enough.
-function ascKey(date,s,lat,lon,tz){
+// V1.5.11 recovered transit engine (ported from EphHouseTransitData.cs).
+// The original Windows build uses the 249 KP Sub-Lord boundary table,
+// advances the Lagna in 60-second steps, then refines the crossing to the
+// first whole second that reaches the target boundary. This replaces the
+// previous generic "four-level key changed" scanner.
+const V1511_DASA=[7,20,6,10,7,18,16,19,17];
+function createSubLord249Table(){
+  const nak=13.333333333333334, unit=nak/120;
+  const sub=V1511_DASA.map(x=>x*unit), a3=new Array(249), a2=new Array(249);
+  a3[0]=sub[0]; a3[1]=0; let n4=1,n5=1,n6=0;
+  a2[0]=a3[0];
+  for(let i=1;i<=82;i++){
+    n4%=9;
+    a3[i]=a3[i-1]+sub[n4]; n4++;
+    if(a3[i]>=nak*n5){n5++;n4=n5-1;}
+    if(i===21||i===61)n6++;
+    a2[i+n6]=a3[i];
+  }
+  a2[21]=30; a2[40]=60; a2[61]=90; a2[62]=90.555555555;
+  for(let i=83;i<=165;i++)a2[i]=a2[i-83]+120;
+  for(let i=166;i<249;i++)a2[i]=a2[i-166]+240;
+  return a2;
+}
+const V1511_SUB249=createSubLord249Table();
+function v1511NextSubIndex(pos){
+  let p=norm(pos); if(p>=360)p-=360;
+  for(let i=0;i<248;i++){
+    if(p>=V1511_SUB249[i] && p<V1511_SUB249[i+1]) return {index:i+1,next:V1511_SUB249[i+1]};
+  }
+  return {index:0,next:V1511_SUB249[0]};
+}
+function v1511AscPos(date,s,lat,lon,tz){
   const jd=localJD(date,timeFromSeconds(s),tz);
   const ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  const asc=norm(Number(h.ascendant)-ayan);
-  const p=parts(asc);
+  return norm(Number(h.ascendant)-ayan);
+}
+function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
+  // Recovered FindTimeInterval(): one-second ticks (10,000,000 .NET ticks).
+  // It returns the first whole-second instant at which the target boundary
+  // has been reached.
+  let s=startSec;
+  const targetPos=target;
+  while(s<=endSec+1e-9){
+    let pos=v1511AscPos(date,s,lat,lon,tz);
+    let diff=targetPos-pos;
+    if(diff>300)pos+=360; // same wrap correction used by the original.
+    diff=targetPos-pos;
+    if(diff<=0 && diff+360<=360) return s;
+    s+=1;
+  }
+  return startSec;
+}
+function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
+  return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
+}
+function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
+  const rows=[];
+  let curSec=fromSec;
+  let pos=v1511AscPos(date,curSec,lat,lon,tz);
+  let nx=v1511NextSubIndex(pos), num=nx.index;
+  let prev=num-1, prevPos;
+  if(prev<0){prev=248;prevPos=0;} else prevPos=V1511_SUB249[prev];
+  let nextPos=nx.next; if(nextPos<=0)nextPos=360;
+  let scanPos=pos;
+  while(curSec<=toSec+1e-9){
+    let crossed=false;
+    while(scanPos>=prevPos-1e-12 && scanPos<=nextPos+1e-12){
+      curSec+=60;
+      if(curSec>toSec+1e-9){crossed=true;break;}
+      scanPos=v1511AscPos(date,curSec,lat,lon,tz);
+      if(nextPos>=360 && scanPos<30)scanPos+=360;
+    }
+    if(crossed)break;
+    const bracketEnd=curSec, bracketStart=Math.max(fromSec,curSec-60);
+    let target,idx=num;
+    if(scanPos<prevPos){
+      target=prevPos;
+      num-=2; if(num<0)num=248;
+      idx=num;
+    }else{
+      target=nextPos; idx=num;
+    }
+    if(target>=360)target-=360;
+    const hit=v1511FindTimeFromPosition(date,bracketStart,bracketEnd,target,lat,lon,tz);
+    const levels=parts(V1511_SUB249[idx]);
+    rows.push({time:secfmt(hit),rasi:levels[0],snl:levels[1],stl:levels[2],sbl:levels[3],date,exactSeconds:hit,probeSeconds:hit,boundaryIndex:idx,pos:V1511_SUB249[idx]});
+    pos=v1511AscPos(date,hit,lat,lon,tz);
+    nx=v1511NextSubIndex(pos); num=nx.index;
+    prev=num-1;
+    if(prev<0){prev=248;prevPos=0;}else prevPos=V1511_SUB249[prev];
+    nextPos=nx.next; if(nextPos<=0)nextPos=360;
+    scanPos=pos;
+    if(scanPos>360)scanPos-=360;
+  }
+  return rows;
+}
+function dateAddDays(date,n){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
+function v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate){
+  const a=parseClockSeconds(from), b=parseClockSeconds(to);
+  const finalDate=endDate||date;
+  const out=[]; let day=0, d=date;
+  while(true){
+    const fs=day===0?a:0;
+    out.push(...v1511TransitionRowsDay(d,fs,b,lat,lon,tz));
+    if(d===finalDate)break;
+    d=dateAddDays(d,1); day++;
+    if(day>3700)break;
+  }
+  return out;
+}
+function ascKey(date,s,lat,lon,tz){
+  const p=parts(v1511AscPos(date,s,lat,lon,tz));
+  return [p[0],p[1],p[2],p[3]].join('|');
+}
+function transitionRows(date,from,to,lat,lon,tz,endDate){
+  return v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate);
+}
+
+function ascKey(date,s,lat,lon,tz){
+  const p=parts(v1511AscPos(date,s,lat,lon,tz));
   return [p[0],p[1],p[2],p[3]].join('|');
 }
 function transitionRows(date,from,to,lat,lon,tz){
-  const s0=parseClockSeconds(from),s1=parseClockSeconds(to);
-  let rows=[],prev=null;
-  // 15-second coarse sampling is safely below the shortest KP sub-level
-  // interval normally encountered by the moving Ascendant, while reducing
-  // the expensive house/WASM calls by roughly 3x versus the 5-second scan.
-  // The exact transition is still located with a 45-iteration binary search.
-  const step=15;
-  const key=s=>ascKey(date,s,lat,lon,tz);
-  for(let s=s0;s<=s1;s+=step){
-    const k=key(s);
-    if(prev===null){prev=k;continue}
-    if(k!==prev){
-      let lo=s-step,hi=s;
-      for(let i=0;i<45;i++){
-        const mid=(lo+hi)/2;
-        if(key(mid)===prev)lo=mid;else hi=mid;
-      }
-      const displaySeconds=Math.floor(hi+1e-9);
-      // Classify the row just after the exact boundary so the new KP lord is
-      // displayed (e.g. 09:07:31 -> Ju, not the preceding Ra).
-      const probeSeconds=Math.min(hi+0.25,s1-0.001);
-      const probeKey=key(probeSeconds).split('|');
-      rows.push({time:secfmt(displaySeconds),rasi:probeKey[0],snl:probeKey[1],stl:probeKey[2],sbl:probeKey[3],date,exactSeconds:hi,probeSeconds});
-      prev=k;
-    }
-  }
-  return rows;
+  return v1511TransitionRowsRange(date,from,to,lat,lon,tz);
 }
 
 // Regression fixture used only for verification. It is never used to select
@@ -1075,33 +1164,37 @@ async function run(){
  if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
  try{
   $('status').textContent='Calculating '+String($('date').value||'selected date')+' — exact KP significators / CSL / Y-N / Dasa…';
-  const date=$('date').value,from=$('from').value+':00',to=$('to').value+':00',
+  const date=$('date').value,endDate=$('todate')?.value||date,from=$('from').value+':00',to=$('to').value+':00',
     lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),
     lon=dms($('lon').value)*($('londir').value==='W'?-1:1),
     tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),
     event=window.EVENTS[Number($('event').value)];
 
-  const trs=transitionRows(date,from,to,lat,lon,tz);
+  const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
+  // Settings.xml has CharaRasi=false. Original Show_Click therefore keeps
+  // Lagna transitions in movable signs only when that option is enabled; by
+  // default Aries/Cancer/Libra/Capricorn transitions are filtered out of the
+  // Analysis/Results path.
+  const trs=trsAll.filter(r=>![0,3,6,9].includes(Math.floor(norm(Number(r.pos||0))/30)));
   const times=trs.map(x=>x.time);
   const analyses=[];
   window.__lastEvent=event;
   for(let i=0;i<times.length;i++){
     const time=times[i], tr=trs[i];
+    const rowDate=tr.date||date;
     // Use the post-boundary probe for lord classification; display remains
     // the original transition second (e.g. 09:07:31).
     const calcTime=timeFromSeconds(tr.probeSeconds ?? tr.exactSeconds ?? parseClockSeconds(time));
-    const cd=chart({date,time:calcTime,tz,lat,lon});
-    const periods=vimPeriods(date,time,tz);
+    const cd=chart({date:rowDate,time:calcTime,tz,lat,lon});
+    const periods=vimPeriods(rowDate,time,tz);
     const rules=eventAnalysis(event,cd,periods);
     // General live event-rule evaluation for normal inputs. For the exact
     // supplied Pallavaram 08-Apr-2022 stock-market regression, use the known
     // Windows Y/N result as an explicitly-labelled parity fixture.
-    const active=rules.filter(r=>(r.obj>=1&&r.obj<=12) || PERIOD_CODES[r.obj]);
-    const calculatedYN=active.length>0&&active.every(r=>String(r.yn).startsWith('Y'))?'Y':'N';
-    const parityYN=regressionParityYN(time,date,$('from').value+':00',$('to').value+':00',lat,lon,tz,event);
-    const yn=parityYN || calculatedYN;
-    const reason=active.map(r=>r.reason).join('; ');
-    analyses.push({date,time,chart:cd,rules,periods,yn,reason,parityYN});
+    const originalBmm=v1511OriginalBmmAnalysis(cd,cd.ascendant[3]);
+    const yn=originalBmm.pass?'Y':'N';
+    const reason=originalBmm.reason;
+    analyses.push({date:rowDate,time,chart:cd,rules,periods,yn,reason,parityYN:null,originalBmm});
   }
 
   $('lagna').innerHTML=trs.map(r=>`<tr><td>${r.rasi}</td><td>${r.snl}</td><td>${r.stl}</td><td>${r.time}</td><td>${r.date}</td></tr>`).join('');
@@ -1342,6 +1435,112 @@ function renderNewSourceEvidence(date){
   }
   host.innerHTML=blocks.join('');
 }
+// Exact V1.5.11 Badhaka/Maraka/Moksha selection ported from
+// CEphAnalysis.GetSubLordAnalysis() and EphCalcPlanet.GetPlanetSgnf().
+// The Windows Results tab marks a transition as Y only when mBala remains 1;
+// Badhaka/Maraka connections set it to -1. Moksha (12th) is informational and
+// does not by itself make the transition N.
+function v1511BmmList(lagnaSign){
+  const movable=['Ar','Ca','Li','Cp'], fixed=['Ta','Le','Sc','Aq'];
+  const badhaka=movable.includes(lagnaSign)?11:(fixed.includes(lagnaSign)?9:7);
+  return [badhaka,2,7,12];
+}
+function v1511PlanetSgnf(name,cd){
+  const p=cd?.planets?.[name]; if(!p) return null;
+  const ownerHouses=planet=> (cd.cusps||[]).filter(c=>c.sign_lord===planet).map(c=>c.house);
+  return {
+    planet:name,
+    occ:p.house,
+    owners:ownerHouses(name),
+    star:p.star_lord,
+    starOcc:cd.planets?.[p.star_lord]?.house,
+    starOwners:ownerHouses(p.star_lord),
+    sub:p.sub_lord,
+    subOcc:cd.planets?.[p.sub_lord]?.house,
+    subOwners:ownerHouses(p.sub_lord)
+  };
+}
+function v1511MarkSgnf(s,bmm,neg,cuspSet){
+  if(!s) return;
+  for(const h of [s.occ,...s.owners,s.starOcc,...s.starOwners,s.subOcc,...s.subOwners]){
+    if(!Number.isFinite(h)) continue;
+    cuspSet.add(h);
+    if(bmm.slice(0,3).includes(h)) neg.push(h);
+  }
+}
+function v1511Conj(a,b){
+  if(!a||!b||a===b)return false;
+  const pa=a.lon,pb=b.lon;
+  const d=Math.abs(((pa-pb+540)%360)-180);
+  return a.sign===b.sign && d<30;
+}
+function v1511SpecialAspects(targetName,cd){
+  // Exact table from GetVidecAspectsSpecial(). Rows are indexed by the
+  // source planet's Rasi; offsets are the signs it aspects.
+  const aspectMap={2:[4,8],4:[5,9],6:[3,10]};
+  const target=cd.planets[targetName]; if(!target)return [];
+  const out=[];
+  for(const [name,p] of Object.entries(cd.planets||{})){
+    if(name===targetName)continue;
+    const offs=aspectMap[p.signId];
+    if(!offs)continue;
+    for(const off of offs){
+      const sign=(p.signId+(off-1))%12;
+      if(sign===target.signId){out.push(name);break;}
+    }
+  }
+  return out;
+}
+function v1511OriginalBmmAnalysis(cd,sbl){
+  const lagna=cd?.ascendant?.[0];
+  const bmm=v1511BmmList(lagna);
+  let mBala=1;
+  const neg=[];
+  const cuspSet=new Set();
+  const nodeSeen=new Set();
+  const baseNames=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
+  const addPlanet=name=>{
+    if(!name || nodeSeen.has(name))return;
+    nodeSeen.add(name);
+    const s=v1511PlanetSgnf(name,cd);
+    v1511MarkSgnf(s,bmm,neg,cuspSet);
+    // GetNodeAnalysisString(): non-nodes are only marked and return.
+    if(name!=='Ra' && name!=='Ke')return;
+    const p=cd.planets[name];
+    const conj=baseNames.filter(n=>n!==name&&v1511Conj(p,cd.planets?.[n]));
+    if(conj.length){
+      for(const n of conj){const q=v1511PlanetSgnf(n,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(n);}
+      return;
+    }
+    // If no conjunction, original code checks its special Vedic aspects.
+    for(const n of v1511SpecialAspects(name,cd)){
+      const q=v1511PlanetSgnf(n,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(n);
+    }
+    // And it also includes the Rasi lord of the node.
+    const rl=p.sign_lord;
+    const q=v1511PlanetSgnf(rl,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(rl);
+  };
+  const primary=v1511PlanetSgnf(sbl,cd);
+  if(!primary)return {pass:false,mBala:-1,bmm,neg,reason:'No Sub Lord data'};
+  addPlanet(sbl); addPlanet(primary.star); addPlanet(primary.sub);
+  // Final "No planets in the star of X" block from the original source.
+  for(const name of [...nodeSeen]){
+    const hasStarPlanet=baseNames.some(n=>n!==name&&cd.planets?.[n]?.star_lord===name);
+    if(!hasStarPlanet){
+      for(const c of (cd.cusps||[])){
+        if(c.sub_lord===name){
+          cuspSet.add(c.house);
+          if(bmm.slice(0,3).includes(c.house))neg.push(c.house);
+        }
+      }
+    }
+  }
+  mBala=neg.length? -1:1;
+  const uniq=[...new Set(neg)];
+  const reason=uniq.length?`V1.5.11 B/M connection: ${uniq.map(h=>`${h===bmm[0]?'B':(h===12?'Moksha':'M')}${h}`).join(', ')}`:'V1.5.11 B/M clear';
+  return {pass:mBala===1,mBala,bmm,neg:uniq,cuspSet:[...cuspSet],reason};
+}
+
 function basicPlanetInfo(name,cd,lagnaSign){
   const p=cd?.planets?.[name];
   if(!p) return null;
@@ -1831,55 +2030,29 @@ function bindMuhuratRowClicks(){
 }
 
 function selectionLayer(a,event){
+  const o=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
   const chain=basicReasonChain(a);
-  // V1.5.11 Analysis Y/N is a Muhurat-quality decision. The user guide
-  // states that only Muhurats with no Baadhaka or Maaraka are automatically
-  // selectable. Event-specific positive/negative house rules belong to the
-  // later Results/Cusp analysis, not to this transition-level Y/N gate.
-  const pass=chain.pass;
   return {
-    sbl:chain.sbl,snl:chain.snl,stl:chain.stl,lagnaSign:chain.lagnaSign,
-    lagnaH:significators(chain.snl,a.chart),
+    sbl:a.chart.ascendant[3],snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],lagnaSign:a.chart.ascendant[0],
+    lagnaH:significators(a.chart.ascendant[1],a.chart),
     fifthLayer:null,eleventhLayer:null,fifthEval:null,eleventhEval:null,
     fifthPass:null,eleventhPass:null,periods:a.rules.filter(r=>[101,102,103,104].includes(Number(r.obj))),
     periodLayers:[],required:[],covered:[],timingPass:null,timingNoLoss:null,
     promisePass:null,timingRP:null,rp:[],rpCommon:[],triggerPass:true,
-    sblH:significators(chain.sbl,a.chart),sblPosHit:[],sblNegHit:[],pass,
-    reason:chain.reason
+    sblH:significators(a.chart.ascendant[3],a.chart),sblPosHit:[],sblNegHit:[],
+    pass:o.pass, originalBmm:o, reason:o.reason+'; '+chain.reason
   };
 }
 
-  const parityActive=isStockRegression(date,from,to,lat,lon,tz,event);
-  const coimbatoreParityActive=isCoimbatoreRegression(date,from,to,lat,lon,tz,event);
-  let selectionRows;
-  if(coimbatoreParityActive){
-    // Exact Windows V1.5.11 Results parity for the supplied Coimbatore
-    // stock-market fixtures (30-Sep-2026, 01-Oct-2026, 02-Oct-2026 and 03-Oct-2026). Only these exact
-    // fixtures are affected; all other dates/places/events continue to use
-    // the live selector.
-    const startSec=parseClockSeconds(from), endSec=parseClockSeconds(to);
-    const coFixture=getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event);
-    selectionRows=coFixture.rows
-      .filter(r=>{const q=parseClockSeconds(r[0]); return q>=startSec && (q<=endSec || (date==='2026-10-03' && q===parseClockSeconds('22:03:51')));})
-      .map(r=>{
-        const t=r[0];
-        const cd=chart({date,time:timeFromSeconds(parseClockSeconds(t)+0.25),tz,lat,lon});
-        const overridden={...cd,ascendant:[cd.ascendant[0],r[1],r[2],r[3],cd.ascendant[4],cd.ascendant[5]]};
-        const base=selectionLayer({date,time:t,chart:overridden,rules:[],periods:[],yn:'Y',reason:'Windows V1.5.11 Coimbatore parity reference'},event);
-        return {date,time:t,chart:overridden,rules:[],periods:vimPeriods(date,t,tz),yn:'Y',reason:'Windows V1.5.11 Coimbatore parity reference',parityYN:'Y',selection:{...base,pass:true,reason:'Windows V1.5.11 Coimbatore parity reference'}};
-      });
-  } else {
-    selectionRows=analyses.map(a=>{
-      const base=selectionLayer(a,event);
-      if(parityActive && a.parityYN){
-        return {...a,selection:{...base,pass:a.parityYN==='Y',reason:base.reason}};
-      }
-      return {...a,selection:base};
-    });
-  }
+  // Production selection: use the recovered V1.5.11 B/M result for every
+  // date. No screenshot/date-specific fixture overrides the engine.
+  const selectionRows=analyses.map(a=>{
+    const base=selectionLayer(a,event);
+    return {...a,selection:{...base,pass:base.pass,reason:base.reason}};
+  });
   window.__lastAnalyses=analyses;
   window.__selectionRows=selectionRows.filter(a=>a.selection.pass);
-  $('chosen').innerHTML=window.__selectionRows.map(a=>`<tr class="good muhuratPick" data-muhurat-time="${escHtml(a.time)}" title="Tap to view Windows-style Analysis below and Chart"><td>${date}</td><td><b>${a.time}</b></td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Chart & full analysis for ${a.time}</summary><div>Tap the Muhurat time row above to open the full chart.</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
+  $('chosen').innerHTML=window.__selectionRows.map(a=>`<tr class="good muhuratPick" data-muhurat-time="${escHtml(a.time)}" title="Tap to view Windows-style Analysis below and Chart"><td>${a.date}</td><td><b>${a.time}</b></td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Chart & full analysis for ${a.time}</summary><div>Tap the Muhurat time row above to open the full chart.</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
   bindMuhuratRowClicks();
   renderReasonChain(analyses,date);
   renderEvidenceCalibrator(analyses,date);
@@ -2043,7 +2216,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.32').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.33').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
