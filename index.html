@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.36</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.37</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.36 uses the recovered V1.5.11 transition and B/M selection path; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.37 uses the recovered V1.5.11 transition and B/M selection path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -276,7 +276,7 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" placeholder="Add your own notes here..."></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.35 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. Web 1.36 uses a live reconstruction of the decoded event-rule and B/M selection path; exact byte-for-byte Windows equivalence remains a validation target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.35 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. Web 1.37 uses a live reconstruction of the decoded event-rule and B/M selection path; exact byte-for-byte Windows equivalence remains a validation target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -2032,27 +2032,31 @@ function bindMuhuratRowClicks(){
 }
 
 function v1511EventSelectionDecision(a,event){
-  // Web 1.36: do NOT use the reconstructed Badhaka/Maraka check as the
-  // production selector. Windows V1.5.11 is event-driven: each candidate
-  // Lagna is evaluated against the event rule stream. For Event 05 the first
-  // rule is Object 1 (Lagna CSL: +1,5,9,11). Its positive/no-loss result is
-  // the primary candidate gate; Objects 5/11 and D/B/A/S remain part of the
-  // detailed analysis. B/M is diagnostic only until the native source is
-  // recovered. This keeps every date/time independently calculated and avoids
-  // dropping valid transitions because of an incomplete B/M reconstruction.
+  // Web 1.37: evaluate the COMPLETE Event-05 rule stream for each
+  // independently calculated transition. The Windows screenshots show that
+  // Object 5/11 and Dasa/Bhukti/Antara/Sukshma can be YP: the second
+  // character is diagnostic and must not reject a Muhurat merely because an
+  // -H connection exists. The first character is the required positive-house
+  // test. A candidate is selected only when every rule in the event stream
+  // has positive-house coverage. Badhaka/Maraka remains diagnostic until the
+  // native GetSubLordAnalysis source is recovered.
   const rules=(a.rules||[]);
-  const core=rules.filter(r=>Number(r.obj)>=1&&Number(r.obj)<=12);
-  const eventRules=core.filter(r=>Number(r.obj)===5||Number(r.obj)===11);
-  const primary=core.find(r=>Number(r.obj)===1) || core[0] || null;
+  const requiredCodes=new Set([1,5,11,101,102,103,104]);
+  const required=rules.filter(r=>requiredCodes.has(Number(r.obj)));
+  const primary=required.find(r=>Number(r.obj)===1)||null;
+  const missing=[...requiredCodes].filter(code=>!required.some(r=>Number(r.obj)===code));
+  const positiveStates=required.map(r=>({obj:Number(r.obj),pass:!!r.posAny,subLord:r.sub_lord||r.subLord||'—',hits:r.posHit||[]}));
+  const allPositive=required.length===requiredCodes.size && required.every(r=>r.posAny);
   const bmm=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
-  const pass=!!(primary && primary.posAny && primary.noLoss);
+  const failed=positiveStates.filter(x=>!x.pass).map(x=>x.obj);
+  const pass=allPositive;
   return {
-    pass,
-    bmm,
-    primary:eventRules.length?eventRules:core,
-    primaryRule:primary,
+    pass,bmm,primary,required,positiveStates,allPositive,missing,failed,
     positivePass:primary?primary.posAny:false,
-    noLossPass:primary?primary.noLoss:false
+    noLossPass:primary?primary.noLoss:false,
+    reason:pass
+      ? 'Event 05: all 7 rule objects have positive-house coverage; -H is diagnostic (YP allowed).'
+      : `Event 05 rejected: positive-house coverage missing for object(s) ${failed.join(',')||missing.join(',')||'—'}.`
   };
 }
 
@@ -2070,12 +2074,15 @@ function selectionLayer(a,event){
     periodLayers:[],required:[],covered:[],timingPass:d.bmm.pass,timingNoLoss:d.bmm.pass,
     promisePass:d.bmm.pass,timingRP:null,rp:[],rpCommon:[],triggerPass:true,
     sblH:significators(a.chart.ascendant[3],a.chart),sblPosHit:[],sblNegHit:[],
-    pass:d.pass, originalBmm:d.bmm, eventDecision:d, reason:(d.pass?'V1.5.11 event-rule gate passed':'V1.5.11 event-rule gate rejected')+'; '+d.bmm.reason+'; '+chain.reason
+    pass:d.pass, originalBmm:d.bmm, eventDecision:d, reason:(d.reason|| (d.pass?'V1.5.11 complete event-rule gate passed':'V1.5.11 complete event-rule gate rejected'))+'; '+chain.reason
   };
 }
 
-  // Production selection: use the recovered V1.5.11 B/M result for every
-  // date. No screenshot/date-specific fixture overrides the engine.
+  // Production selection: use the complete live Event-05 rule stream for every
+  // independently calculated transition. No screenshot/date-specific fixture overrides the engine.
+  // YP/PN/etc. second-character loss states remain visible diagnostics; the
+  // primary selection gate is the first-character positive coverage for all
+  // seven Event-05 objects.
   const selectionRows=analyses.map(a=>{
     const base=selectionLayer(a,event);
     return {...a,selection:{...base,pass:base.pass,reason:base.reason}};
