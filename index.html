@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.33</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.34</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.33 uses the recovered V1.5.11 transition and B/M selection path; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.34 uses the recovered V1.5.11 transition and B/M selection path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -276,7 +276,7 @@ header small{font-size:11px}
 
 <section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" placeholder="Add your own notes here..."></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
-<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.33 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
+<section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.34 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. The general V1.5.11 event-selection equivalence remains a reconstruction target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
 <script>
 (function(){
@@ -629,7 +629,7 @@ async function initEngine(){
     // initialization path used by the earlier KPMuhurat build.
     await timeout(swe.init('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm'),15000,'Swiss Ephemeris WASM initialization');
     swe.setSiderealMode(SiderealMode.Krishnamurti);
-    ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
+    ephFlags=CalculationFlag.SwissEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
     engineReady=true;
     if(btn){btn.disabled=false;btn.textContent='Show';}
     setStatus('Ready. Swiss Ephemeris engine loaded. Select an event and tap Show.');
@@ -665,7 +665,7 @@ function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  // The browser WASM build used by 0.9.12 exposes its cusp array 0-based at
+  // The browser WASM build exposes its cusp array 0-based at
   // runtime, while the package documentation describes a 1-based layout.
   // Detect the layout from the returned first cusp/Ascendant instead of
   // assuming one indexing convention. This is essential for the exact CSL.
@@ -1445,27 +1445,23 @@ function v1511BmmList(lagnaSign){
   const badhaka=movable.includes(lagnaSign)?11:(fixed.includes(lagnaSign)?9:7);
   return [badhaka,2,7,12];
 }
-function v1511PlanetSgnf(name,cd){
+function v1511DirectSgnf(name,cd){
+  // Exact GetPlanetSgnf(planetId, cuspOccId, cuspLordId) semantics from
+  // the recovered EphCalcPlanet.cs. It returns ONLY the occupied cusp and
+  // cusps whose Rasi lord is the requested planet. Star/Sub recursion is
+  // performed by GetSubLordAnalysis separately.
   const p=cd?.planets?.[name]; if(!p) return null;
-  const ownerHouses=planet=> (cd.cusps||[]).filter(c=>c.sign_lord===planet).map(c=>c.house);
-  return {
-    planet:name,
-    occ:p.house,
-    owners:ownerHouses(name),
-    star:p.star_lord,
-    starOcc:cd.planets?.[p.star_lord]?.house,
-    starOwners:ownerHouses(p.star_lord),
-    sub:p.sub_lord,
-    subOcc:cd.planets?.[p.sub_lord]?.house,
-    subOwners:ownerHouses(p.sub_lord)
-  };
+  const owners=(cd.cusps||[]).filter(c=>c.sign_lord===name).map(c=>c.house);
+  return {planet:name,occ:p.house,owners};
 }
-function v1511MarkSgnf(s,bmm,neg,cuspSet){
-  if(!s) return;
-  for(const h of [s.occ,...s.owners,s.starOcc,...s.starOwners,s.subOcc,...s.subOwners]){
-    if(!Number.isFinite(h)) continue;
+function v1511MarkDirectSgnf(s,bmm,neg,cuspSet){
+  if(!s)return;
+  const houses=[s.occ,...s.owners];
+  for(const h of houses){
+    if(!Number.isFinite(h))continue;
     cuspSet.add(h);
-    if(bmm.slice(0,3).includes(h)) neg.push(h);
+    // GetBmmString() marks B/M/Moksha; only B/M change mBala.
+    if(bmm.slice(0,3).includes(h))neg.push(h);
   }
 }
 function v1511Conj(a,b){
@@ -1475,69 +1471,101 @@ function v1511Conj(a,b){
   return a.sign===b.sign && d<30;
 }
 function v1511SpecialAspects(targetName,cd){
-  // Exact table from GetVidecAspectsSpecial(). Rows are indexed by the
-  // source planet's Rasi; offsets are the signs it aspects.
+  // Exact GetVidecAspectsSpecial(): the source is the OTHER planet and its
+  // Vedic aspect offsets are [4,8] from Gemini, [5,9] from Leo and [3,10]
+  // from Libra (zero-based sign IDs 2,4,6).
   const aspectMap={2:[4,8],4:[5,9],6:[3,10]};
-  const target=cd.planets[targetName]; if(!target)return [];
+  const target=cd?.planets?.[targetName]; if(!target)return [];
   const out=[];
   for(const [name,p] of Object.entries(cd.planets||{})){
     if(name===targetName)continue;
-    const offs=aspectMap[p.signId];
-    if(!offs)continue;
+    const offs=aspectMap[p.signId]; if(!offs)continue;
     for(const off of offs){
-      const sign=(p.signId+(off-1))%12;
-      if(sign===target.signId){out.push(name);break;}
+      const targetSign=(p.signId+(off-1))%12;
+      if(targetSign===target.signId){out.push(name);break;}
     }
   }
   return out;
 }
 function v1511OriginalBmmAnalysis(cd,sbl){
+  // Direct port of CEphAnalysis.GetSubLordAnalysis(). The previous Web 1.33
+  // implementation used the application's six-fold generic significator
+  // helper here. Windows does NOT do that: it uses GetPlanetSgnf() for the
+  // SBL, its StL and its SbL, then applies the node rules and the final
+  // "no planets in the star" rule.
   const lagna=cd?.ascendant?.[0];
-  const bmm=v1511BmmList(lagna);
+  const bmm=v1511BmmList(lagna); // one-based: [Baadhaka, 2, 7, 12]
   let mBala=1;
   const neg=[];
   const cuspSet=new Set();
-  const nodeSeen=new Set();
+  const nodePlanetList=new Set();
   const baseNames=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
-  const addPlanet=name=>{
-    if(!name || nodeSeen.has(name))return;
-    nodeSeen.add(name);
-    const s=v1511PlanetSgnf(name,cd);
-    v1511MarkSgnf(s,bmm,neg,cuspSet);
-    // GetNodeAnalysisString(): non-nodes are only marked and return.
+
+  const addDirect=name=>{
+    const s=v1511DirectSgnf(name,cd);
+    v1511MarkDirectSgnf(s,bmm,neg,cuspSet);
+  };
+
+  const getStar=name=>cd?.planets?.[name]?.star_lord||null;
+  const getSub=name=>cd?.planets?.[name]?.sub_lord||null;
+
+  // Exact GetNodeAnalysisString() behavior. The array is marked for every
+  // planet passed in. For nodes, conjunctions take precedence; if there is
+  // a conjunction the original code returns before special aspects/RL.
+  const addNodeAnalysis=name=>{
+    if(!name || nodePlanetList.has(name))return;
+    nodePlanetList.add(name);
     if(name!=='Ra' && name!=='Ke')return;
-    const p=cd.planets[name];
+    const p=cd?.planets?.[name]; if(!p)return;
+
     const conj=baseNames.filter(n=>n!==name&&v1511Conj(p,cd.planets?.[n]));
     if(conj.length){
-      for(const n of conj){const q=v1511PlanetSgnf(n,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(n);}
+      for(const n of conj){nodePlanetList.add(n);addDirect(n);}
       return;
     }
-    // If no conjunction, original code checks its special Vedic aspects.
-    for(const n of v1511SpecialAspects(name,cd)){
-      const q=v1511PlanetSgnf(n,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(n);
+
+    const aspects=v1511SpecialAspects(name,cd);
+    if(aspects.length){
+      for(const n of aspects){nodePlanetList.add(n);addDirect(n);}
+      // nodeRuleFilterFlag is true in the recovered source.
+      return;
     }
-    // And it also includes the Rasi lord of the node.
+
     const rl=p.sign_lord;
-    const q=v1511PlanetSgnf(rl,cd);v1511MarkSgnf(q,bmm,neg,cuspSet);nodeSeen.add(rl);
+    if(rl){nodePlanetList.add(rl);addDirect(rl);}
   };
-  const primary=v1511PlanetSgnf(sbl,cd);
-  if(!primary)return {pass:false,mBala:-1,bmm,neg,reason:'No Sub Lord data'};
-  addPlanet(sbl); addPlanet(primary.star); addPlanet(primary.sub);
-  // Final "No planets in the star of X" block from the original source.
-  for(const name of [...nodeSeen]){
-    const hasStarPlanet=baseNames.some(n=>n!==name&&cd.planets?.[n]?.star_lord===name);
-    if(!hasStarPlanet){
-      for(const c of (cd.cusps||[])){
-        if(c.sub_lord===name){
-          cuspSet.add(c.house);
-          if(bmm.slice(0,3).includes(c.house))neg.push(c.house);
-        }
+
+  if(!v1511DirectSgnf(sbl,cd))
+    return {pass:false,mBala:-1,bmm,neg:[],reason:'No Sub Lord data'};
+
+  // PlanetSgnfString() for SBL -> GetNodeAnalysisString(SBL), then StL,
+  // then SbL. GetPlanetSgnf() packs these three independent four-house sets.
+  const stl=getStar(sbl);
+  const sblSub=getSub(sbl);
+  addDirect(sbl); addNodeAnalysis(sbl);
+  if(stl){addDirect(stl);addNodeAnalysis(stl);}
+  if(sblSub){addDirect(sblSub);addNodeAnalysis(sblSub);}
+
+  // Final block in CEphAnalysis.GetSubLordAnalysis(): for every planet marked
+  // by the node analysis which has no planet in its star, inspect every cusp
+  // for which that planet is the cusp Sub Lord. B/M cusps force mBala=-1;
+  // Moksha (12) alone does not.
+  for(const name of nodePlanetList){
+    const hasPlanetInStar=baseNames.some(n=>cd?.planets?.[n]?.star_lord===name);
+    if(hasPlanetInStar)continue;
+    for(const c of (cd.cusps||[])){
+      if(c.sub_lord===name){
+        cuspSet.add(c.house);
+        if(bmm.slice(0,3).includes(c.house))neg.push(c.house);
       }
     }
   }
-  mBala=neg.length? -1:1;
+
   const uniq=[...new Set(neg)];
-  const reason=uniq.length?`V1.5.11 B/M connection: ${uniq.map(h=>`${h===bmm[0]?'B':(h===12?'Moksha':'M')}${h}`).join(', ')}`:'V1.5.11 B/M clear';
+  mBala=uniq.length?-1:1;
+  const reason=uniq.length
+    ?`V1.5.11 B/M connection: ${uniq.map(h=>`${h===bmm[0]?'B':(h===12?'Moksha':'M')}${h}`).join(', ')}`
+    :'V1.5.11 B/M clear';
   return {pass:mBala===1,mBala,bmm,neg:uniq,cuspSet:[...cuspSet],reason};
 }
 
@@ -2213,7 +2241,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.33').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.34').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
