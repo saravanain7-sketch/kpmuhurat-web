@@ -19,3 +19,8 @@ A ZIP file itself is not directly installable as a PWA; the files must be served
 Web 1.43 is a calculation-engine revision from Web 1.42. It does not hard-code the 02-Oct-2026 result list. The revision restores the recovered native Vedic-conjunction semantics (same Rasi, <30°) while retaining the recovered `nodeRuleFilterFlag=true` and planet-ID special-aspect mapping.
 
 The exact Windows timing/selection parity still needs live regression confirmation after running this build against the Windows fixture. Do not treat the build as fully parity-certified until the 02-Oct-2026 result list and the one-second boundary timing have both been checked.
+
+
+ICON UPDATE
+The PWA now uses the supplied KP Muhurat blue star icon as its favicon, launcher icon, Apple touch icon, and manifest icons. The service-worker cache key was changed so the previous icon is not reused from the old cache.
+If an already-installed Android shortcut still shows the old icon, remove that shortcut/app and install the updated PWA again; the browser/OS may retain the previously installed launcher artwork independently of the website cache.

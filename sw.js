@@ -1,5 +1,5 @@
-const CACHE = 'kpmuhurat-v1.43';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CACHE = 'kpmuhurat-v1.43-kpicon2';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './kp-icon-192.png', './kp-icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
