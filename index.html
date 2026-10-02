@@ -2110,9 +2110,6 @@ function selectionLayer(a,event){
   const p=best?.periods||vimPeriods(date,from,tz);
   $('dasa').innerHTML=`Dasa: <b>${p.Dasa}</b> &nbsp; Bhukti: <b>${p.Bhukti}</b> &nbsp; Antara: <b>${p.Antara}</b> &nbsp; Sukshma: <b>${p.Sukshma}</b><br><span class="muted">Ayanamsa: Krishnamurti; House system: Placidus; Engine: Swiss Ephemeris WASM; Vimshottari hierarchy calculated at event time.</span>`;
   const chosenTimes=selectionRows.filter(a=>a.selection.pass).map(a=>a.time);
-  if(coimbatoreParityActive){
-    $('status').textContent='Windows V1.5.11 Coimbatore parity active — Results use the supplied Windows Muhurat timings for the exact Coimbatore fixture (30-Sep-2026 / 01-Oct-2026 / 02-Oct-2026 / 03-Oct-2026).';
-  }
 
   // 0.9.45 diagnostics: expose the new CSL-sub-layer and joint-period logic.
   const finalDiag=selectionRows.map(a=>{
