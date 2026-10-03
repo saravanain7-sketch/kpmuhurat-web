@@ -1,2 +1,3 @@
-KP Muhurat V1.5.11 Web 1.46
-Native node-resolution refinement build.
+KP Muhurat V1.5.11 — Web 1.47
+Exact native GetSubLordAnalysis B/M reconstruction from supplied Windows ephcalc.dll.
+Selection remains live-calculated; no date-specific rows are injected.
