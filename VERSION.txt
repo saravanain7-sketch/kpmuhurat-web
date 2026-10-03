@@ -1,4 +1,2 @@
-KP Muhurat V1.5.11 — Web 1.45
-Build: Native Node Orb Restoration
-PWA cache: kpmuhurat-v1.45-kpicon3
-Important: index.html is the Web 1.45 engine build.
+KP Muhurat V1.5.11 Web 1.46
+Native node-resolution refinement build.
