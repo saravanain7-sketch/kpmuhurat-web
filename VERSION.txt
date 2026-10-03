@@ -1,8 +1,4 @@
 KP Muhurat V1.5.11 — Web 1.45
-Native parity refinement build.
-
-Changes from Web 1.43:
-- Refines recovered native node-conjunction handling to avoid broad same-sign node chaining.
-- Preserves nodeRuleFilterFlag=true and planet-ID Vedic special-aspect mapping.
-- Preserves the supplied KP icon and refreshed PWA cache key.
-- No 02-Oct-2026 timestamps are hard-coded into the selector.
+Build: Native Node Orb Restoration
+PWA cache: kpmuhurat-v1.45-kpicon3
+Important: index.html is the Web 1.45 engine build.
