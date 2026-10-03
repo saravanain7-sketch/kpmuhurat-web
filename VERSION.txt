@@ -1,4 +1,4 @@
-KP Muhurat V1.5.11 — Web 1.44
+KP Muhurat V1.5.11 — Web 1.45
 Native parity refinement build.
 
 Changes from Web 1.43:
