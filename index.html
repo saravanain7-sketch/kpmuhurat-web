@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.51 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.53 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.51</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.53</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.52 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.53 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -1172,11 +1172,13 @@ async function run(){
     event=window.EVENTS[Number($('event').value)];
 
   const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
-  // Settings.xml has CharaRasi=false. Original Show_Click therefore keeps
-  // Lagna transitions in movable signs only when that option is enabled; by
-  // default Aries/Cancer/Libra/Capricorn transitions are filtered out of the
-  // Analysis/Results path.
-  const trs=trsAll;
+  // Web 1.54 — exact Settings.xml CharaRasi=false parity. The native
+  // Show_Click path excludes Lagna transitions whose Rasi is movable when
+  // CharaRasi is disabled. Movable Rasis are Aries, Cancer, Libra and
+  // Capricorn. Do this at the transition-stream level, before CSL/BMM
+  // analysis, so excluded transitions cannot appear in Results.
+  const MOVABLE_RASIS=new Set(['Ar','Cn','Li','Cp']);
+  const trs=trsAll.filter(r=>!MOVABLE_RASIS.has(r.rasi));
   const times=trs.map(x=>x.time);
   const analyses=[];
   window.__lastEvent=event;
@@ -1442,7 +1444,7 @@ function renderNewSourceEvidence(date){
 // The Windows Results tab marks a transition as Y only when mBala remains 1;
 // Badhaka/Maraka connections set it to -1. Moksha (12th) is informational and
 // does not by itself make the transition N.
-// 1.52 — Exact native BMM parity: preserve native SBL → NodeAnalysis call order.
+// 1.48 — Exact native BMM parity patch based on recovered EphCalc/VedicBpUtil source.
 function v1511PlanetSgnf(name,cd){
   // Exact EphCalc.GetPlanetSgnf(): DIRECT significators only.
   // [occupied cusp] + up to four cusps whose Rasi Lord is this planet.
@@ -1531,19 +1533,16 @@ function v1511OriginalBmmAnalysis(cd,sbl){
   const evalDirect=(name)=>{
     const g=directGroup(name); if(g) g.forEach(checkCusp);
   };
-  // Exact native call order is important. GetSubLordAnalysis() does NOT
-  // recursively evaluate a planet's Star/Sub Lords inside one group. It does
-  // three separate groups in this exact order:
-  //   1) SBL direct significators -> GetNodeAnalysisString(SBL)
-  //   2) StL direct significators -> GetNodeAnalysisString(StL)
-  //   3) SbL direct significators -> GetNodeAnalysisString(SbL)
-  // Keeping the node-analysis call immediately after each PlanetSgnfString()
-  // also preserves the native nodePlanetList state/order.
-  const evalPlanetAndNode=(name)=>{
-    if(!name || !cd?.planets?.[name]) return;
-    evalDirect(name);
-    markNodeAnalysis(name);
-  };
+  // IMPORTANT native call order: GetSubLordAnalysis() does NOT recursively
+  // evaluate a planet's Star Lord/Sub Lord inside one PlanetSgnf group.
+  // It performs exactly three sequential groups:
+  //   1) SBL direct significators, then NodeAnalysis(SBL)
+  //   2) StL direct significators, then NodeAnalysis(StL)
+  //   3) SbL direct significators, then NodeAnalysis(SbL)
+  // The previous Web 1.53 helper recursively evaluated Star/Sub significators
+  // before NodeAnalysis(), which can introduce B/M connections that the native
+  // Windows routine never evaluates at that point.
+
 
   // Exact GetNodeAnalysisString(): node itself is marked first. If any
   // conjunction exists, its direct significators are evaluated and the
@@ -1581,7 +1580,14 @@ function v1511OriginalBmmAnalysis(cd,sbl){
   if(!directGroup(sbl)) return {pass:false,mBala:-1,bmm,neg:[],reason:'No Sub Lord data'};
   const p=cd?.planets?.[sbl];
   const chain=[sbl,p?.star_lord||null,p?.sub_lord||null];
-  for(const n of chain){ if(!n) continue; evalPlanetAndNode(n); }
+  for(const n of chain){
+    if(!n) continue;
+    // Native PlanetSgnfString() consumes this one direct group first.
+    evalDirect(n);
+    // Only after that group is complete does native GetNodeAnalysisString()
+    // run for the same ID.
+    markNodeAnalysis(n);
+  }
 
   // Exact final native block:
   // for each node-marked base planet, only when NO base planet has that
@@ -2089,7 +2095,7 @@ function bindMuhuratRowClicks(){
 }
 
 function v1511EventSelectionDecision(a,event){
-  // Web 1.52: preserve the complete Event-05 rule stream for the detailed
+  // Web 1.53: preserve the complete Event-05 rule stream for the detailed
   // analysis, but use the original V1.5.11 automatic Muhurat-selection gate:
   // only Lagna Sub-levels with no Badhaka/Maraka connection are selected.
   const rules=(a.rules||[]);
