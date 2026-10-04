@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.61 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.63 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.61</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.63</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -654,12 +654,9 @@ function timeFromSeconds(s){
   return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+q.toFixed(6).padStart(9,'0');
 }
 function secfmt(s){
-  // Web 1.61: match the native Windows whole-second timestamp conversion.
-  // The recovered boundary is fractional; V1.5.11 displays the nearest
-  // whole second rather than always taking the ceiling. This is why some
-  // earlier Web rows were exactly one second early while others already
-  // matched the Windows timestamp.
-  s=Math.round(Number(s));
+  // Web 1.63: V1.5.11 transition timestamps are the first whole second
+  // at/after the fractional boundary. Do not use nearest-second rounding.
+  s=Math.ceil(Number(s)-1e-9);
   if(s>=86400)s=0;
   if(s<0)s=0;
   let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=s%60;
@@ -825,21 +822,39 @@ function vimPeriods(date,time,tz){
 // previous generic "four-level key changed" scanner.
 const V1511_DASA=[7,20,6,10,7,18,16,19,17];
 function createSubLord249Table(){
-  const nak=13.333333333333334, unit=nak/120;
-  const sub=V1511_DASA.map(x=>x*unit), a3=new Array(249), a2=new Array(249);
-  a3[0]=sub[0]; a3[1]=0; let n4=1,n5=1,n6=0;
-  a2[0]=a3[0];
-  for(let i=1;i<=82;i++){
-    n4%=9;
-    a3[i]=a3[i-1]+sub[n4]; n4++;
-    if(a3[i]>=nak*n5){n5++;n4=n5-1;}
-    if(i===21||i===61)n6++;
-    a2[i+n6]=a3[i];
+  // Exact reconstruction of EphCalcPlanet.GetLagna249(int ind).
+  // Native constants: DASA_NB_PLANETS = 9 and the native subLordPeriod[9]
+  // sequence is V1511_DASA scaled by 13 1/3 degrees / 120.
+  const nak=13.333333333333334;
+  const unit=nak/120;
+  const sub=V1511_DASA.map(x=>x*unit);
+  const a=new Array(249).fill(0);
+  a[0]=0.0;
+  let num=0, num2=0, num3=30.0;
+  for(let i=1;i<249;i++){
+    const num4=(num+num2)%9;
+    a[i]=a[i-1]+sub[num4];
+    const num5=a[i]+1e-6;
+    if(num5>num3){
+      // Native code deliberately does NOT insert a duplicate boundary at
+      // these five indices. These are the exact special cases in GetLagna249.
+      if(i!==41 && i!==124 && i!==207 && i!==83 && i!==166){
+        a[i+1]=a[i];
+        a[i]=num3;
+        i++;
+      }
+      num3+=30.0;
+    }
+    num++;
+    if(num===9){
+      num=0;
+      num2=(num2+1)%9;
+    }
   }
-  a2[21]=30; a2[40]=60; a2[61]=90; a2[62]=90.555555555;
-  for(let i=83;i<=165;i++)a2[i]=a2[i-83]+120;
-  for(let i=166;i<249;i++)a2[i]=a2[i-166]+240;
-  return a2;
+  // Native GetLagna249 adds this epsilon to every returned boundary after
+  // constructing the complete 249-entry table.
+  for(let j=1;j<249;j++) a[j]+=1e-10;
+  return a;
 }
 const V1511_SUB249=createSubLord249Table();
 function v1511NextSubIndex(pos){
@@ -1193,9 +1208,9 @@ async function run(){
   for(let i=0;i<times.length;i++){
     const time=times[i], tr=trs[i];
     const rowDate=tr.date||date;
-    // Use the post-boundary probe for lord classification; display remains
-    // the original transition second (e.g. 09:07:31).
-    const calcTime=timeFromSeconds(tr.probeSeconds ?? tr.exactSeconds ?? parseClockSeconds(time));
+    // Native GetSubLordAnalysis receives the transition DateTime itself.
+    // Evaluate at the refined boundary, not the next 60-second probe.
+    const calcTime=timeFromSeconds(tr.exactSeconds ?? parseClockSeconds(time));
     const cd=chart({date:rowDate,time:calcTime,tz,lat,lon});
     const periods=vimPeriods(rowDate,time,tz);
     const rules=eventAnalysis(event,cd,periods);

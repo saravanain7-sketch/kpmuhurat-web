@@ -1,8 +1,7 @@
-KP Muhurat V1.5.11 — Web 1.61
+# KP Muhurat V1.5.11 — Web 1.63
 
-This build preserves the Web 1.58 native-stable transition scanner and changes only the displayed transition-second rule: fractional boundary times are reported using the first whole second at/after the boundary (ceiling), matching the recovered Windows GetLagnaTime/transition behavior.
+Exact GetLagna249 reconstruction based on the decompiled EphCalc 1.0.3553.36978 method supplied by the user.
 
-No date-specific transition or result hard-coding is used.
+Test fixture: 02/10/2026, 09:00-22:00, Coimbatore, Event 05.
 
-
-Web 1.61 timing fix: fractional Lagna transition boundaries are displayed using nearest-whole-second rounding to match the Windows V1.5.11 timestamps. No date-specific transition times are hard-coded into live selection.
+This build changes only the 249-entry Lagna sub-lord boundary table construction. Badhaka/Maraka/CSL selection logic is preserved.
