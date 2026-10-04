@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.60 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.61 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.60</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.61</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -654,11 +654,14 @@ function timeFromSeconds(s){
   return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+q.toFixed(6).padStart(9,'0');
 }
 function secfmt(s){
-  // Windows V1.5.11 GetLagnaTime() reports the first whole second
-  // that reaches the recovered boundary. Therefore a fractional boundary
-  // is displayed with CEILING, not nearest-second rounding.
-  s=Math.ceil(Number(s)-1e-9);
+  // Web 1.61: match the native Windows whole-second timestamp conversion.
+  // The recovered boundary is fractional; V1.5.11 displays the nearest
+  // whole second rather than always taking the ceiling. This is why some
+  // earlier Web rows were exactly one second early while others already
+  // matched the Windows timestamp.
+  s=Math.round(Number(s));
   if(s>=86400)s=0;
+  if(s<0)s=0;
   let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=s%60;
   return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':');
 }
