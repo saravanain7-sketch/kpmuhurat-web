@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.63 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.64 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.63</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.64</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -654,7 +654,7 @@ function timeFromSeconds(s){
   return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+q.toFixed(6).padStart(9,'0');
 }
 function secfmt(s){
-  // Web 1.63: V1.5.11 transition timestamps are the first whole second
+  // Web 1.64: exact V1.5.11 FindTimeInterval timing refinement (10 ms DateTime tick steps).
   // at/after the fractional boundary. Do not use nearest-second rounding.
   s=Math.ceil(Number(s)-1e-9);
   if(s>=86400)s=0;
@@ -871,21 +871,37 @@ function v1511AscPos(date,s,lat,lon,tz){
   return norm(Number(h.ascendant)-ayan);
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.58: refine only inside the already-detected native 60-second
-  // bracket. The transition index remains owned by the scanner; the refined
-  // fractional timestamp is never fed back into v1511NextSubIndex().
-  let lo=startSec, hi=endSec;
-  const targetPos=target;
-  for(let i=0;i<32;i++){
-    const mid=(lo+hi)/2;
-    const pos=v1511AscPos(date,mid,lat,lon,tz);
-    let diff=targetPos-pos;
-    if(diff>300) diff-=360;
-    if(diff<=0) hi=mid; else lo=mid;
+  // Exact V1.5.11 EphCuspTransitData.FindTimeInterval reconstruction.
+  // Native DateTime uses 100-ns ticks and advances by AddTicks(100000),
+  // i.e. exactly 10 milliseconds per probe. Do not replace this with binary
+  // search or whole-second rounding: the first reached 10-ms boundary is the
+  // native result.
+  const STEP_MS=10;
+  const startMs=Math.round(startSec*1000);
+  const endMs=Math.round(endSec*1000);
+  const numSteps=Math.floor((endMs-startMs)/STEP_MS)+1;
+
+  for(let i=0;i<numSteps;i++){
+    const probeMs=startMs+i*STEP_MS;
+    const probeSec=probeMs/1000;
+    let cuspPos=v1511AscPos(date,probeSec,lat,lon,tz);
+
+    // Native wrap correction is intentionally two one-sided tests.
+    let retro=false;
+    if(target-cuspPos>300.0) cuspPos+=360.0;
+    if(cuspPos-target>300.0) cuspPos-=360.0;
+
+    // Native condition: target - cuspPos <= 0.0
+    if(target-cuspPos<=0.0){
+      return probeSec;
+    }
   }
-  return hi;
+
+  return null;
 }
 function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
+  // Native FindTimeFromPosition repeats FindTimeInterval until its flag is
+  // non-zero. With the native bracket this normally completes in one call.
   return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
 }
 function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
@@ -917,6 +933,7 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
     }
     if(target>=360)target-=360;
     const hit=v1511FindTimeFromPosition(date,bracketStart,bracketEnd,target,lat,lon,tz);
+    if(hit===null){ curSec=bracketEnd; continue; }
     const levels=parts(V1511_SUB249[idx]);
     rows.push({time:secfmt(hit),rasi:levels[0],snl:levels[1],stl:levels[2],sbl:levels[3],date,exactSeconds:hit,probeSeconds:bracketEnd,boundaryIndex:idx,pos:V1511_SUB249[idx]});
     // Continue from the scanner bracket, never from the fractional hit.
