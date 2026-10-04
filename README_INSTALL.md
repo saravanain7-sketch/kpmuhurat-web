@@ -1,5 +1,5 @@
-# KP Muhurat Web 1.58
+KP Muhurat V1.5.11 — Web 1.59
 
-Open `index.html` in the same way as the previous PWA build.
+This build preserves the Web 1.58 native-stable transition scanner and changes only the displayed transition-second rule: fractional boundary times are reported using the first whole second at/after the boundary (ceiling), matching the recovered Windows GetLagnaTime/transition behavior.
 
-Web 1.58 is based on Web 1.56. It keeps the native 60-second transition walk and refines only the already-detected boundary inside that bracket. The fractional result is not fed back into the transition-index scanner, preventing the duplicate-transition cascade seen in Web 1.57.
+No date-specific transition or result hard-coding is used.
