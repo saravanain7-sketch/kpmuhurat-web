@@ -1,10 +1,5 @@
-# KP Muhurat V1.5.11 — Web 1.64
+# KP Muhurat Web 1.69 — Exact Native 10ms + Android Button Fix
 
-Exact GetLagna249 reconstruction based on the decompiled EphCalc 1.0.3553.36978 method supplied by the user.
+This build keeps the V1.5.11 10-ms transition refinement and adds an Android/local-file touch fallback so button actions are routed reliably when a content:// file viewer does not synthesize normal click events.
 
-Test fixture: 02/10/2026, 09:00-22:00, Coimbatore, Event 05.
-
-This build changes only the 249-entry Lagna sub-lord boundary table construction. Badhaka/Maraka/CSL selection logic is preserved.
-
-
-Web 1.64 transition refinement: exact native V1.5.11 FindTimeInterval reconstruction using 10 ms (100,000 DateTime ticks) probes and native 300° wrap/<=0 crossing condition.
+Recommended: open the extracted `index.html` directly in Chrome. For GPS and PWA installation, use an HTTPS-hosted copy (GitHub Pages or another HTTPS host), because Android browsers restrict geolocation and install prompts on local/content URLs.

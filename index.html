@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.65 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.69 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,8 +194,8 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.65</small></header>
-<nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.68</small></header>
+<nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
@@ -205,7 +205,7 @@ header small{font-size:11px}
 <div class="grid3"><label>Longitude<input id="lon" value="76:58:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
 <label>Event<select id="event"><option>Loading extracted events…</option></select></label>
-<button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
+<button class="btn" id="show" type="button" disabled>Loading engine…</button><button class="btn" id="install" type="button" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
@@ -654,9 +654,10 @@ function timeFromSeconds(s){
   return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+q.toFixed(6).padStart(9,'0');
 }
 function secfmt(s){
-  // Web 1.64: exact V1.5.11 FindTimeInterval timing refinement (10 ms DateTime tick steps).
-  // at/after the fractional boundary. Do not use nearest-second rounding.
-  s=Math.ceil(Number(s)-1e-9);
+  // Native DateTime retains milliseconds, but the Windows result table displays
+  // HH:mm:ss. Formatting a DateTime this way truncates the millisecond part;
+  // never ceil/round the native 10-ms boundary to the next displayed second.
+  s=Math.floor(Number(s)+1e-9);
   if(s>=86400)s=0;
   if(s<0)s=0;
   let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=s%60;
@@ -811,7 +812,7 @@ function vimPeriods(date,time,tz){
   const [sukshma]=vimLevel(antara,f2);
   return {Dasa:dasa,Bhukti:bhukti,Antara:antara,Sukshma:sukshma,mode:'event'};
 }
-// Web 1.65 transition scanner — native GetNextSubIndex + FindTimeInterval reconstruction.
+// Web 1.68 transition scanner — native GetNextSubIndex + FindTimeInterval reconstruction.
 // Fast transition scanner for mobile browsers. The previous build called the
 // full chart() (7 planets + 12 houses) every 5 seconds. That created thousands
 // of unnecessary WASM calls over a normal day. For boundary discovery we only
@@ -924,49 +925,124 @@ function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
   // non-zero. With the native bracket this normally completes in one call.
   return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
 }
+function v1511IsInside(curPos, prevPos, nextPos){
+  // Exact CIL reconstruction of EphCuspTransitData.IsInside:
+  //   if (prevPos > nextPos) return false;
+  //   if (prevPos < curPos) return false;
+  //   return true;
+  // Therefore the native predicate is true iff:
+  //   prevPos <= nextPos && prevPos >= curPos.
+  // Do not replace this with the more intuitive curPos-in-[prev,next] test;
+  // the Windows implementation uses this asymmetric predicate.
+  if(prevPos>nextPos) return false;
+  if(prevPos<curPos) return false;
+  return true;
+}
 function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
+  // Web 1.68: exact CalculateTransits control flow reconstructed from the
+  // recovered V1.5.11 IL.  This is deliberately NOT a date-specific fixture.
+  // Native behavior:
+  //   1. Start DateTime at pDateFr with milliseconds forced to zero.
+  //   2. Calculate current Lagna cusp position.
+  //   3. GetNextSubIndex() selects the next 249-table boundary and its index.
+  //   4. Probe forward in exactly 60-second DateTime.AddSeconds() steps.
+  //   5. When IsInside() becomes false, back up one minute and call
+  //      FindTimeFromPosition() with the native wrap-aware target boundary.
+  //   6. Record that boundary, then repeat GetNextSubIndex() from the new
+  //      cusp position.
   const rows=[];
-  let curSec=fromSec;
-  let pos=v1511AscPos(date,curSec,lat,lon,tz);
-  let nx=v1511NextSubIndex(pos), num=nx.index;
-  let prev=num-1, prevPos;
-  if(prev<0){prev=248;prevPos=0;} else prevPos=V1511_SUB249[prev];
-  let nextPos=nx.next; if(nextPos<=0)nextPos=360;
-  let scanPos=pos;
-  while(curSec<=toSec+1e-9){
-    let crossed=false;
-    while(scanPos>=prevPos-1e-12 && scanPos<=nextPos+1e-12){
-      curSec+=60;
-      if(curSec>toSec+1e-9){crossed=true;break;}
-      scanPos=v1511AscPos(date,curSec,lat,lon,tz);
-      if(nextPos>=360 && scanPos<30)scanPos+=360;
+  const startSec=Math.max(0,Math.floor(fromSec));
+  const endSec=Math.floor(toSec);
+  let curSec=startSec;
+
+  let curPos=v1511AscPos(date,curSec,lat,lon,tz);
+  const first=v1511GetNextSubIndex(V1511_SUB249,curPos);
+  let idx=first.index-1;
+  let nextPos=first.next;
+
+  // Native GetNextSubIndex can return 0 on the wrap case.
+  if(idx<0){
+    idx=248;
+    nextPos=0.0;
+  }
+  if(nextPos<=0) nextPos=360.0;
+
+  let lowerPos=V1511_SUB249[idx];
+  let probePos=curPos;
+  let probeSec=curSec;
+
+  // Native CalculateTransits compares DateTime to pDateTo at the outer loop.
+  while(probeSec<=endSec){
+    let finished=false;
+
+    // Inner 60-second search. Native tests IsInside before each AddSeconds.
+    while(v1511IsInside(probePos,lowerPos,nextPos)){
+      probeSec+=60;
+      if(probeSec>endSec){
+        finished=true;
+        break;
+      }
+
+      probePos=v1511AscPos(date,probeSec,lat,lon,tz);
+
+      // Exact native special wrap correction from CalculateTransits:
+      // if the target interval ends at 360 and the new cusp is in the
+      // beginning of Aries (<30°), treat it as the next revolution.
+      if(nextPos>=360.0 && probePos<30.0) probePos+=360.0;
     }
-    if(crossed)break;
-    const bracketEnd=curSec, bracketStart=Math.max(fromSec,curSec-60);
-    let target,idx=num;
-    if(scanPos<prevPos){
-      target=prevPos;
-      num-=2; if(num<0)num=248;
-      idx=num;
+
+    if(finished || probeSec>endSec) break;
+
+    // Native backs up exactly one 60-second step for the FindTimeInterval
+    // bracket. It then chooses either the upper or lower boundary depending
+    // on whether the new position fell below the lower boundary.
+    const bracketEnd=probeSec;
+    const bracketStart=bracketEnd-60;
+    let target=nextPos;
+    let recordIdx=idx;
+    if(probePos<lowerPos){
+      target=lowerPos;
+      recordIdx=idx-1;
+      if(recordIdx<0) recordIdx=248;
+    }
+
+    const hit=v1511FindTimeFromPosition(
+      date, bracketStart, bracketEnd, target, lat, lon, tz
+    );
+    if(hit===null){
+      // Preserve the native forward progression even if a pathological
+      // astronomy evaluation fails to bracket a crossing.
+      probeSec=bracketEnd;
+      probePos=v1511AscPos(date,probeSec,lat,lon,tz);
     }else{
-      target=nextPos; idx=num;
+      const levels=parts(V1511_SUB249[recordIdx]);
+      rows.push({
+        time:secfmt(hit),
+        rasi:levels[0],
+        snl:levels[1],
+        stl:levels[2],
+        sbl:levels[3],
+        date,
+        exactSeconds:hit,
+        probeSeconds:bracketEnd,
+        boundaryIndex:recordIdx,
+        pos:V1511_SUB249[recordIdx]
+      });
+      probeSec=bracketEnd;
+      probePos=v1511AscPos(date,probeSec,lat,lon,tz);
     }
-    if(target>=360)target-=360;
-    const hit=v1511FindTimeFromPosition(date,bracketStart,bracketEnd,target,lat,lon,tz);
-    if(hit===null){ curSec=bracketEnd; continue; }
-    const levels=parts(V1511_SUB249[idx]);
-    rows.push({time:secfmt(hit),rasi:levels[0],snl:levels[1],stl:levels[2],sbl:levels[3],date,exactSeconds:hit,probeSeconds:bracketEnd,boundaryIndex:idx,pos:V1511_SUB249[idx]});
-    // Continue from the scanner bracket, never from the fractional hit.
-    // Recomputing the 249 index from a fractional hit can re-enter the same
-    // boundary and was the cause of Web 1.57's transition explosion.
-    curSec=bracketEnd;
-    pos=v1511AscPos(date,curSec,lat,lon,tz);
-    num=(idx===248?0:idx+1);
-    prev=num-1;
-    if(prev<0){prev=248;prevPos=0;}else prevPos=V1511_SUB249[prev];
-    nextPos=V1511_SUB249[num]; if(nextPos<=0)nextPos=360;
-    scanPos=pos;
-    if(nextPos>=360 && scanPos<30)scanPos+=360;
+
+    // Native CalculateTransits immediately recomputes GetNextSubIndex()
+    // from the cusp position at the completed minute.
+    const nx=v1511GetNextSubIndex(V1511_SUB249,probePos);
+    idx=nx.index-1;
+    nextPos=nx.next;
+    if(idx<0){
+      idx=248;
+      nextPos=0.0;
+    }
+    if(nextPos<=0) nextPos=360.0;
+    lowerPos=V1511_SUB249[idx];
   }
   return rows;
 }
@@ -2406,6 +2482,34 @@ initEngine();
     }
     alert('Install is available from Chrome menu ⋮ → Install app (or Add to Home screen). If the button still shows no prompt, refresh the page once so the new PWA manifest and service worker can load.');
   };
+})();
+</script>
+<script>
+// Web 1.69 — Android/local-file interaction fallback.
+// Some Android file/content viewers do not reliably synthesize a normal
+// click after a touch. Route touchend to the existing button click handler.
+(function installTouchButtonFallback(){
+  if(window.__kpTouchFallbackInstalled) return;
+  window.__kpTouchFallbackInstalled=true;
+  document.addEventListener('touchend',function(e){
+    var b=e.target && e.target.closest ? e.target.closest('button') : null;
+    if(!b || b.disabled) return;
+    // Let normal click behavior happen only once.
+    e.preventDefault();
+    try { b.click(); } catch(err) {
+      console.error('Button action failed:',err);
+      var st=document.getElementById('status');
+      if(st) st.textContent='Button error: '+(err && err.message ? err.message : err);
+    }
+  },{capture:true,passive:false});
+  window.addEventListener('error',function(e){
+    var st=document.getElementById('status');
+    if(st && e && e.error) st.textContent='JavaScript error: '+(e.error.message||e.message);
+  });
+  window.addEventListener('unhandledrejection',function(e){
+    var st=document.getElementById('status');
+    if(st) st.textContent='JavaScript error: '+((e.reason&&e.reason.message)||e.reason||'Unhandled promise rejection');
+  });
 })();
 </script>
 </body></html>
