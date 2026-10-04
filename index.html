@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.57 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.58 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.57</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.58</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.57 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path with precision boundary refinement; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.56 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path with precision boundary refinement; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -851,36 +851,19 @@ function v1511AscPos(date,s,lat,lon,tz){
   return norm(Number(h.ascendant)-ayan);
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.57: recover the actual fractional-second boundary first.
-  // The Windows DateTime result is displayed to whole seconds, so the
-  // generic equivalent is to locate the crossing inside the one-second
-  // bracket and let secfmt() perform the final nearest-second rounding.
-  let s=startSec;
+  // Web 1.58: refine only inside the already-detected native 60-second
+  // bracket. The transition index remains owned by the scanner; the refined
+  // fractional timestamp is never fed back into v1511NextSubIndex().
+  let lo=startSec, hi=endSec;
   const targetPos=target;
-  let prevS=s;
-  while(s<=endSec+1e-9){
-    let pos=v1511AscPos(date,s,lat,lon,tz);
+  for(let i=0;i<32;i++){
+    const mid=(lo+hi)/2;
+    const pos=v1511AscPos(date,mid,lat,lon,tz);
     let diff=targetPos-pos;
-    if(diff>300)pos+=360;
-    diff=targetPos-pos;
-    if(diff<=0 && diff+360<=360){
-      // Boundary lies in [prevS, s]. Binary-search it without truncating
-      // the time probes to integer seconds.
-      let lo=prevS, hi=s;
-      for(let i=0;i<32;i++){
-        const mid=(lo+hi)/2;
-        let mp=v1511AscPos(date,mid,lat,lon,tz);
-        let md=targetPos-mp;
-        if(md>300)mp+=360;
-        md=targetPos-mp;
-        if(md<=0) hi=mid; else lo=mid;
-      }
-      return (lo+hi)/2;
-    }
-    prevS=s;
-    s+=1;
+    if(diff>300) diff-=360;
+    if(diff<=0) hi=mid; else lo=mid;
   }
-  return startSec;
+  return hi;
 }
 function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
   return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
@@ -915,14 +898,18 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
     if(target>=360)target-=360;
     const hit=v1511FindTimeFromPosition(date,bracketStart,bracketEnd,target,lat,lon,tz);
     const levels=parts(V1511_SUB249[idx]);
-    rows.push({time:secfmt(hit),rasi:levels[0],snl:levels[1],stl:levels[2],sbl:levels[3],date,exactSeconds:hit,probeSeconds:hit,boundaryIndex:idx,pos:V1511_SUB249[idx]});
-    pos=v1511AscPos(date,hit,lat,lon,tz);
-    nx=v1511NextSubIndex(pos); num=nx.index;
+    rows.push({time:secfmt(hit),rasi:levels[0],snl:levels[1],stl:levels[2],sbl:levels[3],date,exactSeconds:hit,probeSeconds:bracketEnd,boundaryIndex:idx,pos:V1511_SUB249[idx]});
+    // Continue from the scanner bracket, never from the fractional hit.
+    // Recomputing the 249 index from a fractional hit can re-enter the same
+    // boundary and was the cause of Web 1.57's transition explosion.
+    curSec=bracketEnd;
+    pos=v1511AscPos(date,curSec,lat,lon,tz);
+    num=(idx===248?0:idx+1);
     prev=num-1;
     if(prev<0){prev=248;prevPos=0;}else prevPos=V1511_SUB249[prev];
-    nextPos=nx.next; if(nextPos<=0)nextPos=360;
+    nextPos=V1511_SUB249[num]; if(nextPos<=0)nextPos=360;
     scanPos=pos;
-    if(scanPos>360)scanPos-=360;
+    if(nextPos>=360 && scanPos<30)scanPos+=360;
   }
   return rows;
 }
