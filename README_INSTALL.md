@@ -1,10 +1,7 @@
-KP Muhurat V1.5.11 — Web 1.48
+# KP Muhurat Web 1.55 — Transition Precision
 
-This build reconstructs the native CEphAnalysis.GetSubLordAnalysis() B/M path from the supplied Windows ephcalc.dll, including direct/Star-Lord/Sub-Lord significator groups, node analysis, 30° node conjunction, and the native final node Sub-Lord cusp check.
+Web 1.55 preserves the Web 1.54 V1.5.11 selection engine and changes only transition-boundary time refinement.
 
-Install:
-1. Extract all files to one folder.
-2. Serve the folder from localhost/HTTPS (for example, a simple local web server).
-3. Open index.html through that server.
+It does NOT hard-code the 02-Oct-2026 fixture and does NOT modify Badhaka/Maraka/Moksha or CSL selection logic.
 
-Important: this is a reverse-engineered parity build, not a hard-coded 02-Oct fixture.
+Open `index.html` in a browser or package the folder as a PWA if required.
