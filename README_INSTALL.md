@@ -1,18 +1,24 @@
-# KP Muhurat Web 1.70
+# KP Muhurat Web 1.73
 
-Web 1.70 keeps the reconstructed native V1.5.11 10-ms timing engine and hardens Android Chrome/GitHub Pages interaction.
+This build keeps the reconstructed V1.5.11 calculation engine, including the native 10-ms boundary refinement, and fixes the Android form lock-up.
+
+## What changed
+- Native Date / To date / From time / To time controls are no longer intercepted by global `touchend` handlers.
+- Text inputs and selects receive normal Android touch, focus and keyboard events.
+- Show / Find / GPS / PlaceSelect buttons remain normal buttons.
+- Legacy service-worker registration from older Web 1.49/1.69/1.72 builds is removed.
+- The page unregisters an old service worker if one is still installed.
+- Header and title are **Web 1.73**.
+
+## GitHub Pages deployment
+1. Replace the existing `index.html` with this `index.html`.
+2. Do not keep the old `sw.js` registration/code from previous builds.
+3. Commit and wait for GitHub Pages to publish.
+4. On Android Chrome, if the old page still appears, open Chrome Settings → Site settings → All sites → your GitHub Pages domain → Clear & reset, then reopen the site.
+5. Confirm the header says **V 1.5.11 — Web 1.73**.
+
+## Local Android test
+Open the new `index.html` directly. Do not use an old tab. The Date, To date, time, text, select and Event controls should all remain native controls.
 
 ## Important
-The page header must show **Web 1.70** after deployment. If it still says Web 1.68, the old deployment/service-worker cache is being served.
-
-## Deployment
-Upload the contents of `kp164/` to the GitHub Pages site, replacing the old `index.html`. Keep `data/`, `sw.js`, manifest and other referenced files from the existing site if they are outside this package.
-
-After deployment on Android Chrome:
-1. Open the site.
-2. Long-press/reload if necessary and choose reload.
-3. Confirm the header says **Web 1.70**.
-4. Tap **Show**. It can now be tapped even while the Swiss Ephemeris engine is loading; the calculation is queued until the engine is ready.
-5. If loading fails, the Status box reports the JavaScript/engine error instead of leaving the controls apparently dead.
-
-The native timing reconstruction remains live and date-independent; no 02-Oct-2026 result is hard-coded.
+Do not change the calculation engine while testing the form. First confirm that all controls respond. Then test the 02/10/2026 Coimbatore regression and compare the 15 Windows Muhurat rows.
