@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.71</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.72</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -2527,7 +2527,7 @@ initEngine();
 })();
 </script>
 <script>
-// Web 1.71 — harden Android Chrome/GitHub Pages interaction and date-range input.
+// Web 1.72 — harden Android Chrome/GitHub Pages interaction and date-range input.
 (function(){
   function bind(){
     function nav(btn){
@@ -2565,4 +2565,48 @@ initEngine();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
+
+<script>
+// Web 1.72 — Android form-control interaction fix.
+// Keep native date/time/select controls fully interactive on Android Chrome,
+// including GitHub Pages and content/file-backed launches.
+(function hardenFormControls(){
+  function install(){
+    var ids=['date','todate','from','to','place','lat','lon','tz','latdir','londir','tzdir','event','notesText','placeSearch','customPlace','customTz','customLat','customLon'];
+    ids.forEach(function(id){
+      var el=document.getElementById(id); if(!el || el.__kpForm72) return;
+      el.__kpForm72=true;
+      el.style.pointerEvents='auto';
+      el.style.touchAction='manipulation';
+      el.removeAttribute('disabled');
+      if(el.tagName==='INPUT' || el.tagName==='SELECT' || el.tagName==='TEXTAREA') el.tabIndex=0;
+
+      // Android can occasionally deliver the tap to the label/container instead
+      // of opening the native picker. showPicker() is invoked only from the
+      // user's touch gesture, so Chrome accepts it as a trusted interaction.
+      el.addEventListener('touchend',function(e){
+        if(el.disabled)return;
+        try{el.focus({preventScroll:true});}catch(_){try{el.focus();}catch(__){}}
+        if((el.type==='date'||el.type==='time') && typeof el.showPicker==='function'){
+          try{e.preventDefault(); el.showPicker();}catch(_){/* native default may open */}
+        }
+      },{passive:false});
+    });
+
+    // Explicitly bind the two date fields and time fields without changing
+    // their native values. This also ensures programmatic picker changes emit
+    // the same events used by the calculation invalidation logic.
+    ['date','todate','from','to'].forEach(function(id){
+      var el=document.getElementById(id); if(!el)return;
+      ['input','change'].forEach(function(type){
+        el.addEventListener(type,function(){
+          el.dispatchEvent(new Event('blur',{bubbles:false}));
+        });
+      });
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+})();
+</script>
+
 </body></html>
