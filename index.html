@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.80 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.81 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.80</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.81</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -245,6 +245,11 @@ header small{font-size:11px}
 <div id="sourceEvidenceDynamic"></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.56 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path with precision boundary refinement; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
+<div class="panel"><div class="titlebar">Boundary Precision Audit — Web 1.81</div>
+<div class="muted" style="margin-bottom:8px">This audit exposes the live fractional transition returned by the reconstructed 10-ms FindTimeInterval path. It does not alter selection. Use it to identify whether a remaining 1-second difference is caused by the boundary crossing, the 10-ms bucket, or only whole-second presentation.</div>
+<div id="boundaryPrecisionSummary" class="status">Run the calculation to populate the boundary audit.</div>
+<div class="wide"><table><thead><tr><th>#</th><th>Web shown</th><th>Exact seconds</th><th>Fraction</th><th>Boundary °</th><th>Asc @ boundary °</th><th>Δ°</th><th>Nearest whole sec</th></tr></thead><tbody id="boundaryPrecision"></tbody></table></div>
+</div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -909,7 +914,7 @@ function v1511NextSubIndex(pos){
 }
 function v1511AscPos(date,s,lat,lon,tz){
   const jd=localJD(date,timeFromSeconds(s),tz);
-  // Web 1.80: use the UT-specific ayanamsa API. getAyanamsa(jd) is defined
+  // Web 1.81: use the UT-specific ayanamsa API. getAyanamsa(jd) is defined
   // against Ephemeris Time in Swiss Ephemeris; the transit JD here is UT.
   // The explicit UT form removes that time-scale ambiguity while retaining
   // the same Moshier calculation family used by this browser build.
@@ -918,7 +923,7 @@ function v1511AscPos(date,s,lat,lon,tz){
   return norm(Number(h.ascendant)-ayan);
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.80 — mobile-safe equivalent of the recovered V1.5.11
+  // Web 1.81 — mobile-safe equivalent of the recovered V1.5.11
   // FindTimeInterval. Windows probes every 10 ms, but doing all 6,001
   // Swiss-Ephemeris house calculations synchronously for every 60-second
   // bracket can freeze Android. The crossing predicate is monotonic inside
@@ -959,7 +964,7 @@ function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
   return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
 }
 function v1511IsInside(curPos, prevPos, nextPos){
-  // Web 1.80 retained fix: the recovered predicate had been wired with the boundary
+  // Web 1.81 retained fix: the recovered predicate had been wired with the boundary
   // variables in the wrong semantic order. That made an already-inside Lagna
   // interval return false, so FindTimeFromPosition() could be called repeatedly
   // against the same boundary/minute and never advance.
@@ -1340,6 +1345,34 @@ const V1511_REASON_Y_EXAMPLES_20220410 = [
 
 
 
+function renderBoundaryPrecisionAudit(trs){
+  const body=$('boundaryPrecision');
+  const summary=$('boundaryPrecisionSummary');
+  if(!body||!summary)return;
+  const selected=trs||[];
+  const rows=selected.map((tr,i)=>{
+    const exact=Number(tr.exactSeconds);
+    const frac=Number.isFinite(exact)?exact-Math.floor(exact):NaN;
+    let asc=NaN,delta=NaN;
+    if(Number.isFinite(exact)){
+      try{
+        asc=v1511AscPos(tr.date,exact,window.__kpAuditLat,window.__kpAuditLon,window.__kpAuditTz);
+        const target=Number(tr.pos);
+        let d=asc-target;
+        while(d>180)d-=360; while(d<-180)d+=360;
+        delta=d;
+      }catch(e){}
+    }
+    const shown=tr.time||'—';
+    return `<tr><td>${i+1}</td><td>${shown}</td><td>${Number.isFinite(exact)?exact.toFixed(3):'—'}</td><td>${Number.isFinite(frac)?frac.toFixed(3):'—'}</td><td>${Number.isFinite(Number(tr.pos))?Number(tr.pos).toFixed(9):'—'}</td><td>${Number.isFinite(asc)?asc.toFixed(9):'—'}</td><td>${Number.isFinite(delta)?delta.toFixed(9):'—'}</td><td>${shown}</td></tr>`;
+  });
+  body.innerHTML=rows.join('');
+  const exactCount=selected.filter(x=>Number.isFinite(Number(x.exactSeconds))).length;
+  const early=selected.filter(x=>{const e=Number(x.exactSeconds);return Number.isFinite(e)&&e-Math.floor(e)<0.5}).length;
+  const late=exactCount-early;
+  summary.innerHTML=`<b>${exactCount}</b> live boundaries exposed. Fractional seconds: <b>${early}</b> below .500 and <b>${late}</b> at/above .500. The table is diagnostic only; it never modifies the selected Muhurats.`;
+}
+
 async function run(){
  const coimbatoreParityActive=false;
  if(!engineReady){ window.__kpPendingRun=true; $('status').textContent='Calculation engine is still loading — starting automatically when ready…'; if(typeof initEngine==='function' && !window.__kpEngineStarting){ initEngine(); } return; }
@@ -1361,6 +1394,8 @@ async function run(){
   // analysis, so excluded transitions cannot appear in Results.
   const MOVABLE_RASIS=new Set(['Ar','Cn','Li','Cp']);
   const trs=trsAll.filter(r=>!MOVABLE_RASIS.has(r.rasi));
+  window.__kpAuditLat=lat; window.__kpAuditLon=lon; window.__kpAuditTz=tz;
+  renderBoundaryPrecisionAudit(trs);
   const times=trs.map(x=>x.time);
   const analyses=[];
   window.__lastEvent=event;
@@ -2181,7 +2216,7 @@ function renderResultsAnalysis(row){
   renderWindowsStyleSelectedChart(row);
 }
 
-// Web 1.80: expose the Results analysis renderer explicitly on window.
+// Web 1.81: expose the Results analysis renderer explicitly on window.
 // This avoids Android/WebView scope or stale-script lookup failures when the Results tab is opened.
 window.renderResultsAnalysis=renderResultsAnalysis;
 

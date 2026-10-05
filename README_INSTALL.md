@@ -1,23 +1,20 @@
-# KP Muhurat V1.5.11 — Web 1.78
+# KP Muhurat Web 1.81 — Boundary Precision Audit
 
-Focused continuation of Web 1.77.
+This build continues Web 1.80 without changing the UI workflow or production selection logic.
 
-## Web 1.78 fix
-- Prevents `NaN` transition seconds from reaching `timeFromSeconds()` through JavaScript `??` semantics.
-- Uses finite-value fallback to the displayed transition time when `exactSeconds` is not finite.
-- Makes clock parsing strict enough to expose invalid values instead of silently converting them to zero.
-- Validates the hour/minute/second passed to the Swiss-Ephemeris Julian-day call.
-- Keeps the reconstructed native transition architecture unchanged: 60-second scan and 10-ms (100,000 .NET tick) boundary refinement.
-- No UI redesign and no date-specific hardcoding.
+## Main purpose
+Expose the exact fractional transition returned by the reconstructed 10-ms `FindTimeInterval()` path so the remaining 1-second Windows V1.5.11 parity differences can be diagnosed rather than corrected with a blanket time offset.
 
 ## Test fixture
-05/10/2026, 09:00–22:00, 11:00:00 N, 76:58:00 E, +05:30, Krishnamurti, Placidus, Event 05.
+- 02/10/2026
+- 09:00–22:00
+- 11:00:00 N
+- 76:58:00 E
+- +05:30 East
+- Krishnamurti
+- Placidus
+- Event 05 — Speculative gain in Stock Market
 
-Then return to the exact 02/10/2026 Windows V1.5.11 parity fixture and compare the 15 selected Muhurats, including 10:33:20 Ma/Me/Me.
+Open **Advanced Diagnostics → Boundary Precision Audit — Web 1.81** after pressing Show.
 
-
-Web 1.80 changes:
-- Results analysis renderer is explicitly exposed on window to prevent `renderResultsAnalysis is not defined` on Android/WebView.
-- Version label updated to Web 1.80.
-- Preserves the Web 1.79 UT ayanamsa and 10-ms transition engine.
-- Whole-second result display uses nearest-second presentation of the refined boundary; underlying `exactSeconds` remains fractional and unchanged.
+The audit is diagnostic only. It does not inject reference timestamps or alter candidate selection.
