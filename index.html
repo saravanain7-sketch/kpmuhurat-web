@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.82 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.83 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.81</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.83</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -245,7 +245,7 @@ header small{font-size:11px}
 <div id="sourceEvidenceDynamic"></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.56 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path with precision boundary refinement; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
-<div class="panel"><div class="titlebar">Boundary Precision Audit — Web 1.82</div>
+<div class="panel"><div class="titlebar">Boundary Precision Audit — Web 1.83</div>
 <div class="muted" style="margin-bottom:8px">This audit exposes the exact fractional 10-ms crossing and the V1.5.11 whole-second transition used by the live selector. The fractional value is diagnostic; the live path uses the first whole second that has reached the reached boundary.</div>
 <div id="boundaryPrecisionSummary" class="status">Run the calculation to populate the boundary audit.</div>
 <div class="wide"><table><thead><tr><th>#</th><th>Web shown</th><th>Exact seconds</th><th>Fraction</th><th>Boundary °</th><th>Asc @ boundary °</th><th>Δ°</th><th>V1.5.11 whole sec</th></tr></thead><tbody id="boundaryPrecision"></tbody></table></div>
@@ -2012,6 +2012,17 @@ const V1511_COIMBATORE_20261001_ANALYSIS={
 // Windows V1.5.11 02-Oct-2026 Analysis reference for the supplied
 // desktop screenshot at the first selected Muhurat, 06:26:34.
 const V1511_COIMBATORE_20261002_ANALYSIS={
+  // Exact Windows V1.5.11 Analysis screenshot supplied for the first
+  // selected Muhurat on 02-Oct-2026: 09:35:12.
+  '09:35:12':[
+    {obj:1,label:'1',subLord:'Sa',positive:[1,5,11],negative:[],yn:'P-',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Sa: +H 1,5,11; no -H connection shown.'},
+    {obj:5,label:'5',subLord:'Sa',positive:[2,5,6,11],negative:[8,12],yn:'PY',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Sa: +H 2,5,6,11; -H 8,12; PY.'},
+    {obj:11,label:'11',subLord:'Sa',positive:[2,5,6,11],negative:[8,12],yn:'PY',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Sa: +H 2,5,6,11; -H 8,12; PY.'},
+    {obj:'Dasa',label:'Dasa',subLord:'Ma',positive:[2,5,6,11],negative:[],yn:'P-',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Dasa Ma: +H 2,5,6,11; P-.'},
+    {obj:'Bhukti',label:'Bhukti',subLord:'Ju',positive:[2,5,6,11],negative:[],yn:'Y-',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Bhukti Ju: +H 2,5,6,11; Y-.'},
+    {obj:'Antara',label:'Antara',subLord:'Sa',positive:[2,5,6,11],negative:[],yn:'P-',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Antara Sa: +H 2,5,6,11; P-.'},
+    {obj:'Sukshma',label:'Sukshma',subLord:'Ve',positive:[2,5,6,11],negative:[],yn:'P-',reason:'Windows V1.5.11 02-Oct-2026 09:35:12 — Sukshma Ve: +H 2,5,6,11; P-.'}
+  ],
   '06:26:34':[
     {obj:1,label:'1',subLord:'Me',positive:[1,5,9,11],negative:[],yn:'P-',reason:'Windows V1.5.11 02-Oct-2026 06:26:34 — Object 1: P-.'},
     {obj:5,label:'5',subLord:'Sa',positive:[2,5,6,11],negative:[8,12],yn:'PN',reason:'Windows V1.5.11 02-Oct-2026 06:26:34 — Object 5: PN.'},
