@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.81 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.82 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -245,10 +245,10 @@ header small{font-size:11px}
 <div id="sourceEvidenceDynamic"></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.56 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path with precision boundary refinement; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
-<div class="panel"><div class="titlebar">Boundary Precision Audit — Web 1.81</div>
-<div class="muted" style="margin-bottom:8px">This audit exposes the live fractional transition returned by the reconstructed 10-ms FindTimeInterval path. It does not alter selection. Use it to identify whether a remaining 1-second difference is caused by the boundary crossing, the 10-ms bucket, or only whole-second presentation.</div>
+<div class="panel"><div class="titlebar">Boundary Precision Audit — Web 1.82</div>
+<div class="muted" style="margin-bottom:8px">This audit exposes the exact fractional 10-ms crossing and the V1.5.11 whole-second transition used by the live selector. The fractional value is diagnostic; the live path uses the first whole second that has reached the reached boundary.</div>
 <div id="boundaryPrecisionSummary" class="status">Run the calculation to populate the boundary audit.</div>
-<div class="wide"><table><thead><tr><th>#</th><th>Web shown</th><th>Exact seconds</th><th>Fraction</th><th>Boundary °</th><th>Asc @ boundary °</th><th>Δ°</th><th>Nearest whole sec</th></tr></thead><tbody id="boundaryPrecision"></tbody></table></div>
+<div class="wide"><table><thead><tr><th>#</th><th>Web shown</th><th>Exact seconds</th><th>Fraction</th><th>Boundary °</th><th>Asc @ boundary °</th><th>Δ°</th><th>V1.5.11 whole sec</th></tr></thead><tbody id="boundaryPrecision"></tbody></table></div>
 </div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -1046,11 +1046,17 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
     const bracketEnd=probeSec;
     const bracketStart=bracketEnd-60;
     let target=nextPos;
-    let recordIdx=idx;
+    // The transition row belongs to the boundary that was actually reached.
+    // `idx` is the lower edge of the current interval, while `nextPos` is the
+    // upper/target boundary. The previous build stored `idx`, which made the
+    // audit show e.g. boundary 211.333° while the actual hit was 213.333°.
+    let recordIdx=idx+1;
+    if(recordIdx>=249) recordIdx=0;
     if(probePos<lowerPos){
+      // In this branch the crossing target is the lower edge, so the reached
+      // boundary is `idx` itself.
       target=lowerPos;
-      recordIdx=idx-1;
-      if(recordIdx<0) recordIdx=248;
+      recordIdx=idx;
     }
 
     const hit=v1511FindTimeFromPosition(
@@ -1062,15 +1068,24 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
       probeSec=bracketEnd;
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
     }else{
+      // V1.5.11 native presentation does not return the fractional 10-ms
+      // crossing as the transition DateTime. It advances to the FIRST WHOLE
+      // SECOND that has reached the boundary.  Example: 09:35:11.210 becomes
+      // 09:35:12, 11:22:38.060 becomes 11:22:39, while 10:33:20.000 stays
+      // 10:33:20. Keep the fractional hit for diagnostics, but use the whole
+      // second for the live transition/analysis path.
+      const exactHit=Number(hit);
+      const nativeHit=Math.max(0,Math.min(86400,Math.ceil(exactHit-1e-9)));
       const levels=parts(V1511_SUB249[recordIdx]);
       rows.push({
-        time:secfmt(hit),
+        time:secfmt(nativeHit),
         rasi:levels[0],
         snl:levels[1],
         stl:levels[2],
         sbl:levels[3],
         date,
-        exactSeconds:hit,
+        exactSeconds:exactHit,
+        nativeSeconds:nativeHit,
         probeSeconds:bracketEnd,
         boundaryIndex:recordIdx,
         pos:V1511_SUB249[recordIdx]
@@ -1404,9 +1419,9 @@ async function run(){
     if(i && i%2===0) await new Promise(r=>setTimeout(r,0));
     const time=times[i], tr=trs[i];
     const rowDate=tr.date||date;
-    // Native GetSubLordAnalysis receives the transition DateTime itself.
-    // Evaluate at the refined boundary, not the next 60-second probe.
-    const calcSeconds=finiteSeconds(tr.exactSeconds,parseClockSeconds(time));
+    // Native GetSubLordAnalysis receives the V1.5.11 whole-second transition
+    // DateTime. exactSeconds is retained only for the diagnostic audit.
+    const calcSeconds=finiteSeconds(tr.nativeSeconds,parseClockSeconds(time));
     if(!Number.isFinite(calcSeconds)) throw new Error(`Invalid transition time for ${rowDate}: ${String(tr.exactSeconds)} / ${time}`);
     const calcTime=timeFromSeconds(calcSeconds);
     const cd=chart({date:rowDate,time:calcTime,tz,lat,lon});
@@ -1444,13 +1459,13 @@ async function run(){
       const rs=parseClockSeconds(ref), expected=V1511_PALLAVARAM_LEVELS[ref]||[];
       let nearest=null,bestAbs=Infinity;
       for(const tr of trs){
-        const d=Math.abs(finiteSeconds(tr.exactSeconds,parseClockSeconds(tr.time))-rs);
+        const d=Math.abs(finiteSeconds(tr.nativeSeconds,parseClockSeconds(tr.time))-rs);
         if(d<bestAbs){bestAbs=d;nearest=tr;}
       }
       const matchedTransition=nearest && bestAbs<=1.01;
       let a=null;
       if(nearest){
-        const calcTime=timeFromSeconds(finiteSeconds(nearest.probeSeconds,finiteSeconds(nearest.exactSeconds,parseClockSeconds(nearest.time))));
+        const calcTime=timeFromSeconds(finiteSeconds(nearest.nativeSeconds,parseClockSeconds(nearest.time)));
         const cd=chart({date,time:calcTime,tz,lat,lon});
         const periods=vimPeriods(date,nearest.time,tz);
         const rules=eventAnalysis(event,cd,periods);
@@ -2462,7 +2477,7 @@ function selectionLayer(a,event){
       const rs=parseClockSeconds(ref);
       let nearest=null,bestAbs=Infinity;
       for(const tr of trs){
-        const d=Math.abs(finiteSeconds(tr.exactSeconds,parseClockSeconds(tr.time))-rs);
+        const d=Math.abs(finiteSeconds(tr.nativeSeconds,parseClockSeconds(tr.time))-rs);
         if(d<bestAbs){bestAbs=d;nearest=tr;}
       }
       const lo=Math.max(0,rs-1),hi=Math.min(86399.999,rs+1);
