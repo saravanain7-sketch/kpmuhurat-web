@@ -995,6 +995,7 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   let lowerPos=V1511_SUB249[idx];
   let probePos=curPos;
   let probeSec=curSec;
+  let lastHit=-Infinity;
 
   // Native CalculateTransits compares DateTime to pDateTo at the outer loop.
   while(probeSec<=endSec){
@@ -1048,9 +1049,17 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
     if(hit===null){
       // Preserve the native forward progression even if a pathological
       // astronomy evaluation fails to bracket a crossing.
-      probeSec=bracketEnd;
+      probeSec=Math.max(bracketEnd,probeSec+60);
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
     }else{
+      // Prevent a floating-point boundary from being returned twice.
+      if(Math.abs(hit-lastHit)<1e-9){
+        probeSec=Math.max(bracketEnd,probeSec+60);
+        probePos=v1511AscPos(date,probeSec,lat,lon,tz);
+        await new Promise(r=>setTimeout(r,0));
+        continue;
+      }
+      lastHit=hit;
       const levels=parts(V1511_SUB249[recordIdx]);
       rows.push({
         time:secfmt(hit),
@@ -1064,7 +1073,11 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
         boundaryIndex:recordIdx,
         pos:V1511_SUB249[recordIdx]
       });
-      probeSec=bracketEnd;
+      // Continue from the refined native DateTime, not the coarse 60-second
+      // bracket endpoint. The Windows engine resumes from the returned
+      // FindTimeFromPosition() DateTime. Resetting to bracketEnd can select
+      // the same sub-lord boundary repeatedly.
+      probeSec=hit;
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
       await new Promise(r=>setTimeout(r,0));
     }
