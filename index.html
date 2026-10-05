@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.69 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.70 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.68</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.71</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -205,7 +205,7 @@ header small{font-size:11px}
 <div class="grid3"><label>Longitude<input id="lon" value="76:58:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
 <div class="grid3"><label>Time Zone<input id="tz" value="05:30:00"></label><select id="tzdir"><option>East of UT</option><option>West of UT</option></select></div>
 <label>Event<select id="event"><option>Loading extracted events…</option></select></label>
-<button class="btn" id="show" type="button" disabled>Loading engine…</button><button class="btn" id="install" type="button" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
+<button class="btn" id="show" type="button">Show</button><button class="btn" id="install" type="button" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
@@ -602,6 +602,8 @@ const NAK=13+20/60;
 let SwissEphemeris,Planet,HouseSystem,SiderealMode,CalculationFlag,swe,ephFlags;
 let engineReady=false;
 async function initEngine(){
+  if(window.__kpEngineStarting || engineReady) return;
+  window.__kpEngineStarting=true;
   const btn=$('show');
   const setStatus=(msg)=>{const el=$('status'); if(el) el.textContent=msg;};
   const timeout=(promise,ms,label)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error(label+' timed out after '+Math.round(ms/1000)+' seconds')),ms))]);
@@ -630,12 +632,13 @@ async function initEngine(){
     await timeout(swe.init('https://unpkg.com/@swisseph/browser@1.3.1/dist/swisseph.wasm'),15000,'Swiss Ephemeris WASM initialization');
     swe.setSiderealMode(SiderealMode.Krishnamurti);
     ephFlags=CalculationFlag.MoshierEphemeris|CalculationFlag.Sidereal|CalculationFlag.Speed;
-    engineReady=true;
+    engineReady=true; window.__kpEngineStarting=false;
     if(btn){btn.disabled=false;btn.textContent='Show';}
     setStatus('Ready. Swiss Ephemeris engine loaded. Select an event and tap Show.');
+    if(window.__kpPendingRun){ window.__kpPendingRun=false; setTimeout(function(){run();},50); }
   }catch(e){
     console.error('Swiss Ephemeris initialization failed',e);
-    engineReady=false;
+    engineReady=false; window.__kpEngineStarting=false;
     if(btn){btn.disabled=true;btn.textContent='Engine unavailable';}
     setStatus('Engine initialization failed: '+(e?.message||e)+' — check internet access and reload once.');
   }
@@ -1298,7 +1301,7 @@ const V1511_REASON_Y_EXAMPLES_20220410 = [
 
 async function run(){
  const coimbatoreParityActive=false;
- if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
+ if(!engineReady){ window.__kpPendingRun=true; $('status').textContent='Calculation engine is still loading — starting automatically when ready…'; if(typeof initEngine==='function' && !window.__kpEngineStarting){ initEngine(); } return; }
  try{
   $('status').textContent='Calculating '+String($('date').value||'selected date')+' — exact KP significators / CSL / Y-N / Dasa…';
   const date=$('date').value,endDate=$('todate')?.value||date,from=$('from').value+':00',to=$('to').value+':00',
@@ -2429,7 +2432,7 @@ $('show').onclick=run;
 // for multiple dates. Invalidate the old calculation immediately and run the
 // calculation again when a date/time/location/event field is committed.
 (function bindInputInvalidation(){
-  const ids=['date','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
+  const ids=['date','todate','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
   let timer=null;
   function invalidate(){
     window.__selectionRows=[];
@@ -2443,11 +2446,22 @@ $('show').onclick=run;
   function changed(){
     invalidate();
     clearTimeout(timer);
-    timer=setTimeout(()=>run(),180);
+    timer=setTimeout(()=>{
+      const start=$('date')?.value||'';
+      const end=$('todate')?.value||start;
+      if(start && end && end < start){
+        const st=$('status');
+        if(st) st.textContent='Invalid date range: To date must be on or after Date.';
+        return;
+      }
+      run();
+    },180);
   }
   ids.forEach(id=>{
     const el=$(id); if(!el) return;
     el.addEventListener('change',changed);
+    // Android date/time pickers can commit through input before change.
+    if(id==='date' || id==='todate') el.addEventListener('input',changed);
   });
 })();
 initEngine();
@@ -2510,6 +2524,45 @@ initEngine();
     var st=document.getElementById('status');
     if(st) st.textContent='JavaScript error: '+((e.reason&&e.reason.message)||e.reason||'Unhandled promise rejection');
   });
+})();
+</script>
+<script>
+// Web 1.71 — harden Android Chrome/GitHub Pages interaction and date-range input.
+(function(){
+  function bind(){
+    function nav(btn){
+      var id=btn.getAttribute('data-t');
+      if(!id)return;
+      document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('active',x===btn);});
+      document.querySelectorAll('main section').forEach(function(x){x.classList.toggle('active',x.id===id);});
+    }
+    document.querySelectorAll('nav button').forEach(function(b){
+      b.type='button';
+      b.onclick=function(e){e.preventDefault();nav(b);};
+      b.ontouchend=function(e){e.preventDefault();nav(b);};
+    });
+    var show=document.getElementById('show');
+    if(show){
+      show.disabled=false;
+      show.type='button';
+      var fire=function(e){e&&e.preventDefault(); if(typeof run==='function') run(); else {var st=document.getElementById('status');if(st)st.textContent='Web engine is still starting…';}};
+      show.onclick=fire; show.ontouchend=fire;
+    }
+    ['findPlace','gps','gps2','install'].forEach(function(id){
+      var b=document.getElementById(id); if(!b)return;
+      b.type='button';
+      b.addEventListener('touchend',function(){setTimeout(function(){try{b.click();}catch(e){}},0);},{passive:false});
+    });
+  }
+  window.addEventListener('error',function(e){
+    var st=document.getElementById('status');
+    if(st)st.textContent='JavaScript error: '+(e.error&&e.error.message||e.message||'Unknown error');
+  },true);
+  window.addEventListener('unhandledrejection',function(e){
+    var st=document.getElementById('status');
+    if(st)st.textContent='JavaScript error: '+(e.reason&&e.reason.message||e.reason||'Unhandled promise rejection');
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
 })();
 </script>
 </body></html>
