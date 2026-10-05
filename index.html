@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.77 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.76 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.77</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.76</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -647,7 +647,14 @@ async function initEngine(){
 function dms(s){let a=String(s).split(':').map(Number);return (a[0]||0)+(a[1]||0)/60+(a[2]||0)/3600}
 function norm(x){x%=360;return x<0?x+360:x}
 function parts(L){L=norm(L);let si=Math.floor(L/30),nk=Math.floor(L/NAK),rem=L-nk*NAK,star=STAR_LORDS[nk%9],seq=[];for(let i=0;i<9;i++)seq.push(STAR_LORDS[(nk+i)%9]);let x=0,sub=seq[8];for(let p of seq){let w=NAK*VIM[p]/120;if(rem < x+w-1e-12){sub=p;break}x+=w}return [SIGNS[si],RASI_LORD[si],star,sub,L,nk]}
-function localJD(date,time,tz){let a=date.split('-').map(Number),b=time.split(':').map(Number);return swe.julianDay(a[0],a[1],a[2],b[0]+b[1]/60+b[2]/3600-tz)}
+function localJD(date,time,tz){
+  const a=String(date??'').split('-').map(Number), b=String(time??'').split(':').map(Number);
+  const hour=b[0], minute=b[1]??0, second=b[2]??0;
+  if(!Number.isFinite(a[0])||!Number.isFinite(a[1])||!Number.isFinite(a[2])||!Number.isFinite(hour)||!Number.isFinite(minute)||!Number.isFinite(second)){
+    throw new Error(`Invalid calculation time: date=${date}, time=${time}, hour=${hour}`);
+  }
+  return swe.julianDay(a[0],a[1],a[2],hour+minute/60+second/3600-Number(tz));
+}
 function timeFromSeconds(s){
   // Preserve fractional seconds during boundary searches. The previous build
   // truncated every binary-search probe to whole seconds, which could move a
@@ -666,7 +673,18 @@ function secfmt(s){
   let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=s%60;
   return [h,m,q].map(x=>String(x).padStart(2,'0')).join(':');
 }
-function parseClockSeconds(t){let b=String(t).split(':').map(Number);return (b[0]||0)*3600+(b[1]||0)*60+(b[2]||0)}
+function parseClockSeconds(t){
+  const b=String(t??'').trim().split(':').map(Number);
+  const h=b[0],m=b[1]??0,s=b[2]??0;
+  if(!Number.isFinite(h)||!Number.isFinite(m)||!Number.isFinite(s)) return NaN;
+  return h*3600+m*60+s;
+}
+function finiteSeconds(primary,fallback){
+  const p=Number(primary);
+  if(Number.isFinite(p)) return p;
+  const f=Number(fallback);
+  return Number.isFinite(f)?f:NaN;
+}
 function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===12?1:i+1],x=(L-a+360)%360,span=(b-a+360)%360;if(span===0)continue;if(x<span||Math.abs(x-span)<1e-8)return i}return 12}
 function chart(dt){
   const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
@@ -888,24 +906,14 @@ function v1511GetNextSubIndex(dblSubLord,v_dblPos){
 function v1511NextSubIndex(pos){
   return v1511GetNextSubIndex(V1511_SUB249,pos);
 }
-const V1511_AYAN_CACHE=new Map();
-function v1511Ayan(date,tz){
-  const k=date+'|'+Number(tz);
-  let a=V1511_AYAN_CACHE.get(k);
-  if(a==null){
-    const jd=localJD(date,'12:00:00',tz);
-    a=Number(swe.getAyanamsa(jd));
-    V1511_AYAN_CACHE.set(k,a);
-  }
-  return a;
-}
 function v1511AscPos(date,s,lat,lon,tz){
   const jd=localJD(date,timeFromSeconds(s),tz);
+  const ayan=swe.getAyanamsa(jd);
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
-  return norm(Number(h.ascendant)-v1511Ayan(date,tz));
+  return norm(Number(h.ascendant)-ayan);
 }
-async function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.77 — mobile-safe equivalent of the recovered V1.5.11
+function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
+  // Web 1.76 — mobile-safe equivalent of the recovered V1.5.11
   // FindTimeInterval. Windows probes every 10 ms, but doing all 6,001
   // Swiss-Ephemeris house calculations synchronously for every 60-second
   // bracket can freeze Android. The crossing predicate is monotonic inside
@@ -926,13 +934,10 @@ async function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
   // Find the first crossing to 10-ms resolution. Use integer milliseconds
   // so the final value is represented exactly like DateTime.AddTicks(100000).
   let lo=Math.round(s*1000), hi=Math.round(e*1000);
-  let refineSteps=0;
   while(hi-lo>10){
     const mid=lo+Math.floor((hi-lo)/20)*10;
     const d=normDiff(mid/1000);
     if(d<=0) hi=mid; else lo=mid;
-    // Keep Android responsive even inside the native 10-ms refinement.
-    if((++refineSteps&1)===0) await new Promise(r=>setTimeout(r,0));
   }
   let first=hi;
   // Native loop starts at startDate and advances by exactly 10 ms. Verify the
@@ -943,23 +948,21 @@ async function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
   }
   return first/1000;
 }
-async function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
+function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
   // Native FindTimeFromPosition repeats FindTimeInterval until its flag is
   // non-zero. With the native bracket this normally completes in one call.
-  return await v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
+  return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
 }
 function v1511IsInside(curPos, prevPos, nextPos){
-  // Exact CIL reconstruction of EphCuspTransitData.IsInside:
-  //   if (prevPos > nextPos) return false;
-  //   if (prevPos < curPos) return false;
-  //   return true;
-  // Therefore the native predicate is true iff:
-  //   prevPos <= nextPos && prevPos >= curPos.
-  // Do not replace this with the more intuitive curPos-in-[prev,next] test;
-  // the Windows implementation uses this asymmetric predicate.
-  if(prevPos>nextPos) return false;
-  if(prevPos<curPos) return false;
-  return true;
+  // Web 1.77 fix: the recovered predicate had been wired with the boundary
+  // variables in the wrong semantic order. That made an already-inside Lagna
+  // interval return false, so FindTimeFromPosition() could be called repeatedly
+  // against the same boundary/minute and never advance.
+  // CalculateTransits needs the native interval-membership meaning here:
+  // current position is before the next boundary and at/after the lower one.
+  // Wrap intervals are normalized by CalculateTransits before this call.
+  if(prevPos<=nextPos) return curPos>=prevPos && curPos<nextPos;
+  return false;
 }
 async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   // Web 1.68: exact CalculateTransits control flow reconstructed from the
@@ -974,8 +977,6 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   //   6. Record that boundary, then repeat GetNextSubIndex() from the new
   //      cusp position.
   const rows=[];
-  const scanStarted=performance.now();
-  let scanCycles=0;
   const startSec=Math.max(0,Math.floor(fromSec));
   const endSec=Math.floor(toSec);
   let curSec=startSec;
@@ -995,19 +996,18 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   let lowerPos=V1511_SUB249[idx];
   let probePos=curPos;
   let probeSec=curSec;
-  let lastHit=-Infinity;
+  // Safety invariant: a native transition scan must always advance either to
+  // a later minute or to a newly selected boundary. This is only a guard; it
+  // should never fire on a healthy scan. It prevents a malformed boundary or
+  // astronomy result from trapping the mobile browser in an endless loop.
+  const maxIterations=Math.max(1000, Math.ceil((endSec-startSec)/60)+100);
+  let iterations=0;
 
   // Native CalculateTransits compares DateTime to pDateTo at the outer loop.
   while(probeSec<=endSec){
-    scanCycles++;
-    if(scanCycles%4===1){
-      const hh=Math.floor(probeSec/3600), mm=Math.floor((probeSec%3600)/60);
-      const elapsed=Math.round((performance.now()-scanStarted)/1000);
-      const st=document.getElementById('status');
-      if(st) st.textContent=`Scanning Lagna/Sub-Lord transitions… ${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')} | ${rows.length} boundaries | ${elapsed}s`;
-      await new Promise(r=>setTimeout(r,0));
+    if(++iterations>maxIterations){
+      throw new Error('Transition scan safety limit reached at '+secfmt(probeSec)+'; boundary index '+idx+' did not advance.');
     }
-    if(scanCycles>600){ throw new Error('Transition scan safety limit reached; stopping to prevent an endless native-boundary loop.'); }
     let finished=false;
 
     // Inner 60-second search. Native tests IsInside before each AddSeconds.
@@ -1049,17 +1049,9 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
     if(hit===null){
       // Preserve the native forward progression even if a pathological
       // astronomy evaluation fails to bracket a crossing.
-      probeSec=Math.max(bracketEnd,probeSec+60);
+      probeSec=bracketEnd;
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
     }else{
-      // Prevent a floating-point boundary from being returned twice.
-      if(Math.abs(hit-lastHit)<1e-9){
-        probeSec=Math.max(bracketEnd,probeSec+60);
-        probePos=v1511AscPos(date,probeSec,lat,lon,tz);
-        await new Promise(r=>setTimeout(r,0));
-        continue;
-      }
-      lastHit=hit;
       const levels=parts(V1511_SUB249[recordIdx]);
       rows.push({
         time:secfmt(hit),
@@ -1073,11 +1065,7 @@ async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
         boundaryIndex:recordIdx,
         pos:V1511_SUB249[recordIdx]
       });
-      // Continue from the refined native DateTime, not the coarse 60-second
-      // bracket endpoint. The Windows engine resumes from the returned
-      // FindTimeFromPosition() DateTime. Resetting to bracketEnd can select
-      // the same sub-lord boundary repeatedly.
-      probeSec=hit;
+      probeSec=bracketEnd;
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
       await new Promise(r=>setTimeout(r,0));
     }
@@ -1361,8 +1349,6 @@ async function run(){
   $('status').textContent='Scanning Lagna/Sub-Lord transitions…';
   await new Promise(r=>setTimeout(r,0));
   const trsAll=await transitionRows(date,from,to,lat,lon,tz,endDate);
-  $('status').textContent=`Transition scan complete: ${trsAll.length} boundaries. Running native Sub-Lord analysis…`;
-  await new Promise(r=>setTimeout(r,0));
   // Web 1.54 — exact Settings.xml CharaRasi=false parity. The native
   // Show_Click path excludes Lagna transitions whose Rasi is movable when
   // CharaRasi is disabled. Movable Rasis are Aries, Cancer, Libra and
@@ -1380,7 +1366,9 @@ async function run(){
     const rowDate=tr.date||date;
     // Native GetSubLordAnalysis receives the transition DateTime itself.
     // Evaluate at the refined boundary, not the next 60-second probe.
-    const calcTime=timeFromSeconds(tr.exactSeconds ?? parseClockSeconds(time));
+    const calcSeconds=finiteSeconds(tr.exactSeconds,parseClockSeconds(time));
+    if(!Number.isFinite(calcSeconds)) throw new Error(`Invalid transition time for ${rowDate}: ${String(tr.exactSeconds)} / ${time}`);
+    const calcTime=timeFromSeconds(calcSeconds);
     const cd=chart({date:rowDate,time:calcTime,tz,lat,lon});
     const periods=vimPeriods(rowDate,time,tz);
     const rules=eventAnalysis(event,cd,periods);
@@ -1416,13 +1404,13 @@ async function run(){
       const rs=parseClockSeconds(ref), expected=V1511_PALLAVARAM_LEVELS[ref]||[];
       let nearest=null,bestAbs=Infinity;
       for(const tr of trs){
-        const d=Math.abs((tr.exactSeconds??parseClockSeconds(tr.time))-rs);
+        const d=Math.abs(finiteSeconds(tr.exactSeconds,parseClockSeconds(tr.time))-rs);
         if(d<bestAbs){bestAbs=d;nearest=tr;}
       }
       const matchedTransition=nearest && bestAbs<=1.01;
       let a=null;
       if(nearest){
-        const calcTime=timeFromSeconds(nearest.probeSeconds ?? nearest.exactSeconds ?? parseClockSeconds(nearest.time));
+        const calcTime=timeFromSeconds(finiteSeconds(nearest.probeSeconds,finiteSeconds(nearest.exactSeconds,parseClockSeconds(nearest.time))));
         const cd=chart({date,time:calcTime,tz,lat,lon});
         const periods=vimPeriods(date,nearest.time,tz);
         const rules=eventAnalysis(event,cd,periods);
@@ -2430,7 +2418,7 @@ function selectionLayer(a,event){
       const rs=parseClockSeconds(ref);
       let nearest=null,bestAbs=Infinity;
       for(const tr of trs){
-        const d=Math.abs((tr.exactSeconds??parseClockSeconds(tr.time))-rs);
+        const d=Math.abs(finiteSeconds(tr.exactSeconds,parseClockSeconds(tr.time))-rs);
         if(d<bestAbs){bestAbs=d;nearest=tr;}
       }
       const lo=Math.max(0,rs-1),hi=Math.min(86399.999,rs+1);
@@ -2520,7 +2508,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  // Web 1.77 intentionally does not register the legacy service worker.
+  // Web 1.76 intentionally does not register the legacy service worker.
   // Old cached workers are removed by the recovery block at the end of the page.
   var b=document.getElementById('install');
   var deferred=null;
@@ -2557,7 +2545,7 @@ initEngine();
 
 
 <script>
-// Web 1.77 — safe Android form interaction and stale-service-worker recovery.
+// Web 1.76 — safe Android form interaction and stale-service-worker recovery.
 (function(){
   function setStatus(msg){var x=document.getElementById('status');if(x)x.textContent=msg;}
   function bind(){
