@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.75 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.76 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.75</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.76</small></header>
 <nav><button class="active" data-t="data">Data</button><button type="button" data-t="analysis">Analysis</button><button type="button" data-t="results">Results</button><button type="button" data-t="notes">Notes</button><button type="button" data-t="placeSelect">PlaceSelect</button><button type="button" data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -895,7 +895,7 @@ function v1511AscPos(date,s,lat,lon,tz){
   return norm(Number(h.ascendant)-ayan);
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.75 — mobile-safe equivalent of the recovered V1.5.11
+  // Web 1.76 — mobile-safe equivalent of the recovered V1.5.11
   // FindTimeInterval. Windows probes every 10 ms, but doing all 6,001
   // Swiss-Ephemeris house calculations synchronously for every 60-second
   // bracket can freeze Android. The crossing predicate is monotonic inside
@@ -948,7 +948,7 @@ function v1511IsInside(curPos, prevPos, nextPos){
   if(prevPos<curPos) return false;
   return true;
 }
-function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
+async function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   // Web 1.68: exact CalculateTransits control flow reconstructed from the
   // recovered V1.5.11 IL.  This is deliberately NOT a date-specific fixture.
   // Native behavior:
@@ -994,6 +994,8 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
       }
 
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
+      // Keep Android UI responsive during the native-style 60-second scan.
+      await new Promise(r=>setTimeout(r,0));
 
       // Exact native special wrap correction from CalculateTransits:
       // if the target interval ends at 360 and the new cusp is in the
@@ -1040,6 +1042,7 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
       });
       probeSec=bracketEnd;
       probePos=v1511AscPos(date,probeSec,lat,lon,tz);
+      await new Promise(r=>setTimeout(r,0));
     }
 
     // Native CalculateTransits immediately recomputes GetNextSubIndex()
@@ -1057,13 +1060,14 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   return rows;
 }
 function dateAddDays(date,n){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
-function v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate){
+async function v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate){
   const a=parseClockSeconds(from), b=parseClockSeconds(to);
   const finalDate=endDate||date;
   const out=[]; let day=0, d=date;
   while(true){
     const fs=day===0?a:0;
-    out.push(...v1511TransitionRowsDay(d,fs,b,lat,lon,tz));
+    const dayRows=await v1511TransitionRowsDay(d,fs,b,lat,lon,tz);
+    out.push(...dayRows);
     if(d===finalDate)break;
     d=dateAddDays(d,1); day++;
     if(day>3700)break;
@@ -1074,16 +1078,16 @@ function ascKey(date,s,lat,lon,tz){
   const p=parts(v1511AscPos(date,s,lat,lon,tz));
   return [p[0],p[1],p[2],p[3]].join('|');
 }
-function transitionRows(date,from,to,lat,lon,tz,endDate){
-  return v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate);
+async function transitionRows(date,from,to,lat,lon,tz,endDate){
+  return await v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate);
 }
 
 function ascKey(date,s,lat,lon,tz){
   const p=parts(v1511AscPos(date,s,lat,lon,tz));
   return [p[0],p[1],p[2],p[3]].join('|');
 }
-function transitionRows(date,from,to,lat,lon,tz){
-  return v1511TransitionRowsRange(date,from,to,lat,lon,tz);
+async function transitionRows(date,from,to,lat,lon,tz){
+  return await v1511TransitionRowsRange(date,from,to,lat,lon,tz);
 }
 
 // Regression fixture used only for verification. It is never used to select
@@ -1317,7 +1321,9 @@ async function run(){
     tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),
     event=window.EVENTS[Number($('event').value)];
 
-  const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
+  $('status').textContent='Scanning Lagna/Sub-Lord transitions…';
+  await new Promise(r=>setTimeout(r,0));
+  const trsAll=await transitionRows(date,from,to,lat,lon,tz,endDate);
   // Web 1.54 — exact Settings.xml CharaRasi=false parity. The native
   // Show_Click path excludes Lagna transitions whose Rasi is movable when
   // CharaRasi is disabled. Movable Rasis are Aries, Cancer, Libra and
@@ -2475,7 +2481,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  // Web 1.75 intentionally does not register the legacy service worker.
+  // Web 1.76 intentionally does not register the legacy service worker.
   // Old cached workers are removed by the recovery block at the end of the page.
   var b=document.getElementById('install');
   var deferred=null;
@@ -2512,7 +2518,7 @@ initEngine();
 
 
 <script>
-// Web 1.75 — safe Android form interaction and stale-service-worker recovery.
+// Web 1.76 — safe Android form interaction and stale-service-worker recovery.
 (function(){
   function setStatus(msg){var x=document.getElementById('status');if(x)x.textContent=msg;}
   function bind(){
