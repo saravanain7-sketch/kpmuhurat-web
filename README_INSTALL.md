@@ -14,3 +14,10 @@ Focused continuation of Web 1.77.
 05/10/2026, 09:00–22:00, 11:00:00 N, 76:58:00 E, +05:30, Krishnamurti, Placidus, Event 05.
 
 Then return to the exact 02/10/2026 Windows V1.5.11 parity fixture and compare the 15 selected Muhurats, including 10:33:20 Ma/Me/Me.
+
+
+Web 1.80 changes:
+- Results analysis renderer is explicitly exposed on window to prevent `renderResultsAnalysis is not defined` on Android/WebView.
+- Version label updated to Web 1.80.
+- Preserves the Web 1.79 UT ayanamsa and 10-ms transition engine.
+- Whole-second result display uses nearest-second presentation of the refined boundary; underlying `exactSeconds` remains fractional and unchanged.
