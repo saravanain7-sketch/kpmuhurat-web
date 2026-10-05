@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.76 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.79 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -687,7 +687,7 @@ function finiteSeconds(primary,fallback){
 }
 function houseForLon(L,cusps){for(let i=1;i<=12;i++){let a=cusps[i],b=cusps[i===12?1:i+1],x=(L-a+360)%360,span=(b-a+360)%360;if(span===0)continue;if(x<span||Math.abs(x-span)<1e-8)return i}return 12}
 function chart(dt){
-  const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=swe.getAyanamsa(jd);
+  const date=dt.date,time=dt.time,tz=dt.tz,lat=dt.lat,lon=dt.lon,jd=localJD(date,time,tz),ayan=(typeof swe.getAyanamsaExUt==='function' ? swe.getAyanamsaExUt(jd,CalculationFlag.MoshierEphemeris) : swe.getAyanamsa(jd));
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
   // The browser WASM build used by 0.9.12 exposes its cusp array 0-based at
   // runtime, while the package documentation describes a 1-based layout.
@@ -908,12 +908,16 @@ function v1511NextSubIndex(pos){
 }
 function v1511AscPos(date,s,lat,lon,tz){
   const jd=localJD(date,timeFromSeconds(s),tz);
-  const ayan=swe.getAyanamsa(jd);
+  // Web 1.79: use the UT-specific ayanamsa API. getAyanamsa(jd) is defined
+  // against Ephemeris Time in Swiss Ephemeris; the transit JD here is UT.
+  // The explicit UT form removes that time-scale ambiguity while retaining
+  // the same Moshier calculation family used by this browser build.
+  const ayan=(typeof swe.getAyanamsaExUt==='function' ? swe.getAyanamsaExUt(jd,CalculationFlag.MoshierEphemeris) : swe.getAyanamsa(jd));
   const h=swe.calculateHouses(jd,lat,lon,HouseSystem.Placidus);
   return norm(Number(h.ascendant)-ayan);
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // Web 1.76 — mobile-safe equivalent of the recovered V1.5.11
+  // Web 1.79 — mobile-safe equivalent of the recovered V1.5.11
   // FindTimeInterval. Windows probes every 10 ms, but doing all 6,001
   // Swiss-Ephemeris house calculations synchronously for every 60-second
   // bracket can freeze Android. The crossing predicate is monotonic inside
@@ -954,7 +958,7 @@ function v1511FindTimeFromPosition(date,startSec,endSec,target,lat,lon,tz){
   return v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz);
 }
 function v1511IsInside(curPos, prevPos, nextPos){
-  // Web 1.77 fix: the recovered predicate had been wired with the boundary
+  // Web 1.79 retained fix: the recovered predicate had been wired with the boundary
   // variables in the wrong semantic order. That made an already-inside Lagna
   // interval return false, so FindTimeFromPosition() could be called repeatedly
   // against the same boundary/minute and never advance.
