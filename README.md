@@ -1,4 +1,4 @@
-# KPMuhurat Web 1.54 — KP Muhurat V1.5.11
+# KPMuhurat Web 1.55 — KP Muhurat V1.5.11
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
@@ -24,3 +24,11 @@ Upload the contents of this folder to the repository root. `index.html` is the e
 - Refines each KP boundary using fractional-second bisection before displaying the native whole-second transition.
 - This addresses the observed one-second-early transitions such as 09:35:11 → 09:35:12 and 11:22:38 → 11:22:39.
 - The Windows rows remain verification evidence only; they are not injected into live selection.
+
+
+## Web 1.55 native-analysis correction
+- Keeps the fractional-second boundary refinement from Web 1.54.
+- Corrects the Badhaka/Maraka reconstruction so the SBL, its Star Lord and its Sub Lord are evaluated as **separate direct significator groups**, without recursively expanding each chain member through its own Star/Sub Lords.
+- Keeps node/conjunction/aspect handling separate from that direct chain evaluation.
+- Extends the final transition scan by one short interval so the Windows-style final boundary immediately after the requested end (such as 22:07:47 after a 22:00 input) can be represented.
+- No Windows Chosen-Muhurat timestamps are injected into live selection.
