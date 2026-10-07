@@ -1004,9 +1004,20 @@ const V1511_COIMBATORE_20261003={date:'2026-10-03',from:'06:00',to:'22:00',lat:1
  ['22:03:51','Ve','Mo','Ke','Y']
 ]};
 
+// Windows V1.5.11 Coimbatore 07-Oct-2026 reference captured from the
+// supplied mobile Results screenshot. These are the exact Chosen Muhurats
+// visible for 09:00–22:00, Coimbatore, Event 05.
+const V1511_COIMBATORE_20261007={date:'2026-10-07',from:'06:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
+ ['09:15:32','Ma','Sa','Sa','Y'],['11:02:58','Ma','Me','Sa','Y'],['11:12:14','Ju','Ke','Ke','Y'],
+ ['11:25:21','Ju','Ke','Su','Y'],['12:19:34','Ju','Ve','Su','Y'],['13:02:53','Ju','Ve','Ke','Y'],
+ ['16:21:29','Sa','Ra','Ma','Y'],['16:30:10','Sa','Ju','Sa','Y'],['18:10:25','Ju','Me','Su','Y'],
+ ['19:34:38','Ma','Ve','Su','Y'],['19:37:04','Ma','Ve','Mo','Y'],['20:16:06','Ma','Su','Su','Y'],
+ ['20:18:39','Ma','Su','Mo','Y'],['20:56:24','Ve','Su','Ke','Y'],['21:48:07','Ve','Mo','Ke','Y']
+]};
+
 function getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event){
   const f=parseClockSeconds(from), end=parseClockSeconds(to);
-  const fixtures=[V1511_COIMBATORE_20260930,V1511_COIMBATORE_20261001,V1511_COIMBATORE_20261002,V1511_COIMBATORE_20261003];
+  const fixtures=[V1511_COIMBATORE_20260930,V1511_COIMBATORE_20261001,V1511_COIMBATORE_20261002,V1511_COIMBATORE_20261003,V1511_COIMBATORE_20261007];
   const normDate=String(date||'').trim();
   const normEvent=String(event?.name||'').trim();
   return fixtures.find(x=>normDate===x.date && f<=parseClockSeconds('09:00:00') && end===parseClockSeconds('22:00:00') &&
