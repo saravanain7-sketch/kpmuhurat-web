@@ -1,10 +1,12 @@
 {
-  "name": "KP Muhurat V1.5.11 Web 1.47",
-  "short_name": "KP Muhurat 1.47",
-  "start_url": "./index.html",
+  "name": "KPMuhurat V1.5.11 Web 1.53",
+  "short_name": "KPMuhurat",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1976a8",
+  "orientation": "portrait",
+  "background_color": "#eef8fc",
+  "theme_color": "#0d79bd",
   "icons": [
     {"src":"kp-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
     {"src":"kp-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}

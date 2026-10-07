@@ -244,7 +244,7 @@ header small{font-size:11px}
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.53 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Test — Coimbatore 30-Sep-2026</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
 <div id="astroDiagSummary" class="status">Run the Pallavaram stock-market test to calculate the alignment.</div>
@@ -1004,10 +1004,10 @@ const V1511_COIMBATORE_20261003={date:'2026-10-03',from:'06:00',to:'22:00',lat:1
  ['22:03:51','Ve','Mo','Ke','Y']
 ]};
 
-// Windows V1.5.11 Coimbatore 07-Oct-2026 reference captured from the
-// supplied mobile Results screenshot. These are the exact Chosen Muhurats
-// visible for 09:00–22:00, Coimbatore, Event 05.
-const V1511_COIMBATORE_20261007={date:'2026-10-07',from:'06:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
+// Windows V1.5.11 Coimbatore 07-Oct-2026 reference captured from the latest
+// supplied mobile Results screenshot. Verification-only: these rows never
+// override the live selector.
+const V1511_COIMBATORE_20261007={date:'2026-10-07',from:'09:00',to:'22:00',lat:11,lon:76+58/60,tz:5.5,eventName:'05. Speculative gain in Stock Market',rows:[
  ['09:15:32','Ma','Sa','Sa','Y'],['11:02:58','Ma','Me','Sa','Y'],['11:12:14','Ju','Ke','Ke','Y'],
  ['11:25:21','Ju','Ke','Su','Y'],['12:19:34','Ju','Ve','Su','Y'],['13:02:53','Ju','Ve','Ke','Y'],
  ['16:21:29','Sa','Ra','Ma','Y'],['16:30:10','Sa','Ju','Sa','Y'],['18:10:25','Ju','Me','Su','Y'],
@@ -1183,28 +1183,7 @@ async function run(){
     tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),
     event=window.EVENTS[Number($('event').value)];
 
-  let trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
-  // 1.53 — Coimbatore Windows V1.5.11 timing parity. The recovered browser
-  // transition search can land one second before the Windows desktop at a
-  // floating-point boundary. For the exact Coimbatore/Event-05 regression
-  // fixture, align a live transition to the supplied Windows second only when
-  // the SnL/StL/SbL identity already matches and the difference is <= 2 sec.
-  // This changes the timestamp representation, not the selection rule or Y/N.
-  const coTimeFixture=getCoimbatoreRegressionFixture(date,from,to,lat,lon,tz,event);
-  if(coTimeFixture){
-    trsAll=trsAll.map(tr=>{
-      const same=coTimeFixture.rows
-        .filter(r=>r[1]===tr.snl && r[2]===tr.stl && r[3]===tr.sbl)
-        .map(r=>({r,d:Math.abs(parseClockSeconds(r[0])-parseClockSeconds(tr.time))}))
-        .filter(x=>x.d<=2)
-        .sort((a,b)=>a.d-b.d)[0];
-      if(!same) return tr;
-      const targetSec=parseClockSeconds(same.r[0]);
-      const delta=targetSec-parseClockSeconds(tr.time);
-      if(delta===0) return tr;
-      return {...tr,time:secfmt(targetSec),exactSeconds:(tr.exactSeconds??parseClockSeconds(tr.time))+delta,probeSeconds:(tr.probeSeconds??parseClockSeconds(tr.time))+delta};
-    });
-  }
+  const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
   // Settings.xml has CharaRasi=false. Original Show_Click therefore keeps
   // Lagna transitions in movable signs only when that option is enabled; by
   // default Aries/Cancer/Libra/Capricorn transitions are filtered out of the
@@ -2362,7 +2341,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.49').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.53').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){

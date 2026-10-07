@@ -1,20 +1,20 @@
-# KP Muhurat by Kanak Bosmia — Web 1.53
+# KPMuhurat Web 1.53 — KP Muhurat V1.5.11
 
-GitHub-ready browser build for KP Muhurat V1.5.11 parity testing.
+Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
-## Included
-- `index.html` — standalone web application
-- Swiss Ephemeris browser engine
-- Responsive Android/mobile UI
-- Coimbatore Event 05 parity fixtures based on supplied Windows V1.5.11 screenshots
-- 07-Oct-2026 Chosen Muhurat fixture with all 15 visible Y timings from 09:00–22:00
-- 07-Oct-2026 analysis/parity evidence for the supplied Windows results
-- 02-Oct-2026 regression data retained
+## Build 1.53
+- Carries forward the native B/M/significator reconstruction from Web 1.52.
+- Adds the latest **07-Oct-2026 Coimbatore Event 05** regression reference.
+- Preserves all 15 latest supplied Windows Chosen Muhurat times:
+  09:15:32, 11:02:58, 11:12:14, 11:25:21, 12:19:34, 13:02:53,
+  16:21:29, 16:30:10, 18:10:25, 19:34:38, 19:37:04, 20:16:06,
+  20:18:39, 20:56:24, 21:48:07.
+- Keeps 02-Oct-2026 and earlier Coimbatore regression references.
+- Keeps 07-Oct-2026 Analysis evidence separate from live selection.
+- Uses the supplied settings: Coimbatore, 11:00:00 N, 76:58:00 E, +05:30 East, Krishnamurti, Placidus, Event 05.
+
+## Important
+The supplied Windows rows are regression evidence only. They are not injected into the normal live Chosen Muhurat selector. Exact Windows V1.5.11 equivalence remains a validation target.
 
 ## GitHub Pages
-1. Upload the contents of this folder to the repository root.
-2. Enable **Settings → Pages**.
-3. Select the repository branch and `/ (root)`.
-4. Open the generated GitHub Pages URL.
-
-The browser build is a reconstruction/validation implementation; the original Windows executable is not embedded in the browser runtime.
+Upload the contents of this folder to the repository root. `index.html` is the entry point. Configure GitHub Pages to deploy from `main`/root or use the included GitHub Actions workflow.
