@@ -1,4 +1,4 @@
-# KPMuhurat Web 1.58 — KP Muhurat V1.5.11
+# KPMuhurat Web 1.59 — KP Muhurat V1.5.11
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
@@ -34,21 +34,9 @@ Upload the contents of this folder to the repository root. `index.html` is the e
 - No Windows Chosen-Muhurat timestamps are injected into live selection.
 
 
-## Web 1.58 timestamp precision correction
-- Keeps the Web 1.55 native-analysis correction and 20-row live selection.
-- Removes the artificial `-1e-7` adjustment from the final whole-second boundary conversion.
-- This preserves a fractional boundary that lands infinitesimally above an integer second instead of pulling it back into the preceding second.
-- Windows Chosen Muhurat rows remain verification evidence only.
-
-
-## Web 1.58 boundary precision patch
-- Keeps the verified Web 1.55 native-analysis correction and Web 1.56 transition engine.
-- Applies a 0.25-second pre-boundary probe bias only inside the Ascendant boundary solver.
-- Does not alter the selected Muhurat chart, significators, Dasa/Bhukti or event analysis time.
-- Windows timestamps remain validation evidence only; no reference timestamps are injected into live selection.
-
-
-## Web 1.58 precision correction
-- Removed the global 0.25-second transition bias used by 1.57.
-- Transition solving now applies the traditional sidereal-house correction (Krishnamurti ayanamsa plus date-dependent nutation in longitude) instead of a global time shift.
-- Live selection remains independent of stored Windows reference rows.
+## Web 1.59 Analysis parity correction
+- Preserves the Web 1.55 native Badhaka/Maraka selection path and transition scanning.
+- Corrects the Windows V1.5.11 Analysis second-character semantics: negative-house coverage is `Y` when all listed negative houses are hit, `P` when partially hit, and `N` when none are hit; `-` is used when no negative-house group exists.
+- This specifically addresses the supplied 02-Oct-2026 examples such as `PY` for Objects 5/11 and `PN` when the negative houses are not hit.
+- No Windows Chosen-Muhurat timestamps are hardcoded into live selection.
+- Web 1.59 is intentionally prepared for direct comparison with Windows source/code. If native Windows `GetSubLordAnalysis`, `GetPlanetSgnf`, `GetNodeAnalysisString`, or related event-rule code is available, supplying it will allow the remaining Analysis differences to be reconstructed exactly rather than inferred.

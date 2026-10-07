@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.59 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.54 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.59</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.54</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.59 uses the recovered V1.5.11 transition, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.54 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -771,31 +771,17 @@ function evalRule(rule,cd,periods){
   const posAny=posHit.length>0;
   const posAll=pos.length>0 && pos.every(h=>H.includes(h));
   const noLoss=negHit.length===0;
-  // Web 1.59 — native Windows V1.5.11 Y/N parity.
-  // The first character describes positive-house coverage:
-  //   Y = all required positive houses are signified
-  //   P = some, but not all, positive houses are signified
-  //   N = none of the required positive houses are signified
-  // The second character describes NEGATIVE-house coverage, not the absence
-  // of loss.  Windows displays:
-  //   Y = all listed negative houses are signified (full loss connection)
-  //   P = some, but not all, listed negative houses are signified
-  //   N = none of the listed negative houses are signified
-  //   - = the rule has no negative-house group
-  // This distinction is visible in the supplied 02-Oct-2026 screenshots: for
-  // example Object 5/11 can be PY when 8/12 are fully hit, while PN means the
-  // positive side is partial and no negative house is hit.
+  // Windows V1.5.11 screenshots establish a three-state first character:
+  // Y = all required positive houses are signified;
+  // P = partial positive coverage (some, but not all);
+  // N = no required positive house is signified.
+  // The second character is loss status: '-' when no negative condition is
+  // defined for the rule, Y when defined and clear, N when a negative house
+  // is hit. This reproduces the visible forms P-, PP, PY, PN and Y-.
   const first=posAll?'Y':(posAny?'P':'N');
-  let second='-';
-  if(neg.length){
-    const negAll=neg.every(h=>H.includes(h));
-    const negAny=negHit.length>0;
-    second=negAll?'Y':(negAny?'P':'N');
-  }
+  const second=neg.length?(noLoss?'Y':'N'):'-';
   const yn=first+second;
-  const negAll=neg.length?neg.every(h=>H.includes(h)):false;
-  const negPartial=neg.length?(negHit.length>0&&!negAll):false;
-  const reason=`${sub||'Object'}: +H ${pos.join(',')||'—'} hit ${posHit.join(',')||'none'}; any=${posAny?'Y':'N'}; all=${posAll?'Y':'N'}; -H ${neg.join(',')||'—'} hit ${negHit.join(',')||'none'}; neg-any=${negAny?'Y':'N'}; neg-all=${negAll?'Y':'N'}; second-char=${second}`;
+  const reason=`${sub||'Object'}: +H ${pos.join(',')||'—'} hit ${posHit.join(',')||'none'}; any=${posAny?'Y':'N'}; all=${posAll?'Y':'N'}; -H ${neg.join(',')||'—'} hit ${negHit.join(',')||'none'}; no-loss=${noLoss?'Y':'N'}; second-char=diagnostic`;
   return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,posAll,posAny,noLoss,significators:H,reason};
 }
 
@@ -902,16 +888,11 @@ function v1511TransitionRowsDay(date,fromSec,toSec,lat,lon,tz){
   if(prev<0){prev=248;prevPos=0;} else prevPos=V1511_SUB249[prev];
   let nextPos=nx.next; if(nextPos<=0)nextPos=360;
   let scanPos=pos;
-  // V1.5.11 Results can display the first completed Sub-level transition
-  // immediately after the requested To time (e.g. 22:07:47 for a 22:00 end).
-  // Keep one transition interval beyond the requested end; do not extend the
-  // actual requested date/range indefinitely.
-  const scanTo=toSec+900;
-  while(curSec<=scanTo+1e-9){
+  while(curSec<=toSec+1e-9){
     let crossed=false;
     while(scanPos>=prevPos-1e-12 && scanPos<=nextPos+1e-12){
       curSec+=60;
-      if(curSec>scanTo+1e-9){crossed=true;break;}
+      if(curSec>toSec+1e-9){crossed=true;break;}
       scanPos=v1511AscPos(date,curSec,lat,lon,tz);
       if(nextPos>=360 && scanPos<30)scanPos+=360;
     }
@@ -1572,13 +1553,10 @@ function v1511OriginalBmmAnalysis(cd,sbl){
     const g=directGroup(name); if(g) g.forEach(checkCusp);
   };
   const evalPlanetGroups=(name)=>{
-    // Native GetSubLordAnalysis evaluates the three chain members
-    // independently: SBL, SBL-Star-Lord and SBL-Sub-Lord.  It does NOT
-    // recursively expand each of those planets through their own star/sub
-    // lords.  The previous Web build recursively expanded them, which could
-    // introduce extra B/M connections and reject valid Windows Muhurats.
-    if(!name || !cd?.planets?.[name]) return;
+    const p=cd?.planets?.[name]; if(!p) return;
     evalDirect(name);
+    if(p.star_lord) evalDirect(p.star_lord);
+    if(p.sub_lord) evalDirect(p.sub_lord);
   };
 
   // Exact GetNodeAnalysisString(): node itself is marked first. If any
@@ -2338,7 +2316,7 @@ function selectionLayer(a,event){
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
-$('show').onclick=run;
+$('show').onclick=run; setTimeout(()=>{ try{$('show').click();}catch(e){console.error(e)} },5000);
 
 // 1.31 — Never leave Results/Analysis from an older date visible after the
 // user changes the event inputs. On mobile this was easy to trigger by using
