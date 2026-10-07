@@ -40,3 +40,7 @@ Upload the contents of this folder to the repository root. `index.html` is the e
 - This specifically addresses the supplied 02-Oct-2026 examples such as `PY` for Objects 5/11 and `PN` when the negative houses are not hit.
 - No Windows Chosen-Muhurat timestamps are hardcoded into live selection.
 - Web 1.59 is intentionally prepared for direct comparison with Windows source/code. If native Windows `GetSubLordAnalysis`, `GetPlanetSgnf`, `GetNodeAnalysisString`, or related event-rule code is available, supplying it will allow the remaining Analysis differences to be reconstructed exactly rather than inferred.
+
+### Web 1.59.1 hotfix
+- Fixed a JavaScript scope error in the Analysis renderer (`negAny is not defined`) that prevented the calculation from completing.
+- The `negAny` flag is now defined alongside `negAll` before the Analysis reason string is built.

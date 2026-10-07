@@ -787,13 +787,12 @@ function evalRule(rule,cd,periods){
   // positive side is partial and no negative house is hit.
   const first=posAll?'Y':(posAny?'P':'N');
   let second='-';
+  const negAll=neg.length?neg.every(h=>H.includes(h)):false;
+  const negAny=negHit.length>0;
   if(neg.length){
-    const negAll=neg.every(h=>H.includes(h));
-    const negAny=negHit.length>0;
     second=negAll?'Y':(negAny?'P':'N');
   }
   const yn=first+second;
-  const negAll=neg.length?neg.every(h=>H.includes(h)):false;
   const negPartial=neg.length?(negHit.length>0&&!negAll):false;
   const reason=`${sub||'Object'}: +H ${pos.join(',')||'—'} hit ${posHit.join(',')||'none'}; any=${posAny?'Y':'N'}; all=${posAll?'Y':'N'}; -H ${neg.join(',')||'—'} hit ${negHit.join(',')||'none'}; neg-any=${negAny?'Y':'N'}; neg-all=${negAll?'Y':'N'}; second-char=${second}`;
   return {obj,type:parsed.type,sub_lord:sub,yn,positive:pos,negative:neg,posHit,negHit,posAll,posAny,noLoss,significators:H,reason};
