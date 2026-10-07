@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.55 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.56 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.55</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.56</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.55 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.56 uses the recovered V1.5.11 transition and exact native GetSubLordAnalysis B/M path; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -871,7 +871,10 @@ function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
     if(v1511BoundaryReached(date,mid,target,lat,lon,tz)) hi=mid;
     else lo=mid;
   }
-  let hit=Math.ceil(hi-1e-7);
+  // Preserve the native whole-second boundary when the fractional solve lands
+  // infinitesimally above an integer second.  The previous -1e-7 guard could
+  // move such a native tick back into the preceding displayed second.
+  let hit=Math.ceil(hi);
   if(hit<startSec)hit=startSec;
   if(hit>endSec)hit=endSec;
   return hit;
@@ -2358,7 +2361,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.54').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.56').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){

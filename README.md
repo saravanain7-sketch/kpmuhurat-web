@@ -1,4 +1,4 @@
-# KPMuhurat Web 1.55 — KP Muhurat V1.5.11
+# KPMuhurat Web 1.56 — KP Muhurat V1.5.11
 
 Mobile/PWA reconstruction of KPMuhurat V1.5.11.
 
@@ -32,3 +32,10 @@ Upload the contents of this folder to the repository root. `index.html` is the e
 - Keeps node/conjunction/aspect handling separate from that direct chain evaluation.
 - Extends the final transition scan by one short interval so the Windows-style final boundary immediately after the requested end (such as 22:07:47 after a 22:00 input) can be represented.
 - No Windows Chosen-Muhurat timestamps are injected into live selection.
+
+
+## Web 1.56 timestamp precision correction
+- Keeps the Web 1.55 native-analysis correction and 20-row live selection.
+- Removes the artificial `-1e-7` adjustment from the final whole-second boundary conversion.
+- This preserves a fractional boundary that lands infinitesimally above an integer second instead of pulling it back into the preceding second.
+- Windows Chosen Muhurat rows remain verification evidence only.
