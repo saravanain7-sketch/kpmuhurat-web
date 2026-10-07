@@ -685,9 +685,20 @@ function chart(dt){
   const planets={};
   for(const [name,id] of Object.entries(ids)){
     let L;if(name==='Ke')L=norm(planets.Ra.lon+180);else{const q=swe.calculatePosition(jd,id,ephFlags);L=norm(q.longitude)}
-    const p=parts(L);planets[name]={lon:L,sign:p[0],signId:Math.floor(norm(L)/30),sign_lord:p[1],star_lord:p[2],sub_lord:p[3],house:houseForLon(L,cusps)};
+    const p=parts(L);
+    const occupiedHouse=houseForLon(L,cusps);
+    planets[name]={
+      lon:L,sign:p[0],signId:Math.floor(norm(L)/30),
+      sign_lord:p[1],rasiLordId:p[1],star_lord:p[2],sub_lord:p[3],
+      house:occupiedHouse,
+      // Native EphCalcPlanet::sPlanetInfo::cuspId is a zero-based cusp ID.
+      cuspId:Math.max(0,occupiedHouse-1)
+    };
   }
-  const cuspRows=[];for(let i=1;i<=12;i++){const p=parts(cusps[i]);cuspRows.push({house:i,lon:cusps[i],sign:p[0],signId:Math.floor(norm(cusps[i])/30),sign_lord:p[1],star_lord:p[2],sub_lord:p[3]})}
+  const cuspRows=[];for(let i=1;i<=12;i++){
+    const p=parts(cusps[i]);
+    cuspRows.push({house:i,cuspId:i-1,lon:cusps[i],sign:p[0],signId:Math.floor(norm(cusps[i])/30),sign_lord:p[1],rasiLordId:p[1],star_lord:p[2],sub_lord:p[3]})
+  }
   return {ascendant:parts(asc),cusps:cuspRows,planets,ayan};
 }
 // KP house ownership is chart-relative: the lord of the ascendant sign owns house 1,
@@ -1483,11 +1494,19 @@ function renderNewSourceEvidence(date){
 // does not by itself make the transition N.
 // 1.48 — Exact native BMM parity patch based on recovered EphCalc/VedicBpUtil source.
 function v1511PlanetSgnf(name,cd){
-  // Exact EphCalc.GetPlanetSgnf(): DIRECT significators only.
-  // [occupied cusp] + up to four cusps whose Rasi Lord is this planet.
+  // Exact native EphCalcPlanet::GetPlanetSgnf(planetId,cuspOccId,cuspLordId).
+  // The native method returns: occupied cusp ID + FOUR fixed cusp-owner slots.
+  // All cusp IDs are zero-based in the native arrays.  The owner loop scans
+  // CUSP1..NB_CUSPS and stores every cusp whose rasiLordId == planetId.
   const p=cd?.planets?.[name]; if(!p) return null;
-  const owners=(cd.cusps||[]).filter(c=>c.sign_lord===name).map(c=>Number(c.house)).filter(Number.isFinite);
-  return {planet:name,occ:Number(p.house),owners};
+  const occ=Number.isFinite(Number(p.cuspId)) ? Number(p.cuspId) : Math.max(0,Number(p.house)-1);
+  const owners=[-1,-1,-1,-1];
+  let k=0;
+  for(const c of (cd.cusps||[])){
+    const lord=c.rasiLordId ?? c.sign_lord;
+    if(lord===name && k<4) owners[k++]=Number(c.cuspId ?? (Number(c.house)-1));
+  }
+  return {planet:name,occId:occ,ownerIds:owners,occ:occ+1,owners:owners.filter(x=>x>=0).map(x=>x+1)};
 }
 function v1511DirectSgnf(name,cd){ return v1511PlanetSgnf(name,cd); }
 function v1511MarkDirectSgnf(s,bmm,neg,cuspSet){
@@ -1563,9 +1582,12 @@ function v1511OriginalBmmAnalysis(cd,sbl){
   };
   const directGroup=(name)=>{
     const s=v1511DirectSgnf(name,cd); if(!s) return null;
-    // Native GetPlanetSgnf(): occupied cusp + FOUR fixed owner slots.
-    // Undefined/-1 owner slots are omitted here, preserving their no-op effect.
-    return [s.occ,...s.owners].map(Number).filter(Number.isFinite).slice(0,5);
+    // Native IDs are zero-based. checkCusp() expects Web's one-based house
+    // numbers, so convert only at this boundary. The four -1 native owner
+    // slots are genuine no-ops and are discarded.
+    return [s.occId,...s.ownerIds]
+      .map(Number).filter(Number.isFinite).filter(x=>x>=0).slice(0,5)
+      .map(x=>x+1);
   };
   const evalDirect=(name)=>{
     const g=directGroup(name); if(g) g.forEach(checkCusp);

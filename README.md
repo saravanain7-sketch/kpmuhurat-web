@@ -44,3 +44,9 @@ Upload the contents of this folder to the repository root. `index.html` is the e
 ### Web 1.59.1 hotfix
 - Fixed a JavaScript scope error in the Analysis renderer (`negAny is not defined`) that prevented the calculation from completing.
 - The `negAny` flag is now defined alongside `negAll` before the Analysis reason string is built.
+
+## Web 1.59 — supplied native GetPlanetSgnf source integrated
+- Integrated the supplied IL for `EphCalcPlanet::GetPlanetSgnf(int planetId, int* cuspOccId, int* cuspLordId)`, including its exact **occupied cusp ID + four fixed owner slots** layout.
+- Integrated the supplied wrapper semantics showing the three independent groups: planet, Star Lord and Sub Lord, each using the same direct `GetPlanetSgnf()` routine.
+- The browser chart now stores the native-style zero-based `cuspId` and `rasiLordId`, then converts to one-based Web houses only at the B/M analysis boundary.
+- This is source-derived logic, not a Windows-result timestamp fixture.
