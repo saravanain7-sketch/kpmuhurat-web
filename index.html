@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.92 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.93 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -194,7 +194,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.92</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.93</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -243,7 +243,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.92 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.93 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -583,7 +583,7 @@ header small{font-size:11px}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 
-// Web 1.92 compatibility guard: expose the native GetPlanetSgnf reconstruction
+// Web 1.93 compatibility guard: expose the native GetPlanetSgnf reconstruction
 // on window so Android/PWA scope/caching cannot make it unavailable to the
 // Analysis evaluator. This is the exact V1.5.11 occupied-cusp + rasi-lord-cusp
 // mapping used by CEphAnalysis::PlanetSgnfString/GetBmmString.
@@ -787,7 +787,7 @@ function parseRule(fields){
   }
   return {obj,type,groups:[{condition:null,houses:positive}, ...(negative.length?[{condition:separator,houses:negative}]:[])]};
 }
-// Web 1.92 — native CEphAnalysis significator scope for event Analysis.
+// Web 1.93 — native CEphAnalysis significator scope for event Analysis.
 // CEphAnalysis::PlanetSgnfString/GetBmmString marks only the planet's
 // occupied cusp plus cusp slots whose rasiLordId equals that planet.  The
 // broader six-fold KP significator helper is retained for other UI layers,
@@ -806,6 +806,38 @@ function v1511PlanetSgnf(name,cd){
   return {planet:name,occId:occ,ownerIds:owners,occ:occ+1,owners:owners.filter(x=>x>=0).map(x=>x+1)};
 }
 window.v1511PlanetSgnf = window.v1511PlanetSgnf || v1511PlanetSgnf;
+// Web 1.93 — keep native node helpers in the SAME classic-script scope as
+// nativeAnalysisCuspList(). Android/PWA can expose later function declarations
+// differently across cached script boundaries, so the analysis path calls these
+// window-backed helpers directly. This prevents the v1511Conj ReferenceError.
+window.v1511Conj = window.v1511Conj || function(a,b,orb){
+  if(!a || !b || a===b) return false;
+  if(Number(a.signId)!==Number(b.signId)) return false;
+  const pa=Number(a.lon), pb=Number(b.lon);
+  if(!Number.isFinite(pa) || !Number.isFinite(pb)) return false;
+  const d0=Math.abs(pa-pb);
+  const d=d0>180 ? 360-d0 : d0;
+  return d < Number(orb);
+};
+window.v1511SpecialAspects = window.v1511SpecialAspects || function(targetName,cd){
+  // Exact GetVidecAspectsSpecial() reverse-match table:
+  // Mars source Rasi -> +4/+8, Jupiter -> +5/+9, Saturn -> +3/+10.
+  const aspectMap={Ma:[4,8],Ju:[5,9],Sa:[3,10]};
+  const target=cd?.planets?.[targetName];
+  if(!target) return [];
+  const out=[];
+  for(const [name,pl] of Object.entries(cd.planets||{})){
+    if(name===targetName) continue;
+    const offs=aspectMap[name];
+    if(!offs) continue;
+    for(const off of offs){
+      const targetSign=(Number(pl.signId)+(off-1))%12;
+      if(targetSign===Number(target.signId)){ out.push(name); break; }
+    }
+  }
+  return out;
+};
+
 function nativeAnalysisCuspList(name,cd){
   // Exact CEphAnalysis::GetSubLordAnalysis() cuspList reconstruction.
   // The native analysis does NOT stop at GetPlanetSgnf() for the selected
@@ -832,13 +864,13 @@ function nativeAnalysisCuspList(name,cd){
     const conj=[];
     for(const n of baseNames){
       if(n===planet) continue;
-      if(v1511Conj(p,cd.planets[n],30)) conj.push(n);
+      if(window.v1511Conj(p,cd.planets[n],30)) conj.push(n);
     }
     if(conj.length){
       for(const n of conj){ nodePlanetList.add(n); markDirect(n); }
       return; // native nodeRuleFilterFlag=true
     }
-    const asp=v1511SpecialAspects(planet,cd);
+    const asp=window.v1511SpecialAspects(planet,cd);
     if(asp.length){
       for(const n of asp){ nodePlanetList.add(n); markDirect(n); }
       return; // native nodeRuleFilterFlag=true
@@ -885,7 +917,7 @@ function evalRule(rule,cd,periods){
   const posAny=posHit.length>0;
   const posAll=pos.length>0 && pos.every(h=>H.includes(h));
   const noLoss=negHit.length===0;
-  // Web 1.92 — native Windows V1.5.11 Node Analysis parity.
+  // Web 1.93 — native Windows V1.5.11 Node Analysis parity.
   // The first character describes positive-house coverage:
   //   Y = all required positive houses are signified
   //   P = some, but not all, positive houses are signified
@@ -2094,7 +2126,7 @@ function windowsCoimbatoreRuleFixture(row, event, cd, periods){
 }
 
 function fullObjectAnalysis(event,cd,periods,fixture){
-  // Web 1.92: match the Windows Analysis object scope. Event 05 contains
+  // Web 1.93: match the Windows Analysis object scope. Event 05 contains
   // explicit rules for Object 1, Object 5 and Object 11, followed by the
   // four Vimshottari period rows. Do not invent diagnostics for Objects 2–4
   // or 6–12 when the native event contains no corresponding rule.
@@ -2118,7 +2150,7 @@ function fullObjectAnalysis(event,cd,periods,fixture){
   }
 
   // Period rules are represented by the native 101–104 rule codes.
-  // Web 1.92: the Analysis +H/-H columns must display the rule's required
+  // Web 1.93: the Analysis +H/-H columns must display the rule's required
   // house lists, not only the houses actually hit by the period planet.
   // The Y/P/N first character is then calculated from the live native-style
   // significators of the dynamically calculated Dasa/Bhukti/Antara/Sukshma
