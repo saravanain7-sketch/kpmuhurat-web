@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.99 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.00 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -206,7 +206,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.97</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.00</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -255,7 +255,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.97 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 2.00 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -2138,22 +2138,43 @@ function windowsCoimbatoreRuleFixture(row, event, cd, periods){
 }
 
 function fullObjectAnalysis(event,cd,periods,fixture){
-  // Web 1.93: match the Windows Analysis object scope. Event 05 contains
-  // explicit rules for Object 1, Object 5 and Object 11, followed by the
-  // four Vimshottari period rows. Do not invent diagnostics for Objects 2–4
-  // or 6–12 when the native event contains no corresponding rule.
+  // Web 2.00 — expanded diagnostic Analysis scope to all 12 cusp objects.
+  // Objects 1–12 are DISPLAY-ONLY CSL diagnostics. The live Muhurat selector
+  // still evaluates the native event rules (for Event 05: Objects 1, 5, 11
+  // plus Dasa/Bhukti/Antara/Sukshma) exactly as before.
   //
-  // IMPORTANT: this changes only the Analysis renderer. It does not affect
-  // the live Muhurat selector and does not inject Windows timestamps.
+  // IMPORTANT: this expansion must never feed back into transition discovery,
+  // Muhurat eligibility, Badhaka/Maraka filtering, or selected timestamps.
   const eventRules=(event?.rules||[]).filter(r=>r.fields);
   const isStock=String(event?.name||'').trim()==='05. Speculative gain in Stock Market';
-  const objectIds=isStock?[1,5,11]:[...new Set(eventRules.map(r=>Number(r.fields[0])).filter(x=>x>=1&&x<=12))];
+  const objectIds=isStock?Array.from({length:12},(_,i)=>i+1):[...new Set(eventRules.map(r=>Number(r.fields[0])).filter(x=>x>=1&&x<=12))];
   const out=[];
   for(const obj of objectIds){
     let r=fixture?.find?.(x=>Number(x.obj)===obj)||null;
     if(!r){
       const src=eventRules.find(x=>Number(x.fields[0])===obj);
       if(src) r=evalRule(src,cd,periods);
+    }
+    // Event 05 has no selection-rule row for Objects 2,3,4,6,7,8,9,10,12.
+    // For the expanded Analysis table, use the same event positive/negative
+    // house criteria as the stock-market rule and evaluate only the selected
+    // cusp CSL's native significators. This is diagnostic output only.
+    if(!r && isStock && obj>=2 && obj<=12){
+      const actualSig=cuspSig(obj,cd);
+      const sub=actualSig.sub_lord||'—';
+      const H=nativeAnalysisSgnf(sub,cd);
+      const pos=[2,5,6,11], neg=[8,12];
+      const posHit=H.filter(h=>pos.includes(h));
+      const negHit=H.filter(h=>neg.includes(h));
+      const posAll=pos.every(h=>H.includes(h));
+      const posAny=posHit.length>0;
+      const negAll=neg.every(h=>H.includes(h));
+      const negAny=negHit.length>0;
+      const first=posAll?'Y':(posAny?'P':'N');
+      const second=negAll?'Y':(negAny?'P':'N');
+      r={obj,label:String(obj),subLord:sub,positive:pos,negative:neg,yn:first+second,
+         posHit,negHit,posAll,posAny,negAll,negAny,significators:H,
+         reason:`${sub}: +H ${pos.join(',')} hit ${posHit.join(',')||'none'}; -H ${neg.join(',')} hit ${negHit.join(',')||'none'}; diagnostic CSL only.`};
     }
     if(r){
       const actualSig=cuspSig(obj,cd);
