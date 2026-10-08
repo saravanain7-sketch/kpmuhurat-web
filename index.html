@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.98 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.99 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -89,6 +89,17 @@ header small{font-size:11px}
 }
 
 
+
+/* 1.99 — Windows V1.5.11 detailed planetary chart lines: degree + StL + SbL + SbSbL, with retrograde markers. */
+.selectedMuhuratChartPanel .windowsCell .chartLines{font-weight:600;line-height:1.18;}
+.selectedMuhuratChartPanel .windowsCell .kpDetailLine{display:block;white-space:nowrap;overflow:hidden;text-overflow:clip;}
+.selectedMuhuratChartPanel .windowsCell .kpPlanetName{font-weight:800;}
+.selectedMuhuratChartPanel .windowsCell .kpRetro{font-weight:900;color:#8b1a1a;}
+.selectedMuhuratChartPanel .windowsCell .kpLord{font-weight:600;}
+@media(max-width:700px){
+ .selectedMuhuratChartPanel .windowsCell .chartLines{font-size:8.5px;line-height:1.1;}
+ .selectedMuhuratChartPanel .windowsCell .kpDetailLine{white-space:nowrap;}
+}
 
 /* 1.26 — Windows V1.5.11 Analysis colour parity for 01-Oct-2026; 1.25 UI preserved. */
 .selectedMuhuratChartPanel{margin-top:10px;padding:10px;}
@@ -698,7 +709,7 @@ function chart(dt){
     cusps[i]=norm(Number(raw)-ayan);
   }
   const asc=norm(rawAsc-ayan);
-  const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,Ra:10,Ke:null};
+  const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,Ur:(Planet.Uranus!=null?Planet.Uranus:7),Ne:(Planet.Neptune!=null?Planet.Neptune:8),Ra:10,Ke:null};
   const planets={};
   for(const [name,id] of Object.entries(ids)){
     let L;if(name==='Ke')L=norm(planets.Ra.lon+180);else{const q=swe.calculatePosition(jd,id,ephFlags);L=norm(q.longitude)}
@@ -2192,6 +2203,59 @@ function fullObjectAnalysis(event,cd,periods,fixture){
 }
 
 function houseRoman(h){return ({1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII',9:'IX',10:'X',11:'XI',12:'XII'})[h]||String(h);}
+function kpPlanetLevels(L){
+  // Exact KP hierarchy used for the chart display: Nakshatra Star Lord,
+  // Sub Lord, then the next Vimshottari subdivision (Sub-Sub Lord).
+  L=norm(L);
+  const nk=Math.floor(L/NAK);
+  const rem=L-nk*NAK;
+  const star=STAR_LORDS[nk%9];
+  const seq=[]; for(let i=0;i<9;i++) seq.push(STAR_LORDS[(nk+i)%9]);
+  let x=0,sub=seq[8],subFrac=0;
+  for(const p of seq){
+    const w=NAK*VIM[p]/120;
+    if(rem < x+w-1e-14){ sub=p; subFrac=Math.max(0,Math.min(1,(rem-x)/w)); break; }
+    x+=w;
+  }
+  const subSub=vimLevel(sub,subFrac)[0];
+  return {star,sub,subSub};
+}
+function kpDegString(L){
+  // Windows chart prints longitude within the sign as DD:MM:SS.
+  let x=norm(L)%30;
+  let total=Math.round(x*3600);
+  if(total>=30*3600) total=30*3600-1;
+  const d=Math.floor(total/3600), m=Math.floor((total%3600)/60), sec=total%60;
+  return String(d).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function kpRetrograde(name,planetId,jd){
+  // Nodes are displayed without the retrograde marker in the Windows chart.
+  if(name==='Ra'||name==='Ke'||name==='Su'||name==='Mo') return false;
+  if(planetId==null) return false;
+  const dt=0.02; // ~28.8 minutes; safely resolves even slow outer-planet motion.
+  try{
+    const a=swe.calculatePosition(jd-dt,planetId,ephFlags).longitude;
+    const b=swe.calculatePosition(jd+dt,planetId,ephFlags).longitude;
+    let d=norm(b-a); if(d>180)d-=360;
+    return d<0;
+  }catch(e){ return false; }
+}
+function windowsChartPlanetData(date,time,tz,cd){
+  const jd=localJD(date,time,tz);
+  const ids={Su:Planet.Sun,Mo:Planet.Moon,Ma:Planet.Mars,Me:Planet.Mercury,Ju:Planet.Jupiter,Ve:Planet.Venus,Sa:Planet.Saturn,
+    Ur:(Planet.Uranus!=null?Planet.Uranus:7),Ne:(Planet.Neptune!=null?Planet.Neptune:8),Ra:10,Ke:null};
+  const order=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ur','Ne','Ra','Ke'];
+  const out={};
+  for(const name of order){
+    const id=ids[name];
+    const p=cd?.planets?.[name];
+    if(!p) continue;
+    const lev=kpPlanetLevels(p.lon);
+    out[name]={name,id,lon:p.lon,deg:kpDegString(p.lon),star:lev.star,sub:lev.sub,subSub:lev.subSub,retro:kpRetrograde(name,id,jd)};
+  }
+  return out;
+}
+
 function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   const panel=$('selectedMuhuratChartPanel');
   const host=$('selectedMuhuratChartOnly');
@@ -2224,14 +2288,21 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   Object.entries(cd.planets||{}).forEach(([pn,p])=>{
     if(p && Number.isFinite(Number(p.signId)) && p.signId>=0 && p.signId<12) planetsBySign[p.signId].push(pn);
   });
+  const detailed=windowsChartPlanetData(date,t,tz,cd);
   const escP=(pn)=>escHtml(pn);
+  const escL=(x)=>escHtml(x||'—');
   let cells='';
   for(let sid=0;sid<12;sid++){
     const sign=SIGNS[sid];
     const [r,c]=signPositions[sign];
     const h=houseForSignId(sid);
     const isLagna=(h===1);
-    const planetText=planetsBySign[sid].length?planetsBySign[sid].map(pn=>escP(pn)).join(' '):'—';
+    const planetText=planetsBySign[sid].length?planetsBySign[sid].map(pn=>{
+      const d=detailed[pn];
+      if(!d) return `<span class="kpDetailLine">${escP(pn)}</span>`;
+      const rr=d.retro?'R':'';
+      return `<span class="kpDetailLine"><span class="kpPlanetName">${escP(pn)}</span> <span class="kpRetro">${rr}</span>${escP(d.deg)} <span class="kpLord">${escL(d.star)} ${escL(d.sub)} ${escL(d.subSub)}</span></span>`;
+    }).join(''):'—';
     cells+=`<div class="windowsCell${isLagna?' lagnaCell':''}" style="grid-row:${r};grid-column:${c}">
       <div class="houseNo">${houseRoman(h)}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
       <div class="signName">${escHtml(sign)}</div>
