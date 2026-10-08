@@ -2207,23 +2207,35 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   // the transition-probe chart stored on the Muhurat row.
   const cd=exactCd||chart({date,time:t,tz,lat,lon});
   const periods=exactPeriods||vimPeriods(date,t,tz);
-  const houses=Array(13).fill(null).map(()=>[]);
-  Object.entries(cd.planets||{}).forEach(([pn,p])=>{ if(p&&p.house>=1&&p.house<=12) houses[p.house].push(pn); });
-  const signByHouse=Array(13).fill('');
-  (cd.cusps||[]).forEach(c=>{signByHouse[c.house]=c.sign;});
-  const positions={12:[1,1],1:[1,2],2:[1,3],3:[1,4],11:[2,1],4:[2,4],10:[3,1],5:[3,4],9:[4,1],8:[4,2],7:[4,3],6:[4,4]};
+  // South-Indian chart layout is sign-fixed: the zodiac signs stay in fixed
+  // cells and the house numbers rotate with the Lagna. Windows V1.5.11
+  // therefore moves the highlighted LAGNA cell whenever the Ascendant sign
+  // changes. The previous Web 1.97 implementation instead fixed House I to
+  // one grid cell, which made the highlight appear stationary.
+  const signPositions={
+    Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
+    Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
+    Sc:[4,2],Sg:[4,1],Cp:[3,1],Aq:[2,1]
+  };
   const asc=cd.ascendant||[];
-  const lagnaSign=asc[0]||'';
+  const ascSignId=Math.max(0,SIGNS.indexOf(asc[0]||''));
+  const houseForSignId=(sid)=>((sid-ascSignId+12)%12)+1;
+  const planetsBySign=Array(12).fill(null).map(()=>[]);
+  Object.entries(cd.planets||{}).forEach(([pn,p])=>{
+    if(p && Number.isFinite(Number(p.signId)) && p.signId>=0 && p.signId<12) planetsBySign[p.signId].push(pn);
+  });
   const escP=(pn)=>escHtml(pn);
-  const planetText=(h)=>houses[h].length?houses[h].map(pn=>escP(pn)).join(' '):'—';
   let cells='';
-  for(let h=1;h<=12;h++){
-    const [r,c]=positions[h];
+  for(let sid=0;sid<12;sid++){
+    const sign=SIGNS[sid];
+    const [r,c]=signPositions[sign];
+    const h=houseForSignId(sid);
     const isLagna=(h===1);
+    const planetText=planetsBySign[sid].length?planetsBySign[sid].map(pn=>escP(pn)).join(' '):'—';
     cells+=`<div class="windowsCell${isLagna?' lagnaCell':''}" style="grid-row:${r};grid-column:${c}">
       <div class="houseNo">${houseRoman(h)}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
-      <div class="signName">${escHtml(signByHouse[h]||'')}</div>
-      <div class="chartLines">${planetText(h)}</div>
+      <div class="signName">${escHtml(sign)}</div>
+      <div class="chartLines">${planetText}</div>
     </div>`;
   }
   const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
@@ -2290,30 +2302,33 @@ function renderSelectedMuhurat(row,autoOpen=false){
     `TZ ${escHtml($('tz').value)} ${escHtml($('tzdir').value)}<br>`+
     `<b>Event:</b> ${escHtml(event?.name||'')}`;
 
-  const houses=Array(13).fill(null).map(()=>[]);
-  Object.entries(cd.planets||{}).forEach(([pn,p])=>{if(p&&p.house>=1&&p.house<=12)houses[p.house].push(pn);});
-  const signByHouse=Array(13).fill('');
-  (cd.cusps||[]).forEach(c=>{signByHouse[c.house]=c.sign;});
-  const positions={
-    12:[1,1],1:[1,2],2:[1,3],3:[1,4],
-    11:[2,1],4:[2,4],10:[3,1],5:[3,4],
-    9:[4,1],8:[4,2],7:[4,3],6:[4,4]
+  // Keep the South-Indian zodiac grid fixed and rotate the house numbers
+  // around it. This is the same model used by the Windows chart: when Lagna
+  // changes from Scorpio to Aries/Taurus/etc., the highlighted cell moves to
+  // that sign's fixed grid position.
+  const signPositions={
+    Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
+    Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
+    Sc:[4,2],Sg:[4,1],Cp:[3,1],Aq:[2,1]
   };
   const asc=cd.ascendant||[];
-  const lagnaSign=asc[0]||'';
+  const ascSignId=Math.max(0,SIGNS.indexOf(asc[0]||''));
+  const houseForSignId=(sid)=>((sid-ascSignId+12)%12)+1;
+  const planetsBySign=Array(12).fill(null).map(()=>[]);
+  Object.entries(cd.planets||{}).forEach(([pn,p])=>{
+    if(p && Number.isFinite(Number(p.signId)) && p.signId>=0 && p.signId<12) planetsBySign[p.signId].push(pn);
+  });
   let cells='';
-  for(let h=1;h<=12;h++){
-    const [r,c]=positions[h];
-    const planets=houses[h].length ? houses[h].map(pn=>`<span class="kpPlanet ${pn==='Mo'?'moonPlanet':(h===1?'lagnaPlanet':'otherPlanet')}">${escHtml(pn)}</span>`).join('') : '—';
-    // Highlight the current Lagna cell for every selected Muhurat. In KP
-    // Muhurat the Lagna is the Ascendant sign at the selected time; the
-    // Placidus first cusp normally carries that same sign. Use the sign
-    // match and fall back to house 1 if a cusp is exactly on a sign boundary.
+  for(let sid=0;sid<12;sid++){
+    const sign=SIGNS[sid];
+    const [r,c]=signPositions[sign];
+    const h=houseForSignId(sid);
     const isLagna=(h===1);
-    cells+=`<div class="kpCell${isLagna?' lagnaCell':''}${houses[h].includes('Mo')?' moonCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
+    const planets=planetsBySign[sid].length ? planetsBySign[sid].map(pn=>`<span class="kpPlanet ${pn==='Mo'?'moonPlanet':(isLagna?'lagnaPlanet':'otherPlanet')}">${escHtml(pn)}</span>`).join('') : '—';
+    cells+=`<div class="kpCell${isLagna?' lagnaCell':''}${planetsBySign[sid].includes('Mo')?' moonCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
       <div class="houseNo">House ${h}${isLagna?' <span class="lagnaMark">LAGNA</span>':''}</div>
-      <div class="signName">${escHtml(signByHouse[h]||'')}</div>
-      <div class="planetList">${escHtml(planets)}</div>
+      <div class="signName">${escHtml(sign)}</div>
+      <div class="planetList">${planets}</div>
     </div>`;
   }
   const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
