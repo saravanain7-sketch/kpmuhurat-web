@@ -1,4 +1,4 @@
-# KP Muhurat V1.5.11 — Web 1.97
+# KP Muhurat V1.5.11 — Web 1.98
 
 ## Exact selected-Muhurat Analysis + Chart synchronization
 
@@ -32,3 +32,9 @@ When a Chosen Muhurat row is selected, the selected row's **date + time** is now
 - It no longer matches every Placidus cusp carrying the same sign as the Ascendant.
 - This prevents a duplicate Lagna highlight such as Houses XII + I when adjacent cusps share the same sign.
 - Exact selected-Muhurat Analysis and Chart timing logic is otherwise unchanged.
+
+### Web 1.98 change — South-Indian Lagna rotation
+- The South-Indian chart keeps zodiac signs in fixed positions.
+- House numbers rotate from the selected Ascendant sign.
+- The LAGNA highlight therefore moves to the actual Ascendant sign cell at every selected Muhurat.
+- Planet placement in the chart is displayed by zodiac sign, matching the Windows chart layout.
