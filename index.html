@@ -172,7 +172,7 @@ header small{font-size:11px}
 #selectedMuhuratPanel > .titlebar{display:none !important}
 #selectedMuhuratPanel > .status{display:none !important}
 
-/* 1.94 — A selected Muhurat must expose its exact-time chart as well as the
+/* 1.95 — A selected Muhurat must expose its exact-time chart as well as the
    compact Results Analysis. The full legacy detail panel remains hidden. */
 #selectedMuhuratPanel{display:none !important}
 #selectedMuhuratChartPanel{display:block !important}
@@ -195,7 +195,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.94</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 1.95</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
@@ -244,7 +244,7 @@ header small{font-size:11px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.94 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 1.95 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
 <div class="muted" style="margin-bottom:8px">This panel compares the 10 stored V1.5.11 Muhurat timestamps with the Web astronomy engine only. It does not change the selector. A large Δ means the Web Lagna/Sub transition stream diverges before CSL, significators, or event selection can be blamed.</div>
@@ -788,7 +788,7 @@ function parseRule(fields){
   }
   return {obj,type,groups:[{condition:null,houses:positive}, ...(negative.length?[{condition:separator,houses:negative}]:[])]};
 }
-// Web 1.94 — native CEphAnalysis significator scope for event Analysis.
+// Web 1.95 — native CEphAnalysis significator scope for event Analysis.
 // CEphAnalysis::PlanetSgnfString/GetBmmString marks only the planet's
 // occupied cusp plus cusp slots whose rasiLordId equals that planet.  The
 // broader six-fold KP significator helper is retained for other UI layers,
@@ -2249,10 +2249,12 @@ function renderResultsAnalysis(row){
   const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
   const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
   const event=window.EVENTS[Number($('event').value)];
-  let cd=row.chart;
-  if(!cd) cd=chart({date,time:t,tz,lat,lon});
-  const periods=row.periods||vimPeriods(date,t,tz);
-  const fixture=windowsCoimbatoreRuleFixture(row,event,cd,periods);
+  // 1.95: a selected Muhurat is a real event instant, not the internal
+  // transition probe used to classify the boundary. Recalculate the chart
+  // at the exact displayed date/time so Analysis and Chart share one timestamp.
+  const cd=chart({date,time:t,tz,lat,lon});
+  const periods=vimPeriods(date,t,tz);
+  const fixture=windowsCoimbatoreRuleFixture({...row,chart:cd},event,cd,periods);
   const rules=fullObjectAnalysis(event,cd,periods,fixture);
   body.innerHTML=rules.map(r=>{
     const yn=String(r.yn??'—');
@@ -2272,10 +2274,11 @@ function renderSelectedMuhurat(row,autoOpen=false){
   const lon=dms($('lon').value)*($('londir').value==='W'?-1:1);
   const tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1);
   const event=window.EVENTS[Number($('event').value)];
-  let cd=row.chart;
-  if(!cd) cd=chart({date,time:t,tz,lat,lon});
-  const periods=row.periods||vimPeriods(date,t,tz);
-  const windowsFixture=windowsCoimbatoreRuleFixture(row,event,cd,periods);
+  // 1.95: exact selected Muhurat timestamp is the sole input to the
+  // Analysis + Chart refresh. Do not reuse the transition-solving probe chart.
+  const cd=chart({date,time:t,tz,lat,lon});
+  const periods=vimPeriods(date,t,tz);
+  const windowsFixture=windowsCoimbatoreRuleFixture({...row,chart:cd},event,cd,periods);
   const rules=fullObjectAnalysis(event,cd,periods,windowsFixture);
 
   $('selectedMuhuratMeta').innerHTML=
@@ -2359,7 +2362,7 @@ function bindMuhuratRowClicks(){
     const t=tr.dataset.muhuratTime;
     const row=(window.__selectionRows||[]).find(x=>x.time===t);
     if(row){
-      // 1.94 — selecting a Muhurat shows its exact-time Windows-style chart
+      // 1.95 — selecting a Muhurat shows its exact-time Windows-style chart
       // together with the compact Results Analysis table. The legacy full
       // detail panel remains intentionally hidden.
       renderResultsAnalysis(row);
