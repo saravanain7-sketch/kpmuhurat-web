@@ -1,8 +1,8 @@
-# KP Muhurat V1.5.11 — Web 1.96
+# KP Muhurat V1.5.11 — Web 1.97
 
 ## Exact selected-Muhurat Analysis + Chart synchronization
 
-Web 1.96 keeps the already-fixed Muhurat timing engine unchanged.
+Web 1.97 keeps the already-fixed Muhurat timing engine unchanged.
 
 When a Chosen Muhurat row is selected, the selected row's **date + time** is now the authoritative calculation timestamp for both Analysis and Chart. The transition-probe chart stored on the selection row is never reused for the selected-row chart.
 
@@ -18,10 +18,17 @@ When a Chosen Muhurat row is selected, the selected row's **date + time** is now
 - House system: Placidus
 - Event: 05. Speculative gain in Stock Market
 
-### Web 1.96 changes
+### Web 1.97 changes
 - Selected Muhurat lookup uses date + time, not time alone.
 - Exact selected timestamp is recalculated for Analysis.
 - Exact selected timestamp is recalculated for Chart.
 - Chart renderer receives the exact recalculated chart instead of reusing `row.chart` from the transition probe.
 - Analysis and Chart therefore share one exact selected timestamp.
 - No Windows timestamps are hardcoded into the live selected-time calculation.
+
+
+### Web 1.97 chart-state fix
+- The Lagna highlight is now tied strictly to House I (the Ascendant house).
+- It no longer matches every Placidus cusp carrying the same sign as the Ascendant.
+- This prevents a duplicate Lagna highlight such as Houses XII + I when adjacent cusps share the same sign.
+- Exact selected-Muhurat Analysis and Chart timing logic is otherwise unchanged.
