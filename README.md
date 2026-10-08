@@ -1,4 +1,4 @@
-# KPMuhurat Web 1.61 — KP Muhurat V1.5.11
+# KPMuhurat Web 1.62 — KP Muhurat V1.5.11
 
 Native Node Analysis parity plus date-dependent transition timing precision.
 
@@ -15,4 +15,7 @@ Native Node Analysis parity plus date-dependent transition timing precision.
 - Restores the date-dependent nutation-in-longitude correction recovered in Web 1.58 for the Lagna transition solver.
 - No Windows timestamps are injected into live selection.
 
-Build: Web 1.61
+Build: Web 1.62
+
+
+Web 1.62 timing correction: native-style transition display now truncates the fractional boundary second (floor) instead of ceiling it. This targets the observed +1 second rows while preserving the fractional boundary solver, native node analysis, B/M logic, and non-hardcoded live selection.

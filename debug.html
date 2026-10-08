@@ -881,11 +881,12 @@ function v1511BoundaryReached(date,s,target,lat,lon,tz){
   return diff<=0;
 }
 function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
-  // V1.5.11 boundary display is a whole-second transition, but the native
-  // calculation is effectively comparing DateTime ticks.  A direct integer
-  // probe can therefore report a boundary one second early when the true
-  // crossing is, for example, 11.7 s.  Find the fractional crossing first,
-  // then map it to the first displayed second at/after the crossing.
+  // V1.5.11 transition DateTime retains milliseconds, while the Windows
+  // Results/analysis display formats the stored transition time as HH:mm:ss.
+  // Formatting truncates the fractional second rather than ceiling it.
+  // Find the fractional crossing first, then map it to the containing whole
+  // second. This is important for boundaries such as 19:11:49.x, which must
+  // remain 19:11:49 in the native-style display and analysis chart.
   let lo=Math.max(startSec,0), hi=Math.min(endSec,86399.999999);
   if(!v1511BoundaryReached(date,hi,target,lat,lon,tz)) return startSec;
   for(let i=0;i<32;i++){
@@ -893,7 +894,7 @@ function v1511FindTimeInterval(date,startSec,endSec,target,lat,lon,tz){
     if(v1511BoundaryReached(date,mid,target,lat,lon,tz)) hi=mid;
     else lo=mid;
   }
-  let hit=Math.ceil(hi-1e-7);
+  let hit=Math.floor(hi+1e-7);
   if(hit<startSec)hit=startSec;
   if(hit>endSec)hit=endSec;
   return hit;
