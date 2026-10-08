@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 1.94 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 1.93 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -172,9 +172,10 @@ header small{font-size:11px}
 #selectedMuhuratPanel > .titlebar{display:none !important}
 #selectedMuhuratPanel > .status{display:none !important}
 
-/* 1.24 — Selecting a Muhurat opens only the compact Results Analysis table;
-   never display the large selected-Muhurat chart/full-analysis panel. */
+/* 1.94 — A selected Muhurat must expose its exact-time chart as well as the
+   compact Results Analysis. The full legacy detail panel remains hidden. */
 #selectedMuhuratPanel{display:none !important}
+#selectedMuhuratChartPanel{display:block !important}
 
 /* 1.22 — Compact Analysis tab: remove explanatory lines and tighten Lagna/Sub-level tables. */
 #analysis > .panel > .kpLegend,#analysis > .panel > #parityNote{display:none !important}
@@ -583,7 +584,7 @@ header small{font-size:11px}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach);else attach();
 })();
 
-// Web 1.94 compatibility guard: expose the native GetPlanetSgnf reconstruction
+// Web 1.93 compatibility guard: expose the native GetPlanetSgnf reconstruction
 // on window so Android/PWA scope/caching cannot make it unavailable to the
 // Analysis evaluator. This is the exact V1.5.11 occupied-cusp + rasi-lord-cusp
 // mapping used by CEphAnalysis::PlanetSgnfString/GetBmmString.
@@ -806,7 +807,7 @@ function v1511PlanetSgnf(name,cd){
   return {planet:name,occId:occ,ownerIds:owners,occ:occ+1,owners:owners.filter(x=>x>=0).map(x=>x+1)};
 }
 window.v1511PlanetSgnf = window.v1511PlanetSgnf || v1511PlanetSgnf;
-// Web 1.94 — keep native node helpers in the SAME classic-script scope as
+// Web 1.93 — keep native node helpers in the SAME classic-script scope as
 // nativeAnalysisCuspList(). Android/PWA can expose later function declarations
 // differently across cached script boundaries, so the analysis path calls these
 // window-backed helpers directly. This prevents the v1511Conj ReferenceError.
@@ -917,7 +918,7 @@ function evalRule(rule,cd,periods){
   const posAny=posHit.length>0;
   const posAll=pos.length>0 && pos.every(h=>H.includes(h));
   const noLoss=negHit.length===0;
-  // Web 1.94 — native Windows V1.5.11 Node Analysis parity.
+  // Web 1.93 — native Windows V1.5.11 Node Analysis parity.
   // The first character describes positive-house coverage:
   //   Y = all required positive houses are signified
   //   P = some, but not all, positive houses are signified
@@ -1796,14 +1797,14 @@ function v1511OriginalBmmAnalysis(cd,sbl){
     const conj=[];
     for(const n of baseNames){
       if(n===name) continue;
-      if(window.v1511Conj(p,cd.planets?.[n],30)) conj.push(n);
+      if(v1511Conj(p,cd.planets?.[n],30)) conj.push(n);
     }
     if(conj.length){
       for(const n of conj){ nodePlanetList.add(n); evalDirect(n); }
       return;
     }
 
-    const asp=nodeRuleFilterFlag ? window.v1511SpecialAspects(name,cd) : [];
+    const asp=nodeRuleFilterFlag ? v1511SpecialAspects(name,cd) : [];
     if(asp.length){
       for(const n of asp){ nodePlanetList.add(n); evalDirect(n); }
       return;
@@ -2126,7 +2127,7 @@ function windowsCoimbatoreRuleFixture(row, event, cd, periods){
 }
 
 function fullObjectAnalysis(event,cd,periods,fixture){
-  // Web 1.94: match the Windows Analysis object scope. Event 05 contains
+  // Web 1.93: match the Windows Analysis object scope. Event 05 contains
   // explicit rules for Object 1, Object 5 and Object 11, followed by the
   // four Vimshottari period rows. Do not invent diagnostics for Objects 2–4
   // or 6–12 when the native event contains no corresponding rule.
@@ -2150,7 +2151,7 @@ function fullObjectAnalysis(event,cd,periods,fixture){
   }
 
   // Period rules are represented by the native 101–104 rule codes.
-  // Web 1.94: the Analysis +H/-H columns must display the rule's required
+  // Web 1.93: the Analysis +H/-H columns must display the rule's required
   // house lists, not only the houses actually hit by the period planet.
   // The Y/P/N first character is then calculated from the live native-style
   // significators of the dynamically calculated Dasa/Bhukti/Antara/Sukshma
@@ -2229,9 +2230,10 @@ function renderWindowsStyleSelectedChart(row){
     Day: ${escHtml(day)}<br><br>
     <b>(${escHtml($('lat').value)} ${escHtml($('latdir').value)}, ${escHtml($('lon').value)} ${escHtml($('londir').value)}) &nbsp; TZ: ${escHtml($('tz').value)} ${escHtml($('tzdir').value)}</b><br><br>
     <b>Event:</b> ${escHtml(event?.name||'')}<br><br>
+    <b>Badhaka:</b> ${escHtml(String((v1511BmmList(asc[0])[0]||0)+1))} &nbsp; <b>Maraka:</b> 2, 7<br>
+    <b>DAS:</b> ${escHtml(periods.Dasa||'—')} : ${escHtml(periods.Bhukti||'—')} : ${escHtml(periods.Antara||'—')} : ${escHtml(periods.Sukshma||'—')}<br><br>
     <b>Lagna:</b> ${escHtml(asc[0]||'—')} &nbsp; <b>SnL:</b> ${escHtml(asc[1]||'—')} &nbsp; <b>StL:</b> ${escHtml(asc[2]||'—')}<br>
-    <b>SbL:</b> ${escHtml(asc[3]||'—')}<br><br>
-    <b>DAS:</b> ${escHtml(periods.Dasa||'—')} : ${escHtml(periods.Bhukti||'—')} : ${escHtml(periods.Antara||'—')} : ${escHtml(periods.Sukshma||'—')}
+    <b>SbL:</b> ${escHtml(asc[3]||'—')}
   </div>`;
   host.innerHTML=`<div class="windowsChart">${cells}</div>`;
 }
@@ -2357,9 +2359,12 @@ function bindMuhuratRowClicks(){
     const t=tr.dataset.muhuratTime;
     const row=(window.__selectionRows||[]).find(x=>x.time===t);
     if(row){
-      // 1.24 — selecting a Muhurat shows only its compact Results Analysis table.
-      // The large South-Indian chart/full-analysis panel is intentionally not opened.
+      // 1.94 — selecting a Muhurat shows its exact-time Windows-style chart
+      // together with the compact Results Analysis table. The legacy full
+      // detail panel remains intentionally hidden.
       renderResultsAnalysis(row);
+      const chartPanel=$('selectedMuhuratChartPanel');
+      if(chartPanel) chartPanel.hidden=false;
       const oldPanel=$('selectedMuhuratPanel');
       if(oldPanel) oldPanel.hidden=true;
       const analysisPanel=$('resultsAnalysisPanel');
@@ -2546,7 +2551,7 @@ function selectionLayer(a,event){
 
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with V1.5.11 native Sub-Lord Analysis (Badhaka/Maraka/Moksha), CSL/significator evaluation and recursive Vimshottari periods.`;
+   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with V1.5.11 native Sub-Lord Analysis (Badhaka/Maraka/Moksha) + exact-time Muhurat charts, CSL/significator evaluation and recursive Vimshottari periods.`;
   document.querySelector('[data-t="analysis"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
