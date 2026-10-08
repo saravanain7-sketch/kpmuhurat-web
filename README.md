@@ -1,10 +1,10 @@
-# KPMuhurat Web 1.85 — Analysis scope refinement
+# KP Muhurat by Kanak Bosmia V1.5.11 — Web 1.86
 
-- Preserves the Web 1.62 astronomy, transition and native V1.5.11 reconstruction paths.
-- Removes the generic 12-object fallback from Event 05 Analysis.
-- Event 05 Analysis now displays the native event-rule objects 1, 5, 11 plus Dasa/Bhukti/Antara/Sukshma, matching the Windows Analysis layout.
-- No global +1-second timestamp adjustment.
-- No Windows timestamps are injected into live Muhurat selection.
-- Timing precision remains governed by the existing native-style boundary solver.
+## Web 1.86 fix
+- Preserves the exact fractional transition crossing for chart/Analysis evaluation.
+- Displays the containing second only; **no global +1-second adjustment**.
+- Removes repeated recovered 249-table boundary hits when the visible SnL/StL/SbL chain has not changed.
+- Uses only live calculated astronomy/transition data; no Windows timestamps are injected into selection.
+- Keeps the native Badhaka/Maraka/Moksha gate and Analysis diagnostics from Web 1.85.
 
-This build is an Analysis-scope correction; exact native Y/N state semantics remain tied to the source-derived event rule implementation.
+Validation fixture: Coimbatore, Tamil Nadu, 02-10-2026, 09:00–22:00, Event 05.
