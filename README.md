@@ -1,24 +1,14 @@
-# KP Muhurat V1.5.11 — Web 2.00
+# KP Muhurat Web 1.64 — Analysis-isolated build
 
-## Expanded 12-House Analysis (display-only)
+## Change in 1.64
+- Explicitly separates the native-style Lagna Sub-Lord Badhaka/Maraka selection gate from the expanded 12-house Analysis display.
+- Object 1–12 and Dasa/Bhukti/Antara/Sukshma Analysis rows are diagnostics/display only; they are not passed into the selector.
+- Preserves the Web 1.63 fractional transition boundary state handling and display truncation. No global +1-second adjustment.
+- No Windows timestamps are injected into live selection.
 
-This build keeps the existing V1.5.11 Muhurat selection engine unchanged and expands the Results Analysis table to show CSL analysis for Objects 1 through 12, followed by Dasa, Bhukti, Antara and Sukshma.
+## Validation status
+- JavaScript syntax is checked for the generated build.
+- Exact Windows parity for the 10-Oct-2026 selected list still requires running this build against the Windows V1.5.11 reference. The code change isolates selection from expanded Analysis but does not claim the extra-row discrepancy is fully resolved without that regression run.
 
-### Critical parity rule
-- **Muhurat timing/selection is unchanged.**
-- Objects 2, 3, 4, 6, 7, 8, 9, 10 and 12 are diagnostic-only rows.
-- They are never fed back into transition discovery, eligibility, Badhaka/Maraka filtering, or selected timestamps.
-- Event 05's original selection rules remain authoritative: Objects 1, 5, 11 + Dasa/Bhukti/Antara/Sukshma.
-- Selected Chart and Analysis continue to recalculate from the exact displayed Muhurat timestamp.
-
-### Regression fixture
-- Coimbatore, Tamil Nadu
-- Latitude 11:00:00 N
-- Longitude 76:58:00 E
-- TZ 05:30:00 East of UT
-- Krishnamurti ayanamsa
-- Placidus
-- Event 05 — Speculative gain in Stock Market
-- 02-Oct-2026, 09:00–22:00
-
-Windows timestamps remain validation evidence only; no Windows timestamps are injected into the live selector.
+## GitHub Pages
+Use `index.html` to open `KPMuhurat_V1.5.11_Web_1.64_AnalysisIsolated.html`.
