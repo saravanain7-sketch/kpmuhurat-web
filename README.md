@@ -1,14 +1,17 @@
-# KP Muhurat Web 1.64 — Analysis-isolated build
+# KP Muhurat — Dashboard Build 2.01
 
-## Change in 1.64
-- Explicitly separates the native-style Lagna Sub-Lord Badhaka/Maraka selection gate from the expanded 12-house Analysis display.
-- Object 1–12 and Dasa/Bhukti/Antara/Sukshma Analysis rows are diagnostics/display only; they are not passed into the selector.
-- Preserves the Web 1.63 fractional transition boundary state handling and display truncation. No global +1-second adjustment.
-- No Windows timestamps are injected into live selection.
+## What changed
+- Added a professional blue dashboard with summary cards, mirrored input settings, and quick navigation to Data, Results, and Analysis.
+- Improved responsive styling for mobile and desktop.
+- Kept the live astronomy, transition calculation, native V1.5.11 analysis and selection functions intact.
+- Fixed a duplicate `transitionRows()` declaration that shadowed the end-date-aware version. The active wrapper now forwards `endDate`; single-day calculations use the same range path and timestamps.
+- Updated the PWA cache version and made page navigations network-first with an offline fallback so published UI updates can be retrieved more reliably.
 
-## Validation status
-- JavaScript syntax is checked for the generated build.
-- Exact Windows parity for the 10-Oct-2026 selected list still requires running this build against the Windows V1.5.11 reference. The code change isolates selection from expanded Analysis but does not claim the extra-row discrepancy is fully resolved without that regression run.
+## Deploy to GitHub Pages
+Upload all files in this folder to the repository root, replacing the current copies. Keep GitHub Pages set to `main` and `/(root)`. After deployment, open the site and reload it; if the installed PWA still shows an older build, close/reopen it or clear the site's stored data.
 
-## GitHub Pages
-Use `index.html` to open `KPMuhurat_V1.5.11_Web_1.64_AnalysisIsolated.html`.
+## Verification
+- JavaScript syntax is checked with Node.js.
+- A source diff confirms edits are limited to dashboard markup/styles, dashboard UI synchronization, the end-date wrapper forwarding fix, and PWA cache behavior.
+- This is not a claim of full Windows parity. Run the Coimbatore and Pallavaram V1.5.11 regression fixtures in Advanced Diagnostics and compare the exact transition timestamps and selected rows before operational use.
+- Reference timestamps remain validation-only and are not injected into the live selector.

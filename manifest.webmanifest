@@ -1,12 +1,14 @@
 {
-  "name": "KPMuhurat V1.5.11 Web 1.57",
-  "short_name": "KP Muhurat 1.57",
-  "start_url": "./",
+  "id": "./",
+  "name": "KP Muhurat \u2014 Daily Schedule & Analysis",
+  "short_name": "KP Muhurat",
+  "description": "KP Muhurat daily combination schedule, selected Muhurats, chart and analysis.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#eef8fc",
-  "theme_color": "#0d79bd",
+  "background_color": "#eaf6fc",
+  "theme_color": "#08264a",
   "icons": [
     {
       "src": "kp-icon-192.png",
