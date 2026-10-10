@@ -1,17 +1,14 @@
-# KP Muhurat — Dashboard Build 2.01
+# KP Muhurat — Notes timing reference update (mobile UI)
 
-## What changed
-- Added a professional blue dashboard with summary cards, mirrored input settings, and quick navigation to Data, Results, and Analysis.
-- Improved responsive styling for mobile and desktop.
-- Kept the live astronomy, transition calculation, native V1.5.11 analysis and selection functions intact.
-- Fixed a duplicate `transitionRows()` declaration that shadowed the end-date-aware version. The active wrapper now forwards `endDate`; single-day calculations use the same range path and timestamps.
-- Updated the PWA cache version and made page navigations network-first with an offline fallback so published UI updates can be retrieved more reliably.
+This package styles the existing KP Muhurat web app to match the supplied mobile screenshots: navy-blue title header, horizontal tabs, rounded white panels, pale-blue title bars, and clean full-width timing-reference cards in the Muhurtam/Notes section.
 
-## Deploy to GitHub Pages
-Upload all files in this folder to the repository root, replacing the current copies. Keep GitHub Pages set to `main` and `/(root)`. After deployment, open the site and reload it; if the installed PWA still shows an older build, close/reopen it or clear the site's stored data.
+- Seven user-supplied timing table images for 09 October 2026 are preserved unchanged and shown one per card.
+- Timing values are not retyped, rounded, or altered.
+- The reference timings remain separate from live calculation and Muhurat selection.
+- The existing tab order is Data → Results → Muhurtam → Chart → Analysis; the calculation engine and selection logic are not intentionally changed.
+- Service-worker cache name is bumped so the new styling can refresh.
 
-## Verification
-- JavaScript syntax is checked with Node.js.
-- A source diff confirms edits are limited to dashboard markup/styles, dashboard UI synchronization, the end-date wrapper forwarding fix, and PWA cache behavior.
-- This is not a claim of full Windows parity. Run the Coimbatore and Pallavaram V1.5.11 regression fixtures in Advanced Diagnostics and compare the exact transition timestamps and selected rows before operational use.
-- Reference timestamps remain validation-only and are not injected into the live selector.
+## Deploy
+Upload all files in this folder to the GitHub Pages repository root, replacing `index.html`, `sw.js`, and existing app assets, and adding the seven `reference-timings-2026-10-09-*.jpg` files. Commit/push to the branch configured for Pages. Then refresh the site; if an old page remains cached, close the installed PWA/browser tab and reopen it.
+
+This package has not been pushed to GitHub by this build process.

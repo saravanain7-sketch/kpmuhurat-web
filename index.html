@@ -1,35 +1,51 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.00 — KP Muhurat V1.5.11</title>
+<meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="kp-icon-192.png"><link rel="apple-touch-icon" href="kp-icon-192.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="KP Muhurat">
+<title>KP Muhurat — New Project</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
-header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
-nav{display:flex;overflow:auto;background:#f2f8fb;border-bottom:1px solid #9bb9c7;position:sticky;top:44px;z-index:3}
-nav button{border:0;background:transparent;padding:10px 14px;white-space:nowrap}nav button.active{background:#d7effb;border-bottom:2px solid #1976a8;font-weight:bold}
-main{max-width:1200px;margin:auto;padding:10px;min-width:0}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #9ebdcc;border-radius:4px;padding:12px;margin-bottom:10px}.blue{background:#8bcceb}
+*{box-sizing:border-box}body{margin:0;background:#f1f5fb;color:#203746;font:14px Arial,sans-serif}
+header{padding:18px 16px;background:linear-gradient(115deg,#173e5d,#1d5277);color:#fff;border-bottom:1px solid #173e5d;position:sticky;top:0;z-index:3;font-size:23px;font-weight:700;letter-spacing:.1px}
+nav{display:flex;overflow:auto;background:#fff;border-bottom:5px solid #c5c9cc;position:sticky;top:59px;z-index:3;box-shadow:0 1px 3px #102a4310}
+nav button{border:0;background:transparent;color:#526270;padding:15px 16px;white-space:nowrap;font-size:15px;font-weight:600;border-radius:14px 14px 0 0}nav button.active{background:#e6f3ff;color:#155b8b;border-bottom:4px solid #4387b5;font-weight:700}
+main{max-width:1200px;margin:auto;padding:12px;min-width:0}section{display:none}section.active{display:block}.panel{background:#fff;border:1px solid #d2e0e9;border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #102a4308}.blue{background:#8bcceb}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 80px;gap:8px}
-label{display:block;font-size:12px;font-weight:bold;margin:7px 0}input,select,textarea{width:100%;padding:9px;border:1px solid #8daab6;border-radius:3px;background:#fff;font-size:14px}
-.btn{padding:9px 18px;border:1px solid #8caab6;border-radius:3px;background:#fff;font-weight:bold;margin:6px 4px 2px 0}
-.titlebar{background:#bde8f7;border:1px solid #8eb6c3;padding:6px;text-align:center;font-weight:bold;margin-bottom:7px}
+label{display:block;font-size:13px;font-weight:600;color:#4b5d69;margin:8px 0}input,select,textarea{width:100%;padding:12px;border:1px solid #c8d5de;border-radius:13px;background:#fbfdff;font-size:15px;color:#203746}
+.btn{padding:11px 18px;border:1px solid #c6d5df;border-radius:14px;background:#fff;font-weight:bold;margin:6px 4px 2px 0;color:#29495e}
+.titlebar{background:linear-gradient(110deg,#e2f3ff,#f0f9ff);color:#1d4059;border:1px solid #c2dce9;border-radius:14px;padding:13px 9px;text-align:center;font-size:18px;font-weight:bold;margin-bottom:14px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:7px}.wide{overflow:auto;max-width:100%;min-width:0}
-table{border-collapse:collapse;width:100%;font-size:12px;min-width:0}th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
+table{border-collapse:collapse;width:100%;font-size:12px;min-width:0}.dailyScheduleWide{max-height:72vh;overflow:auto}.dailyScheduleWide table{min-width:420px;font-variant-numeric:tabular-nums}.dailyScheduleWide thead th{position:sticky;top:0;z-index:1}.dailyScheduleWide td:nth-child(1),.dailyScheduleWide td:nth-child(4),.dailyScheduleWide td:nth-child(5){text-align:right}.dailyScheduleWide td:nth-child(2){font-family:Arial,sans-serif}
+#dailyScheduleRows tr{cursor:pointer}
+#dailyScheduleRows tr:focus{outline:2px solid #0879c9;outline-offset:-2px}
+#dailyScheduleRows tr.selectedScheduleRow td{background:#0879c9 !important;color:#fff !important}
+#dailyScheduleRows tr.selectedScheduleRow td:first-child{font-weight:700}
+.btnRow{display:flex;justify-content:flex-end}
+th,td{border:1px solid #adbec6;padding:5px;white-space:nowrap;text-align:left}th{background:#eef5f8}
 .good{background:#d9f4df}.bad{background:#ffd2d2}.veryGood{background:#74d680 !important;color:#0b4d12;font-weight:700}.canSelect{background:#d9f4df !important;color:#245b2a}.notGood{background:#ffd2d2 !important;color:#8b1a1a}.analysisYN{width:44px;min-width:44px;max-width:44px;text-align:center !important;font-weight:700;padding-left:4px !important;padding-right:4px !important}.analysisYN.veryGood{background:#008000 !important;color:#fff !important}.analysisYN.canSelect{background:#9be79b !important;color:#245b2a !important}.analysisYN.notGood{background:#ff6666 !important;color:#8b0000 !important}.muhuratPick.selected td{background:#0877c9 !important;color:#fff !important}.muhuratPick.selected td:nth-child(n+6){background:#0877c9 !important;color:#fff !important}.muted{color:#61727a}.status{padding:8px;background:#eef8fc;border:1px solid #b7d3df;margin-top:8px}.placeRow{display:flex;gap:8px;align-items:stretch}.placeRow input{flex:1}.gpsBtn{margin:0;min-width:82px}.placeResults{margin-top:8px;display:grid;gap:6px}.placeResult{display:block;width:100%;text-align:left;padding:10px;border:1px solid #9ebdcc;background:#fff;border-radius:4px}.placeResult b{display:block}.placeResult small{color:#61727a}.customBox{margin-top:12px;padding:10px;border:1px dashed #9ebdcc;border-radius:4px;background:#f7fbfd}.customBox h4{margin:0 0 6px}.customBox .grid2>div{min-width:0}.customBox select{width:100%;margin-top:0}
 @media(max-width:700px){
 html,body{max-width:100%;overflow-x:hidden}.panel,.status,.titlebar{max-width:100%;min-width:0}.diagInner{padding:5px 0}
 .grid2,.split{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 70px}
-body{font-size:14px;overflow-x:hidden}.panel{padding:10px;border-radius:6px}.titlebar{font-size:16px;padding:8px}
+body{font-size:14px;overflow-x:hidden}.panel{padding:14px;border-radius:18px}.titlebar{font-size:17px;padding:12px}
 main{padding:7px}.wide{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .wide table{min-width:720px}.split .wide table{min-width:620px}.diagnosticDetails .wide table{min-width:680px}
 table{font-size:11px}th,td{padding:6px 7px}.analysisReason{width:44px;min-width:44px;max-width:44px;padding:5px !important}.analysisReason details summary{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.analysisReason .reasonFull{min-width:260px;white-space:normal}
-nav{top:43px}nav button{padding:11px 13px;font-size:14px}
-header{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav{top:59px}nav button{padding:15px 16px;font-size:15px}
+header{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:18px 16px;font-size:22px}
 header small{font-size:11px}
 .status{font-size:13px;line-height:1.35}
 }
 .diagnosticDetails{background:#fff;border:1px solid #9ebdcc;border-radius:6px;margin-bottom:10px;padding:0}.diagnosticDetails summary{cursor:pointer;padding:10px 12px;background:#eef8fc;font-weight:bold;color:#17313d}.diagnosticDetails>.panel{border:0;margin:0;border-radius:0}.diagInner{padding:8px}.diagInner>.panel{margin-bottom:10px}.resultHint{background:#f4fbfe;margin-bottom:10px}.diagCount{font-weight:normal;color:#61727a;font-size:12px}.diagnosticDetails[open] summary{border-bottom:1px solid #b7d3df}
 .analysisReason{white-space:normal !important;max-width:420px;vertical-align:top}.analysisReason details summary{cursor:pointer;font-weight:600;line-height:1.2}.reasonFull{padding-top:6px;line-height:1.35;white-space:normal;color:#526770}.mobileReasonRow{display:none}.mobileReasonRow td{white-space:normal !important;background:#f7fbfd;font-size:12px;line-height:1.35}.mobileReasonRow details summary{cursor:pointer;font-weight:bold;padding:2px 0}.mobileReasonRow details div{padding-top:6px;color:#526770}
 @media(max-width:700px){
+/* Daily schedule: fit all five columns on a phone without horizontal scrolling. */
+#notes .dailyScheduleWide{overflow-x:hidden !important;overflow-y:auto;max-width:100%;width:100%}
+#notes .dailyScheduleWide table{min-width:0 !important;width:100% !important;table-layout:fixed;font-size:10px}
+#notes .dailyScheduleWide th,#notes .dailyScheduleWide td{padding:4px 2px;font-size:10px;white-space:normal;overflow-wrap:anywhere;word-break:normal;line-height:1.2}
+#notes .dailyScheduleWide th:nth-child(1),#notes .dailyScheduleWide td:nth-child(1){width:8%;text-align:center}
+#notes .dailyScheduleWide th:nth-child(2),#notes .dailyScheduleWide td:nth-child(2){width:36%;overflow-wrap:anywhere}
+#notes .dailyScheduleWide th:nth-child(3),#notes .dailyScheduleWide td:nth-child(3){width:18%;text-align:center}
+#notes .dailyScheduleWide th:nth-child(4),#notes .dailyScheduleWide td:nth-child(4){width:18%;text-align:center}
+#notes .dailyScheduleWide th:nth-child(5),#notes .dailyScheduleWide td:nth-child(5){width:20%;text-align:center}
+#notes .btnRow .btn{padding:7px 12px;font-size:12px}
 /* 0.9.80 mobile Analysis: keep the Lagna table fully visible instead of forcing a hidden horizontal scroll. */
 #analysis .split{display:block !important}
 #analysis .split .wide{overflow-x:visible !important;width:100% !important}
@@ -186,7 +202,8 @@ header small{font-size:11px}
 /* 1.97 — A selected Muhurat must expose its exact-time chart as well as the
    compact Results Analysis. The full legacy detail panel remains hidden. */
 #selectedMuhuratPanel{display:none !important}
-#selectedMuhuratChartPanel{display:block !important}
+#selectedMuhuratChartPanel:not([hidden]){display:block !important}
+#selectedMuhuratChartPanel[hidden]{display:none !important}
 
 /* 1.22 — Compact Analysis tab: remove explanatory lines and tighten Lagna/Sub-level tables. */
 #analysis > .panel > .kpLegend,#analysis > .panel > #parityNote{display:none !important}
@@ -205,52 +222,110 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(2),#analysis .split .wide:nth-child(2) td:nth-child(2),#analysis .split .wide:nth-child(2) th:nth-child(3),#analysis .split .wide:nth-child(2) td:nth-child(3),#analysis .split .wide:nth-child(2) th:nth-child(4),#analysis .split .wide:nth-child(2) td:nth-child(4),#analysis .split .wide:nth-child(2) th:nth-child(5),#analysis .split .wide:nth-child(2) td:nth-child(5){width:9% !important;text-align:center}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
+section#placeSelect, section#help{display:none !important}
 
-/* Web 2.01 dashboard UI only — calculation engine intentionally untouched */
-:root{--navy:#08264a;--blue:#1769aa;--blue2:#2388c9;--pale:#eaf4ff;--line:#d6e3ef;--ink:#142d45;--muted:#64778b;--surface:#fff;--shadow:0 8px 24px rgba(18,55,91,.07)}
-body{background:#f3f7fc;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;font-size:14px}
-header{background:linear-gradient(115deg,#071d3d,#124e83 72%,#1976b8);color:#fff;border:0;padding:17px max(16px,calc((100% - 1200px)/2));box-shadow:0 3px 14px #08264a22}
-header b{font-size:18px;letter-spacing:.1px}header small{color:#d5eaff;font-size:12px;margin-left:6px}
-nav{top:56px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 4px 12px #173a5810;padding:0 max(6px,calc((100% - 1200px)/2))}
-nav button{padding:13px 16px;color:#50677d;font-weight:650;border-radius:9px 9px 0 0}nav button.active{background:#e8f3ff;color:#075ca0;border-bottom:3px solid #1685d1}
-main{max-width:1240px;padding:18px 14px 28px}.panel{border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);background:#fff}.blue{background:linear-gradient(145deg,#e3f3ff,#f5faff);border-color:#c5e0f6}.titlebar{background:#edf6ff;border:1px solid #d2e6f8;color:#174b79;border-radius:9px;padding:10px;text-align:left;font-size:14px;margin-bottom:12px}
-input,select,textarea{border:1px solid #cbd9e7;border-radius:9px;padding:11px;background:#fff;color:#172f46}input:focus,select:focus,textarea:focus{outline:2px solid #8bc8f5;outline-offset:1px}.btn{border:1px solid #bfd6ea;border-radius:9px;background:#fff;color:#155b91;padding:10px 16px;font-weight:700;transition:transform .12s,box-shadow .12s}.btn:hover{box-shadow:0 4px 12px #164f7a18}.btn#show{background:linear-gradient(120deg,#1677bc,#135ba0);color:white;border-color:#1677bc}
-table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5fb;color:#254a69}tr:nth-child(even) td{background-color:#f9fbfe}.good{background:#e4f7eb}.bad{background:#ffeded}.status{border:1px solid #d5e5f2;border-radius:10px;background:#f3f9ff;padding:11px;line-height:1.45}.diagnosticDetails{border:1px solid var(--line);border-radius:14px;overflow:hidden}.diagnosticDetails summary{background:#edf5fd;color:#244c70;padding:14px}
-.dashboard-hero{background:linear-gradient(125deg,#0a2b52,#135d96 68%,#2388c9);border-radius:18px;color:#fff;padding:24px;margin-bottom:14px;box-shadow:0 12px 30px #0a376022;display:flex;align-items:center;justify-content:space-between;gap:18px}.dashboard-hero h2{margin:0 0 8px;font-size:clamp(22px,3vw,31px);letter-spacing:-.4px}.dashboard-hero p{margin:0;color:#d6eaff;line-height:1.5;max-width:620px}.dash-chip{display:inline-flex;align-items:center;gap:6px;background:#ffffff1a;border:1px solid #ffffff30;border-radius:99px;padding:7px 11px;font-size:12px;margin-bottom:12px}.dash-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.dash-actions .btn{margin:0}.dash-actions .btn.primary{background:#fff;color:#0b548b;border-color:#fff}.dash-actions .btn.ghost{background:#ffffff12;color:#fff;border-color:#ffffff55}.dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.dash-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;min-width:0;box-shadow:var(--shadow)}.dash-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#61788d;font-size:12px;font-weight:700}.dash-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:#e8f3ff;color:#1469a8;font-size:18px}.dash-value{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.5px;margin:13px 0 4px;color:#102f4d;overflow-wrap:anywhere}.dash-sub{font-size:12px;color:#718397;line-height:1.4}.dash-columns{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.dash-list{display:grid;gap:9px}.dash-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid #e0eaf3;border-radius:10px;padding:11px 12px;background:#fbfdff}.dash-row span{color:#61778b}.dash-row strong{text-align:right;overflow-wrap:anywhere}.dash-status-dot{display:inline-block;width:8px;height:8px;background:#27a66b;border-radius:50%;margin-right:6px}.dash-section-title{font-size:16px;margin:0 0 12px;color:#1a456c}.dash-note{font-size:12px;color:#6a7e91;line-height:1.5;margin-top:10px}
-@media(max-width:850px){.dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-columns{grid-template-columns:1fr}.dashboard-hero{padding:20px}}
-@media(max-width:520px){header{padding:14px 12px}header b{font-size:15px}header small{display:block;margin:4px 0 0}nav{top:58px;padding:0 4px}nav button{padding:12px 11px;font-size:13px}main{padding:11px 9px 22px}.dashboard-hero{display:block;padding:19px 16px;border-radius:14px}.dashboard-hero h2{font-size:23px}.dash-grid{gap:8px}.dash-card{padding:12px;border-radius:12px}.dash-value{font-size:24px}.panel{padding:12px;border-radius:12px}.dash-actions .btn{flex:1;min-width:110px}}
+/* Modern professional dashboard refresh — visual-only overrides; calculation logic unchanged */
+:root{color-scheme:light;--ink:#172b3a;--muted:#647789;--brand:#1769aa;--brand-dark:#123b5a;--brand-soft:#e8f4fc;--line:#d7e2eb;--surface:#fff;--canvas:#f3f7fb}
+html,body{background:var(--canvas);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:14px}
+header{padding:15px 18px;background:linear-gradient(120deg,#102f49,#1769aa);color:#fff;border:0;box-shadow:0 3px 12px rgba(19,53,78,.16);letter-spacing:.2px}
+header b{font-size:19px;font-weight:750}
+nav{top:51px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 2px 7px rgba(24,54,78,.05);padding:0 8px;gap:2px}
+nav button{padding:13px 17px;font-size:14px;color:#526579;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;transition:background .15s,color .15s}
+nav button.active{background:var(--brand-soft);border-bottom:3px solid var(--brand);color:var(--brand-dark);font-weight:750}
+main{max-width:980px;padding:16px 12px 28px}
+#data .panel.blue{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 6px 24px rgba(25,61,88,.07);position:relative;overflow:hidden}
+#data .panel.blue:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,#1596d2,#70c8df)}
+#data h3{margin:4px 0 18px;font-size:20px;letter-spacing:-.35px;color:var(--brand-dark);display:flex;align-items:center;gap:10px}
+#data h3:after{content:"DATE · TIME · LOCATION";font-size:10px;font-weight:750;letter-spacing:1px;color:#7a91a4;margin-left:auto}
+#data label{font-size:12px;font-weight:750;color:#43596c;margin:10px 0 5px}
+#data input,#data select{min-width:0;width:100%;padding:11px 12px;border:1px solid #cbd8e3;border-radius:9px;background:#fbfdff;color:#172b3a;font-size:14px;min-height:43px;outline:none;box-shadow:0 1px 1px rgba(20,45,65,.02);transition:border-color .15s,box-shadow .15s}
+#data input:focus,#data select:focus{border-color:#3295d2;box-shadow:0 0 0 3px rgba(50,149,210,.14);background:#fff}
+#data .grid2{gap:12px 14px}
+#data .grid3{grid-template-columns:minmax(0,1fr) 82px;gap:8px;align-items:end;margin-top:1px}
+#data .grid3 label{margin-bottom:5px}
+#data .placeRow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
+#data .placeRow input{min-width:0}
+#data .btn{min-height:43px;padding:10px 16px;border:1px solid #c6d6e3;border-radius:9px;background:#fff;color:#23465e;font-weight:750;box-shadow:0 1px 2px rgba(20,45,65,.04);margin:0 7px 0 0}
+#data .btn:active{transform:translateY(1px)}
+#data #show{background:linear-gradient(135deg,#1769aa,#1689c8);color:#fff;border:0;padding:12px 28px;min-width:124px;box-shadow:0 4px 10px rgba(23,105,170,.2);margin-top:16px}
+#data #install{margin-top:16px}
+#data #placeDbStatus{display:inline-block;margin:12px 0 0 4px!important;font-size:11px;color:var(--muted)}
+#data .status{margin-top:14px;padding:11px 13px;border:1px solid #d7e6f1;border-radius:10px;background:#f2f8fd;color:#516a7e;font-size:12px;line-height:1.5}
+.panel{border-color:var(--line);border-radius:12px;box-shadow:0 3px 14px rgba(25,61,88,.045)}
+.titlebar{border:1px solid #c5ddea;border-radius:9px;background:linear-gradient(120deg,#e4f4fc,#d2ecfa);color:#174b6d;padding:11px;font-size:16px}
+th{background:#edf4f8;color:#344f62}
+@media(max-width:700px){
+  header{padding:13px 16px;top:0}header b{font-size:18px}
+  nav{top:45px;padding:0 4px;gap:0}nav button{flex:0 0 auto;padding:12px 13px;font-size:13px}
+  main{padding:10px 9px 22px}
+  #data .panel.blue{padding:15px 12px 13px;border-radius:13px}
+  #data h3{font-size:18px;margin:3px 0 14px;display:block}
+  #data h3:after{display:block;margin:5px 0 0;font-size:9px;letter-spacing:.8px}
+  #data .grid2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 62px;gap:7px}
+  #data label{font-size:11px;margin:8px 0 4px}
+  #data input,#data select{font-size:13px;padding:10px 8px;min-height:41px;border-radius:8px}
+  #data .placeRow{grid-template-columns:minmax(0,1fr) auto auto;gap:5px}
+  #data .placeRow .btn{min-width:0;padding:8px 9px;font-size:12px;white-space:nowrap}
+  #data .btn{min-height:41px;padding:9px 13px;font-size:13px}
+  #data #show{margin-top:14px;min-width:110px;padding:10px 23px}
+  #data #install{margin-top:14px}
+  #data .status{font-size:11px;padding:9px 10px}
+}
 
+
+/* Premium visual layer for Results, Muhurtam and Analysis. CSS only; calculation logic unchanged. */
+#status[hidden]{display:none!important}
+#chartTabHint{margin:0;padding:4px 0 2px}
+
+:root{--kp-navy:#102a43;--kp-blue:#1769aa;--kp-sky:#e8f5ff;--kp-border:#d6e2ec;--kp-ink:#243746;--kp-muted:#65788a;--kp-green:#dcfce7}
+body{background:#f3f7fb;color:var(--kp-ink);font-family:Inter,Roboto,"Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(115deg,#102a43,#174f7a);color:#fff;border:0;padding:15px 18px;box-shadow:0 3px 14px #102a431f}
+header b,header strong{color:#fff}
+nav{background:#fff;border-bottom:1px solid var(--kp-border);box-shadow:0 3px 12px #102a430c;gap:4px;padding:0 8px}
+nav button{padding:13px 17px;color:#526579;font-weight:650;border-radius:10px 10px 0 0;transition:background .15s,color .15s}
+nav button.active{background:#e7f3ff;color:#075ca8;border-bottom:3px solid #1681d5}
+.panel{border:1px solid var(--kp-border);border-radius:14px;padding:14px;background:#fff;box-shadow:0 5px 18px #102a4308;margin-bottom:14px}
+.titlebar{background:linear-gradient(110deg,#e2f3ff,#f0f8ff);border:1px solid #c4e0f5;border-radius:9px;color:#123b5d;padding:11px 12px;font-size:16px;letter-spacing:.1px;margin-bottom:12px}
+.status{border-radius:9px;background:#f0f8ff;border:1px solid #cfe4f5;color:#35536a;padding:10px 12px}
+.muted{color:var(--kp-muted)}
+table{border-collapse:separate;border-spacing:0;border:1px solid var(--kp-border);border-radius:9px;overflow:hidden;background:#fff;font-size:12px}
+th{background:#edf4fa;color:#29465c;font-weight:750}
+th,td{border:0;border-right:1px solid var(--kp-border);border-bottom:1px solid var(--kp-border);padding:8px 9px}
+tr:last-child td{border-bottom:0}th:last-child,td:last-child{border-right:0}
+tbody tr:nth-child(even) td{background:#f9fbfd}
+tbody tr:hover td{background:#edf7ff}
+#chosenTable tbody tr{cursor:pointer}
+#chosenTable tbody tr.selected td,.muhuratPick.selected td{background:#126fc1!important;color:#fff!important}
+#chosenTable tbody tr.selected td:first-child{border-left:4px solid #064f91}
+#dailyScheduleRows tr.selectedScheduleRow td{background:#126fc1!important;color:#fff!important}
+#analysis .panel .titlebar{margin-bottom:12px}
+#analysis .kpLegend{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+#analysis .kpBadge{border-radius:999px;padding:6px 10px;font-size:11px;font-weight:750}
+#analysis table tbody tr:nth-child(even) td{background:#f8fbfe}
+.btn{border:1px solid #bfd1df;border-radius:9px;background:#fff;color:#174a70;box-shadow:0 2px 5px #102a4308;transition:transform .12s,background .12s}
+.btn:active{transform:scale(.98)}
+.btn:hover{background:#edf7ff}
+input,select,textarea{border-color:#c5d5e2;border-radius:9px;color:#20384a}
+@media(max-width:700px){
+  header{padding:12px 14px}
+  nav{gap:0;padding:0 4px}
+  nav button{padding:12px 13px;font-size:13px}
+  main{padding:8px}
+  .panel{padding:10px;border-radius:12px;margin-bottom:11px}
+  .titlebar{font-size:14px;padding:9px;border-radius:8px}
+  #results .panel,#notes .panel,#analysis .panel{box-shadow:0 3px 12px #102a4308}
+  #results table th,#results table td{padding:7px 6px}
+  #analysis .titlebar{font-size:13px}
+  .status{padding:9px 10px}
+}
+
+@media(max-width:600px){#referenceTimings20261009 .referenceTimingGallery{grid-template-columns:1fr!important}#referenceTimings20261009 figure{max-width:100%}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.00</small></header>
-<nav><button class="active" data-t="dashboard">Dashboard</button><button data-t="data">Data</button><button data-t="analysis">Analysis</button><button data-t="results">Results</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
+<header><b>KP Muhurat</b></header>
+<nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="notes">Muhurtam</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button></nav>
 <main>
-<section id="dashboard" class="active">
-  <div class="dashboard-hero">
-    <div><div class="dash-chip">✦ KP MUHURAT · V1.5.11 RECONSTRUCTION</div><h2>Your Muhurat dashboard</h2><p>One place to review selected Muhurats, calculation inputs and verification status. Live astronomical calculations and selection rules remain the source of truth.</p><div class="dash-actions"><button class="btn primary" type="button" data-go="data">＋ Set event inputs</button><button class="btn ghost" type="button" data-go="results">View chosen Muhurats →</button><button class="btn ghost" type="button" data-go="analysis">Open analysis</button></div></div>
-  </div>
-  <div class="dash-grid">
-    <div class="dash-card"><div class="dash-card-top"><span>Chosen Muhurats</span><span class="dash-icon">◷</span></div><div class="dash-value" id="dashChosen">—</div><div class="dash-sub">Selected rows from the latest calculation</div></div>
-    <div class="dash-card"><div class="dash-card-top"><span>Transitions checked</span><span class="dash-icon">⌁</span></div><div class="dash-value" id="dashTransitions">—</div><div class="dash-sub">Lagna / Sub-level transitions evaluated</div></div>
-    <div class="dash-card"><div class="dash-card-top"><span>Calculation date</span><span class="dash-icon">▦</span></div><div class="dash-value" id="dashDate" style="font-size:21px">Choose date</div><div class="dash-sub" id="dashDateRange">Set the date range in Data</div></div>
-    <div class="dash-card"><div class="dash-card-top"><span>Verification</span><span class="dash-icon">✓</span></div><div class="dash-value" id="dashVerify" style="font-size:21px">Not run</div><div class="dash-sub">Regression checks are diagnostics only</div></div>
-  </div>
-  <div class="dash-columns">
-    <div class="panel"><h3 class="dash-section-title">Current calculation setup</h3><div class="dash-list">
-      <div class="dash-row"><span>Place</span><strong id="dashPlace">Coimbatore, Tamil Nadu, India</strong></div>
-      <div class="dash-row"><span>Coordinates</span><strong id="dashCoords">11:00:00 N · 76:58:00 E</strong></div>
-      <div class="dash-row"><span>Time zone</span><strong id="dashTimezone">05:30:00 East of UT</strong></div>
-      <div class="dash-row"><span>Time window</span><strong id="dashWindow">09:00–22:00</strong></div>
-      <div class="dash-row"><span>Event</span><strong id="dashEvent">Loading event…</strong></div>
-    </div><p class="dash-note">These values mirror the Data tab. Change them there, then press Show to calculate.</p></div>
-    <div class="panel"><h3 class="dash-section-title">Engine & source verification</h3><div class="dash-list">
-      <div class="dash-row"><span>Selection engine</span><strong><i class="dash-status-dot"></i>Live calculation</strong></div>
-      <div class="dash-row"><span>Reference timestamps</span><strong>Validation only</strong></div>
-      <div class="dash-row"><span>Advanced diagnostics</span><strong>Available in Results</strong></div>
-      <div class="dash-row"><span>Last run</span><strong id="dashLastRun">Not calculated yet</strong></div>
-    </div><p class="dash-note">No Windows reference timestamp is inserted into the live Muhurat selector. Use Advanced Diagnostics to compare the live output with reference fixtures.</p><button class="btn" type="button" data-go="results">Open Results & diagnostics →</button></div>
-  </div>
-</section>
-<section id="data"><div class="panel blue"><h3>Event data</h3>
+<section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
 <div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
 <label>Place<div class="placeRow"><input id="place" value="Coimbatore, Tamil Nadu, India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
@@ -261,6 +336,11 @@ table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5f
 <button class="btn" id="show" disabled>Loading engine…</button><button class="btn" id="install" hidden>Install app</button><span id="placeDbStatus" class="muted" style="margin-left:8px">Place DB: local package</span>
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
+<section id="chart"><div class="panel"><div class="titlebar">Selected Muhurat Chart</div><p class="muted" id="chartTabHint">Select a Muhurat row in Results to view its exact-time chart here.</p></div>
+<div id="selectedMuhuratChartPanel" class="panel selectedMuhuratChartPanel" hidden>
+  <div id="selectedMuhuratChartOnly"></div>
+</div></section>
+
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
@@ -269,10 +349,8 @@ table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5f
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
-<div id="selectedMuhuratChartPanel" class="panel selectedMuhuratChartPanel" hidden>
-  <div id="selectedMuhuratChartOnly"></div>
-</div>
-<div class="status resultHint"><b>Results view:</b> Chosen Muhurats are shown here. V1.5.11 reconstruction evidence stays inside Advanced Diagnostics and never changes normal inputs.</div>
+
+
 <div id="selectedMuhuratPanel" class="panel" hidden>
   <div class="titlebar">Selected Muhurat — Chart & Full Analysis</div><div class="status" style="margin-top:0;margin-bottom:8px"><b>Y/N colour:</b> dark green = Y- / YN / fully good &nbsp; • &nbsp; light green = P- / YP / partial/selectable &nbsp; • &nbsp; red = PY / N / not good</div>
   <div id="selectedMuhuratMeta" class="status">Tap any Muhurat time above to open its chart.</div>
@@ -292,7 +370,7 @@ table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5f
     </div>
   </div>
 </div>
-<details class="diagnosticDetails">
+<details class="diagnosticDetails" hidden>
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
@@ -325,9 +403,48 @@ table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5f
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 </div>
 </details>
-<div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
+<div class="panel" id="dasaPanel" hidden><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
-<section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" placeholder="Add your own notes here..."></textarea></div></section>
+<section id="notes"><div class="panel"><div class="titlebar">Muhurtham Schedule</div>
+<div class="wide dailyScheduleWide"><table id="dailyScheduleTable"><thead><tr><th>No.</th><th>Combination</th><th>Start Time</th><th>Stop Time</th><th>Total Minutes</th></tr></thead><tbody id="dailyScheduleRows"><tr><td colspan="5">Select the date and time range, then press Calculate.</td></tr></tbody></table></div>
+<div id="dailyScheduleSummary" class="status" aria-live="polite">No schedule calculated yet.</div>
+<div class="btnRow"><button class="btn" id="exportDailySchedule" type="button">Export CSV</button></div>
+</div>
+<div class="panel" id="referenceTimings20261009">
+  <div class="titlebar">Reference Muhurtam Timings — 09 Oct 2026</div>
+  <div class="status" style="margin:8px 0 14px;border-radius:12px;padding:12px 14px;font-size:14px">09 Oct 2026 · User-supplied reference timings · Original values preserved.</div>
+  <p class="muted" style="margin:8px 0 12px">The timing tables below preserve the supplied values exactly as images, in the same clean, card-based layout as the Muhurtam Schedule. This is a reference-only record and does not feed into calculation or Muhurat selection.</p>
+  <div class="referenceTimingGallery" style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start">
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 1 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-01.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 1" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 2 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-02.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 2" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 3 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-03.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 3" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 4 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-04.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 4" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 5 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-05.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 5" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 6 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-06.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 6" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+    <figure style="margin:0;border:1px solid #d6e4ec;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #173e5d0b">
+      <figcaption style="padding:10px 12px;background:#edf6fb;color:#23495d;font-size:13px;font-weight:700;border-bottom:1px solid #d6e4ec">Timing reference 7 of 7</figcaption>
+      <img src="reference-timings-2026-10-09-07.jpg" alt="Exact timing table screenshot for 09 October 2026, reference 7" loading="lazy" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto">
+    </figure>
+  </div>
+</div></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
 <section id="help"><div class="panel"><h3>Help</h3><p>This is a browser-hosted reconstruction of KPMuhurat V1.5.11 using the supplied event rules, original place database, KP/astronomy logic, VedicBpUtil reference metadata and V1.5.11 regression evidence.</p><p class="muted"><b>Build 1.35 engine note:</b> the supplied Windows V1.5.11 executable, VedicBpUtil and calculation DLLs are included in the ZIP under <code>reference/windows-engine/</code> as the authoritative reverse-engineering reference. Browser execution still uses the WebAssembly astronomy layer; the Windows DLLs are not directly executable inside Chrome.</p><p class="muted">The original Windows executable/source is not embedded in the browser runtime. Web 1.39 uses a live reconstruction of the decoded event-rule and B/M selection path; exact byte-for-byte Windows equivalence remains a validation target. Stored regression fixtures remain diagnostics only and are not injected into production selection. The app opens with the device current date and Coimbatore, Tamil Nadu, India as the default place. For Android Chrome, Install app uses the browser PWA install prompt when available.</p><p><b>Included original data:</b> AstroOpenSourceAtlas place database, events.txt, Settings.xml, license and package checksums.</p></div></section>
 </main>
@@ -656,11 +773,12 @@ window.v1511PlanetSgnf = window.v1511PlanetSgnf || function(name, cd){
 <script>
 const $=id=>document.getElementById(id);
 function parseClockSeconds(t){const b=String(t).split(':').map(Number);return (b[0]||0)*3600+(b[1]||0)*60+(b[2]||0)}
+document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('exportDailySchedule');if(b)b.addEventListener('click',exportDailyScheduleCSV);});
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.t).classList.add('active');if(b.dataset.t==='results'){const first=(window.__selectionRows||[])[0];if(first){const table=$('chosenTable');if(table){table.querySelectorAll('tr.selected').forEach(x=>x.classList.remove('selected'));const tr=table.querySelector(`tr[data-muhurat-time=\"${first.time}\"]`);if(tr)tr.classList.add('selected');}renderResultsAnalysis(first);const chartPanel=$('selectedMuhuratPanel');if(chartPanel)chartPanel.hidden=true;}}});
 window.EVENTS=[{"name":"00. Default Event","rule_count_declared":17,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"2:2:1:11:0:","fields":[2,2,1,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"4:2:1:11:0:","fields":[4,2,1,11,0]},{"raw":"5:2:1:11:0:","fields":[5,2,1,11,0]},{"raw":"6:2:1:11:0:","fields":[6,2,1,11,0]},{"raw":"7:2:1:11:0:","fields":[7,2,1,11,0]},{"raw":"8:2:1:11:0:","fields":[8,2,1,11,0]},{"raw":"9:2:1:11:0:","fields":[9,2,1,11,0]},{"raw":"10:2:1:11:0:","fields":[10,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"12:2:1:11:0:","fields":[12,2,1,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":"This is when the house grouping is unknown in advance"},{"name":"01. Surgical Operation","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:1:5:11:2:6:12:","fields":[11,3,1,5,11,2,6,12]},{"raw":"101:3:1:5:11:2:6:12:","fields":[101,3,1,5,11,2,6,12]},{"raw":"102:3:1:5:11:2:6:12:","fields":[102,3,1,5,11,2,6,12]},{"raw":"103:3:1:5:11:2:6:12:","fields":[103,3,1,5,11,2,6,12]},{"raw":"104:3:1:5:11:2:6:12:","fields":[104,3,1,5,11,2,6,12]}],"remarks":"Do no select Chara Lagna, if you have sufficient time for operation"},{"name":"01. Political Career","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:5:1:6:9:10:11:3:5:8:12:","fields":[1,5,1,6,9,10,11,3,5,8,12]},{"raw":"11:5:1:6:9:10:11:3:5:8:12:","fields":[11,5,1,6,9,10,11,3,5,8,12]},{"raw":"101:5:1:6:9:10:11:3:5:8:12:","fields":[101,5,1,6,9,10,11,3,5,8,12]},{"raw":"102:5:1:6:9:10:11:3:5:8:12:","fields":[102,5,1,6,9,10,11,3,5,8,12]},{"raw":"103:5:1:6:9:10:11:3:5:8:12:","fields":[103,5,1,6,9,10,11,3,5,8,12]},{"raw":"104:5:1:6:9:10:11:3:5:8:12:","fields":[104,5,1,6,9,10,11,3,5,8,12]}],"remarks":"Good if Ju, Me, Ma, Sa Strong and Signify 1, 6, 9, 10, 11"},{"name":"01. Attainment of Siddhi Initiation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:3:9:10:12:0:","fields":[1,4,3,9,10,12,0]},{"raw":"11:4:3:9:10:12:0:","fields":[11,4,3,9,10,12,0]},{"raw":"101:4:3:9:10:12:0:","fields":[101,4,3,9,10,12,0]},{"raw":"102:4:3:9:10:12:0:","fields":[102,4,3,9,10,12,0]},{"raw":"103:4:3:9:10:12:0:","fields":[103,4,3,9,10,12,0]},{"raw":"104:4:3:9:10:12:0:","fields":[104,4,3,9,10,12,0]}],"remarks":"ASC and 11th sublord MUST be Ketu or Saturn. 3:Forsake home forever; 5:Initiation; 9:Tapasthana; 10: Sadhana, 11: Siddhi; 12:Service to others;"},{"name":"01. Launching Astrology web site","rule_count_declared":11,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:4:1:3:10:11:0:","fields":[1,4,1,3,10,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"5:4:5:9:10:11:0:","fields":[5,4,5,9,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"1: To be web popular; 2,6,10,11 Financial success; 5th CSL should be Me, Ju or Sa and signify 5,9,10,11."},{"name":"01. Foreign Settlement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"02. Opening Bank Account","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:8:5:12:","fields":[2,3,2,6,11,3,8,5,12]},{"raw":"11:3:2:6:11:3:8:5:12:","fields":[11,3,2,6,11,3,8,5,12]},{"raw":"101:3:2:6:11:3:8:5:12:","fields":[101,3,2,6,11,3,8,5,12]},{"raw":"102:3:2:6:11:3:8:5:12:","fields":[102,3,2,6,11,3,8,5,12]},{"raw":"103:3:2:6:11:3:8:5:12:","fields":[103,3,2,6,11,3,8,5,12]},{"raw":"104:3:2:6:11:3:8:5:12:","fields":[104,3,2,6,11,3,8,5,12]}],"remarks":""},{"name":"02. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"02. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7; 7th Sub lord being Me or connected to dual sign and 9th sub lord signify 2, 9, 11."},{"name":"02. Lodge a Complaint for recovery of Lost Property","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:2:6:11:3:5:8:12:","fields":[2,3,2,6,11,3,5,8,12]},{"raw":"11:3:2:6:11:3:5:8:12:","fields":[11,3,2,6,11,3,5,8,12]},{"raw":"6:3:2:6:11:3:5:8:12:","fields":[6,3,2,6,11,3,5,8,12]},{"raw":"101:3:2:6:11:3:5:8:12:","fields":[101,3,2,6,11,3,5,8,12]},{"raw":"102:3:2:6:11:3:5:8:12:","fields":[102,3,2,6,11,3,5,8,12]},{"raw":"103:3:2:6:11:3:5:8:12:","fields":[103,3,2,6,11,3,5,8,12]},{"raw":"104:3:2:6:11:3:5:8:12:","fields":[104,3,2,6,11,3,5,8,12]}],"remarks":""},{"name":"02. Going Abroad for Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:3:5:8:2:0:","fields":[2,3,5,8,2,0]},{"raw":"5:3:5:8:2:0:","fields":[5,3,5,8,2,0]},{"raw":"11:3:5:8:2:0:","fields":[11,3,5,8,2,0]},{"raw":"101:3:5:8:2:0:","fields":[101,3,5,8,2,0]},{"raw":"102:3:5:8:2:0:","fields":[102,3,5,8,2,0]},{"raw":"103:3:5:8:2:0:","fields":[103,3,5,8,2,0]},{"raw":"104:3:5:8:2:0:","fields":[104,3,5,8,2,0]}],"remarks":""},{"name":"03. Discussion with younger Siblings to improve relation","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:1:11:0:","fields":[3,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"03. Discussion qbout Adoption of child","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:2:11:0:","fields":[3,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:2:2:11:0:","fields":[101,2,2,11,0]},{"raw":"102:2:2:11:0:","fields":[102,2,2,11,0]},{"raw":"103:2:2:11:0:","fields":[103,2,2,11,0]},{"raw":"104:2:2:11:0:","fields":[104,2,2,11,0]}],"remarks":""},{"name":"03. Purchase of Lottery","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:5:6:11:8:0:","fields":[3,4,5,6,11,8,0]},{"raw":"8:5:3:6:11:2:5:0:","fields":[8,5,3,6,11,2,5,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"11:4:5:6:11:8:0:","fields":[11,4,5,6,11,8,0]},{"raw":"101:5:2:6:8:11:3:0:","fields":[101,5,2,6,8,11,3,0]},{"raw":"102:5:2:6:8:11:3:0:","fields":[102,5,2,6,8,11,3,0]},{"raw":"103:5:2:6:8:11:3:0:","fields":[103,5,2,6,8,11,3,0]},{"raw":"104:5:2:6:8:11:3:0:","fields":[104,5,2,6,8,11,3,0]}],"remarks":""},{"name":"03. Start Broker work","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"2:4:2:10:6:11:0:","fields":[2,4,2,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Personal Interview","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:10:6:11:0:","fields":[3,4,3,10,6,11,0]},{"raw":"11:4:3:10:6:11:0:","fields":[11,4,3,10,6,11,0]},{"raw":"101:4:3:10:6:11:0:","fields":[101,4,3,10,6,11,0]},{"raw":"102:4:3:10:6:11:0:","fields":[102,4,3,10,6,11,0]},{"raw":"103:4:3:10:6:11:0:","fields":[103,4,3,10,6,11,0]},{"raw":"104:4:3:10:6:11:0:","fields":[104,4,3,10,6,11,0]}],"remarks":""},{"name":"03. Publishing a Book","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":"Mercury or Jupiter MUST be sub lord of 3 or 11"},{"name":"03. Start a Newspaper","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:3:11:10:0:","fields":[3,3,3,11,10,0]},{"raw":"11:3:3:11:10:0:","fields":[11,3,3,11,10,0]},{"raw":"101:3:3:11:10:0:","fields":[101,3,3,11,10,0]},{"raw":"102:3:3:11:10:0:","fields":[102,3,3,11,10,0]},{"raw":"103:3:3:11:10:0:","fields":[103,3,3,11,10,0]},{"raw":"104:3:3:11:10:0:","fields":[104,3,3,11,10,0]}],"remarks":""},{"name":"03. Sign a contract or agreement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:1:11:7:0:","fields":[3,4,3,1,11,7,0]},{"raw":"11:4:3:1:11:7:0:","fields":[11,4,3,1,11,7,0]},{"raw":"101:4:3:1:11:7:0:","fields":[101,4,3,1,11,7,0]},{"raw":"102:4:3:1:11:7:0:","fields":[102,4,3,1,11,7,0]},{"raw":"103:4:3:1:11:7:0:","fields":[103,4,3,1,11,7,0]},{"raw":"104:4:3:1:11:7:0:","fields":[104,4,3,1,11,7,0]}],"remarks":"3rd sub lord MUST signify 3 or 11"},{"name":"03. Purchase of TV, Electrical goods","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:4:3:12:5:1:0:","fields":[3,4,3,12,5,1,0]},{"raw":"11:4:3:12:5:1:0:","fields":[11,4,3,12,5,1,0]},{"raw":"101:4:3:12:5:1:0:","fields":[101,4,3,12,5,1,0]},{"raw":"102:4:3:12:5:1:0:","fields":[102,4,3,12,5,1,0]},{"raw":"103:4:3:12:5:1:0:","fields":[103,4,3,12,5,1,0]},{"raw":"104:4:3:12:5:1:0:","fields":[104,4,3,12,5,1,0]}],"remarks":""},{"name":"03. Launch Appeal in Court","rule_count_declared":10,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:2:6:11:0:","fields":[3,2,6,11,0]},{"raw":"6:2:6:11:0:","fields":[6,2,6,11,0]},{"raw":"12:2:6:11:0:","fields":[12,2,6,11,0]},{"raw":"5:2:6:11:0:","fields":[5,2,6,11,0]},{"raw":"11:2:6:11:0:","fields":[11,2,6,11,0]},{"raw":"101:2:6:11:0:","fields":[101,2,6,11,0]},{"raw":"102:2:6:11:0:","fields":[102,2,6,11,0]},{"raw":"103:2:6:11:0:","fields":[103,2,6,11,0]},{"raw":"104:2:6:11:0:","fields":[104,2,6,11,0]}],"remarks":""},{"name":"03. First Meeting btwn Boy and Girl for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:7:11:3:1:6:10:","fields":[3,3,2,7,11,3,1,6,10]},{"raw":"9:3:2:7:11:3:1:6:10:","fields":[9,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":""},{"name":"04. Admission in School","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 4th sub lord is Jupiter or Mercury is Best"},{"name":"04. Admission in College","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:2:4:11:0:","fields":[4,2,4,11,0]},{"raw":"9:2:4:11:0:","fields":[9,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":"If 9th sub lord is Jupiter or Mercury is Best"},{"name":"04. Higher Education (Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"04. Purchase of land/Construction House","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th/11th sub lord should be Mars for House and Saturn for Land"},{"name":"04. Property on Rent","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:5:4:11:12:6:10:0:","fields":[4,5,4,11,12,6,10,0]},{"raw":"11:5:4:11:12:6:10:0:","fields":[11,5,4,11,12,6,10,0]},{"raw":"101:5:4:11:12:6:10:0:","fields":[101,5,4,11,12,6,10,0]},{"raw":"102:5:4:11:12:6:10:0:","fields":[102,5,4,11,12,6,10,0]},{"raw":"103:5:4:11:12:6:10:0:","fields":[103,5,4,11,12,6,10,0]},{"raw":"104:5:4:11:12:6:10:0:","fields":[104,5,4,11,12,6,10,0]}],"remarks":""},{"name":"04. Purchase of Vehicle","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Venus"},{"name":"04. Purchase of Fridge","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:11:12:0:","fields":[4,3,4,11,12,0]},{"raw":"11:3:4:11:12:0:","fields":[11,3,4,11,12,0]},{"raw":"101:3:4:11:12:0:","fields":[101,3,4,11,12,0]},{"raw":"102:3:4:11:12:0:","fields":[102,3,4,11,12,0]},{"raw":"103:3:4:11:12:0:","fields":[103,3,4,11,12,0]},{"raw":"104:3:4:11:12:0:","fields":[104,3,4,11,12,0]}],"remarks":"4th sub lord should be Saturn"},{"name":"05. Sexual intercourse to conceive","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:2:5:11:0:","fields":[5,3,2,5,11,0]},{"raw":"11:3:2:5:11:0:","fields":[11,3,2,5,11,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter. This is valid only if couple are medically fit."},{"name":"05. Propose Marriage for a Girl/Boy","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Venus."},{"name":"05. Partnership in Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:11:2:7:0:","fields":[5,3,11,2,7,0]},{"raw":"11:3:11:2:7:0:","fields":[11,3,11,2,7,0]},{"raw":"101:3:2:5:11:0:","fields":[101,3,2,5,11,0]},{"raw":"102:3:2:5:11:0:","fields":[102,3,2,5,11,0]},{"raw":"103:3:2:5:11:0:","fields":[103,3,2,5,11,0]},{"raw":"104:3:2:5:11:0:","fields":[104,3,2,5,11,0]}],"remarks":"Best when 5th sub lord is Jupiter."},{"name":"05. Speculative gain in Stock Market","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"05. Gambling ( Horse Race/Car Race,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:8:6:2:1:12:","fields":[5,3,8,6,2,1,12]},{"raw":"11:3:8:6:2:1:12:","fields":[11,3,8,6,2,1,12]},{"raw":"101:3:8:6:2:0:","fields":[101,3,8,6,2,0]},{"raw":"102:3:8:6:2:0:","fields":[102,3,8,6,2,0]},{"raw":"103:3:8:6:2:0:","fields":[103,3,8,6,2,0]},{"raw":"104:3:8:6:2:0:","fields":[104,3,8,6,2,0]}],"remarks":"5 and 11 CSL should not have any connection with 12"},{"name":"05. Lanuch oneself as Cinema Actor","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:5:10:11:7:0:","fields":[5,4,5,10,11,7,0]},{"raw":"11:4:5:10:11:7:0:","fields":[11,4,5,10,11,7,0]},{"raw":"101:4:5:10:11:7:0:","fields":[101,4,5,10,11,7,0]},{"raw":"102:4:5:10:11:7:0:","fields":[102,4,5,10,11,7,0]},{"raw":"103:4:5:10:11:7:0:","fields":[103,4,5,10,11,7,0]},{"raw":"104:4:5:10:11:7:0:","fields":[104,4,5,10,11,7,0]}],"remarks":"5 CSL MUST be Venus."},{"name":"05. Upanayan Sanskar ( Sacred Thread Cermony)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:3:5:11:0:","fields":[5,3,3,5,11,0]},{"raw":"11:3:3:5:11:0:","fields":[11,3,3,5,11,0]},{"raw":"101:3:3:5:11:0:","fields":[101,3,3,5,11,0]},{"raw":"102:3:3:5:11:0:","fields":[102,3,3,5,11,0]},{"raw":"103:3:3:5:11:0:","fields":[103,3,3,5,11,0]},{"raw":"104:3:3:5:11:0:","fields":[104,3,3,5,11,0]}],"remarks":"5 CSL should be Jupiter."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:6:5:9:10:11:2:7:0:","fields":[5,6,5,9,10,11,2,7,0]},{"raw":"9:6:5:9:10:11:2:7:0:","fields":[9,6,5,9,10,11,2,7,0]},{"raw":"11:6:5:9:10:11:2:7:0:","fields":[11,6,5,9,10,11,2,7,0]},{"raw":"101:6:5:9:10:11:2:7:0:","fields":[101,6,5,9,10,11,2,7,0]},{"raw":"102:6:5:9:10:11:2:7:0:","fields":[102,6,5,9,10,11,2,7,0]},{"raw":"103:6:5:9:10:11:2:7:0:","fields":[103,6,5,9,10,11,2,7,0]},{"raw":"104:6:5:9:10:11:2:7:0:","fields":[104,6,5,9,10,11,2,7,0]}],"remarks":"5 CSL MUST be Jupiter or Saturn or Mercury. 9 CSL Should be Jupiter or Saturn or Mercury."},{"name":"05. Start Work as Professional Astrologer","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:3:5:11:4:0:","fields":[5,4,3,5,11,4,0]},{"raw":"11:4:3:5:11:4:0:","fields":[11,4,3,5,11,4,0]},{"raw":"101:4:3:5:11:4:0:","fields":[101,4,3,5,11,4,0]},{"raw":"102:4:3:5:11:4:0:","fields":[102,4,3,5,11,4,0]},{"raw":"103:4:3:5:11:4:0:","fields":[103,4,3,5,11,4,0]},{"raw":"104:4:3:5:11:4:0:","fields":[104,4,3,5,11,4,0]}],"remarks":""},{"name":"05. Start Treatment for Addiction (Alcohal/Drug/Tobaco,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:3:1:5:11:0:","fields":[5,3,1,5,11,0]},{"raw":"11:3:1:5:11:0:","fields":[11,3,1,5,11,0]},{"raw":"101:3:1:5:11:0:","fields":[101,3,1,5,11,0]},{"raw":"102:3:1:5:11:0:","fields":[102,3,1,5,11,0]},{"raw":"103:3:1:5:11:0:","fields":[103,3,1,5,11,0]},{"raw":"104:3:1:5:11:0:","fields":[104,3,1,5,11,0]}],"remarks":""},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"06. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:6:11:0:","fields":[6,3,2,6,11,0]},{"raw":"8:3:2:6:11:0:","fields":[8,3,2,6,11,0]},{"raw":"11:3:2:6:11:0:","fields":[11,3,2,6,11,0]},{"raw":"101:3:2:6:11:0:","fields":[101,3,2,6,11,0]},{"raw":"102:3:2:6:11:0:","fields":[102,3,2,6,11,0]},{"raw":"103:3:2:6:11:0:","fields":[103,3,2,6,11,0]},{"raw":"104:3:2:6:11:0:","fields":[104,3,2,6,11,0]}],"remarks":""},{"name":"06. Application for Overdraft facility/Loan from Bank","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:4:2:6:10:11:0:","fields":[6,4,2,6,10,11,0]},{"raw":"8:4:2:6:10:11:0:","fields":[8,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"06. Election/Litigation/Sports","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:1:6:11:0:","fields":[6,3,1,6,11,0]},{"raw":"11:3:1:6:11:0:","fields":[11,3,1,6,11,0]},{"raw":"101:3:1:6:11:0:","fields":[101,3,1,6,11,0]},{"raw":"102:3:1:6:11:0:","fields":[102,3,1,6,11,0]},{"raw":"103:3:1:6:11:0:","fields":[103,3,1,6,11,0]},{"raw":"104:3:1:6:11:0:","fields":[104,3,1,6,11,0]}],"remarks":""},{"name":"06. Advertisement for Getting Tenant","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:4:11:0:","fields":[6,2,4,11,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:2:4:11:0:","fields":[101,2,4,11,0]},{"raw":"102:2:4:11:0:","fields":[102,2,4,11,0]},{"raw":"103:2:4:11:0:","fields":[103,2,4,11,0]},{"raw":"104:2:4:11:0:","fields":[104,2,4,11,0]}],"remarks":""},{"name":"06. Adopting a Child","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:2:6:10:0:","fields":[6,2,6,10,0]},{"raw":"2:2:6:10:0:","fields":[2,2,6,10,0]},{"raw":"5:2:6:10:0:","fields":[5,2,6,10,0]},{"raw":"11:2:4:11:0:","fields":[11,2,4,11,0]},{"raw":"101:5:2:4:8:6:10:0:","fields":[101,5,2,4,8,6,10,0]},{"raw":"102:5:2:4:8:6:10:0:","fields":[102,5,2,4,8,6,10,0]},{"raw":"103:5:2:4:8:6:10:0:","fields":[103,5,2,4,8,6,10,0]},{"raw":"104:5:2:4:8:6:10:0:","fields":[104,5,2,4,8,6,10,0]}],"remarks":"DBAS should signify 2, 4, 8. If DBAS also signifies 6 and 10 will be good."},{"name":"06. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"07. Marriage / Re-union with Partner","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"11:3:2:7:11:3:1:6:10:","fields":[11,3,2,7,11,3,1,6,10]},{"raw":"2:3:2:7:11:3:1:6:10:","fields":[2,3,2,7,11,3,1,6,10]},{"raw":"101:3:2:7:11:3:1:6:10:","fields":[101,3,2,7,11,3,1,6,10]},{"raw":"102:3:2:7:11:3:1:6:10:","fields":[102,3,2,7,11,3,1,6,10]},{"raw":"103:3:2:7:11:3:1:6:10:","fields":[103,3,2,7,11,3,1,6,10]},{"raw":"104:3:2:7:11:3:2:6:10:","fields":[104,3,2,7,11,3,2,6,10]}],"remarks":"Verify Multiple marriages (7 CSL's Star lord Me; 2 CSL related to 2; 9th CSL related to 2)"},{"name":"07. Business Partnership","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"7:3:7:7:11:2:5:10:","fields":[7,3,7,7,11,2,5,10]},{"raw":"11:3:7:7:11:2:5:10:","fields":[11,3,7,7,11,2,5,10]},{"raw":"101:3:6:7:11:2:5:10:","fields":[101,3,6,7,11,2,5,10]},{"raw":"102:3:6:7:11:2:5:10:","fields":[102,3,6,7,11,2,5,10]},{"raw":"103:3:6:7:11:2:5:10:","fields":[103,3,6,7,11,2,5,10]},{"raw":"104:3:6:7:11:2:5:10:","fields":[104,3,6,7,11,2,5,10]}],"remarks":""},{"name":"08. Apply for Gratuity/Insurance/Will","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:5:8:2:6:11:5:0:","fields":[8,5,8,2,6,11,5,0]},{"raw":"11:5:8:2:6:11:5:0:","fields":[11,5,8,2,6,11,5,0]},{"raw":"101:5:8:2:6:11:5:0:","fields":[101,5,8,2,6,11,5,0]},{"raw":"102:5:8:2:6:11:5:0:","fields":[102,5,8,2,6,11,5,0]},{"raw":"103:5:8:2:6:11:5:0:","fields":[103,5,8,2,6,11,5,0]},{"raw":"104:5:8:2:6:11:5:0:","fields":[104,5,8,2,6,11,5,0]}],"remarks":""},{"name":"08. Asking for Financial Help from a Friend","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:4:8:5:6:12:0:","fields":[8,4,8,5,6,12,0]},{"raw":"11:4:8:5:6:12:0:","fields":[11,4,8,5,6,12,0]},{"raw":"101:4:8:5:6:12:0:","fields":[101,4,8,5,6,12,0]},{"raw":"102:4:8:5:6:12:0:","fields":[102,4,8,5,6,12,0]},{"raw":"103:4:8:5:6:12:0:","fields":[103,4,8,5,6,12,0]},{"raw":"104:4:8:5:6:12:0:","fields":[104,4,8,5,6,12,0]}],"remarks":""},{"name":"08. Going Abroad for Higher Studies","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"8:3:5:8:11:0:","fields":[8,3,5,8,11,0]},{"raw":"5:3:5:8:11:0:","fields":[5,3,5,8,11,0]},{"raw":"11:3:5:8:11:0:","fields":[11,3,5,8,11,0]},{"raw":"101:3:5:8:11:0:","fields":[101,3,5,8,11,0]},{"raw":"102:3:5:8:11:0:","fields":[102,3,5,8,11,0]},{"raw":"103:3:5:8:11:0:","fields":[103,3,5,8,11,0]},{"raw":"104:3:5:8:11:0:","fields":[104,3,5,8,11,0]}],"remarks":""},{"name":"09. Higher Education (Master, Ph.D, IAS, ...)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"4:3:4:9:11:0:","fields":[4,3,4,9,11,0]},{"raw":"9:3:4:9:11:0:","fields":[9,3,4,9,11,0]},{"raw":"11:3:4:9:11:0:","fields":[11,3,4,9,11,0]},{"raw":"101:3:4:9:11:0:","fields":[101,3,4,9,11,0]},{"raw":"102:3:4:9:11:0:","fields":[102,3,4,9,11,0]},{"raw":"103:3:4:9:11:0:","fields":[103,3,4,9,11,0]},{"raw":"104:3:4:9:11:0:","fields":[104,3,4,9,11,0]}],"remarks":"4th sub lord should be Ju or Me; 9th sub lord should be Ju or Me; 11th sub lord should be Ju or Me"},{"name":"09. Going Abroad","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"09. Start Tour for Pilgrimage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:3:9:10:0:","fields":[9,3,3,9,10,0]},{"raw":"10:3:3:9:10:0:","fields":[10,3,3,9,10,0]},{"raw":"11:3:3:9:10:0:","fields":[11,3,3,9,10,0]},{"raw":"101:3:3:9:10:0:","fields":[101,3,3,9,10,0]},{"raw":"102:3:3:9:10:0:","fields":[102,3,3,9,10,0]},{"raw":"103:3:3:9:10:0:","fields":[103,3,3,9,10,0]},{"raw":"104:3:3:9:10:0:","fields":[104,3,3,9,10,0]}],"remarks":""},{"name":"09. Second Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:2:7:11:0:","fields":[2,2,7,11,0]},{"raw":"11:2:7:11:0:","fields":[11,2,7,11,0]},{"raw":"9:3:2:9:11:0:","fields":[9,3,2,9,11,0]},{"raw":"101:3:7:9:11:0:","fields":[101,3,7,9,11,0]},{"raw":"102:3:7:9:11:0:","fields":[102,3,7,9,11,0]},{"raw":"103:3:7:9:11:0:","fields":[103,3,7,9,11,0]},{"raw":"104:3:7:9:11:0:","fields":[104,3,7,9,11,0]}],"remarks":"2nd Sub lord MUST signify 7"},{"name":"09. Start Spiritual Life & Divine Worship","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:1:5:9:11:12:0:","fields":[9,5,1,5,9,11,12,0]},{"raw":"11:5:1:5:9:11:12:0:","fields":[11,5,1,5,9,11,12,0]},{"raw":"101:5:1:5:9:11:12:0:","fields":[101,5,1,5,9,11,12,0]},{"raw":"102:5:1:5:9:11:12:0:","fields":[102,5,1,5,9,11,12,0]},{"raw":"103:5:1:5:9:11:12:0:","fields":[103,5,1,5,9,11,12,0]},{"raw":"104:5:1:5:9:11:12:0:","fields":[104,5,1,5,9,11,12,0]}],"remarks":"9th CSL should be Saturn"},{"name":"09. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"09. Start Research Group/ Internet Research group","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:4:9:11:6:12:0:","fields":[9,4,9,11,6,12,0]},{"raw":"11:4:9:11:6:12:0:","fields":[11,4,9,11,6,12,0]},{"raw":"101:4:9:11:6:12:0:","fields":[101,4,9,11,6,12,0]},{"raw":"102:4:9:11:6:12:0:","fields":[102,4,9,11,6,12,0]},{"raw":"103:4:9:11:6:12:0:","fields":[103,4,9,11,6,12,0]},{"raw":"104:4:9:11:6:12:0:","fields":[104,4,9,11,6,12,0]}],"remarks":"9th CSL should be Saturn."},{"name":"09. Take Possession of Inheritance of Large Property","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:2:2:11:0:","fields":[9,2,2,11,0]},{"raw":"11:2:2:11:0:","fields":[11,2,2,11,0]},{"raw":"101:3:2:11:9:0:","fields":[101,3,2,11,9,0]},{"raw":"102:3:2:11:9:0:","fields":[102,3,2,11,9,0]},{"raw":"103:3:2:11:9:0:","fields":[103,3,2,11,9,0]},{"raw":"104:3:2:11:9:0:","fields":[104,3,2,11,9,0]}],"remarks":""},{"name":"09. Going Abroad for Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:3:6:9:12:0:","fields":[9,3,6,9,12,0]},{"raw":"6:3:6:9:12:0:","fields":[6,3,6,9,12,0]},{"raw":"11:3:6:9:12:0:","fields":[11,3,6,9,12,0]},{"raw":"101:3:6:9:12:0:","fields":[101,3,6,9,12,0]},{"raw":"102:3:6:9:12:0:","fields":[102,3,6,9,12,0]},{"raw":"103:3:6:9:12:0:","fields":[103,3,6,9,12,0]},{"raw":"104:3:6:9:12:0:","fields":[104,3,6,9,12,0]}],"remarks":""},{"name":"10. Start New Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"10. Popularity/Success in Politics","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"9:5:9:10:11:2:6:0:","fields":[9,5,9,10,11,2,6,0]},{"raw":"10:5:9:10:11:2:6:0:","fields":[10,5,9,10,11,2,6,0]},{"raw":"11:5:9:10:11:2:6:0:","fields":[11,5,9,10,11,2,6,0]},{"raw":"101:5:9:10:11:2:6:0:","fields":[101,5,9,10,11,2,6,0]},{"raw":"102:5:9:10:11:2:6:0:","fields":[102,5,9,10,11,2,6,0]},{"raw":"103:5:9:10:11:2:6:0:","fields":[103,5,9,10,11,2,6,0]},{"raw":"104:5:9:10:11:2:6:0:","fields":[104,5,9,10,11,2,6,0]}],"remarks":"9th and 10th CSL should be Saturn or Mars."},{"name":"10. Joining in Job/Service","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"6th CSL should be Saturn."},{"name":"10. For Getting Promotion","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":"10th CSL Should signify (2,6) or (6,10) or (2,6,10) or (10,11) or (6,11) or (2,10,11) or (6,10,11)."},{"name":"10. Apply for Getting an Award/Prize","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"10:4:10:11:6:2:0:","fields":[10,4,10,11,6,2,0]},{"raw":"11:4:10:11:6:2:0:","fields":[11,4,10,11,6,2,0]},{"raw":"101:4:10:11:6:2:0:","fields":[101,4,10,11,6,2,0]},{"raw":"102:4:10:11:6:2:0:","fields":[102,4,10,11,6,2,0]},{"raw":"103:4:10:11:6:2:0:","fields":[103,4,10,11,6,2,0]},{"raw":"104:4:10:11:6:2:0:","fields":[104,4,10,11,6,2,0]}],"remarks":"Use 2 as Significator of DBAS or Cusp only if Monetary gain."},{"name":"10. Starting Independent Business","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:1:2:7:10:0:","fields":[2,4,1,2,7,10,0]},{"raw":"11:4:1:2:7:10:0:","fields":[11,4,1,2,7,10,0]},{"raw":"10:4:1:2:7:10:0:","fields":[10,4,1,2,7,10,0]},{"raw":"101:4:2:7:10:11:0:","fields":[101,4,2,7,10,11,0]},{"raw":"102:4:2:7:10:11:0:","fields":[102,4,2,7,10,11,0]},{"raw":"103:4:2:7:10:11:0:","fields":[103,4,2,7,10,11,0]},{"raw":"104:4:2:7:10:11:0:","fields":[104,4,2,7,10,11,0]}],"remarks":""},{"name":"10. Start Stock Market Business","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"5:4:2:5:6:11:2:8:12:","fields":[5,4,2,5,6,11,2,8,12]},{"raw":"11:4:2:5:6:11:2:8:12:","fields":[11,4,2,5,6,11,2,8,12]},{"raw":"101:4:2:5:6:11:0:","fields":[101,4,2,5,6,11,0]},{"raw":"102:4:2:5:6:11:0:","fields":[102,4,2,5,6,11,0]},{"raw":"103:4:2:5:6:11:0:","fields":[103,4,2,5,6,11,0]},{"raw":"104:4:2:5:6:11:0:","fields":[104,4,2,5,6,11,0]}],"remarks":"5 and 11 CSL should not have any connection with 8 and 12"},{"name":"10. Launch new Product","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"2:4:2:6:10:11:0:","fields":[2,4,2,6,10,11,0]},{"raw":"10:4:2:6:10:11:0:","fields":[10,4,2,6,10,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"11. Apply for Green Card","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"1:2:1:11:0:","fields":[1,2,1,11,0]},{"raw":"11:2:1:11:0:","fields":[11,2,1,11,0]},{"raw":"101:2:1:11:0:","fields":[101,2,1,11,0]},{"raw":"102:2:1:11:0:","fields":[102,2,1,11,0]},{"raw":"103:2:1:11:0:","fields":[103,2,1,11,0]},{"raw":"104:2:1:11:0:","fields":[104,2,1,11,0]}],"remarks":""},{"name":"11. Matrimonial Advertisement","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:3:3:9:11:0:","fields":[11,3,3,9,11,0]},{"raw":"7:3:2:7:11:3:1:6:10:","fields":[7,3,2,7,11,3,1,6,10]},{"raw":"101:3:3:9:11:0:","fields":[101,3,3,9,11,0]},{"raw":"102:3:3:9:11:0:","fields":[102,3,3,9,11,0]},{"raw":"103:3:3:9:11:0:","fields":[103,3,3,9,11,0]},{"raw":"104:3:3:9:11:0:","fields":[104,3,3,9,11,0]}],"remarks":"Success and Marriage related tests"},{"name":"11. Factory Opening","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"11:4:2:6:10:11:0:","fields":[11,4,2,6,10,11,0]},{"raw":"2:3:2:6:11:0:","fields":[2,3,2,6,11,0]},{"raw":"10:3:2:10:11:0:","fields":[10,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""},{"name":"12. Migrating to a Foreign Country","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:9:3:12:0:","fields":[12,3,9,3,12,0]},{"raw":"1:3:9:3:12:0:","fields":[1,3,9,3,12,0]},{"raw":"101:3:9:3:12:0:","fields":[101,3,9,3,12,0]},{"raw":"102:3:9:3:12:0:","fields":[102,3,9,3,12,0]},{"raw":"103:3:9:3:12:0:","fields":[103,3,9,3,12,0]},{"raw":"104:3:9:3:12:0:","fields":[104,3,9,3,12,0]}],"remarks":"For ASC sub lord Analysis, do not consider 9th Bhava if Lagna rasi is Dual sign"},{"name":"12. Permanent Return to Motherland","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:8:11:4:1:3:7:10:","fields":[12,4,2,4,8,11,4,1,3,7,10]},{"raw":"11:4:2:4:8:11:4:1:3:7:10:","fields":[11,4,2,4,8,11,4,1,3,7,10]},{"raw":"101:4:2:4:8:11:4:1:3:7:10:","fields":[101,4,2,4,8,11,4,1,3,7,10]},{"raw":"102:4:2:4:8:11:4:1:3:7:10:","fields":[102,4,2,4,8,11,4,1,3,7,10]},{"raw":"103:4:2:4:8:11:4:1:3:7:10:","fields":[103,4,2,4,8,11,4,1,3,7,10]},{"raw":"104:0:0:","fields":[104,0,0]}],"remarks":""},{"name":"12. Going abroad for Marriage","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"6:3:3:6:9:0:","fields":[6,3,3,6,9,0]},{"raw":"3:3:3:6:9:0:","fields":[3,3,3,6,9,0]},{"raw":"11:3:3:6:9:0:","fields":[11,3,3,6,9,0]},{"raw":"101:3:3:6:9:0:","fields":[101,3,3,6,9,0]},{"raw":"102:3:3:6:9:0:","fields":[102,3,3,6,9,0]},{"raw":"103:3:3:6:9:0:","fields":[103,3,3,6,9,0]},{"raw":"104:3:3:6:9:0:","fields":[104,3,3,6,9,0]}],"remarks":""},{"name":"12. Take Sanyas (Renounce Worldly Pursuits)","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:3:10:12:9:0:","fields":[12,4,3,10,12,9,0]},{"raw":"9:4:3:10:12:9:0:","fields":[9,4,3,10,12,9,0]},{"raw":"11:4:3:10:12:9:0:","fields":[11,4,3,10,12,9,0]},{"raw":"101:4:3:10:12:9:0:","fields":[101,4,3,10,12,9,0]},{"raw":"102:4:3:10:12:9:0:","fields":[102,4,3,10,12,9,0]},{"raw":"103:4:3:10:12:9:0:","fields":[103,4,3,10,12,9,0]},{"raw":"104:4:3:10:12:9:0:","fields":[104,4,3,10,12,9,0]}],"remarks":"12 CSL must be Saturn or Ketu. 9 CSL must be Saturn or Ketu."},{"name":"12. Construction of religious Building (Mandir,...)","rule_count_declared":7,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:4:2:4:11:12:0:","fields":[12,4,2,4,11,12,0]},{"raw":"11:4:2:4:11:12:0:","fields":[11,4,2,4,11,12,0]},{"raw":"101:4:2:4:11:12:0:","fields":[101,4,2,4,11,12,0]},{"raw":"102:4:2:4:11:12:0:","fields":[102,4,2,4,11,12,0]},{"raw":"103:4:2:4:11:12:0:","fields":[103,4,2,4,11,12,0]},{"raw":"104:4:2:4:11:12:0:","fields":[104,4,2,4,11,12,0]}],"remarks":""},{"name":"12. Surrender to Police","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:6:11:10:0:","fields":[101,3,6,11,10,0]},{"raw":"102:3:6:11:10:0:","fields":[102,3,6,11,10,0]},{"raw":"103:3:6:11:10:0:","fields":[103,3,6,11,10,0]},{"raw":"104:3:6:11:10:0:","fields":[104,3,6,11,10,0]}],"remarks":"12 CSL Should not be Rahu. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. To return After Release on bail","rule_count_declared":6,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:0:4:2:3:8:12:0:","fields":[12,0,4,2,3,8,12,0]},{"raw":"101:3:2:4:11:0:","fields":[101,3,2,4,11,0]},{"raw":"102:3:2:4:11:0:","fields":[102,3,2,4,11,0]},{"raw":"103:3:2:4:11:0:","fields":[103,3,2,4,11,0]},{"raw":"104:3:2:4:11:0:","fields":[104,3,2,4,11,0]}],"remarks":"12 CSL Should not be Mercury. 12 CSL Should NOT signify 2, 3, 8, 12."},{"name":"12. launch of Space Shuttle","rule_count_declared":9,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"12:3:3:9:12:0:","fields":[12,3,3,9,12,0]},{"raw":"3:3:3:9:12:0:","fields":[3,3,3,9,12,0]},{"raw":"9:3:3:9:12:0:","fields":[9,3,3,9,12,0]},{"raw":"8:2:8:12:0:","fields":[8,2,8,12,0]},{"raw":"101:3:3:9:12:0:","fields":[101,3,3,9,12,0]},{"raw":"102:3:3:9:12:0:","fields":[102,3,3,9,12,0]},{"raw":"103:3:3:9:12:0:","fields":[103,3,3,9,12,0]},{"raw":"104:3:3:9:12:0:","fields":[104,3,3,9,12,0]}],"remarks":"12 CSL for good and safe Journey. 3/9 CSL for peaceful journy. use 3 for Short, 9 for Long journey"},{"name":"03. Signing / sending Application for a Job","rule_count_declared":8,"rules":[{"raw":"1:4:1:5:9:11:0:","fields":[1,4,1,5,9,11,0]},{"raw":"3:3:2:10:11:0:","fields":[3,3,2,10,11,0]},{"raw":"6:3:2:10:11:0:","fields":[6,3,2,10,11,0]},{"raw":"11:3:2:10:11:0:","fields":[11,3,2,10,11,0]},{"raw":"101:4:2:6:10:11:0:","fields":[101,4,2,6,10,11,0]},{"raw":"102:4:2:6:10:11:0:","fields":[102,4,2,6,10,11,0]},{"raw":"103:4:2:6:10:11:0:","fields":[103,4,2,6,10,11,0]},{"raw":"104:4:2:6:10:11:0:","fields":[104,4,2,6,10,11,0]}],"remarks":""}];
 $('event').innerHTML=EVENTS.map((e,i)=>`<option value="${i}">${e.name}</option>`).join('');
 let i=EVENTS.findIndex(e=>e.name.includes('Speculative gain in Stock Market'));if(i>=0)$('event').selectedIndex=i;
-$('status').textContent='Ready. Select an event, use GPS or PlaceSelect, then tap Show.';
+$('status').textContent=''; $('status').hidden=true;
 const SIGNS=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
 const RASI_LORD=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'];
 const STAR_LORDS=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'];
@@ -1189,8 +1307,8 @@ function ascKey(date,s,lat,lon,tz){
   const p=parts(v1511AscPos(date,s,lat,lon,tz));
   return [p[0],p[1],p[2],p[3]].join('|');
 }
-function transitionRows(date,from,to,lat,lon,tz,endDate){
-  return v1511TransitionRowsRange(date,from,to,lat,lon,tz,endDate);
+function transitionRows(date,from,to,lat,lon,tz){
+  return v1511TransitionRowsRange(date,from,to,lat,lon,tz);
 }
 
 // Regression fixture used only for verification. It is never used to select
@@ -1424,24 +1542,73 @@ const V1511_REASON_Y_EXAMPLES_20220410 = [
 
 
 
-function syncDashboard(){
- const val=id=>document.getElementById(id)?.value||'';
- const put=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v||'—'};
- put('dashDate',val('date')||'Choose date');
- put('dashDateRange',(val('date')||'—')+' → '+(val('todate')||val('date')||'—'));
- put('dashPlace',val('place'));
- put('dashCoords',val('lat')+' '+val('latdir')+' · '+val('lon')+' '+val('londir'));
- put('dashTimezone',val('tz')+' '+val('tzdir'));
- put('dashWindow',val('from')+'–'+val('to'));
- const ev=document.getElementById('event');put('dashEvent',ev?.selectedOptions?.[0]?.textContent||'Select event');
- const chosen=document.querySelectorAll('#chosen tr').length; if(chosen)put('dashChosen',String(chosen));
- const trans=document.querySelectorAll('#lagna tr').length;if(trans)put('dashTransitions',String(trans));
- const status=val('date')?'Inputs ready':'Waiting for date'; if(!chosen)put('dashVerify',status);
+
+function schedulePlanetName(v){
+ const names={Su:'SUN',Mo:'MOON',Ma:'MARS',Me:'MERCURY',Ju:'JUPITER',Ve:'VENUS',Sa:'SATURN',Ra:'RAHU',Ke:'KETHU',
+ Sun:'SUN',Moon:'MOON',Mars:'MARS',Mercury:'MERCURY',Jupiter:'JUPITER',Venus:'VENUS',Saturn:'SATURN',Rahu:'RAHU',Ketu:'KETHU'};
+ return names[String(v||'')]||String(v||'—').toUpperCase();
 }
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>document.querySelector('[data-t="'+b.dataset.go+'"]').click()));
-['date','todate','from','to','place','lat','latdir','lon','londir','tz','tzdir','event'].forEach(id=>document.getElementById(id)?.addEventListener('change',syncDashboard));
-new MutationObserver(()=>{syncDashboard()}).observe(document.getElementById('chosen'),{childList:true,subtree:true});
-new MutationObserver(()=>{const s=document.getElementById('status')?.textContent||'';if(s.startsWith('Calculated')){document.getElementById('dashLastRun').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});document.getElementById('dashVerify').textContent=s.includes('PASS')?'Regression PASS':'Calculated';syncDashboard()}}).observe(document.getElementById('status'),{childList:true,subtree:true,characterData:true});
+function scheduleClock(sec){
+ sec=Math.max(0,Math.floor(Number(sec)||0));
+ sec=((sec%86400)+86400)%86400;
+ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0');
+}
+function renderDailySchedule(date,from,to,lat,lon,tz,transitions,endDate){
+ const body=document.getElementById('dailyScheduleRows'), summary=document.getElementById('dailyScheduleSummary');
+ if(!body)return;
+ const fromSec=parseClockSeconds(from),toSec=parseClockSeconds(to);
+ if(endDate&&endDate!==date){
+  body.innerHTML='<tr><td colspan="5">Choose one date for this daily schedule. Multi-day Muhurat analysis remains available in the main Results view.</td></tr>';
+  if(summary)summary.textContent='Daily schedule is a single-date view.';
+  window.__dailyScheduleRows=[];return;
+ }
+ if(toSec<=fromSec){
+  body.innerHTML='<tr><td colspan="5">End time must be later than start time.</td></tr>';
+  if(summary)summary.textContent='Please choose a valid same-day time range.';
+  window.__dailyScheduleRows=[];return;
+ }
+ const points=[fromSec];
+ (transitions||[]).forEach(t=>{
+  let sec=Number(t.exactSeconds);
+  if(!Number.isFinite(sec))sec=parseClockSeconds(t.time);
+  if(Number.isFinite(sec)&&sec>fromSec+0.5&&sec<toSec-0.5)points.push(sec);
+ });
+ points.push(toSec);points.sort((a,b)=>a-b);
+ const unique=[];
+ for(const p of points)if(!unique.length||Math.abs(p-unique[unique.length-1])>0.5)unique.push(p);
+ const rows=[];
+ for(let i=0;i<unique.length-1;i++){
+  const a=unique[i],b=unique[i+1];if(b<=a)continue;
+  const mid=(a+b)/2;
+  const c=chart({date,time:timeFromSeconds(mid),tz,lat,lon});
+  const asc=c&&c.ascendant?c.ascendant:[];
+  const combo=[asc[1],asc[2],asc[3]].map(schedulePlanetName).join('/');
+  rows.push({no:rows.length+1,combination:combo,start_time:scheduleClock(a),stop_time:scheduleClock(b),
+   total_minutes:Math.max(0,Math.round((b-a)/60)),start_seconds:a,stop_seconds:b});
+ }
+ window.__dailyScheduleRows=rows;
+ body.innerHTML=rows.length?rows.map(r=>`<tr tabindex="0" role="button" aria-selected="false" title="Select this combination"><td>${r.no}</td><td>${r.combination}</td><td>${r.start_time}</td><td>${r.stop_time}</td><td>${r.total_minutes}</td></tr>`).join(''):'<tr><td colspan="5">No intervals found in the selected range.</td></tr>';
+ // Selecting any schedule row highlights that entire row in blue. Only one row stays selected.
+ const selectScheduleRow = row => {
+  body.querySelectorAll('tr.selectedScheduleRow').forEach(el=>{el.classList.remove('selectedScheduleRow');el.setAttribute('aria-selected','false');});
+  if(row && row.cells && row.cells.length===5){row.classList.add('selectedScheduleRow');row.setAttribute('aria-selected','true');}
+ };
+ body.querySelectorAll('tr[tabindex="0"]').forEach(row=>{
+  row.addEventListener('click',()=>selectScheduleRow(row));
+  row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectScheduleRow(row);}});
+ });
+ if(summary)summary.textContent=rows.length+' intervals • '+date+' • '+scheduleClock(fromSec)+'–'+scheduleClock(toSec)+'.';
+}
+function exportDailyScheduleCSV(){
+ const rows=window.__dailyScheduleRows||[];
+ if(!rows.length){alert('Calculate the daily schedule first.');return;}
+ const csv=[['No.','Combination','Start Time','Stop Time','Total Minutes'],...rows.map(r=>[r.no,r.combination,r.start_time,r.stop_time,r.total_minutes])]
+  .map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\\r\\n');
+ const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='KP_Muhurat_Daily_Schedule.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+
 async function run(){
  const coimbatoreParityActive=false;
  if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
@@ -1454,6 +1621,7 @@ async function run(){
     event=window.EVENTS[Number($('event').value)];
 
   const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
+  renderDailySchedule(date,$('from').value,$('to').value,lat,lon,tz,trsAll,endDate);
   // Settings.xml has CharaRasi=false. Original Show_Click therefore keeps
   // Lagna transitions in movable signs only when that option is enabled; by
   // default Aries/Cancer/Libra/Capricorn transitions are filtered out of the
@@ -2341,6 +2509,7 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   const host=$('selectedMuhuratChartOnly');
   if(!panel||!host||!row) return;
   panel.hidden=false;
+  const hint=$('chartTabHint'); if(hint) hint.hidden=true;
   const date=row.date||$('date').value;
   const t=row.time;
   const lat=dms($('lat').value)*($('latdir').value==='S'?-1:1);
@@ -2726,46 +2895,37 @@ function selectionLayer(a,event){
 
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with V1.5.11 native Sub-Lord Analysis (Badhaka/Maraka/Moksha) + exact-time Muhurat charts, CSL/significator evaluation and recursive Vimshottari periods. Selected-row Analysis and Chart are recalculated from the same exact timestamp.`;
-  document.querySelector('[data-t="analysis"]').click();
- }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
+   $('status').textContent=''; $('status').hidden=true;
+  document.querySelector('[data-t="results"]').click();
+ }catch(e){console.error(e);$('status').hidden=false;$('status').textContent='Calculation error: '+(e?.message||e)}
 }
 $('show').onclick=run;
-syncDashboard();setTimeout(syncDashboard,500);
 
-// 1.31 — Never leave Results/Analysis from an older date visible after the
-// user changes the event inputs. On mobile this was easy to trigger by using
-// the date picker and then opening Results without pressing Show again. The
-// stale list could therefore look like the same Muhurats were being returned
-// for multiple dates. Invalidate the old calculation immediately and run the
-// calculation again when a date/time/location/event field is committed.
+// 1.32 — Date and To date are input-only controls. Never calculate or
+// navigate when either date is selected. The user may finish both dates and
+// all other event fields, then explicitly tap Show to calculate and open Results.
 (function bindInputInvalidation(){
-  const ids=['date','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
-  let timer=null;
+  const ids=['date','todate','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
   function invalidate(){
     window.__selectionRows=[];
     window.__lastAnalyses=[];
-    const chosen=$('chosen'); if(chosen) chosen.innerHTML='<tr><td colspan=7>Inputs changed — recalculating for the selected date…</td></tr>';
+    window.__dailyScheduleRows=[];
+    const chosen=$('chosen'); if(chosen) chosen.innerHTML='<tr><td colspan=7>Inputs changed — tap Show to calculate the selected date range.</td></tr>';
     const ap=$('resultsAnalysisPanel'); if(ap) ap.hidden=true;
-    const cp=$('selectedMuhuratChartPanel'); if(cp) cp.hidden=true;
+    const cp=$('selectedMuhuratChartPanel'); if(cp) cp.hidden=true; const ch=$('chartTabHint'); if(ch) ch.hidden=false;
     const rp=$('selectedMuhuratPanel'); if(rp) rp.hidden=true;
-    const st=$('status'); if(st) st.textContent='Inputs changed. Recalculating results for '+String($('date')?.value||'selected date')+'…';
-  }
-  function changed(){
-    invalidate();
-    clearTimeout(timer);
-    timer=setTimeout(()=>run(),180);
+    const st=$('status'); if(st){st.textContent='Inputs updated. Select both dates, then tap Show to calculate.';st.hidden=false;}
   }
   ids.forEach(id=>{
     const el=$(id); if(!el) return;
-    el.addEventListener('change',changed);
+    el.addEventListener('change',invalidate);
   });
 })();
 initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.54').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=1.55').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
