@@ -1,14 +1,28 @@
-# KP Muhurat — Notes timing reference update (mobile UI)
+# KP Muhurat — Dashboard Build 2.01
 
-This package styles the existing KP Muhurat web app to match the supplied mobile screenshots: navy-blue title header, horizontal tabs, rounded white panels, pale-blue title bars, and clean full-width timing-reference cards in the Muhurtam/Notes section.
+## What changed
+- Professional blue dashboard and responsive mobile layout.
+- Preserves the live astronomy, transition calculation, native V1.5.11 analysis and live selection logic.
+- Keeps the end-date-aware transition wrapper and removes a duplicate wrapper declaration.
+- Updates the page title and service-worker registration query to 2.01; the service-worker cache is versioned `kp-muhurat-dashboard-v2-01`.
+- Adds a dedicated **10-Oct-2026 Coimbatore exact chosen-Muhurat comparison** based on the Windows V1.5.11 screenshots. It compares the live chosen rows with the reference timestamps and SnL/StL/SbL, and displays signed time differences.
+- The 10-Oct reference rows are used only by the diagnostic display. They are not used by astronomy, transition detection, event-rule evaluation, or live selection.
 
-- Seven user-supplied timing table images for 09 October 2026 are preserved unchanged and shown one per card.
-- Timing values are not retyped, rounded, or altered.
-- The reference timings remain separate from live calculation and Muhurat selection.
-- The existing tab order is Data → Results → Muhurtam → Chart → Analysis; the calculation engine and selection logic are not intentionally changed.
-- Service-worker cache name is bumped so the new styling can refresh.
+## Regression test settings
+- Date: 10-Oct-2026
+- Time range: 06:00–22:00
+- Place: Coimbatore, Tamil Nadu, India
+- Latitude: 11:00:00 N
+- Longitude: 76:58:00 E
+- Time zone: UTC+05:30
+- Event: 05. Speculative gain in Stock Market
+- Windows screenshot reference: 18 chosen Muhurats
 
-## Deploy
-Upload all files in this folder to the GitHub Pages repository root, replacing `index.html`, `sw.js`, and existing app assets, and adding the seven `reference-timings-2026-10-09-*.jpg` files. Commit/push to the branch configured for Pages. Then refresh the site; if an old page remains cached, close the installed PWA/browser tab and reopen it.
+## Verification status
+- All three inline JavaScript blocks pass `node --check`.
+- Source inspection confirms the 10-Oct reference fixture is called only by the post-calculation comparison display and does not feed the selector.
+- Full browser-based calculation and Windows parity could not be certified in this environment. After deployment, run the exact settings above and inspect the new **Exact Chosen-Muhurat Comparison** panel. It must report `EXACT MATCH` before claiming parity.
+- No blanket +1/-1 second adjustment is applied, and reference times are not injected into the live selector.
 
-This package has not been pushed to GitHub by this build process.
+## Deploy to GitHub Pages
+Upload all six files in this folder to the repository root, replacing the existing copies. Keep GitHub Pages set to `main` and `/(root)`. After deployment, reload the site; if an installed PWA shows an older build, close/reopen it or clear the site's stored data.
