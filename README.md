@@ -1,6 +1,11 @@
-# KP Muhurat — Web 2.07 Mobile Layout Build
+# KP Muhurat — Web 2.09 — Results Branding Cleanup
 
 ## UI changes
+- Removed the “♃ KP Muhurat by Kanak Bosmia” branding from the app header; the header now reads “KP Muhurat”.
+- Kept the Results time control and North/South chart-style selector intact.
+- Bumped the service-worker cache to v2-09 so installed/mobile browsers can fetch the updated shell.
+
+## Earlier UI changes
 - Main mobile tabs now follow the requested order: **Data → Results → Muhurtham → Chart → Analysis**.
 - The Data screen remains the event-input form.
 - Results shows the chosen Muhurat list.
