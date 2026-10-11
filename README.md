@@ -1,3 +1,11 @@
+# KP Muhurat — Web 2.11 — Results Controls Placement
+
+## UI changes
+- Moved the Time control and Chart Style selector directly below the Chosen Muhurats heading, above the results table.
+- Removed the helper sentence “Choose a time to refresh the chart at that exact time.”
+- Kept the existing time refresh and synchronized North/South chart-style behavior.
+- Updated the service-worker cache version to v2-11.
+
 # KP Muhurat — Web 2.09 — Results Branding Cleanup
 
 ## UI changes

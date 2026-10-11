@@ -302,7 +302,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.09</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.11</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -348,7 +348,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><small>Choose a time to refresh the chart at that exact time.</small><label for="chartStyleResults">Chart Style</label><select id="chartStyleResults"><option value="north">North</option><option value="south">South</option></select></div></div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><label for="chartStyleResults">Chart Style</label><select id="chartStyleResults"><option value="north">North</option><option value="south">South</option></select></div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
@@ -3016,7 +3016,7 @@ initEngine();
   if(styleSelect) styleSelect.addEventListener('change',()=>{syncStyle(styleSelect);redraw();});
   if(resultsStyle) resultsStyle.addEventListener('change',()=>{syncStyle(resultsStyle);redraw();});
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.07').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.11').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
