@@ -74,3 +74,11 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 ## Web 2.08 validation status
 - Inline JavaScript syntax and ZIP integrity should be checked before deployment.
 - This is a source-level selector correction based on the supplied Windows Analysis layout; exact parity still requires running the same date/time/place/event fixture in Windows and Web and comparing every selected time and SnL/StL/SbL. A browser calculation run was not available in this build environment.
+
+
+## Web 2.10 — Results view cleanup
+- Hides the “Results view” explanatory sentence.
+- Hides the “Advanced Diagnostics — V1.5.11 Reconstruction” block from the Results tab.
+- Hides the Dasa/Bhukti/Antara/Sukshma panel and its Ayanamsa/house-system/engine note from the Results tab.
+- The diagnostic markup remains in the source but is not displayed in Results, preserving existing JavaScript references and calculations.
+- Live Muhurat selection and astronomical calculation code were not changed.

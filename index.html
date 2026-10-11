@@ -293,7 +293,15 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
 @media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chartControls,.chosenTimeControl{grid-template-columns:85px minmax(0,1fr);padding:9px}.chosenTimeControl small{grid-column:1/-1}}
-</style></head><body>
+</style>
+<style id="hide-results-diagnostics-v210">
+/* Web 2.10: keep the normal Results view focused on chosen Muhurats and controls.
+   Diagnostic DOM remains in place for script compatibility, but is not displayed in Results. */
+#results .resultHint,
+#results > details.diagnosticDetails,
+#results > #dasaPanel { display: none !important; }
+</style>
+</head><body>
 <header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.09</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
@@ -401,7 +409,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
   <div class="panel"><div class="titlebar">Analysis</div><div class="wide"><table><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="detail"></tbody></table></div></div>
 </div>
 </details>
-<div class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
+<div id="dasaPanel" class="panel"><div class="titlebar">Dasa / Bhukti / Antara / Sukshma</div><div id="dasa" class="muted"></div></div></section>
 
 <section id="notes"><div class="panel"><div class="titlebar">Notes</div><textarea id="notesText" placeholder="Add your own notes here..."></textarea></div></section>
 <section id="placeSelect"><div class="panel"><h3>PlaceSelect</h3><p class="muted">Search a city/place, select the result, or enter a custom location manually. The selected location updates Place, Latitude, Longitude and Time Zone fields on Data.</p><div class="placeRow"><input id="placeSearch" placeholder="Search city or place, e.g. Pallavaram"><button class="btn" id="placeSearchBtn" type="button">Search</button></div><div id="placeResults" class="placeResults"></div><div class="customBox"><h4>Custom Location</h4><div class="grid2"><label>Place name<input id="customPlace" placeholder="My Location"></label><label>Time Zone<input id="customTz" value="05:30:00"></label></div><div class="grid2"><div><label>Latitude (decimal)<input id="customLat" inputmode="decimal" placeholder="12.9761"></label><select id="customLatDir"><option>N</option><option>S</option></select></div><div><label>Longitude (decimal)<input id="customLon" inputmode="decimal" placeholder="80.1825"></label><select id="customLonDir"><option>E</option><option>W</option></select></div></div><button class="btn" id="applyCustom" type="button">✓ Apply Custom Location</button><span class="muted">You can also enter DMS in the Data tab, for example 12:58:34 and 80:11:01.</span></div><button class="btn" id="gps2" type="button">📍 Use Current GPS Location</button></div></section>
