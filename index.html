@@ -292,7 +292,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCenter{display:none}
 #chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
-/* Web 2.14: chosen-time control shares the Chosen Muhurats header row. */
+/* Web 2.15: chosen-time control shares the Chosen Muhurats header row. */
 .chosenResultsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .chosenResultsHeader>.titlebar{flex:1;margin:0;min-width:0}
 .chosenResultsHeader .chosenTimeControl{flex:0 0 auto;margin:0}
@@ -318,7 +318,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.14</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.15</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -2977,25 +2977,27 @@ syncDashboard();setTimeout(syncDashboard,500);
 // for multiple dates. Invalidate the old calculation immediately and run the
 // calculation again when a date/time/location/event field is committed.
 (function bindInputInvalidation(){
-  const ids=['date','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
-  let timer=null;
+  // Web 2.15: input edits invalidate old output but do not calculate or
+  // navigate to Results. The user must press Show to run the chosen date/time.
+  const ids=['date','todate','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
   function invalidate(){
     window.__selectionRows=[];
     window.__lastAnalyses=[];
-    const chosen=$('chosen'); if(chosen) chosen.innerHTML='<tr><td colspan=7>Inputs changed — recalculating for the selected date…</td></tr>';
+    window.__activeMuhuratRow=null;
+    const chosen=$('chosen');
+    if(chosen) chosen.innerHTML='<tr><td colspan="7">Inputs changed — press Show to calculate results.</td></tr>';
     const ap=$('resultsAnalysisPanel'); if(ap) ap.hidden=true;
     const cp=$('selectedMuhuratChartPanel'); if(cp) cp.hidden=true;
     const rp=$('selectedMuhuratPanel'); if(rp) rp.hidden=true;
-    const st=$('status'); if(st) st.textContent='Inputs changed. Recalculating results for '+String($('date')?.value||'selected date')+'…';
-  }
-  function changed(){
-    invalidate();
-    clearTimeout(timer);
-    timer=setTimeout(()=>run(),180);
+    const st=$('status'); if(st) st.textContent='Inputs changed. Press Show to calculate results for '+String($('date')?.value||'selected date')+' → '+String($('todate')?.value||$('date')?.value||'selected date')+'.';
+    // Keep the user on Data while editing; never trigger run() here.
   }
   ids.forEach(id=>{
     const el=$(id); if(!el) return;
-    el.addEventListener('change',changed);
+    el.addEventListener('change',invalidate);
+    if(id==='date'||id==='todate'||id==='from'||id==='to'){
+      el.addEventListener('input',invalidate);
+    }
   });
 })();
 initEngine();
@@ -3004,53 +3006,51 @@ initEngine();
 (function(){
   
 // Web 2.12: compact railway-time control; chart is always South Indian style.
-(function bindChartControls206(){
+(function bindChartControls215(){
   const timeInput=$('chosenChartTime');
-  const styleSelect=null;
-  const resultsStyle=null;
-  function activeRow(){return window.__activeMuhuratRow || (window.__selectionRows||[]).find(r=>r.selection?.pass) || null;}
-  function syncStyle(source){
-    const value='south';
-    if(styleSelect && styleSelect!==source) styleSelect.value=value;
-    if(resultsStyle && resultsStyle!==source) resultsStyle.value=value;
-  }
-  function redraw(){
-    const r=activeRow(); if(!r) return;
-    renderResultsAnalysis(r);
-    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');
-    if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
+  function activeRow(){
+    return window.__activeMuhuratRow ||
+      (window.__selectionRows||[]).find(r=>r.selection?.pass) || null;
   }
   function refreshAtTime(value){
-    const base=activeRow();
-    if(!base||!timeInput) return;
+    if(!timeInput) return;
     const t=String(value||'').trim();
-    // Require a complete 24-hour railway time; don't calculate from a
-    // partially typed or invalid value.
     if(!/^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(t)){
       timeInput.setCustomValidity('Enter time as HH:MM:SS, for example 16:18:22.');
       timeInput.reportValidity();
       return;
     }
     timeInput.setCustomValidity('');
-    const row={...base,time:t,date:base.date||$('date').value};
+    const base=activeRow();
+    if(!base){
+      const status=$('status');
+      if(status) status.textContent='No calculated Muhurat is available. Set the date/time in Data and press Show first.';
+      return;
+    }
+    // Clone the chosen row with the user-entered time. Recalculate the chart,
+    // planetary periods and Analysis at this exact date/time.
+    const row={...base,date:base.date||$('date').value,time:t};
     window.__activeMuhuratRow=row;
     renderResultsAnalysis(row);
     const analysisPanel=$('resultsAnalysisPanel');
     if(analysisPanel){analysisPanel.hidden=false;analysisPanel.style.display='block';}
-    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');
-    if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
+    const src=$('selectedMuhuratChartOnly');
+    const chartTab=$('chartTabContent');
+    if(src&&chartTab&&src.innerHTML.trim()) chartTab.innerHTML=src.innerHTML;
+    const status=$('status');
+    if(status) status.textContent='Analysis and chart refreshed for '+row.date+' '+t+'.';
   }
   if(timeInput){
     timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));
     timeInput.addEventListener('keydown',ev=>{
       if(ev.key==='Enter'){ev.preventDefault();refreshAtTime(timeInput.value);timeInput.blur();}
     });
-    timeInput.addEventListener('blur',()=>{if(timeInput.value.trim())refreshAtTime(timeInput.value);});
+    timeInput.addEventListener('blur',()=>{
+      if(timeInput.value.trim()) refreshAtTime(timeInput.value);
+    });
   }
-  if(styleSelect) styleSelect.addEventListener('change',()=>{syncStyle(styleSelect);redraw();});
-  if(resultsStyle) resultsStyle.addEventListener('change',()=>{syncStyle(resultsStyle);redraw();});
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.14').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.15').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){

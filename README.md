@@ -123,3 +123,10 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Fixed the time-validation regular expression so valid 24-hour `HH:MM:SS` values such as `12:40:41` are accepted.
 - Changing the Chosen Muhurats time refreshes the Analysis panel and chart at that exact entered time.
 - No Muhurat-selection or astronomical calculation logic intentionally changed.
+
+
+## Web 2.15 — Explicit Show workflow and Analysis refresh
+- Editing Date, To date, From time, To time, place, coordinates, timezone or event now invalidates stale output but does not auto-run or navigate to Results.
+- Press Show to calculate and display Results for the chosen date/date range and time range.
+- Changing the chosen HH:MM:SS time recalculates Analysis and the chart at that exact time.
+- No Muhurat selection or astronomical calculation logic intentionally changed.
