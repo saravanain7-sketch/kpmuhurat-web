@@ -1,4 +1,4 @@
-# KP Muhurat — Web 2.06 Mobile Layout Build
+# KP Muhurat — Web 2.07 Mobile Layout Build
 
 ## UI changes
 - Main mobile tabs now follow the requested order: **Data → Results → Muhurtham → Chart → Analysis**.
@@ -50,3 +50,22 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - North Indian mode changes house placement to house-based positions and adds diagonal chart lines; South Indian mode retains the fixed-sign layout.
 - Updated service-worker cache to v2-06.
 - These are display/selected-instant controls; they do not insert reference timestamps into live Muhurat selection or change transition-selection rules.
+
+
+## Web 2.07 — Windows-style Results controls
+- Added a Chart Style selector (North / South) directly below the selected-time control under Chosen Muhurats, matching the Windows V1.5.11 workflow.
+- Kept the Chart tab selector; both selectors stay synchronized, so the style can be changed from either place.
+- Updated the service-worker cache version to v2-07.
+- These are UI-only changes; no astronomical calculations, transition timestamps, live selection rules, or reference fixtures were changed.
+
+
+## Web 2.08 — Event-05 selection parity correction
+- Updated the live Event-05 selector path (including the final Chosen Muhurats filter) to require positive-house support for each of the seven native event rows (Objects 1, 5, 11, Dasa, Bhukti, Antara and Sukshma) **and** a clear native Badhaka/Maraka gate.
+- A negative-house hit remains visible in the Y/P/N analysis; it is not independently used as a rejection condition, consistent with supplied Windows rows that are accepted while showing labels such as PY.
+- Rejection reasons now identify whether the native B/M gate or a required positive-rule row failed.
+- Other event types retain the existing Badhaka/Maraka selector.
+- No stored Windows timestamps are inserted into the live candidate stream. No global +/-1-second adjustment was added.
+
+## Web 2.08 validation status
+- Inline JavaScript syntax and ZIP integrity should be checked before deployment.
+- This is a source-level selector correction based on the supplied Windows Analysis layout; exact parity still requires running the same date/time/place/event fixture in Windows and Web and comparing every selected time and SnL/StL/SbL. A browser calculation run was not available in this build environment.

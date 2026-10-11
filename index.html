@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.06 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.08 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -286,7 +286,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 
 
 .chartControls,.chosenTimeControl{margin-top:12px;padding:12px;background:#eaf6fc;border:1px solid #b7d3df;border-radius:6px;display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px;align-items:center}
-.chartControls label,.chosenTimeControl label{font-size:15px;margin:0;color:#23465a}.chosenTimeControl small{grid-column:2;color:#61727a;font-size:12px}.chartControls select,.chosenTimeControl input{min-width:0;font-size:16px;padding:10px;border-radius:6px}
+.chartControls label,.chosenTimeControl label{font-size:15px;margin:0;color:#23465a}.chosenTimeControl small{grid-column:2;color:#61727a;font-size:12px}.chartControls select,.chosenTimeControl input,.chosenTimeControl select{min-width:0;font-size:16px;padding:10px;border-radius:6px;width:100%;box-sizing:border-box}
 #chartTabContent .windowsChart.northChart{position:relative;grid-template-rows:repeat(4,118px);background:#b9cbe1}
 #chartTabContent .windowsChart.northChart:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(45deg,transparent calc(50% - 1px),#607d8b 50%,transparent calc(50% + 1px)),linear-gradient(-45deg,transparent calc(50% - 1px),#607d8b 50%,transparent calc(50% + 1px));}
 #chartTabContent .windowsChart.northChart .windowsCenter{display:none}
@@ -294,7 +294,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
 @media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chartControls,.chosenTimeControl{grid-template-columns:85px minmax(0,1fr);padding:9px}.chosenTimeControl small{grid-column:1/-1}}
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.05</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.08</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -335,12 +335,12 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="muhurtham"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Muhurtham Schedule</div><div class="wide scheduleWide"><table id="muhurthamScheduleTable"><thead><tr><th>No.</th><th>Combination</th><th>Start Time</th><th>Stop Time</th><th>Total Minutes</th></tr></thead><tbody id="muhurthamScheduleRows"><tr><td colspan="5">Enter the event details and tap Show to generate the schedule.</td></tr></tbody></table></div><div id="muhurthamScheduleSummary" class="status" style="margin-top:12px">No schedule calculated yet.</div></div></section>
-<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div class="chartControls"><label for="chartStyle">Chart Style</label><select id="chartStyle"><option value="south">South Indian</option><option value="north">North Indian</option></select></div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
+<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div class="chartControls"><label for="chartStyle">Chart Style</label><select id="chartStyle"><option value="north">North Indian</option><option value="south">South Indian</option></select></div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><small>Choose a time to refresh the chart at that exact time.</small></div></div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><small>Choose a time to refresh the chart at that exact time.</small><label for="chartStyleResults">Chart Style</label><select id="chartStyleResults"><option value="north">North</option><option value="south">South</option></select></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
@@ -371,7 +371,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 2.05 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 2.08 applies the Event-05 positive-rule gate together with the native B/M gate; stored regression rows remain validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Exact Chosen-Muhurat Comparison — 10-Oct-2026</div><div class="muted">Compares the current live chosen list with the Windows V1.5.11 screenshot for Coimbatore, 06:00–22:00, Event 05. Reference rows are diagnostics only and never feed the selector.</div><div id="coimbatore20261010Parity" class="status">Run Show with the matching 10-Oct-2026 settings to compare exact timestamps and SnL/StL/SbL.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
@@ -2751,9 +2751,13 @@ function bindMuhuratRowClicks(){
 }
 
 function v1511EventSelectionDecision(a,event){
-  // Web 1.51: preserve the complete Event-05 rule stream for the detailed
-  // analysis, but use the original V1.5.11 automatic Muhurat-selection gate:
-  // only Lagna Sub-levels with no Badhaka/Maraka connection are selected.
+  // Web 2.08 parity correction: evaluate the live Event-05 rule stream as part
+  // of selection, instead of allowing the Badhaka/Maraka result alone to accept
+  // every candidate. The Windows screenshots show accepted rows with PY/YP
+  // labels, so a negative-house hit is displayed as analysis evidence; it is
+  // not treated as an automatic rejection here. Each required rule must have
+  // at least one positive-house hit, and the native B/M gate must also pass.
+  // No reference timestamp participates in this decision.
   const rules=(a.rules||[]);
   const requiredCodes=new Set([1,5,11,101,102,103,104]);
   const required=rules.filter(r=>requiredCodes.has(Number(r.obj)));
@@ -2763,40 +2767,45 @@ function v1511EventSelectionDecision(a,event){
   const allPositive=required.length===requiredCodes.size && required.every(r=>r.posAny);
   const bmm=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
   const failed=positiveStates.filter(x=>!x.pass).map(x=>x.obj);
-  // Original V1.5.11 Results selection: automatic Muhurat marking is based on
-  // the Lagna Sub-level analysis; a candidate is selectable only when there
-  // is no Badhaka or Maraka connection. The Event-05 +H/-H rules belong to
-  // the later event-specific cusp/period analysis.
-  const pass=bmm.pass;
+  const isEvent05=String(event?.name||'').trim()==='05. Speculative gain in Stock Market';
+  const eventGatePass=!isEvent05 || allPositive;
+  const pass=bmm.pass && eventGatePass;
+  let reason;
+  if(!bmm.pass) reason=`V1.5.11 Muhurat rejected: Badhaka/Maraka connection detected (${bmm.neg.length ? bmm.neg.join(', ') : 'B/M'}).`;
+  else if(!eventGatePass) reason=`Event 05 rejected: no positive-house hit for required rule${failed.length===1?'':'s'} ${failed.join(', ')||missing.join(', ')}.`;
+  else reason=isEvent05
+    ? 'V1.5.11 candidate passed Event 05 positive-rule checks and the Badhaka/Maraka gate.'
+    : 'V1.5.11 Muhurat selection: no Badhaka/Maraka connection.';
   return {
     pass,bmm,primary,required,positiveStates,allPositive,missing,failed,
     positivePass:primary?primary.posAny:false,
     noLossPass:primary?primary.noLoss:false,
-    reason:pass
-      ? 'V1.5.11 Muhurat selection: no Badhaka/Maraka connection.'
-      : `V1.5.11 Muhurat rejected: Badhaka/Maraka connection detected (${bmm.neg.length ? bmm.neg.join(', ') : 'B/M'}).`
+    eventGatePass,reason
   };
 }
 
 function selectionLayer(a,event){
-  const o=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
+  // Use the same decision object for the displayed Y/N result and the actual
+  // Chosen Muhurats list; previously this second path bypassed Event-05 checks.
+  const decision=v1511EventSelectionDecision(a,event);
+  const o=decision.bmm;
   const chain=basicReasonChain(a);
   return {
     sbl:a.chart.ascendant[3],snl:a.chart.ascendant[1],stl:a.chart.ascendant[2],lagnaSign:a.chart.ascendant[0],
     lagnaH:significators(a.chart.ascendant[1],a.chart),
     fifthLayer:null,eleventhLayer:null,fifthEval:null,eleventhEval:null,
     fifthPass:null,eleventhPass:null,periods:a.rules.filter(r=>[101,102,103,104].includes(Number(r.obj))),
-    periodLayers:[],required:[],covered:[],timingPass:null,timingNoLoss:null,
+    periodLayers:[],required:decision.required,covered:[],timingPass:null,timingNoLoss:null,
     promisePass:null,timingRP:null,rp:[],rpCommon:[],triggerPass:true,
     sblH:significators(a.chart.ascendant[3],a.chart),sblPosHit:[],sblNegHit:[],
-    pass:o.pass, originalBmm:o, reason:o.reason+'; '+chain.reason
+    pass:decision.pass, originalBmm:o, eventDecision:decision,
+    reason:decision.reason+'; '+chain.reason
   };
 }
 
-  // Production selection: use the complete live Event-05 rule stream for every
-  // independently calculated transition. No screenshot/date-specific fixture overrides the engine.
-  // YP/PN/etc. second-character loss states remain visible diagnostics; the
-  // primary selection gate remains the native Badhaka/Maraka Muhurat gate.
+  // Production selection: use the live Event-05 positive-rule checks plus the
+  // native Badhaka/Maraka gate for every independently calculated transition.
+  // No screenshot/date-specific fixture overrides the engine.
   // The event-rule labels below now use the Windows-observed P/Y/N semantics.
   const selectionRows=selectedAnalyses.map(a=>{
     const base=selectionLayer(a,event);
@@ -2872,7 +2881,7 @@ function selectionLayer(a,event){
     return {time:a.time,sbl:a.chart.ascendant[3],fifth:s.fifthLayer?`${s.fifthLayer.csl||'—'}→${s.fifthLayer.sub||'—'}`:'—',eleventh:s.eleventhLayer?`${s.eleventhLayer.csl||'—'}→${s.eleventhLayer.sub||'—'}`:'—',fifthPass:s.fifthPass,eleventhPass:s.eleventhPass,timingPass:s.timingPass,timingNoLoss:s.timingNoLoss,promisePass:s.promisePass,pass:s.pass};
   });
   const fd=$('selectorSummary');
-  if(fd) fd.innerHTML='<b>0.9.79 selection model:</b> General Muhurat selection follows the live V1.5.11 Badhaka/Maraka gate. Event Analysis labels now use the Windows-observed three-state positive logic (Y/P/N) plus loss status (-/Y/N), with the 5/11 CSL vs 8/12 rule preserved. Stored Windows observations are diagnostics only. Event-rule/cusp analysis remains separate from the live Sub Analysis gate.';
+  if(fd) fd.innerHTML='<b>Web 2.08 selector:</b> Event 05 candidates must have a positive-house hit in each required live rule (1, 5, 11, Dasa, Bhukti, Antara, Sukshma) and pass the native Badhaka/Maraka gate. Negative-house hits remain visible in analysis and do not independently reject a row. Windows observations remain diagnostics only.';
 
   // 0.9.45 — Layer 1 astronomy / transition regression.  The original
   // V1.5.11 timestamps are treated strictly as observations.  They are never
@@ -2974,20 +2983,32 @@ initEngine();
 (function bindChartControls206(){
   const timeInput=$('chosenChartTime');
   const styleSelect=$('chartStyle');
+  const resultsStyle=$('chartStyleResults');
   function activeRow(){return window.__activeMuhuratRow || (window.__selectionRows||[]).find(r=>r.selection?.pass) || null;}
+  function syncStyle(source){
+    const value=source?.value || 'north';
+    if(styleSelect && styleSelect!==source) styleSelect.value=value;
+    if(resultsStyle && resultsStyle!==source) resultsStyle.value=value;
+  }
+  function redraw(){
+    const r=activeRow(); if(!r) return;
+    renderResultsAnalysis(r);
+    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');
+    if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
+  }
   function refreshAtTime(value){
     const base=activeRow(); if(!base||!value) return;
     const row={...base,time:value};
     window.__activeMuhuratRow=row;
     renderResultsAnalysis(row);
-    const tr=document.querySelector('#chosenTable tr[data-muhurat-time="'+CSS.escape(base.time)+'"]');
-    if(tr && value!==base.time){document.querySelectorAll('#chosenTable tr.selected').forEach(x=>x.classList.remove('selected'));tr.classList.add('selected');}
-    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly'); if(dest&&src&&src.innerHTML.trim())dest.innerHTML=src.innerHTML;
+    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');
+    if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
   }
-  if(timeInput){timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));}
-  if(styleSelect){styleSelect.addEventListener('change',()=>{const r=activeRow();if(r){renderResultsAnalysis(r);const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');if(dest&&src&&src.innerHTML.trim())dest.innerHTML=src.innerHTML;}});}
+  if(timeInput) timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));
+  if(styleSelect) styleSelect.addEventListener('change',()=>{syncStyle(styleSelect);redraw();});
+  if(resultsStyle) resultsStyle.addEventListener('change',()=>{syncStyle(resultsStyle);redraw();});
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.06').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.07').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){

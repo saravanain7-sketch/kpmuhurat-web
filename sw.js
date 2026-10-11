@@ -1,4 +1,4 @@
-const CACHE_NAME = "kp-muhurat-dashboard-v2-06";
+const CACHE_NAME = "kp-muhurat-dashboard-v2-08";
 const APP_SHELL = ["./", "./index.html", "./manifest.webmanifest", "./kp-icon-192.png", "./kp-icon-512.png"];
 self.addEventListener("install", event => { event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith("kp-muhurat-") && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim())); });
