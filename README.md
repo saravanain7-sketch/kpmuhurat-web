@@ -109,3 +109,11 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Hides the Dasa/Bhukti/Antara/Sukshma panel and its Ayanamsa/house-system/engine note from the Results tab.
 - The diagnostic markup remains in the source but is not displayed in Results, preserving existing JavaScript references and calculations.
 - Live Muhurat selection and astronomical calculation code were not changed.
+
+
+## Web 2.13 — Chosen time and Analysis refresh
+- Moved the compact 24-hour Time control to the right side of the Chosen Muhurats heading.
+- The time field accepts complete `HH:MM:SS` railway time only and validates hours/minutes/seconds.
+- Changing the time, pressing Enter, or leaving the field refreshes the Results Analysis table and South Indian chart for that exact entered time.
+- Analysis is explicitly revealed after a valid time update.
+- No astronomy or live Muhurat-selection logic was intentionally changed.

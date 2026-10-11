@@ -292,6 +292,17 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCenter{display:none}
 #chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
+/* Web 2.13: chosen-time control shares the Chosen Muhurats header row. */
+.chosenResultsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.chosenResultsHeader>.titlebar{flex:1;margin:0;min-width:0}
+.chosenResultsHeader .chosenTimeControl{flex:0 0 auto;margin:0}
+@media(max-width:420px){
+ .chosenResultsHeader{gap:6px}
+ .chosenResultsHeader>.titlebar{font-size:14px!important;padding:9px 7px!important}
+ .chosenResultsHeader .chosenTimeControl{padding:4px 5px;gap:4px}
+ .chosenResultsHeader .chosenTimeControl label{font-size:12px}
+ .chosenResultsHeader .chosenTimeControl input{width:86px;min-width:86px;max-width:86px;font-size:12px;padding:4px 2px}
+}
 /* Web 2.12: compact 24-hour railway-style time control; South Indian chart is fixed. */
 .chosenTimeControl{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin:0 0 10px;padding:5px 8px;width:max-content;max-width:100%;background:#f1f8fd;border:1px solid #d2e4f2;border-radius:8px}
 .chosenTimeControl label{font-size:13px;font-weight:700;white-space:nowrap}
@@ -307,7 +318,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.11</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.13</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -353,7 +364,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" aria-label="Chart time in 24-hour HH:MM:SS format" value="06:10:44" title="24-hour time, HH:MM:SS"></div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<section id="results"><div class="panel"><div class="chosenResultsHeader"><div class="titlebar">Chosen Muhurats</div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]" aria-label="Chart time in 24-hour HH:MM:SS format" value="06:10:44" title="24-hour time, HH:MM:SS"></div></div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
@@ -3010,18 +3021,36 @@ initEngine();
     if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
   }
   function refreshAtTime(value){
-    const base=activeRow(); if(!base||!value) return;
-    const row={...base,time:value};
+    const base=activeRow();
+    if(!base||!timeInput) return;
+    const t=String(value||'').trim();
+    // Require a complete 24-hour railway time; don't calculate from a
+    // partially typed or invalid value.
+    if(!/^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$/.test(t)){
+      timeInput.setCustomValidity('Enter time as HH:MM:SS, for example 16:18:22.');
+      timeInput.reportValidity();
+      return;
+    }
+    timeInput.setCustomValidity('');
+    const row={...base,time:t,date:base.date||$('date').value};
     window.__activeMuhuratRow=row;
     renderResultsAnalysis(row);
+    const analysisPanel=$('resultsAnalysisPanel');
+    if(analysisPanel){analysisPanel.hidden=false;analysisPanel.style.display='block';}
     const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');
     if(dest&&src&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
   }
-  if(timeInput) timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));
+  if(timeInput){
+    timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));
+    timeInput.addEventListener('keydown',ev=>{
+      if(ev.key==='Enter'){ev.preventDefault();refreshAtTime(timeInput.value);timeInput.blur();}
+    });
+    timeInput.addEventListener('blur',()=>{if(timeInput.value.trim())refreshAtTime(timeInput.value);});
+  }
   if(styleSelect) styleSelect.addEventListener('change',()=>{syncStyle(styleSelect);redraw();});
   if(resultsStyle) resultsStyle.addEventListener('change',()=>{syncStyle(resultsStyle);redraw();});
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.12').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.13').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
