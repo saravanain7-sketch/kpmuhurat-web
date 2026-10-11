@@ -1,28 +1,24 @@
-# KP Muhurat — Dashboard Build 2.01
+# KP Muhurat — Web 2.02 Mobile Layout Build
 
-## What changed
-- Professional blue dashboard and responsive mobile layout.
-- Preserves the live astronomy, transition calculation, native V1.5.11 analysis and live selection logic.
-- Keeps the end-date-aware transition wrapper and removes a duplicate wrapper declaration.
-- Updates the page title and service-worker registration query to 2.01; the service-worker cache is versioned `kp-muhurat-dashboard-v2-01`.
-- Adds a dedicated **10-Oct-2026 Coimbatore exact chosen-Muhurat comparison** based on the Windows V1.5.11 screenshots. It compares the live chosen rows with the reference timestamps and SnL/StL/SbL, and displays signed time differences.
-- The 10-Oct reference rows are used only by the diagnostic display. They are not used by astronomy, transition detection, event-rule evaluation, or live selection.
+## UI changes
+- Main mobile tabs now follow the requested order: **Data → Results → Muhurtham → Chart → Analysis**.
+- The Data screen remains the event-input form.
+- Results shows the chosen Muhurat list.
+- Muhurtham shows a responsive interval schedule with Combination, Start Time, Stop Time and Total Minutes. The combination is derived live from each calculated transition's SnL / StL / SbL values.
+- Chart shows the selected Muhurat's South-Indian chart, with the first chosen Muhurat used when no row has been selected yet.
+- Notes, PlaceSelect and Help remain available as additional tabs after Analysis.
+- Blue styling and mobile table overflow are aligned with the supplied screenshots.
 
-## Regression test settings
-- Date: 10-Oct-2026
-- Time range: 06:00–22:00
-- Place: Coimbatore, Tamil Nadu, India
-- Latitude: 11:00:00 N
-- Longitude: 76:58:00 E
-- Time zone: UTC+05:30
-- Event: 05. Speculative gain in Stock Market
-- Windows screenshot reference: 18 chosen Muhurats
+## Calculation safety
+- The astronomical calculation, transition generation, native V1.5.11 selection logic, analysis, and reference-only diagnostics are not intentionally changed by this UI update.
+- Schedule intervals are rendered from the live `analyses` transition list. The schedule does not feed data back into selection.
+- The Windows reference timestamps remain diagnostic-only; no blanket plus/minus one-second adjustment is added.
+- Service-worker cache version updated to `kp-muhurat-dashboard-v2-02` so the new layout can replace the prior cached shell.
 
-## Verification status
-- All three inline JavaScript blocks pass `node --check`.
-- Source inspection confirms the 10-Oct reference fixture is called only by the post-calculation comparison display and does not feed the selector.
-- Full browser-based calculation and Windows parity could not be certified in this environment. After deployment, run the exact settings above and inspect the new **Exact Chosen-Muhurat Comparison** panel. It must report `EXACT MATCH` before claiming parity.
-- No blanket +1/-1 second adjustment is applied, and reference times are not injected into the live selector.
+## Validation
+- All inline JavaScript blocks pass `node --check`.
+- ZIP archive integrity verified after packaging.
+- A browser-based calculation run has not been performed in this environment. After deployment, use the exact Windows regression settings and inspect the comparison panel before claiming exact timing parity.
 
-## Deploy to GitHub Pages
-Upload all six files in this folder to the repository root, replacing the existing copies. Keep GitHub Pages set to `main` and `/(root)`. After deployment, reload the site; if an installed PWA shows an older build, close/reopen it or clear the site's stored data.
+## Deploy
+Upload all six files to the GitHub Pages repository root, replacing the current versions, and commit to `main`. Then reload the website. If an installed PWA still shows the old layout, close/reopen it or clear the site's stored data so the service worker updates.
