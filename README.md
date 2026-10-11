@@ -117,3 +117,9 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Changing the time, pressing Enter, or leaving the field refreshes the Results Analysis table and South Indian chart for that exact entered time.
 - Analysis is explicitly revealed after a valid time update.
 - No astronomy or live Muhurat-selection logic was intentionally changed.
+
+
+## Web 2.14 — Chosen Time validation fix
+- Fixed the time-validation regular expression so valid 24-hour `HH:MM:SS` values such as `12:40:41` are accepted.
+- Changing the Chosen Muhurats time refreshes the Analysis panel and chart at that exact entered time.
+- No Muhurat-selection or astronomical calculation logic intentionally changed.
