@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.05 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.06 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -284,6 +284,15 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
   #muhurthamScheduleTable td,#muhurthamScheduleTable th{padding:6px 2px;}
 }
 
+
+.chartControls,.chosenTimeControl{margin-top:12px;padding:12px;background:#eaf6fc;border:1px solid #b7d3df;border-radius:6px;display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px;align-items:center}
+.chartControls label,.chosenTimeControl label{font-size:15px;margin:0;color:#23465a}.chosenTimeControl small{grid-column:2;color:#61727a;font-size:12px}.chartControls select,.chosenTimeControl input{min-width:0;font-size:16px;padding:10px;border-radius:6px}
+#chartTabContent .windowsChart.northChart{position:relative;grid-template-rows:repeat(4,118px);background:#b9cbe1}
+#chartTabContent .windowsChart.northChart:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(45deg,transparent calc(50% - 1px),#607d8b 50%,transparent calc(50% + 1px)),linear-gradient(-45deg,transparent calc(50% - 1px),#607d8b 50%,transparent calc(50% + 1px));}
+#chartTabContent .windowsChart.northChart .windowsCenter{display:none}
+#chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
+#chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
+@media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chartControls,.chosenTimeControl{grid-template-columns:85px minmax(0,1fr);padding:9px}.chosenTimeControl small{grid-column:1/-1}}
 </style></head><body>
 <header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.05</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
@@ -326,12 +335,12 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="muhurtham"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Muhurtham Schedule</div><div class="wide scheduleWide"><table id="muhurthamScheduleTable"><thead><tr><th>No.</th><th>Combination</th><th>Start Time</th><th>Stop Time</th><th>Total Minutes</th></tr></thead><tbody id="muhurthamScheduleRows"><tr><td colspan="5">Enter the event details and tap Show to generate the schedule.</td></tr></tbody></table></div><div id="muhurthamScheduleSummary" class="status" style="margin-top:12px">No schedule calculated yet.</div></div></section>
-<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
+<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div class="chartControls"><label for="chartStyle">Chart Style</label><select id="chartStyle"><option value="south">South Indian</option><option value="north">North Indian</option></select></div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><small>Choose a time to refresh the chart at that exact time.</small></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
@@ -750,7 +759,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   b.classList.add('active'); const target=$(b.dataset.t); if(target)target.classList.add('active');
   if(b.dataset.t==='results'){
     const first=(window.__selectionRows||[])[0];
-    if(first){const table=$('chosenTable');if(table){table.querySelectorAll('tr.selected').forEach(x=>x.classList.remove('selected'));const tr=table.querySelector(`tr[data-muhurat-time="${first.time}"]`);if(tr)tr.classList.add('selected');}renderResultsAnalysis(first);const chartPanel=$('selectedMuhuratPanel');if(chartPanel)chartPanel.hidden=true;}
+    if(first){const table=$('chosenTable');if(table){table.querySelectorAll('tr.selected').forEach(x=>x.classList.remove('selected'));const tr=table.querySelector(`tr[data-muhurat-time="${first.time}"]`);if(tr)tr.classList.add('selected');}const timeControl=$('chosenChartTime');if(timeControl)timeControl.value=first.time;renderResultsAnalysis(first);const chartPanel=$('selectedMuhuratPanel');if(chartPanel)chartPanel.hidden=true;}
   }
   if(b.dataset.t==='chart'){
     let row=window.__activeMuhuratRow||null;
@@ -2537,11 +2546,13 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   // therefore moves the highlighted LAGNA cell whenever the Ascendant sign
   // changes. The previous Web 1.97 implementation instead fixed House I to
   // one grid cell, which made the highlight appear stationary.
-  const signPositions={
+  const style=$('chartStyle')?.value||'south';
+  const southSignPositions={
     Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
     Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
     Sc:[4,2],Sg:[4,1],Cp:[3,1],Aq:[2,1]
   };
+  const northHousePositions={1:[1,2],2:[1,3],3:[2,4],4:[3,4],5:[4,4],6:[4,3],7:[4,2],8:[4,1],9:[3,1],10:[2,1],11:[1,1],12:[1,4]};
   const asc=cd.ascendant||[];
   const ascSignId=Math.max(0,SIGNS.indexOf(asc[0]||''));
   const houseForSignId=(sid)=>((sid-ascSignId+12)%12)+1;
@@ -2555,8 +2566,8 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   let cells='';
   for(let sid=0;sid<12;sid++){
     const sign=SIGNS[sid];
-    const [r,c]=signPositions[sign];
     const h=houseForSignId(sid);
+    const [r,c]=style==='north'?northHousePositions[h]:southSignPositions[sign];
     const isLagna=(h===1);
     const planetText=planetsBySign[sid].length?planetsBySign[sid].map(pn=>{
       const d=detailed[pn];
@@ -2571,7 +2582,7 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
     </div>`;
   }
   const day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date+'T12:00:00').getDay()];
-  cells+=`<div class="windowsCenter">
+  if(style==='south') cells+=`<div class="windowsCenter">
     <div class="bigTime">${escHtml(date)} &nbsp; ${escHtml(t)}</div>
     Day: ${escHtml(day)}<br><br>
     <b>(${escHtml($('lat').value)} ${escHtml($('latdir').value)}, ${escHtml($('lon').value)} ${escHtml($('londir').value)}) &nbsp; TZ: ${escHtml($('tz').value)} ${escHtml($('tzdir').value)}</b><br><br>
@@ -2581,7 +2592,7 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
     <b>Lagna:</b> ${escHtml(asc[0]||'—')} &nbsp; <b>SnL:</b> ${escHtml(asc[1]||'—')} &nbsp; <b>StL:</b> ${escHtml(asc[2]||'—')}<br>
     <b>SbL:</b> ${escHtml(asc[3]||'—')}
   </div>`;
-  host.innerHTML=`<div class="windowsChart">${cells}</div>`;
+  host.innerHTML=`<div class="windowsChart ${style==='north'?'northChart':'southChart'}">${cells}</div>`;
 }
 
 function renderResultsAnalysis(row){
@@ -2640,11 +2651,13 @@ function renderSelectedMuhurat(row,autoOpen=false){
   // around it. This is the same model used by the Windows chart: when Lagna
   // changes from Scorpio to Aries/Taurus/etc., the highlighted cell moves to
   // that sign's fixed grid position.
-  const signPositions={
+  const style=$('chartStyle')?.value||'south';
+  const southSignPositions={
     Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
     Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
     Sc:[4,2],Sg:[4,1],Cp:[3,1],Aq:[2,1]
   };
+  const northHousePositions={1:[1,2],2:[1,3],3:[2,4],4:[3,4],5:[4,4],6:[4,3],7:[4,2],8:[4,1],9:[3,1],10:[2,1],11:[1,1],12:[1,4]};
   const asc=cd.ascendant||[];
   const ascSignId=Math.max(0,SIGNS.indexOf(asc[0]||''));
   const houseForSignId=(sid)=>((sid-ascSignId+12)%12)+1;
@@ -2655,8 +2668,8 @@ function renderSelectedMuhurat(row,autoOpen=false){
   let cells='';
   for(let sid=0;sid<12;sid++){
     const sign=SIGNS[sid];
-    const [r,c]=signPositions[sign];
     const h=houseForSignId(sid);
+    const [r,c]=style==='north'?northHousePositions[h]:southSignPositions[sign];
     const isLagna=(h===1);
     const planets=planetsBySign[sid].length ? planetsBySign[sid].map(pn=>`<span class="kpPlanet ${pn==='Mo'?'moonPlanet':(isLagna?'lagnaPlanet':'otherPlanet')}">${escHtml(pn)}</span>`).join('') : '—';
     cells+=`<div class="kpCell${isLagna?' lagnaCell':''}${planetsBySign[sid].includes('Mo')?' moonCell':''}" style="grid-row:${r};grid-column:${c}"${isLagna?' aria-label="Current Lagna"':''}>
@@ -2717,6 +2730,7 @@ function bindMuhuratRowClicks(){
               (window.__selectionRows||[]).find(x=>x.time===t && x.date===d) ||
               (window.__selectionRows||[]).find(x=>x.time===t);
     if(row){
+      const timeControl=$('chosenChartTime'); if(timeControl) timeControl.value=row.time;
       // 1.97 — selecting a Muhurat shows its exact-time Windows-style chart
       // together with the compact Results Analysis table. The legacy full
       // detail panel remains intentionally hidden.
@@ -2955,7 +2969,25 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.05').catch(function(e){console.warn('SW registration failed',e);}); }
+  
+// Web 2.06: Windows-style selected time control and North/South chart style.
+(function bindChartControls206(){
+  const timeInput=$('chosenChartTime');
+  const styleSelect=$('chartStyle');
+  function activeRow(){return window.__activeMuhuratRow || (window.__selectionRows||[]).find(r=>r.selection?.pass) || null;}
+  function refreshAtTime(value){
+    const base=activeRow(); if(!base||!value) return;
+    const row={...base,time:value};
+    window.__activeMuhuratRow=row;
+    renderResultsAnalysis(row);
+    const tr=document.querySelector('#chosenTable tr[data-muhurat-time="'+CSS.escape(base.time)+'"]');
+    if(tr && value!==base.time){document.querySelectorAll('#chosenTable tr.selected').forEach(x=>x.classList.remove('selected'));tr.classList.add('selected');}
+    const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly'); if(dest&&src&&src.innerHTML.trim())dest.innerHTML=src.innerHTML;
+  }
+  if(timeInput){timeInput.addEventListener('change',()=>refreshAtTime(timeInput.value));}
+  if(styleSelect){styleSelect.addEventListener('change',()=>{const r=activeRow();if(r){renderResultsAnalysis(r);const dest=$('chartTabContent'),src=$('selectedMuhuratChartOnly');if(dest&&src&&src.innerHTML.trim())dest.innerHTML=src.innerHTML;}});}
+})();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.06').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
