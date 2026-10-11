@@ -1,4 +1,4 @@
-# KP Muhurat — Web 2.03 Mobile Layout Build
+# KP Muhurat — Web 2.04 Mobile Layout Build
 
 ## UI changes
 - Main mobile tabs now follow the requested order: **Data → Results → Muhurtham → Chart → Analysis**.
@@ -24,5 +24,14 @@
 Upload all six files to the GitHub Pages repository root, replacing the current versions, and commit to `main`. Then reload the website. If an installed PWA still shows the old layout, close/reopen it or clear the site's stored data so the service worker updates.
 
 
-## Web 2.03 hotfix
+## Web 2.04 hotfix
 Fixed the reported `Calculation error: escHtml is not defined` by exposing the HTML-escaping display helper in the page global scope. This is a rendering fix only. No astronomy, transition timestamps, Muhurat selection rules, or Windows reference timestamps were changed.
+
+
+## Web 2.04 UI changes
+- Results opens automatically after tapping Show.
+- Selected Muhurat chart is displayed in the dedicated Chart tab, not embedded in Results.
+- Muhurtham schedule columns are compact and responsive on mobile.
+- Data From/To time controls include seconds (HH:MM:SS); seconds are passed through the existing calculation path.
+- No Windows reference timestamps are used to select live Muhurats.
+- The astronomical calculation and selection-rule functions were not intentionally changed.

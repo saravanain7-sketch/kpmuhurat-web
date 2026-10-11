@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.02 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.04 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -206,7 +206,7 @@ header small{font-size:11px}
   #analysis .split .wide:nth-child(2) th:nth-child(6),#analysis .split .wide:nth-child(2) td:nth-child(6){width:47% !important;min-width:0 !important}
 }
 
-/* Web 2.02 dashboard UI only — calculation engine intentionally untouched */
+/* Web 2.04 dashboard UI only — calculation engine intentionally untouched */
 :root{--navy:#08264a;--blue:#1769aa;--blue2:#2388c9;--pale:#eaf4ff;--line:#d6e3ef;--ink:#142d45;--muted:#64778b;--surface:#fff;--shadow:0 8px 24px rgba(18,55,91,.07)}
 body{background:#f3f7fc;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;font-size:14px}
 header{background:linear-gradient(115deg,#071d3d,#124e83 72%,#1976b8);color:#fff;border:0;padding:17px max(16px,calc((100% - 1200px)/2));box-shadow:0 3px 14px #08264a22}
@@ -221,15 +221,28 @@ table{font-size:12px}th,td{border-color:#d8e2ec;padding:8px}th{background:#eff5f
 @media(max-width:520px){header{padding:14px 12px}header b{font-size:15px}header small{display:block;margin:4px 0 0}nav{top:58px;padding:0 4px}nav button{padding:12px 11px;font-size:13px}main{padding:11px 9px 22px}.dashboard-hero{display:block;padding:19px 16px;border-radius:14px}.dashboard-hero h2{font-size:23px}.dash-grid{gap:8px}.dash-card{padding:12px;border-radius:12px}.dash-value{font-size:24px}.panel{padding:12px;border-radius:12px}.dash-actions .btn{flex:1;min-width:110px}}
 
 
-/* Web 2.02 reference-style tabs and Muhurtham schedule; presentation only. */
+/* Web 2.04 mobile table layout; presentation only. */
 nav{display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:none;gap:0}nav::-webkit-scrollbar{display:none}
 nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 .titlebar{text-align:center!important;font-size:15px!important;font-weight:750!important;background:linear-gradient(120deg,#e5f4ff,#f2f9ff)!important;border:1px solid #c8e0f0!important;border-radius:10px!important;padding:14px!important}
-.scheduleWide{overflow:auto;border-radius:10px}#muhurthamScheduleTable{width:100%;min-width:520px;border-collapse:collapse;font-size:13px}#muhurthamScheduleTable th{background:#edf4fb;font-weight:750}#muhurthamScheduleTable td,#muhurthamScheduleTable th{border:1px solid #d6e0e8;padding:9px 8px}#muhurthamScheduleTable tbody tr:nth-child(even) td{background:#f8fbfd}#muhurthamScheduleTable td:first-child,#muhurthamScheduleTable td:nth-child(3),#muhurthamScheduleTable td:nth-child(4),#muhurthamScheduleTable td:nth-child(5){text-align:center;font-variant-numeric:tabular-nums}.chartTabContent{overflow-x:auto}.chartTabContent .windowsChart{margin:0 auto;max-width:720px}
-@media(max-width:520px){nav button{padding:13px 13px;font-size:13px}#muhurthamScheduleTable{font-size:12px}#muhurthamScheduleTable td,#muhurthamScheduleTable th{padding:8px 6px}.scheduleWide{margin-right:-2px}}
+.scheduleWide{width:100%;max-width:100%;overflow-x:hidden;border-radius:10px}
+#muhurthamScheduleTable{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;font-size:12px}
+#muhurthamScheduleTable th{background:#edf4fb;font-weight:750}
+#muhurthamScheduleTable td,#muhurthamScheduleTable th{border:1px solid #d6e0e8;padding:7px 5px;overflow-wrap:anywhere;word-break:normal}
+#muhurthamScheduleTable th:nth-child(1),#muhurthamScheduleTable td:nth-child(1){width:9%;text-align:center}
+#muhurthamScheduleTable th:nth-child(2),#muhurthamScheduleTable td:nth-child(2){width:39%;text-align:left}
+#muhurthamScheduleTable th:nth-child(3),#muhurthamScheduleTable td:nth-child(3){width:18%;text-align:center;font-variant-numeric:tabular-nums}
+#muhurthamScheduleTable th:nth-child(4),#muhurthamScheduleTable td:nth-child(4){width:18%;text-align:center;font-variant-numeric:tabular-nums}
+#muhurthamScheduleTable th:nth-child(5),#muhurthamScheduleTable td:nth-child(5){width:16%;text-align:center;font-variant-numeric:tabular-nums}
+#muhurthamScheduleTable tbody tr:nth-child(even) td{background:#f8fbfd}
+.chartTabContent{overflow-x:auto}.chartTabContent .windowsChart{margin:0 auto;max-width:720px}
+/* The selected chart belongs only to the Chart tab, not the Results list. */
+#selectedMuhuratChartPanel{display:none!important}
+@media(max-width:520px){nav button{padding:13px 13px;font-size:13px}#muhurthamScheduleTable{font-size:10.5px}#muhurthamScheduleTable td,#muhurthamScheduleTable th{padding:6px 3px}.scheduleWide{margin-right:0}}
+
 
 </style></head><body>
-<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.02</small></header>
+<header><b>♃ KP Muhurat by Kanak Bosmia</b> <small>V 1.5.11 — Web 2.04</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -260,7 +273,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 </section>
 <section id="data" class="active"><div class="panel blue"><h3>Event data</h3>
 <div class="grid2"><label>Date<input id="date" type="date"></label><label>To date<input id="todate" type="date"></label></div>
-<div class="grid2"><label>From time<input id="from" type="time" value="09:00"></label><label>To time<input id="to" type="time" value="22:00"></label></div>
+<div class="grid2"><label>From time<input id="from" type="time" step="1" value="09:00:00"></label><label>To time<input id="to" type="time" step="1" value="22:00:00"></label></div>
 <label>Place<div class="placeRow"><input id="place" value="Coimbatore, Tamil Nadu, India"><button class="btn gpsBtn" id="findPlace" type="button">🔎 Find</button><button class="btn gpsBtn" id="gps" type="button">📍 GPS</button></div></label>
 <div class="grid3"><label>Latitude<input id="lat" value="11:00:00"></label><select id="latdir"><option>N</option><option>S</option></select></div>
 <div class="grid3"><label>Longitude<input id="lon" value="76:58:00"></label><select id="londir"><option>E</option><option>W</option></select></div>
@@ -306,7 +319,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <summary>Advanced Diagnostics — V1.5.11 Reconstruction <span class="diagCount">(tap only when you need verification details)</span></summary>
 <div id="diagInner" class="diagInner">
 <div id="sourceEvidenceDynamic"></div>
-<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 2.02 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
+<div class="panel"><div class="titlebar">V1.5.11 Regression Verification</div><div id="regression" class="muted">Run the Pallavaram stock-market test to verify selected Muhurat times against the stored V1.5.11 reference. Web 2.04 uses the recovered native Node Analysis pipeline, native B/M path, and corrected Windows Analysis Y/N semantics; stored regression rows are validation-only.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Regression Verification — Coimbatore</div><div id="coimbatoreRegression" class="muted">Run the exact Windows fixture (06:00–22:00, 11:00:00 N, 76:58:00 E, IST, Event 05). The test compares the supplied Windows transition rows; it does not inject them into live selection.</div></div>
 <div class="panel"><div class="titlebar">V1.5.11 Exact Chosen-Muhurat Comparison — 10-Oct-2026</div><div class="muted">Compares the current live chosen list with the Windows V1.5.11 screenshot for Coimbatore, 06:00–22:00, Event 05. Reference rows are diagnostics only and never feed the selector.</div><div id="coimbatore20261010Parity" class="status">Run Show with the matching 10-Oct-2026 settings to compare exact timestamps and SnL/StL/SbL.</div></div>
 <div class="panel"><div class="titlebar">Layer 1 — V1.5.11 Astronomy / Transition Alignment</div>
@@ -666,11 +679,16 @@ window.v1511PlanetSgnf = window.v1511PlanetSgnf || function(name, cd){
 </script>
 <script>
 const $=id=>document.getElementById(id);
-// Web 2.03 hotfix: expose HTML escaping to all renderers in global scope.
+// Web 2.04 hotfix: expose HTML escaping to all renderers in global scope.
 // Display-only fix; it does not participate in astronomy or Muhurat selection.
 window.escHtml = window.escHtml || function(v){
   return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 };
+function normalizeClockInput(t){
+  const parts=String(t||'00:00').split(':');
+  while(parts.length<3) parts.push('00');
+  return parts.slice(0,3).map((x,i)=>String(Number(x)||0).padStart(2,'0')).join(':');
+}
 function parseClockSeconds(t){const b=String(t).split(':').map(Number);return (b[0]||0)*3600+(b[1]||0)*60+(b[2]||0)}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
@@ -1556,7 +1574,7 @@ async function run(){
  if(!engineReady){$('status').textContent='Please wait for the calculation engine to finish loading.';return;}
  try{
   $('status').textContent='Calculating '+String($('date').value||'selected date')+' — exact KP significators / CSL / Y-N / Dasa…';
-  const date=$('date').value,endDate=$('todate')?.value||date,from=$('from').value+':00',to=$('to').value+':00',
+  const date=$('date').value,endDate=$('todate')?.value||date,from=normalizeClockInput($('from').value),to=normalizeClockInput($('to').value),
     lat=dms($('lat').value)*($('latdir').value==='S'?-1:1),
     lon=dms($('lon').value)*($('londir').value==='W'?-1:1),
     tz=dms($('tz').value)*($('tzdir').value==='West of UT'?-1:1),
@@ -2649,8 +2667,13 @@ function bindMuhuratRowClicks(){
       // together with the compact Results Analysis table. The legacy full
       // detail panel remains intentionally hidden.
       renderResultsAnalysis(row);
+      // Chart is rendered in the dedicated Chart tab; Results keeps the
+      // selected-Muhurat analysis table without embedding a second chart.
+      const src=$('selectedMuhuratChartOnly');
+      const dest=$('chartTabContent');
+      if(src&&dest&&src.innerHTML.trim()) dest.innerHTML=src.innerHTML;
       const chartPanel=$('selectedMuhuratChartPanel');
-      if(chartPanel) chartPanel.hidden=false;
+      if(chartPanel) chartPanel.hidden=true;
       const oldPanel=$('selectedMuhuratPanel');
       if(oldPanel) oldPanel.hidden=true;
       const analysisPanel=$('resultsAnalysisPanel');
@@ -2840,7 +2863,7 @@ function selectionLayer(a,event){
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
    $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with V1.5.11 native Sub-Lord Analysis (Badhaka/Maraka/Moksha) + exact-time Muhurat charts, CSL/significator evaluation and recursive Vimshottari periods. Selected-row Analysis and Chart are recalculated from the same exact timestamp.`;
-  document.querySelector('[data-t="analysis"]').click();
+  document.querySelector('[data-t="results"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
 $('show').onclick=run;
@@ -2878,7 +2901,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.03').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.04').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
