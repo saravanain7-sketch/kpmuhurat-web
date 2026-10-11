@@ -666,6 +666,11 @@ window.v1511PlanetSgnf = window.v1511PlanetSgnf || function(name, cd){
 </script>
 <script>
 const $=id=>document.getElementById(id);
+// Web 2.03 hotfix: expose HTML escaping to all renderers in global scope.
+// Display-only fix; it does not participate in astronomy or Muhurat selection.
+window.escHtml = window.escHtml || function(v){
+  return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+};
 function parseClockSeconds(t){const b=String(t).split(':').map(Number);return (b[0]||0)*3600+(b[1]||0)*60+(b[2]||0)}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
@@ -2873,7 +2878,7 @@ initEngine();
 </script>
 <script>
 (function(){
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.02').catch(function(e){console.warn('SW registration failed',e);}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.03').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
