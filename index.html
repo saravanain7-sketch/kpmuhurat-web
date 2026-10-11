@@ -292,7 +292,12 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCenter{display:none}
 #chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
-@media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chartControls,.chosenTimeControl{grid-template-columns:85px minmax(0,1fr);padding:9px}.chosenTimeControl small{grid-column:1/-1}}
+/* Web 2.12: compact 24-hour railway-style time control; South Indian chart is fixed. */
+.chosenTimeControl{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin:0 0 10px;padding:5px 8px;width:max-content;max-width:100%;background:#f1f8fd;border:1px solid #d2e4f2;border-radius:8px}
+.chosenTimeControl label{font-size:13px;font-weight:700;white-space:nowrap}
+.chosenTimeControl input{width:94px;min-width:94px;max-width:94px;padding:5px 6px;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.3px;text-align:center;border-radius:6px}
+@media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chosenTimeControl{display:flex;grid-template-columns:none;padding:5px 7px;gap:7px}.chosenTimeControl input{width:92px;min-width:92px;max-width:92px;font-size:13px;padding:5px}}
+
 </style>
 <style id="hide-results-diagnostics-v210">
 /* Web 2.10: keep the normal Results view focused on chosen Muhurats and controls.
@@ -343,12 +348,12 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 <div id="status" class="status">Browser-only mode. No Python server is required.</div></div></section>
 
 <section id="muhurtham"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Muhurtham Schedule</div><div class="wide scheduleWide"><table id="muhurthamScheduleTable"><thead><tr><th>No.</th><th>Combination</th><th>Start Time</th><th>Stop Time</th><th>Total Minutes</th></tr></thead><tbody id="muhurthamScheduleRows"><tr><td colspan="5">Enter the event details and tap Show to generate the schedule.</td></tr></tbody></table></div><div id="muhurthamScheduleSummary" class="status" style="margin-top:12px">No schedule calculated yet.</div></div></section>
-<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div class="chartControls"><label for="chartStyle">Chart Style</label><select id="chartStyle"><option value="north">North Indian</option><option value="south">South Indian</option></select></div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
+<section id="chart"><div class="panel"><div class="titlebar" style="text-align:center;font-size:16px;font-weight:750">Selected Muhurat Chart</div><div id="chartTabContent" class="chartTabContent"><div class="status">Calculate the event, then choose a Muhurat from Results to display its chart here.</div></div></div></section>
 <section id="analysis"><div class="panel"><div class="kpLegend"><span class="kpBadge green">THICK GREEN = Very Good</span><span class="kpBadge partial">LIGHT GREEN = Can be Selected</span><span class="kpBadge red">RED = Not Good</span></div><div id="parityNote" class="status muted" style="margin-bottom:8px">Windows V1.5.11 live-engine reconstruction. Date-specific regression rows are validation-only; production selection uses the live event-rule gate for each calculated transition.</div><div class="titlebar">Lagna table &nbsp; | &nbsp; Sub level analysis</div>
 <div class="split"><div class="wide"><table><thead><tr><th>Rasi</th><th>SnL</th><th>StL</th><th>St. Time</th><th>Date</th></tr></thead><tbody id="lagna"></tbody></table></div>
 <div class="wide"><table><thead><tr><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="sub"></tbody></table></div></div></div></section>
 
-<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="time" step="1" value="06:10:44"><label for="chartStyleResults">Chart Style</label><select id="chartStyleResults"><option value="north">North</option><option value="south">South</option></select></div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
+<section id="results"><div class="panel"><div class="titlebar">Chosen Muhurats</div><div class="chosenTimeControl"><label for="chosenChartTime">Time</label><input id="chosenChartTime" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" aria-label="Chart time in 24-hour HH:MM:SS format" value="06:10:44" title="24-hour time, HH:MM:SS"></div><div class="wide chosenWide"><table id="chosenTable"><thead><tr><th>Date</th><th>Time</th><th>SnL</th><th>StL</th><th>SbL</th><th>Y/N</th><th>Reason</th></tr></thead><tbody id="chosen"></tbody></table></div></div>
 <div id="resultsAnalysisPanel" class="panel resultsAnalysisPanel" hidden>
   <div class="wide"><table class="resultsAnalysisTable"><thead><tr><th>Object</th><th>SubL</th><th>+H</th><th>-H</th><th>Y/N</th><th>Analysis</th></tr></thead><tbody id="resultsAnalysisRows"></tbody></table></div>
 </div>
@@ -2554,7 +2559,7 @@ function renderWindowsStyleSelectedChart(row, exactCd=null, exactPeriods=null){
   // therefore moves the highlighted LAGNA cell whenever the Ascendant sign
   // changes. The previous Web 1.97 implementation instead fixed House I to
   // one grid cell, which made the highlight appear stationary.
-  const style=$('chartStyle')?.value||'south';
+  const style='south';
   const southSignPositions={
     Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
     Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
@@ -2659,7 +2664,7 @@ function renderSelectedMuhurat(row,autoOpen=false){
   // around it. This is the same model used by the Windows chart: when Lagna
   // changes from Scorpio to Aries/Taurus/etc., the highlighted cell moves to
   // that sign's fixed grid position.
-  const style=$('chartStyle')?.value||'south';
+  const style='south';
   const southSignPositions={
     Pi:[1,1],Ar:[1,2],Ta:[1,3],Ge:[1,4],
     Cn:[2,4],Le:[3,4],Vi:[4,4],Li:[4,3],
@@ -2987,14 +2992,14 @@ initEngine();
 <script>
 (function(){
   
-// Web 2.06: Windows-style selected time control and North/South chart style.
+// Web 2.12: compact railway-time control; chart is always South Indian style.
 (function bindChartControls206(){
   const timeInput=$('chosenChartTime');
-  const styleSelect=$('chartStyle');
-  const resultsStyle=$('chartStyleResults');
+  const styleSelect=null;
+  const resultsStyle=null;
   function activeRow(){return window.__activeMuhuratRow || (window.__selectionRows||[]).find(r=>r.selection?.pass) || null;}
   function syncStyle(source){
-    const value=source?.value || 'north';
+    const value='south';
     if(styleSelect && styleSelect!==source) styleSelect.value=value;
     if(resultsStyle && resultsStyle!==source) resultsStyle.value=value;
   }
@@ -3016,7 +3021,7 @@ initEngine();
   if(styleSelect) styleSelect.addEventListener('change',()=>{syncStyle(styleSelect);redraw();});
   if(resultsStyle) resultsStyle.addEventListener('change',()=>{syncStyle(resultsStyle);redraw();});
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.11').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.12').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){

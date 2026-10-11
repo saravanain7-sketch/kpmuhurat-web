@@ -1,3 +1,22 @@
+# KP Muhurat — Web 2.12 — Compact Time / South Indian Chart
+
+## UI changes
+- Removed Chart Style controls from both Results and Chart sections.
+- The chart is fixed to South Indian style.
+- Results time control uses 24-hour `HH:MM:SS` railway format.
+- Reduced the time control to a compact inline field beside its label.
+- Kept the selected-time chart refresh listener and did not intentionally change astronomy or selection logic.
+- Updated service-worker cache to `kp-muhurat-dashboard-v2-12`.
+
+## Validation
+- Inline JavaScript syntax and ZIP integrity checks performed.
+- Browser-based regression execution has not been performed here; compare the live Muhurat list against Windows V1.5.11 after deployment.
+
+## Deploy
+Upload all six files to the GitHub Pages repository root, replacing the current versions, then commit to `main`. Refresh the site or restart the installed app to pick up the new service worker.
+
+---
+
 # KP Muhurat — Web 2.11 — Results Controls Placement
 
 ## UI changes
