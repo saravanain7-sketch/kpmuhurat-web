@@ -130,3 +130,9 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Press Show to calculate and display Results for the chosen date/date range and time range.
 - Changing the chosen HH:MM:SS time recalculates Analysis and the chart at that exact time.
 - No Muhurat selection or astronomical calculation logic intentionally changed.
+
+
+## Web 2.16 — Stock Market selection gate
+- Tightened the live Stock Market selector: existing positive-rule checks and the Badhaka/Maraka gate remain, and Object 5 / Object 11 reject candidates whose live negative-house significators hit house 8 or 12, matching the Event rule remarks.
+- No date/time allowlist or Windows reference timestamps are used to select Muhurats.
+- Rule-level correction; exact Windows parity still requires comparing the live output against the Windows fixture on the same date and settings.
