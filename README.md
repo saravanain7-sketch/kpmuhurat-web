@@ -136,3 +136,9 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Tightened the live Stock Market selector: existing positive-rule checks and the Badhaka/Maraka gate remain, and Object 5 / Object 11 reject candidates whose live negative-house significators hit house 8 or 12, matching the Event rule remarks.
 - No date/time allowlist or Windows reference timestamps are used to select Muhurats.
 - Rule-level correction; exact Windows parity still requires comparing the live output against the Windows fixture on the same date and settings.
+
+
+## Web 2.17 — Revert unverified Stock Market exclusion
+- Removed the additional CSL 5/11 negative-house 8/12 rejection introduced in Web 2.16, because it incorrectly reduced the shown results to one Muhurat in the supplied 13-Oct-2026 screenshot.
+- Restored the prior Event-05 positive-rule gate plus the Badhaka/Maraka gate; no reference timestamps or hardcoded allowlists are used.
+- This is a rollback of the unverified extra filter, not a claim of exact Windows parity. Compare Web and Windows results for the same date and settings to identify any remaining extra timestamps.

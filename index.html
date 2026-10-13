@@ -292,7 +292,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #chartTabContent .windowsChart.northChart .windowsCenter{display:none}
 #chartTabContent .windowsChart.northChart .windowsCell{z-index:1;background:rgba(185,203,225,.94)}
 #chartTabContent .windowsChart.northChart .windowsCell.lagnaCell{background:#80cbe8}
-/* Web 2.16: chosen-time control shares the Chosen Muhurats header row. */
+/* Web 2.17: chosen-time control shares the Chosen Muhurats header row. */
 .chosenResultsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .chosenResultsHeader>.titlebar{flex:1;margin:0;min-width:0}
 .chosenResultsHeader .chosenTimeControl{flex:0 0 auto;margin:0}
@@ -318,7 +318,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.16</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.17</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -2775,30 +2775,37 @@ function bindMuhuratRowClicks(){
 }
 
 function v1511EventSelectionDecision(a,event){
-  // Web 2.16: use live Event rules, not timestamp allowlists. The Stock Market
-  // event remarks explicitly exclude CSL 5/11 connections with houses 8/12.
+  // Web 2.08 parity correction: evaluate the live Event-05 rule stream as part
+  // of selection, instead of allowing the Badhaka/Maraka result alone to accept
+  // every candidate. The Windows screenshots show accepted rows with PY/YP
+  // labels, so a negative-house hit is displayed as analysis evidence; it is
+  // not treated as an automatic rejection here. Each required rule must have
+  // at least one positive-house hit, and the native B/M gate must also pass.
+  // No reference timestamp participates in this decision.
   const rules=(a.rules||[]);
   const requiredCodes=new Set([1,5,11,101,102,103,104]);
   const required=rules.filter(r=>requiredCodes.has(Number(r.obj)));
   const primary=required.find(r=>Number(r.obj)===1)||null;
   const missing=[...requiredCodes].filter(code=>!required.some(r=>Number(r.obj)===code));
-  const positiveStates=required.map(r=>({obj:Number(r.obj),pass:!!r.posAny,subLord:r.sub_lord||r.subLord||'—',hits:r.posHit||[],negHits:r.negHit||[]}));
+  const positiveStates=required.map(r=>({obj:Number(r.obj),pass:!!r.posAny,subLord:r.sub_lord||r.subLord||'—',hits:r.posHit||[]}));
   const allPositive=required.length===requiredCodes.size && required.every(r=>r.posAny);
-  const isEvent05=String(event?.name||'').trim()==='05. Speculative gain in Stock Market';
-  const isStockMarket=/Stock Market/i.test(String(event?.name||'')) || isEvent05;
-  const rule5=required.find(r=>Number(r.obj)===5)||null;
-  const rule11=required.find(r=>Number(r.obj)===11)||null;
-  const stockNegativePass=!isStockMarket || [rule5,rule11].every(r=>r && !(r.negHit||[]).some(h=>[8,12].includes(Number(h))));
   const bmm=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
   const failed=positiveStates.filter(x=>!x.pass).map(x=>x.obj);
-  const eventGatePass=(!isEvent05 || allPositive) && stockNegativePass;
+  const isEvent05=String(event?.name||'').trim()==='05. Speculative gain in Stock Market';
+  const eventGatePass=!isEvent05 || allPositive;
   const pass=bmm.pass && eventGatePass;
   let reason;
   if(!bmm.pass) reason=`V1.5.11 Muhurat rejected: Badhaka/Maraka connection detected (${bmm.neg.length ? bmm.neg.join(', ') : 'B/M'}).`;
-  else if(!stockNegativePass) reason='Stock Market rule rejected: CSL 5 or CSL 11 signifies house 8 or 12.';
-  else if(isEvent05 && !allPositive) reason=`Event 05 rejected: no positive-house hit for required rule${failed.length===1?'':'s'} ${failed.join(', ')||missing.join(', ')}.`;
-  else reason=isStockMarket?'Stock Market candidate passed positive-rule checks, CSL 5/11 loss-house exclusion, and Badhaka/Maraka gate.':'V1.5.11 Muhurat selection: no Badhaka/Maraka connection.';
-  return {pass,bmm,primary,required,positiveStates,allPositive,missing,failed,positivePass:primary?primary.posAny:false,noLossPass:primary?primary.noLoss:false,stockNegativePass,eventGatePass,reason};
+  else if(!eventGatePass) reason=`Event 05 rejected: no positive-house hit for required rule${failed.length===1?'':'s'} ${failed.join(', ')||missing.join(', ')}.`;
+  else reason=isEvent05
+    ? 'V1.5.11 candidate passed Event 05 positive-rule checks and the Badhaka/Maraka gate.'
+    : 'V1.5.11 Muhurat selection: no Badhaka/Maraka connection.';
+  return {
+    pass,bmm,primary,required,positiveStates,allPositive,missing,failed,
+    positivePass:primary?primary.posAny:false,
+    noLossPass:primary?primary.noLoss:false,
+    eventGatePass,reason
+  };
 }
 function selectionLayer(a,event){
   // Use the same decision object for the displayed Y/N result and the actual
@@ -2969,7 +2976,7 @@ syncDashboard();setTimeout(syncDashboard,500);
 // for multiple dates. Invalidate the old calculation immediately and run the
 // calculation again when a date/time/location/event field is committed.
 (function bindInputInvalidation(){
-  // Web 2.16: input edits invalidate old output but do not calculate or
+  // Web 2.17: input edits invalidate old output but do not calculate or
   // navigate to Results. The user must press Show to run the chosen date/time.
   const ids=['date','todate','from','to','place','lat','lon','tz','latdir','londir','tzdir','event'];
   function invalidate(){
@@ -3042,7 +3049,7 @@ initEngine();
     });
   }
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.16').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.17').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
