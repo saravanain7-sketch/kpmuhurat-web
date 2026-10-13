@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.18 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.19 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -318,7 +318,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.18</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.19</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -1668,7 +1668,7 @@ async function run(){
     event=window.EVENTS[Number($('event').value)];
 
   const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
-  // Web 2.18 parity correction: the supplied V1.5.11 Settings.xml reference
+  // Web 2.19 parity correction: the supplied V1.5.11 Settings.xml reference
   // uses CharaRasi=false. The native Show_Click path excludes movable-sign
   // Lagna transitions (Ar/Cn/Li/Cp) unless CharaRasi is explicitly enabled.
   // The previous build accidentally passed every transition through, which
@@ -2777,13 +2777,12 @@ function bindMuhuratRowClicks(){
 }
 
 function v1511EventSelectionDecision(a,event){
-  // Web 2.08 parity correction: evaluate the live Event-05 rule stream as part
-  // of selection, instead of allowing the Badhaka/Maraka result alone to accept
-  // every candidate. The Windows screenshots show accepted rows with PY/YP
-  // labels, so a negative-house hit is displayed as analysis evidence; it is
-  // not treated as an automatic rejection here. Each required rule must have
-  // at least one positive-house hit, and the native B/M gate must also pass.
-  // No reference timestamp participates in this decision.
+  // Web 2.19 targeted V1.5.11 selection correction:
+  // Windows Chosen Muhurats are gated by the native Badhaka/Maraka analysis.
+  // Event 05 object/period Y/N values (including NN, N-, PY and YP) remain
+  // visible analysis evidence; they are not an additional all-positive gate.
+  // This is why Windows can select 11:58:49 and 12:39:18 even though some
+  // displayed Event 05 rows are N/NN. Do not hardcode those timestamps.
   const rules=(a.rules||[]);
   const requiredCodes=new Set([1,5,11,101,102,103,104]);
   const required=rules.filter(r=>requiredCodes.has(Number(r.obj)));
@@ -2793,15 +2792,11 @@ function v1511EventSelectionDecision(a,event){
   const allPositive=required.length===requiredCodes.size && required.every(r=>r.posAny);
   const bmm=v1511OriginalBmmAnalysis(a.chart,a.chart.ascendant[3]);
   const failed=positiveStates.filter(x=>!x.pass).map(x=>x.obj);
-  const isEvent05=String(event?.name||'').trim()==='05. Speculative gain in Stock Market';
-  const eventGatePass=!isEvent05 || allPositive;
-  const pass=bmm.pass && eventGatePass;
-  let reason;
-  if(!bmm.pass) reason=`V1.5.11 Muhurat rejected: Badhaka/Maraka connection detected (${bmm.neg.length ? bmm.neg.join(', ') : 'B/M'}).`;
-  else if(!eventGatePass) reason=`Event 05 rejected: no positive-house hit for required rule${failed.length===1?'':'s'} ${failed.join(', ')||missing.join(', ')}.`;
-  else reason=isEvent05
-    ? 'V1.5.11 candidate passed Event 05 positive-rule checks and the Badhaka/Maraka gate.'
-    : 'V1.5.11 Muhurat selection: no Badhaka/Maraka connection.';
+  const eventGatePass=true; // Event rules are analysis output, not a second selection gate.
+  const pass=bmm.pass;
+  const reason=!bmm.pass
+    ? `V1.5.11 Muhurat rejected: Badhaka/Maraka connection detected (${bmm.neg.length ? bmm.neg.join(', ') : 'B/M'}).`
+    : 'V1.5.11 Muhurat selection: no Badhaka/Maraka connection; Event 05 rule labels remain informational.';
   return {
     pass,bmm,primary,required,positiveStates,allPositive,missing,failed,
     positivePass:primary?primary.posAny:false,

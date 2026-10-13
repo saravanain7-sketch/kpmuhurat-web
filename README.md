@@ -149,3 +149,11 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Web 2.17 had calculated all transition rows without applying this default setting, which could introduce extra candidates.
 - The filter is applied to live transition sign data, not hardcoded timestamps or a date-specific allowlist.
 - This is a source-based parity correction; compare the same date, location, timezone and event against Windows before treating exact list parity as verified.
+
+
+## Web 2.19 — targeted Event 05 selection parity correction
+- Preserves the existing layout, tabs, chart, Analysis, and input format.
+- Removes the unsupported Event 05 all-positive selection gate. Windows V1.5.11 can select a Muhurat while its displayed Event 05 rows contain N/NN/PY/YP labels; those labels are analysis evidence, not a second automatic selection gate.
+- The live selection decision uses the native Badhaka/Maraka gate. No date-specific timestamps or result lists are hardcoded.
+- Service-worker cache namespace bumped to prevent the previous app shell being reused.
+- Validation: JavaScript syntax and ZIP integrity checked. Exact runtime parity still requires running this build and comparing the resulting list with Windows V1.5.11.
