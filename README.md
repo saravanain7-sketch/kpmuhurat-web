@@ -142,3 +142,10 @@ Fixed the reported `Calculation error: escHtml is not defined` by exposing the H
 - Removed the additional CSL 5/11 negative-house 8/12 rejection introduced in Web 2.16, because it incorrectly reduced the shown results to one Muhurat in the supplied 13-Oct-2026 screenshot.
 - Restored the prior Event-05 positive-rule gate plus the Badhaka/Maraka gate; no reference timestamps or hardcoded allowlists are used.
 - This is a rollback of the unverified extra filter, not a claim of exact Windows parity. Compare Web and Windows results for the same date and settings to identify any remaining extra timestamps.
+
+
+## Web 2.18 — Native CharaRasi transition filter
+- Restored the Windows V1.5.11 default `CharaRasi=false` transition behavior: movable-sign Lagna transitions (Aries, Cancer, Libra and Capricorn) are excluded from Results unless that option is enabled.
+- Web 2.17 had calculated all transition rows without applying this default setting, which could introduce extra candidates.
+- The filter is applied to live transition sign data, not hardcoded timestamps or a date-specific allowlist.
+- This is a source-based parity correction; compare the same date, location, timezone and event against Windows before treating exact list parity as verified.

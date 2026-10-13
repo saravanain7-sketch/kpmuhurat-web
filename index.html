@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.08 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.18 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -318,7 +318,7 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results > #dasaPanel { display: none !important; }
 </style>
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.17</small></header>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.18</small></header>
 <nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
 <main>
 <section id="dashboard">
@@ -1668,11 +1668,13 @@ async function run(){
     event=window.EVENTS[Number($('event').value)];
 
   const trsAll=transitionRows(date,from,to,lat,lon,tz,endDate);
-  // Settings.xml has CharaRasi=false. Original Show_Click therefore keeps
-  // Lagna transitions in movable signs only when that option is enabled; by
-  // default Aries/Cancer/Libra/Capricorn transitions are filtered out of the
-  // Analysis/Results path.
-  const trs=trsAll;
+  // Web 2.18 parity correction: the supplied V1.5.11 Settings.xml reference
+  // uses CharaRasi=false. The native Show_Click path excludes movable-sign
+  // Lagna transitions (Ar/Cn/Li/Cp) unless CharaRasi is explicitly enabled.
+  // The previous build accidentally passed every transition through, which
+  // could add extra web Muhurats. Keep this as a live sign-based rule; never
+  // use date-specific Windows timestamps or a hardcoded result list.
+  const trs=trsAll.filter(r=>!['Ar','Cn','Li','Cp'].includes(String(r.rasi||'')));
   const times=trs.map(x=>x.time);
   const analyses=[];
   window.__lastEvent=event;
@@ -3049,7 +3051,7 @@ initEngine();
     });
   }
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.17').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.18').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
