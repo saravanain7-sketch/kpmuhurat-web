@@ -1,7 +1,7 @@
 <!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1976a8"><meta http-equiv="Permissions-Policy" content="geolocation=(self)"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="kp-icon-192.png">
-<title>KPMuhurat Web 2.19 — KP Muhurat V1.5.11</title>
+<title>KPMuhurat Web 2.31 — KP Muhurat V1.5.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#eaf6fc;color:#17313d;font:14px Arial}
 header{padding:12px 14px;background:#f7f7f7;border-bottom:1px solid #9bb9c7;position:sticky;top:0;z-index:3}
@@ -309,6 +309,36 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 .chosenTimeControl input{width:94px;min-width:94px;max-width:94px;padding:5px 6px;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.3px;text-align:center;border-radius:6px}
 @media(max-width:520px){#chartTabContent .windowsChart.northChart{grid-template-rows:repeat(4,82px)}.chosenTimeControl{display:flex;grid-template-columns:none;padding:5px 7px;gap:7px}.chosenTimeControl input{width:92px;min-width:92px;max-width:92px;font-size:13px;padding:5px}}
 
+
+
+
+/* Web 2.30 — Data form mobile fit only; calculation code is untouched. */
+@media(max-width:700px){
+  #data .panel.blue{padding:10px 12px;margin-bottom:6px}
+  #data h3{font-size:22px;margin:8px 0 12px}
+  #data .grid2{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:7px}
+  #data label{font-size:12px;margin:4px 0 5px;line-height:1.15}
+  #data input,#data select{font-size:13px;padding:7px 8px;min-width:0}
+  #data .grid2 input{height:42px;min-height:42px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 68px;gap:7px;align-items:end;margin-bottom:1px}
+  #data .grid3 input{height:42px;min-height:42px}
+  #data .grid3 select{height:42px;min-height:42px;width:68px;min-width:68px;padding:5px}
+  #data .placeRow{gap:5px}
+  #data .placeRow input{height:42px;min-height:42px;font-size:12px;padding:6px 8px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{flex:0 0 62px;width:62px;min-width:62px;height:42px;min-height:42px;padding:5px 2px;font-size:11px}
+  #data label:has(#event){margin-top:5px}
+  #data #event{height:42px;min-height:42px}
+  #data #show{display:inline-flex;align-items:center;justify-content:center;width:132px;min-width:132px;height:48px;min-height:48px;padding:8px 12px;font-size:16px;margin:6px 6px 0 0}
+  #data #install{height:38px;padding:6px 10px;font-size:12px}
+  #data #placeDbStatus{display:inline-block;font-size:10px;vertical-align:middle;margin-left:3px !important}
+  #data #status{font-size:11px;line-height:1.3;padding:7px 9px;margin-top:6px}
+}
+@media(max-width:390px){
+  #data .grid3{grid-template-columns:minmax(0,1fr) 60px;gap:6px}
+  #data .grid3 select{width:60px;min-width:60px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{flex-basis:55px;width:55px;min-width:55px;font-size:10px}
+  #data #show{width:122px;min-width:122px}
+}
 </style>
 <style id="hide-results-diagnostics-v210">
 /* Web 2.10: keep the normal Results view focused on chosen Muhurats and controls.
@@ -316,10 +346,168 @@ nav button{flex:0 0 auto;font-size:14px;padding:14px 18px}
 #results .resultHint,
 #results > details.diagnosticDetails,
 #results > #dasaPanel { display: none !important; }
+
+
+
 </style>
+
+<style id="layout-only-web220">
+/* Web 2.20: visual/layout-only refresh based on the supplied reference screenshot.
+   No calculation, astronomy, transition, event-selection or timing code is changed. */
+:root{color-scheme:light}
+body{background:#f0f5fb;color:#1c3346;font:16px Arial,sans-serif}
+header{padding:20px 26px;background:linear-gradient(110deg,#12395d,#08264a);color:#fff;border:0;position:sticky;top:0;z-index:5;min-height:86px;display:flex;align-items:center}
+header b{font-size:32px;letter-spacing:-.4px}
+header small{display:none}
+nav{top:86px;background:#fff;border:0;border-bottom:1px solid #d6e1eb;box-shadow:0 2px 0 rgba(20,50,75,.05);padding:0 8px;gap:0;scrollbar-width:none}
+nav button{font-size:16px;font-weight:700;color:#516475;padding:17px 19px;border-bottom:4px solid transparent;min-height:64px}
+nav button.active{background:#e7f3ff;color:#17649a;border-bottom-color:#1683c5}
+main{max-width:1000px;padding:18px 16px 28px}
+#data .panel.blue{position:relative;background:#fff;border:1px solid #d7e1e9;border-radius:22px;padding:28px 23px 24px;box-shadow:0 8px 26px rgba(23,57,82,.05);overflow:hidden}
+#data .panel.blue:before{content:"";position:absolute;top:0;left:0;right:0;height:9px;background:linear-gradient(90deg,#1593c4,#7ed0df);border-radius:22px 22px 0 0}
+#data .panel.blue h3{font-size:26px;line-height:1.2;margin:8px 0 28px;color:#173b58}
+#data .panel.blue h3:after{content:"DATE · TIME · LOCATION";display:block;margin-top:12px;font-size:13px;letter-spacing:1.4px;color:#8193a1;font-weight:700}
+#data .grid2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+#data label{font-size:16px;font-weight:700;color:#405667;margin:14px 0 18px}
+#data input,#data select{font:16px Arial,sans-serif;color:#203442;background:#fbfdff;border:1.5px solid #ccd9e2;border-radius:15px;min-height:62px;padding:15px 16px;outline-offset:2px}
+#data input:focus,#data select:focus{border-color:#8dc9ec;box-shadow:0 0 0 3px rgba(60,159,211,.12)}
+#data .grid3{grid-template-columns:minmax(0,1fr) 118px;gap:12px;align-items:end}
+#data .grid3 select{align-self:end;margin-bottom:0}
+#data .placeRow{gap:10px;align-items:stretch}
+#data .placeRow input{min-width:0;flex:1 1 0}
+#data .placeRow .btn{margin:0;min-width:118px;min-height:62px;border-radius:15px;background:#fff;color:#22516f;border:1.5px solid #ccd9e2;font-size:16px;padding:12px 14px}
+#data .placeRow .gpsBtn{min-width:118px}
+#data #show{display:inline-flex;align-items:center;justify-content:center;min-width:210px;min-height:78px;border:0;border-radius:16px;background:linear-gradient(110deg,#147bb6,#168bc4);color:#fff;font-size:19px;padding:18px 30px;margin:10px 14px 0 0;box-shadow:0 7px 15px rgba(20,123,182,.15)}
+#data #install{border-radius:12px}
+#data #placeDbStatus{font-size:14px}
+#data #status{border-radius:14px;padding:14px 16px;line-height:1.5}
+@media(max-width:700px){
+  body{font-size:16px}
+  header{min-height:86px;padding:17px 26px}
+  header b{font-size:32px}
+  nav{top:86px}
+  nav button{padding:17px 18px;font-size:16px}
+  main{padding:18px 16px 26px}
+  #data .panel.blue{padding:28px 23px 24px;border-radius:22px}
+  #data .grid2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 118px;gap:12px}
+  #data label{font-size:16px;margin:14px 0 18px}
+  #data input,#data select{font-size:16px;min-height:62px;padding:15px 16px}
+  #data .placeRow{gap:10px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{min-width:0;width:22%;font-size:15px;padding:10px 7px}
+  #data .placeRow input{width:56%;flex:1 1 56%;font-size:15px}
+  #data #show{min-width:210px;min-height:78px}
+}
+@media(max-width:390px){
+  #data .panel.blue{padding-left:15px;padding-right:15px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 82px;gap:8px}
+  #data .grid2{gap:9px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{font-size:13px}
+  #data .placeRow input{font-size:14px;padding:12px 10px}
+  nav button{padding-left:14px;padding-right:14px}
+}
+
+
+
+</style>
+
+
+<style id="layout-reference-size-221">
+/* Web 2.21: match the supplied 698px-wide mobile reference dimensions.
+   Presentation only: deliberately no calculation or selection changes. */
+@media (max-width: 700px) {
+  header { min-height: 86px; height: 86px; padding: 17px 26px; }
+  header b { font-size: 32px; line-height: 1.2; }
+  nav { min-height: 81px; height: 81px; align-items: stretch; }
+  nav button { min-height: 80px; height: 80px; padding: 17px 18px; font-size: 16px; }
+  main { padding: 18px 16px 26px; }
+  #data .panel.blue { padding: 28px 23px 24px; border-radius: 22px; }
+  #data .panel.blue h3 { margin: 8px 0 28px; font-size: 26px; line-height: 1.2; }
+  #data .grid2 { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  #data label { font-size: 16px; line-height: 1.25; margin: 14px 0 14px; }
+  #data input, #data select { min-height: 77px; height: 77px; padding: 15px 16px; font-size: 16px; border-radius: 15px; }
+  #data .grid3 { grid-template-columns: minmax(0,1fr) 118px; gap: 12px; align-items: end; }
+  #data .grid3 select { width: 118px; min-width: 118px; }
+  #data .placeRow { display: flex; justify-content: space-between; gap: 10px; align-items: stretch; }
+  #data .placeRow input { width: auto; min-width: 0; flex: 1 1 auto; font-size: 15px; padding: 15px 16px; }
+  #data .placeRow .btn, #data .placeRow .gpsBtn { flex: 0 0 118px; width: 118px; min-width: 118px; min-height: 77px; height: 77px; padding: 10px 7px; font-size: 16px; border-radius: 15px; }
+  #data #show { min-width: 210px; width: 210px; min-height: 78px; height: 78px; margin-top: 10px; }
+  #data #placeDbStatus { font-size: 14px; }
+}
+@media (max-width: 390px) {
+  #data .panel.blue { padding-left: 15px; padding-right: 15px; }
+  #data .grid3 { grid-template-columns: minmax(0,1fr) 82px; gap: 8px; }
+  #data .grid3 select { width: 82px; min-width: 82px; }
+  #data .placeRow .btn, #data .placeRow .gpsBtn { flex-basis: 84px; width: 84px; min-width: 84px; font-size: 13px; }
+  #data .placeRow input { font-size: 14px; padding: 12px 10px; }
+  nav button { padding-left: 14px; padding-right: 14px; }
+}
+
+
+
+</style>
+
+
+
+
+
+<style id="reference-compact-size-225">
+/* Web 2.27: compact mobile sizing only; keep calculation JavaScript untouched. */
+@media (max-width:700px){
+  header{height:48px;min-height:48px;padding:10px 14px;display:flex;align-items:center;gap:8px}
+  header b{font-size:20px;line-height:1.2}
+  header small{font-size:10px;margin-left:auto}
+  nav{top:48px;height:46px;min-height:46px;align-items:stretch;overflow-x:auto}
+  nav button{height:45px;min-height:45px;padding:8px 12px;font-size:13px;line-height:1.2}
+  main{padding:10px 9px 18px}
+  #data .panel.blue{padding:16px 14px 15px;border-radius:15px}
+  #data .panel.blue h3{font-size:20px;margin:4px 0 17px;line-height:1.2}
+  #data .panel.blue .muted{font-size:11px}
+  #data .grid2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+  #data label{font-size:13px;line-height:1.2;margin:8px 0 7px}
+  #data input,#data select{height:44px;min-height:44px;padding:8px 10px;font-size:14px;border-radius:9px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 76px;gap:8px;align-items:end}
+  #data .grid3 select{width:76px;min-width:76px;height:46px;min-height:46px;padding:6px 7px}
+  #data .placeRow{gap:6px;align-items:stretch}
+  #data .placeRow input{min-width:0;flex:1 1 auto;width:auto;height:44px;min-height:44px;font-size:12px;padding:8px 9px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{flex:0 0 68px;width:68px;min-width:68px;height:44px;min-height:44px;padding:7px 3px;font-size:12px;border-radius:9px}
+  #data #show{width:118px;min-width:118px;height:48px;min-height:48px;padding:8px 12px;font-size:16px;margin-top:7px}
+  #data #placeDbStatus{font-size:11px}
+  #data #status{font-size:12px;padding:10px 11px;line-height:1.4}
+}
+@media(max-width:390px){
+  #data .panel.blue{padding-left:12px;padding-right:12px}
+  #data .grid3{grid-template-columns:minmax(0,1fr) 66px;gap:7px}
+  #data .grid3 select{width:66px;min-width:66px}
+  #data .placeRow .btn,#data .placeRow .gpsBtn{flex-basis:62px;width:62px;min-width:62px;font-size:11px}
+  nav button{padding-left:10px;padding-right:10px;font-size:12px}
+}
+/* Web 2.27 — tighter Windows-like Analysis table density; visual-only CSS. */
+/* Web 2.28: hide the extra chart-time editor beside Chosen Muhurats; keep the results Time column. */
+.chosenResultsHeader .chosenTimeControl{display:none!important;}
+@media(max-width:700px){
+  .resultsAnalysisPanel .wide,.selectedMuhuratRules .wide{overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;}
+  .resultsAnalysisTable,.kpRuleTable{font-size:9px !important;}
+  .resultsAnalysisTable th,.resultsAnalysisTable td,.kpRuleTable th,.kpRuleTable td{
+    padding:1px 2px !important;height:22px !important;max-height:22px !important;
+    line-height:1 !important;vertical-align:middle !important;white-space:nowrap !important;
+    overflow:hidden !important;text-overflow:ellipsis !important;
+  }
+  .resultsAnalysisTable .analysisText{font-size:8.5px !important;line-height:1 !important;max-width:275px !important;}
+  .resultsAnalysisTable .analysisYN,.kpRuleTable .analysisYN{font-size:10px !important;}
+  #analysis .split .wide:first-child th,#analysis .split .wide:first-child td,
+  #analysis .split .wide:nth-child(2) th,#analysis .split .wide:nth-child(2) td{
+    padding:2px 2px !important;height:22px !important;max-height:22px !important;line-height:1 !important;
+  }
+}
+
+
+
+</style>
+
 </head><body>
-<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.19</small></header>
-<nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button><button data-t="notes">Notes</button><button data-t="placeSelect">PlaceSelect</button><button data-t="help">Help</button></nav>
+<header><b>KP Muhurat</b> <small>V 1.5.11 — Web 2.30</small></header>
+<nav><button class="active" data-t="data">Data</button><button data-t="results">Results</button><button data-t="muhurtham">Muhurtham</button><button data-t="chart">Chart</button><button data-t="analysis">Analysis</button></nav>
 <main>
 <section id="dashboard">
   <div class="dashboard-hero">
@@ -1634,22 +1822,80 @@ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=
 ['date','todate','from','to','place','lat','latdir','lon','londir','tz','tzdir','event'].forEach(id=>document.getElementById(id)?.addEventListener('change',syncDashboard));
 new MutationObserver(()=>{syncDashboard()}).observe(document.getElementById('chosen'),{childList:true,subtree:true});
 new MutationObserver(()=>{const s=document.getElementById('status')?.textContent||'';if(s.startsWith('Calculated')){document.getElementById('dashLastRun').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});document.getElementById('dashVerify').textContent=s.includes('PASS')?'Regression PASS':'Calculated';syncDashboard()}}).observe(document.getElementById('status'),{childList:true,subtree:true,characterData:true});
-function renderMuhurthamSchedule(analyses,date,from,to){
+function buildMuhurthamTimeline(date,from,to,lat,lon,tz,endDate){
+  // Build the display timeline from live sidereal Ascendant positions rather
+  // than relying on the Results transition list. That list is optimized for
+  // native V1.5.11 Results selection and can omit intermediate schedule
+  // changes, which incorrectly stretches a combination over an hour.
+  const rows=[];
+  const first=parseClockSeconds(from), last=parseClockSeconds(to);
+  const finalDate=endDate||date;
+  let day=date, dayIndex=0;
+  while(true){
+    const begin=dayIndex===0?first:0;
+    const finish=day===finalDate?last:86399;
+    const chainAt=(sec)=>{
+      const pos=v1511AscPos(day,sec,lat,lon,tz);
+      const p=parts(pos);
+      return {chain:[p[1],p[2],p[3]].join('|'),p};
+    };
+    let left=begin, current=chainAt(left);
+    if(!rows.length){
+      rows.push({date:day,time:secfmt(begin),snl:current.p[1],stl:current.p[2],sbl:current.p[3],exactSeconds:begin});
+    }
+    // A 15-second scan catches the short 2-minute KP intervals shown by the
+    // reference table. Refine every detected change without applying a global
+    // time offset or changing the native Results/Analysis calculations.
+    const step=15;
+    for(let right=Math.min(begin+step,finish); right<=finish && right>left; right=Math.min(right+step,finish)){
+      const next=chainAt(right);
+      if(next.chain!==current.chain){
+        let lo=left, hi=right, base=current.chain;
+        for(let n=0;n<24 && hi-lo>0.05;n++){
+          const mid=(lo+hi)/2;
+          if(chainAt(mid).chain===base)lo=mid; else hi=mid;
+        }
+        const hit=hi;
+        const after=chainAt(Math.min(finish,hit+0.1));
+        const row={date:day,time:secfmt(hit),snl:after.p[1],stl:after.p[2],sbl:after.p[3],exactSeconds:hit};
+        const prev=rows[rows.length-1];
+        if(!prev || prev.date!==day || prev.time!==row.time || [prev.snl,prev.stl,prev.sbl].join('|')!==next.chain) rows.push(row);
+        current=next;
+      } else current=next;
+      if(right>=finish)break;
+      left=right;
+    }
+    if(day===finalDate)break;
+    day=dateAddDays(day,1); dayIndex++;
+    if(dayIndex>3700)break;
+  }
+  return rows;
+}
+function renderMuhurthamSchedule(transitions,date,from,to,lat,lon,tz,endDate){
   const body=$('muhurthamScheduleRows'),summary=$('muhurthamScheduleSummary');
   if(!body||!summary)return;
-  const list=(analyses||[]).slice().sort((a,b)=>String(a.date||date).localeCompare(String(b.date||date))||parseClockSeconds(a.time)-parseClockSeconds(b.time));
+  // Schedule is a full live SnL/StL/SbL timeline. Keep the Results selection
+  // stream and all native event-selection logic separate from this display.
+  const ordered=buildMuhurthamTimeline(date,from,to,lat,lon,tz,endDate);
+  const list=[];
+  let lastChain=null;
+  for(const t of ordered){
+    const chain=[t.snl,t.stl,t.sbl].join('|');
+    if(chain===lastChain)continue;
+    list.push(t);
+    lastChain=chain;
+  }
   if(!list.length){body.innerHTML='<tr><td colspan="5">No intervals were returned for these settings.</td></tr>';summary.textContent=`${date} · ${from}–${to} · 0 intervals.`;return;}
   const toSec=(d,t)=>{const p=String(d||date).split('-').map(Number);return Date.UTC(p[0],p[1]-1,p[2],0,0,0)/1000+parseClockSeconds(t)};
-  const endDate=$('todate')?.value||date, endSec=toSec(endDate, String(to).length===5?to+':00':to);
+  const endSec=toSec(endDate||date, String(to).length===5?to+':00':to);
   const fmt=(sec)=>{const d=new Date(sec*1000);return `${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`};
-  body.innerHTML=list.map((a,i)=>{
-    const start=toSec(a.date||date,a.time);
+  const planetNames={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Kethu'};
+  body.innerHTML=list.map((t,i)=>{
+    const start=toSec(t.date||date,t.time);
     const next=list[i+1];
     let stop=next?toSec(next.date||date,next.time):endSec;
     if(stop<start)stop=start;
-    const asc=a.chart?.ascendant||[];
-    const planetNames={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Kethu'};
-    const combo=[asc[1],asc[2],asc[3]].filter(Boolean).map(x=>planetNames[x]||x).join('/');
+    const combo=[t.snl,t.stl,t.sbl].filter(Boolean).map(x=>planetNames[x]||x).join('/');
     const mins=Math.max(0,Math.round((stop-start)/60));
     return `<tr><td>${i+1}</td><td>${escHtml(combo||'—')}</td><td>${escHtml(fmt(start))}</td><td>${escHtml(fmt(stop))}</td><td>${mins}</td></tr>`;
   }).join('');
@@ -2832,7 +3078,7 @@ function selectionLayer(a,event){
     return {...a,selection:{...base,pass:base.pass,reason:base.reason}};
   });
   window.__lastAnalyses=analyses;
-  renderMuhurthamSchedule(analyses,date,from,to);
+  renderMuhurthamSchedule(trsAll,date,from,to,lat,lon,tz,endDate);
   window.__selectionRows=selectionRows.filter(a=>a.selection.pass);
   renderCoimbatore20261010Parity(date,from,to,lat,lon,tz,event,window.__selectionRows);
   $('chosen').innerHTML=window.__selectionRows.map(a=>`<tr class="good muhuratPick" data-muhurat-time="${escHtml(a.time)}" data-muhurat-date="${escHtml(a.date)}" data-muhurat-key="${escHtml(a.date+'T'+a.time)}" title="Tap to view Windows-style Analysis below and Chart"><td>${a.date}</td><td><b>${a.time}</b></td><td>${a.chart.ascendant[1]}</td><td>${a.chart.ascendant[2]}</td><td>${a.chart.ascendant[3]}</td><td>Y</td><td>${a.selection.reason}</td></tr><tr class="mobileReasonRow"><td colspan="7"><details><summary>Chart & full analysis for ${a.time}</summary><div>Tap the Muhurat time row above to open the full chart.</div></details></td></tr>`).join('')||'<tr><td colspan="7">No chosen Muhurat for this selection.</td></tr>';
@@ -2959,7 +3205,7 @@ function selectionLayer(a,event){
 
    const reg=isStockRegression(date,from,to,lat,lon,tz,event)?regressionCheck(chosenTimes):null;
    if(reg){ $('regression').innerHTML=reg.pass ? '<b>PASS</b> — Independent selector reproduced all 10 V1.5.11 reference Muhurats: '+reg.actual.join(', ') : '<b>CHECK</b> — Engine output differs from the reference. Actual: '+(reg.actual.join(', ')||'none')+'<br>Missing: '+(reg.missing.join(', ')||'none')+'<br>Extra: '+(reg.extra.join(', ')||'none'); } else { $('regression').textContent='Regression verification is available for the stored Pallavaram stock-market test; other inputs use the calculation engine without reference-time overrides.'; }
-   $('status').textContent=reg ? (reg.pass ? `Calculated ${trs.length} transitions; independent regression PASS — all 10 V1.5.11 reference Muhurats reproduced.` : `Calculated ${trs.length} transitions; independent selection engine: ${chosenTimes.length} selected, regression missing ${reg.missing.length}, extra ${reg.extra.length}.`) : `Calculated ${trs.length} Lagna/Sub-level transitions with V1.5.11 native Sub-Lord Analysis (Badhaka/Maraka/Moksha) + exact-time Muhurat charts, CSL/significator evaluation and recursive Vimshottari periods. Selected-row Analysis and Chart are recalculated from the same exact timestamp.`;
+   $('status').textContent='Calculation completed.';
   document.querySelector('[data-t="results"]').click();
  }catch(e){console.error(e);$('status').textContent='Calculation error: '+(e?.message||e)}
 }
@@ -3046,7 +3292,7 @@ initEngine();
     });
   }
 })();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.18').catch(function(e){console.warn('SW registration failed',e);}); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js?v=2.33').catch(function(e){console.warn('SW registration failed',e);}); }
   var b=document.getElementById('install');
   var deferred=null;
   function updateInstallState(){
